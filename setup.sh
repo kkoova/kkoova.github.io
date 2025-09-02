@@ -100,7 +100,7 @@ echo "Создание файлов для Уровня 8..."
 mkdir -p ~/kali_quest/level8
 
 # создаем скрипт, который будет фоном "работать"
-echo -e '#!/bin/bash\nwhile true; do echo "Process running"; sleep 10; done' > ~/kali_quest/level8/background_process.sh
+echo -e '#!/bin/bash\nwhile true; do echo "Process running"; sleep 100; done' > ~/kali_quest/level8/background_process.sh
 chmod +x ~/kali_quest/level8/background_process.sh
 
 # запускаем процесс в фоне
