@@ -15,8 +15,6 @@ echo "FLAG{ls_hidden_master}" > ~/kali_quest/level1/.hidden_folder/flag.txt
 # делаем папку скрытой (уже по имени, можно chmod если хотим)
 chmod 700 ~/kali_quest/level1/.hidden_folder
 
-echo "Уровень 1 готов! Найди скрытую папку и открой flag.txt."
-
 #!/bin/bash
 # setup.sh — Уровень 2: Работа с файлами (минималистично)
 echo "Создание файлов для Уровня 2..."
@@ -32,7 +30,6 @@ touch ~/kali_quest/level2/temp_file.txt
 # создаем подпапку
 mkdir ~/kali_quest/level2/subfolder
 
-echo "Уровень 2 готов! Тебе нужно: создать файл, удалить temp_file.txt, найти flag.txt"
 
 #!/bin/bash
 # setup.sh — Уровень 3: Основы сети
@@ -45,5 +42,16 @@ mkdir -p ~/kali_quest/level3
 # создаем файл с флагом
 echo "FLAG{network_ping_master}" > ~/kali_quest/level3/flag.txt
 
-echo "Уровень 3 готов! Тебе нужно: узнать IP своей виртуальной машины и найти flag.txt"
+
+#!/bin/bash
+# setup.sh — Уровень 4: Права доступа
+
+echo "Создание файлов для Уровня 4..."
+
+# создаем папку для уровня 4
+mkdir -p ~/kali_quest/level4
+
+# создаем файл, права которого нужно изменить
+touch ~/kali_quest/level4/secret_file.txt
+
 
