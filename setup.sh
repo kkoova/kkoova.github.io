@@ -110,3 +110,14 @@ bash ~/kali_quest/level8/background_process.sh &
 echo "FLAG{process_master}" > ~/kali_quest/level8/flag.txt
 
 
+#!/bin/bash
+# setup.sh — Уровень 9: Работа с пакетами
+
+echo "Создание файлов для Уровня 9..."
+
+# создаем папку уровня 9
+mkdir -p ~/kali_quest/level9
+
+# создаем файл с подсказкой
+echo "FLAG{package_master}" > ~/kali_quest/level9/flag.txt
+
