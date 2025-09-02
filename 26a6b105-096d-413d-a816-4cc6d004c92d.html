@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Уровень 9 — Работа с пакетами</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Уровень 9: Работа с пакетами</h1>
+
+    <p>В этом задании ты познакомишься с базовыми командами управления пакетами в Linux: <code>apt</code> и <code>dpkg</code>.</p>
+
+    <ul>
+      <li><code>sudo apt update</code> — обновление списка пакетов</li>
+      <li><code>sudo apt install package_name</code> — установка пакета</li>
+      <li><code>dpkg -l</code> — список установленных пакетов</li>
+      <li><code>dpkg -s package_name</code> — информация о пакете</li>
+    </ul>
+
+    <h2>Шаги задания:</h2>
+    <ol>
+      <li>Перейди в папку уровня 9:</li>
+      <pre>cd ~/kali_quest/level9</pre>
+
+      <li>Ознакомься с базовыми командами управления пакетами:</li>
+      <pre>sudo apt update
+sudo apt install sl
+dpkg -l | grep sl</pre>
+
+      <li>Найди файл с флагом:</li>
+      <pre>cat flag.txt</pre>
+
+      <li>Скопируй содержимое файла (флаг) и введи его в форму ниже:</li>
+    </ol>
+
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('FLAG{package_master}', '0956bf6c-0a4a-4559-a0e1-d79f0dda3542.html')">Проверить</button>
+    <p id="result"></p>
+  </div>
+</body>
+</html>
