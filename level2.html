@@ -9,10 +9,41 @@
 <body>
   <div class="container">
     <h1>Уровень 2: Работа с файлами</h1>
-    <p>Создай новый файл командой <code>touch test.txt</code> и напиши его имя.</p>
 
-    <input type="text" id="answer" placeholder="Введите имя файла">
-    <button onclick="checkAnswer('test.txt', 'flag_file')">Проверить</button>
+    <p>В этом задании ты освоишь базовые команды работы с файлами в Linux:</p>
+    <ul>
+      <li><code>touch</code> — создать новый файл</li>
+      <li><code>rm</code> — удалить файл</li>
+      <li><code>ls</code> — посмотреть содержимое папки</li>
+      <li><code>cat</code> — открыть файл и прочитать его содержимое</li>
+    </ul>
+
+    <h2>Шаги задания:</h2>
+    <ol>
+      <li>Скачай и запусти скрипт для уровня 2 (если ещё не сделал):</li>
+      <pre>bash <(curl -s https://твой-сайт/setup.sh)</pre>
+
+      <li>В домашней папке квеста открой каталог для уровня 2:
+        <pre>cd ~/kali_quest/level2</pre>
+      </li>
+
+      <li>Создай новый файл (например, <code>myfile.txt</code>):
+        <pre>touch myfile.txt</pre>
+      </li>
+
+      <li>Удалите временный файл:
+        <pre>rm temp_file.txt</pre>
+      </li>
+
+      <li>Найди файл с флагом и прочитай его:
+        <pre>cat flag.txt</pre>
+      </li>
+
+      <li>Скопируй текст флага и введи его в форму ниже.</li>
+    </ol>
+
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('FLAG{file_touch_master}', 'flag_file')">Проверить</button>
     <p id="result"></p>
 
     <a href="index.html" class="back">← Назад</a>
