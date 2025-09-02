@@ -54,4 +54,16 @@ mkdir -p ~/kali_quest/level4
 # создаем файл, права которого нужно изменить
 touch ~/kali_quest/level4/secret_file.txt
 
+#!/bin/bash
+# setup.sh — Уровень 5: Поиск файлов
+
+echo "Создание файлов для Уровня 5..."
+
+# создаем папку для уровня 5
+mkdir -p ~/kali_quest/level5
+
+# создаем несколько файлов
+echo "Это обычный файл" > ~/kali_quest/level5/file1.txt
+echo "FLAG{find_grep_master}" > ~/kali_quest/level5/secret_file.txt
+echo "Ещё один файл" > ~/kali_quest/level5/file2.txt
 
