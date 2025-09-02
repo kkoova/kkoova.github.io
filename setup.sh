@@ -78,4 +78,17 @@ mkdir -p ~/kali_quest/level6/subfolder
 # создаем файл, который нужно скопировать и переместить
 echo "FLAG{cp_mv_master}" > ~/kali_quest/level6/file_to_move.txt
 
+#!/bin/bash
+# setup.sh — Уровень 7: Архивирование и сжатие файлов
+
+echo "Создание файлов для Уровня 7..."
+
+# создаем папку уровня 7
+mkdir -p ~/kali_quest/level7
+
+# создаем несколько файлов для архива
+echo "Это первый файл" > ~/kali_quest/level7/file1.txt
+echo "FLAG{archive_master}" > ~/kali_quest/level7/file2.txt
+echo "Это третий файл" > ~/kali_quest/level7/file3.txt
+
 
