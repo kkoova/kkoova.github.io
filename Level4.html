@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Уровень 4 — Права доступа</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Уровень 4: Права доступа в Linux</h1>
+
+    <p>В этом задании ты познакомишься с командами <code>chmod</code> и <code>ls -l</code>, которые управляют правами доступа к файлам.</p>
+
+    <ul>
+      <li><code>ls -l</code> — показывает права доступа к файлам</li>
+      <li><code>chmod 755 filename</code> — устанавливает права rwxr-xr-x</li>
+      <li>rwxr-xr-x означает:
+        <ul>
+          <li>rwx — владелец может читать, писать, запускать</li>
+          <li>r-x — группа может читать и запускать</li>
+          <li>r-x — остальные могут читать и запускать</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Шаги задания:</h2>
+    <ol>
+      <li>Запусти скрипт для уровня 4 (если ещё не сделал):</li>
+      <pre>bash <(curl -s https://твой-сайт/setup.sh)</pre>
+
+      <li>Перейди в папку уровня 4:</li>
+      <pre>cd ~/kali_quest/level4</pre>
+
+      <li>Посмотри текущие права файла:</li>
+      <pre>ls -l secret_file.txt</pre>
+
+      <li>Измени права файла на 755:</li>
+      <pre>chmod 755 secret_file.txt</pre>
+
+      <li>Проверь изменения:</li>
+      <pre>ls -l secret_file.txt</pre>
+
+      <li>Скопируй комбинацию прав <code>rwxr-xr-x</code> и введи её как флаг ниже.</li>
+    </ol>
+
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('rwxr-xr-x', 'level5.html')">Проверить</button>
+    <p id="result"></p>
+  </div>
+</body>
+</html>
