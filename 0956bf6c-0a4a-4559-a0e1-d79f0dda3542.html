@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Уровень 10 — Работа с сетью</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Уровень 10: Работа с сетью</h1>
+
+    <p>В этом задании ты познакомишься с базовыми командами работы с сетью в Linux: <code>ping</code>, <code>netstat</code> и <code>ifconfig</code>.</p>
+
+    <ul>
+      <li><code>ping 8.8.8.8</code> — проверка доступности внешнего сервера</li>
+      <li><code>netstat -tuln</code> — показать все открытые порты и слушающие сервисы</li>
+      <li><code>ifconfig</code> — посмотреть IP-адреса интерфейсов</li>
+    </ul>
+
+    <h2>Шаги задания:</h2>
+    <ol>
+      <li>Перейди в папку уровня 10:</li>
+      <pre>cd ~/kali_quest/level10</pre>
+
+      <li>Попробуй проверить сеть с помощью <code>ping</code>:</li>
+      <pre>ping -c 4 8.8.8.8</pre>
+
+      <li>Посмотри открытые порты:</li>
+      <pre>netstat -tuln</pre>
+
+      <li>Посмотри свой IP-адрес:</li>
+      <pre>ifconfig</pre>
+
+      <li>Открой файл с флагом:</li>
+      <pre>cat flag.txt</pre>
+
+      <li>Скопируй содержимое файла (флаг) и введи его в форму ниже:</li>
+    </ol>
+
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('FLAG{network_master}', 'index.html')">Проверить</button>
+    <p id="result"></p>
+  </div>
+</body>
+</html>
