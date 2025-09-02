@@ -2,18 +2,40 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Уровень 3 — Сеть</title>
+  <title>Уровень 3 — Основы сети</title>
   <link rel="stylesheet" href="assets/style.css">
   <script src="assets/script.js" defer></script>
 </head>
 <body>
   <div class="container">
-    <h1>Уровень 3: Сканирование сети</h1>
-    <p>Просканируй хост <code>scanme.nmap.org</code> с помощью <code>nmap</code>. 
-    Какой порт открыт? (для примера введи 80)</p>
+    <h1>Уровень 3: Основы работы с сетью в Linux</h1>
 
-    <input type="text" id="answer" placeholder="Введите номер порта">
-    <button onclick="checkAnswer('80', 'flag_nmap')">Проверить</button>
+    <p>В этом задании ты освоишь базовые сетевые команды в Kali Linux.</p>
+
+    <ul>
+      <li><code>ifconfig</code> или <code>ip a</code> — посмотреть IP-адреса на вашей машине</li>
+      <li><code>ping [адрес]</code> — проверить доступность другого компьютера в сети</li>
+      <li><code>cat</code> — открыть файл и прочитать его содержимое</li>
+    </ul>
+
+    <h2>Шаги задания:</h2>
+    <ol>
+      <li>Перейди в папку уровня 3:</li>
+      <pre>cd ~/kali_quest/level3</pre>
+
+      <li>Посмотри IP-адрес своей виртуальной машины:</li>
+      <pre>ifconfig</pre>
+      <p>или</p>
+      <pre>ip a</pre>
+
+      <li>Открой файл с флагом:</li>
+      <pre>cat flag.txt</pre>
+
+      <li>Скопируй текст флага и введи его в форму ниже.</li>
+    </ol>
+
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('FLAG{network_ping_master}', 'flag_network')">Проверить</button>
     <p id="result"></p>
 
     <a href="index.html" class="back">← Назад</a>
