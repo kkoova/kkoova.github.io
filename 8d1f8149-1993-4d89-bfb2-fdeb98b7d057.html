@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Уровень 8 — Управление процессами</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Уровень 8: Просмотр процессов и управление ими</h1>
+
+    <p>В этом задании ты познакомишься с командами <code>ps</code>, <code>top</code> и <code>kill</code> для работы с процессами в Linux.</p>
+
+    <ul>
+      <li><code>ps aux</code> — показать все процессы</li>
+      <li><code>top</code> — интерактивный просмотр процессов</li>
+      <li><code>kill PID</code> — завершить процесс по его ID</li>
+      <li>Для поиска процесса можно использовать:</li>
+      <pre>ps aux | grep background_process.sh</pre>
+    </ul>
+
+    <h2>Шаги задания:</h2>
+    <ol>
+      <li>Перейди в папку уровня 8:</li>
+      <pre>cd ~/kali_quest/level8</pre>
+
+      <li>Посмотри все процессы и найди <code>background_process.sh</code>:</li>
+      <pre>ps aux | grep background_process.sh</pre>
+
+      <li>Заверши процесс по его PID:</li>
+      <pre>kill PID</pre>
+      <p>Где PID — номер процесса, который ты увидел в предыдущей команде.</p>
+
+      <li>Открой файл с флагом:</li>
+      <pre>cat flag.txt</pre>
+
+      <li>Скопируй содержимое файла (флаг) и введи его в форму ниже:</li>
+    </ol>
+
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('FLAG{process_master}', '26a6b105-096d-413d-a816-4cc6d004c92d.html')">Проверить</button>
+    <p id="result"></p>
+  </div>
+</body>
+</html>
