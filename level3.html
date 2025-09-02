@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Уровень 3 — Сеть</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Уровень 3: Сканирование сети</h1>
+    <p>Просканируй хост <code>scanme.nmap.org</code> с помощью <code>nmap</code>. 
+    Какой порт открыт? (для примера введи 80)</p>
+
+    <input type="text" id="answer" placeholder="Введите номер порта">
+    <button onclick="checkAnswer('80', 'flag_nmap')">Проверить</button>
+    <p id="result"></p>
+
+    <a href="index.html" class="back">← Назад</a>
+  </div>
+</body>
+</html>
