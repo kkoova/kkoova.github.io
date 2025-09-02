@@ -15,8 +15,6 @@
     <ul>
       <li><code>find . -name "имя_файла"</code> — найти файл по имени</li>
       <li><code>grep "слово" filename</code> — найти слово внутри файла</li>
-      <li>Ты можешь использовать комбинацию команд:</li>
-      <pre>find . -type f -exec grep "FLAG" {} \;</pre>
     </ul>
 
     <h2>Шаги задания:</h2>
@@ -26,7 +24,7 @@
       <pre>cd ~/kali_quest/level5</pre>
 
       <li>Найди файл, содержащий слово "FLAG":</li>
-      <pre>find . -type f -exec grep "FLAG" {} \;</pre>
+      <pre>find . -type f | xargs grep "FLAG"</pre>
 
       <li>Скопируй содержимое найденного файла (флаг) и введи его в форму ниже.</li>
     </ol>
