@@ -23,7 +23,11 @@
         </ul>
       </li>
     </ul>
-
+    
+<img src="assets/l4.png" style="
+    width: 100%;
+">
+    
     <h2>Шаги задания:</h2>
     <ol>
       <li>Запусти скрипт для уровня 4 (если ещё не сделал):</li>
@@ -41,11 +45,11 @@
       <li>Проверь изменения:</li>
       <pre>ls -l secret_file.txt</pre>
 
-      <li>Скопируй комбинацию прав <code>rwxr-xr-x</code> и введи её как флаг ниже.</li>
+      <li>Скопируй комбинацию прав и введи её как флаг ниже.</li>
     </ol>
 
     <input type="text" id="answer" placeholder="Введите флаг">
-    <button onclick="checkAnswer('rwxr-xr-x', '8c2f7c91-0bce-4be6-bb4c-882c23f79863.html')">Проверить</button>
+    <button onclick="checkAnswer('-rwxr-xr-x', '8c2f7c91-0bce-4be6-bb4c-882c23f79863.html')">Проверить</button>
     <p id="result"></p>
   </div>
 </body>
