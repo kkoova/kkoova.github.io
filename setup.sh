@@ -33,3 +33,17 @@ touch ~/kali_quest/level2/temp_file.txt
 mkdir ~/kali_quest/level2/subfolder
 
 echo "Уровень 2 готов! Тебе нужно: создать файл, удалить temp_file.txt, найти flag.txt"
+
+#!/bin/bash
+# setup.sh — Уровень 3: Основы сети
+
+echo "Создание файлов для Уровня 3..."
+
+# создаем папку для уровня 3
+mkdir -p ~/kali_quest/level3
+
+# создаем файл с флагом
+echo "FLAG{network_ping_master}" > ~/kali_quest/level3/flag.txt
+
+echo "Уровень 3 готов! Тебе нужно: узнать IP своей виртуальной машины и найти flag.txt"
+
