@@ -100,7 +100,7 @@ echo "Создание файлов для Уровня 8..."
 mkdir -p ~/kali_quest/level8
 
 # создаем скрипт, который будет фоном "работать"
-echo -e '#!/bin/bash\nwhile true; do echo "Process running"; sleep 100; done' > ~/kali_quest/level8/background_process.sh
+echo -e '#!/bin/bash\nwhile true; do echo "Process PKGH running"; sleep 100; done' > ~/kali_quest/level8/background_process.sh
 chmod +x ~/kali_quest/level8/background_process.sh
 
 # запускаем процесс в фоне
@@ -121,3 +121,13 @@ mkdir -p ~/kali_quest/level9
 # создаем файл с подсказкой
 echo "FLAG{package_master}" > ~/kali_quest/level9/flag.txt
 
+#!/bin/bash
+# setup.sh — Уровень 10: Работа с сетью
+
+echo "Создание файлов для Уровня 10..."
+
+# создаем папку уровня 10
+mkdir -p ~/kali_quest/level10
+
+# создаем файл с флагом
+echo "FLAG{network_master}" > ~/kali_quest/level10/flag.txt
