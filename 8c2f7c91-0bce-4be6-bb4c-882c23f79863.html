@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Уровень 5 — Поиск файлов</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Уровень 5: Поиск файлов</h1>
+
+    <p>В этом задании ты познакомишься с командами <code>find</code> и <code>grep</code>, которые помогают находить файлы и содержимое внутри них.</p>
+
+    <ul>
+      <li><code>find . -name "имя_файла"</code> — найти файл по имени</li>
+      <li><code>grep "слово" filename</code> — найти слово внутри файла</li>
+      <li>Ты можешь использовать комбинацию команд:</li>
+      <pre>find . -type f -exec grep "FLAG" {} \;</pre>
+    </ul>
+
+    <h2>Шаги задания:</h2>
+    <ol>
+
+    <li>Перейди в папку уровня 5:</li>
+      <pre>cd ~/kali_quest/level5</pre>
+
+      <li>Найди файл, содержащий слово "FLAG":</li>
+      <pre>find . -type f -exec grep "FLAG" {} \;</pre>
+
+      <li>Скопируй содержимое найденного файла (флаг) и введи его в форму ниже.</li>
+    </ol>
+
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('FLAG{find_grep_master}', '0164712a-ee25-4d9d-9360-77075e37da59.html')">Проверить</button>
+    <p id="result"></p>
+  </div>
+</body>
+</html>
