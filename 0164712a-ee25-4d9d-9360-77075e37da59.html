@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Уровень 6 — Копирование и перемещение файлов</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Уровень 6: Копирование и перемещение файлов</h1>
+
+    <p>В этом задании ты познакомишься с командами <code>cp</code> и <code>mv</code>, которые позволяют копировать и перемещать файлы.</p>
+
+    <ul>
+      <li><code>cp source destination</code> — копирование файла</li>
+      <li><code>mv source destination</code> — перемещение файла</li>
+      <li>Ты будешь работать с файлом <code>file_to_move.txt</code></li>
+    </ul>
+
+    <h2>Шаги задания:</h2>
+    <ol>
+      <li>Перейди в папку уровня 6:</li>
+      <pre>cd ~/kali_quest/level6</pre>
+
+      <li>Скопируй файл <code>file_to_move.txt</code> в подпапку <code>subfolder</code>:</li>
+      <pre>cp file_to_move.txt subfolder/</pre>
+
+      <li>Перемести оригинальный файл в подпапку:</li>
+      <pre>mv file_to_move.txt subfolder/</pre>
+
+      <li>Открой файл в подпапке и скопируй содержимое (флаг):</li>
+      <pre>cat subfolder/file_to_move.txt</pre>
+
+      <li>Введи флаг в форму ниже:</li>
+    </ol>
+
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('FLAG{cp_mv_master}', 'a6ad18ea-3231-4895-b275-cbbd67744efa.html')">Проверить</button>
+    <p id="result"></p>
+  </div>
+</body>
+</html>
