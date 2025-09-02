@@ -91,4 +91,22 @@ echo "Это первый файл" > ~/kali_quest/level7/file1.txt
 echo "FLAG{archive_master}" > ~/kali_quest/level7/file2.txt
 echo "Это третий файл" > ~/kali_quest/level7/file3.txt
 
+#!/bin/bash
+# setup.sh — Уровень 8: Просмотр процессов и управление ими
+
+echo "Создание файлов для Уровня 8..."
+
+# создаем папку уровня 8
+mkdir -p ~/kali_quest/level8
+
+# создаем скрипт, который будет фоном "работать"
+echo -e '#!/bin/bash\nwhile true; do echo "Process running"; sleep 10; done' > ~/kali_quest/level8/background_process.sh
+chmod +x ~/kali_quest/level8/background_process.sh
+
+# запускаем процесс в фоне
+bash ~/kali_quest/level8/background_process.sh &
+
+# создаем файл с флагом
+echo "FLAG{process_master}" > ~/kali_quest/level8/flag.txt
+
 
