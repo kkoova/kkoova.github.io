@@ -9,10 +9,16 @@
 <body>
   <div class="container">
     <h1>Уровень 1: Навигация</h1>
-    <p>Выполни команду <code>ls</code> в своей Kali Linux и напиши, сколько элементов находится в текущей папке (предположим, их 5).</p>
+    <p>В этом задании ты познакомишься с базовыми командами Linux.</p>
+    <ol>
+      <li>Скачай и запусти скрипт setup.sh:</li>
+      <pre>bash <(curl -s https://твой-сайт/setup.sh)</pre>
+      <li>Найди скрытую папку и открой файл с флагом.</li>
+      <li>Введи полученный флаг ниже:</li>
+    </ol>
 
-    <input type="text" id="answer" placeholder="Введите число">
-    <button onclick="checkAnswer('5', 'flag_ls')">Проверить</button>
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('FLAG{ls_hidden_master}', 'flag_ls')">Проверить</button>
     <p id="result"></p>
 
     <a href="index.html" class="back">← Назад</a>
