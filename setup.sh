@@ -67,3 +67,15 @@ echo "Это обычный файл" > ~/kali_quest/level5/file1.txt
 echo "FLAG{find_grep_master}" > ~/kali_quest/level5/secret_file.txt
 echo "Ещё один файл" > ~/kali_quest/level5/file2.txt
 
+#!/bin/bash
+# setup.sh — Уровень 6: Копирование и перемещение файлов
+
+echo "Создание файлов для Уровня 6..."
+
+# создаем папку уровня 6 и подпапку
+mkdir -p ~/kali_quest/level6/subfolder
+
+# создаем файл, который нужно скопировать и переместить
+echo "FLAG{cp_mv_master}" > ~/kali_quest/level6/file_to_move.txt
+
+
