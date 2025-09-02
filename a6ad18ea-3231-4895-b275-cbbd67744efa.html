@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Уровень 7 — Архивирование файлов</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Уровень 7: Архивирование и сжатие файлов</h1>
+
+    <p>В этом задании ты познакомишься с командами <code>tar</code> и <code>zip</code> для создания архивов и их проверки.</p>
+
+    <ul>
+      <li><code>tar -czf archive_name.tar.gz files</code> — создать сжатый архив</li>
+      <li><code>tar -tf archive_name.tar.gz</code> — посмотреть содержимое архива</li>
+      <li><code>unzip archive_name.zip</code> — распаковать zip-архив</li>
+    </ul>
+
+    <h2>Шаги задания:</h2>
+    <ol>
+      <li>Перейди в папку уровня 7:</li>
+      <pre>cd ~/kali_quest/level7</pre>
+
+      <li>Создай архив из всех файлов в папке:</li>
+      <pre>tar -czf archive7.tar.gz *.txt</pre>
+
+      <li>Проверь содержимое архива:</li>
+      <pre>tar -tf archive7.tar.gz</pre>
+
+      <li>Найди файл с флагом (<code>file2.txt</code>) и открой его:</li>
+      <pre>tar -xzf archive7.tar.gz file2.txt
+cat file2.txt</pre>
+
+      <li>Скопируй содержимое файла (флаг) и введи его ниже:</li>
+    </ol>
+
+    <input type="text" id="answer" placeholder="Введите флаг">
+    <button onclick="checkAnswer('FLAG{archive_master}', '8d1f8149-1993-4d89-bfb2-fdeb98b7d057.html')">Проверить</button>
+    <p id="result"></p>
+  </div>
+</body>
+</html>
