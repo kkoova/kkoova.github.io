@@ -108,6 +108,9 @@ robot.stop()
 robot.set_servo_angle(1, 30)
 robot.set_motor_power(100, 2)
 robot.stop()
+robot.set_servo_angle(1, 180)
+robot.set_motor_power(100, 1)
+robot.stop()
 </code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="exercises-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Аэрофотосъёмка повреждений с помощью дрона
 <br><br>Ваша миссия — поднять БПЛА, облететь территорию и сделать чёткие фотографии всех дефектов (трещины на стенах, повреждения ангара, ямы на взлётной полосе и т. д.).
 Как только набор снимков будет полным, симулятор покажет окно «Задание выполнено».<br><br>Смена камеры - C
@@ -176,7 +179,7 @@ robot.stop()
 
 i = 0
 
-while i &amp;lt; 361:
+while i < 361:
     robot.set_servo_angle(2, i) 
     handle_servo(i) 
     i += 20
