@@ -189,29 +189,30 @@ while i < 361:
 
 </div><div bis_skin_checked="1" class="course_about__info-left" data-v-f5c85afa="" id="lidar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«LiDAR: ищем ближайшее препятствие»
 <br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо подожать выполнения цикла и нажать: "ESC". Выполнение симулятора должно быть выполнено на 80 - 90%</div><pre data-v-36a27e41=""><code class="hljs python">import math
-import time
-
-CHECK_INTERVAL = 2000
+CHECK_INTERVAL = 2000 #Интервал проверки поворота сервопривода
 measurements = {}
 
-def handle_servo_rotate(angle):
-    print(f"{angle}° → {robot.get_sensor(1)} мм")
-    measurements[angle] = robot.get_sensor(1)
+def handle_servo_rotate():
+    cur_angle = robot.get_servo_angle(2)
+    measurements[cur_angle] = robot.get_sensor(1)
+    robot.set_servo_angle(2, cur_angle + 60)
 
-i = 0
+    print(f"{cur_angle}° → {measurements[cur_angle]} мм")
 
-while i &lt; 361:
-    robot.set_servo_angle(2, i) 
-    handle_servo_rotate(i) 
-    i += 60
-    time.sleep(CHECK_INTERVAL/1000)
+    if cur_angle == 300:
+        nearest_angle, nearest_dist = min(
+            measurements.items(),
+            key=lambda item: item[1] 
+        )
 
-nearest_angle, nearest_dist = min(
-    measurements.items(),
-    key=lambda item: item[1] 
-)
+        print(f"Ближайшее препятствие под {nearest_angle}° на {nearest_dist} мм")
 
-print(f"Ближайшее препятствие под {nearest_angle}° на {nearest_dist} мм")
+robot.set_servo_angle(2, 0)
+
+# Функция on_servo_rotate устаналивает циклический вызов функции handle_servo_rotate с интервалом CHECK_INTERVAL миллисекунд.
+# Это является аналогом следующего цикла: while True: handle_servo_rotate() time.sleep(CHECK_INTERVAL/1000)
+# Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
+on_servo_rotate(handle_servo_rotate)
 </code></pre>
 
 </div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="zarad-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Контроль заряда»
