@@ -40,7 +40,7 @@
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-vid" onclick="switchContent('vid')" bis_skin_checked="1">
       <p>5.1</p>
       <div data-v-70b69a9a="" bis_skin_checked="1">«Робот учится видеть и подъезжать к цели»</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-lidar active" onclick="switchContent('lidar')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-lidar" onclick="switchContent('lidar')" bis_skin_checked="1">
       <p>5.2</p>
       <div data-v-70b69a9a="" bis_skin_checked="1">«LiDAR: ищем ближайшее препятствие»</div>
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-lidar" onclick="switchContent('zarad')" bis_skin_checked="1">
@@ -169,8 +169,6 @@ setting = True</code></pre>
 </div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="vid-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Робот учится видеть и подъезжать к цели»
 <br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо будет заехать в красный квадрат до того момента как он станет зеленым.</div><pre data-v-36a27e41=""><code class="hljs python">import math
 
-import math
-
 # Константы
 SERVO_CHANNEL = 2
 SENSOR_CHANNEL = 1
@@ -193,7 +191,7 @@ is_scanning = True
 found_cube = False
 
 def move_to_cube(distance, angle):
-    if 90 > angle < 270:
+    if 90 &gt; angle &lt; 270:
         robot.set_motor_power(MOTOR_POWER_BACKWARD, distance // MM_TO_M)
     else:
         robot.set_motor_power(MOTOR_POWER_FORWARD, distance // MM_TO_M)
@@ -206,22 +204,21 @@ def handle_servo():
 
     robot.set_servo_angle(2, current_angle)
     d = robot.get_sensor(1)
-    if d > 0:
+    if d &gt; 0:
         move_to_cube(d, current_angle)
         return
     else:
         current_angle += ANGLE_STEP
 
-        if current_angle > 360:
+        if current_angle &gt; 360:
             current_angle = MAX_ANGLE
 
 # Функция on_servo_rotate устаналивает циклический вызов функции handle_servo с интервалом 500мс.
 # Это является аналогом следующего цикла: while True: handle_servo() time.sleep(0.5)
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 on_servo_rotate(handle_servo)
-		
-</div><div bis_skin_checked="1" class="course_about__info-left" data-v-f5c85afa="" id="lidar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«LiDAR: ищем ближайшее препятствие»
-<br><br>Код для симулятора:</div><pre data-v-36a27e41=""><code class="hljs python">import math
+</code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="lidar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>«LiDAR: ищем ближайшее препятствие»<br>Код для симулятора:
+</div><pre data-v-36a27e41=""><code class="hljs python"><code class="hljs python">import math
 CHECK_INTERVAL = 2000 #Интервал проверки поворота сервопривода
 measurements = {}
 
@@ -246,10 +243,8 @@ robot.set_servo_angle(2, 0)
 # Это является аналогом следующего цикла: while True: handle_servo_rotate() time.sleep(CHECK_INTERVAL/1000)
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 on_servo_rotate(handle_servo_rotate)
-</code></pre>
-
-</div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="zarad-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Контроль заряда»
-<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо подожать выполнения цикла до 0% заряда</div><pre data-v-36a27e41=""><code class="hljs python">import time 
+</code></code></pre></div><div bis_skin_checked="1" class="course_about__info-left" data-v-f5c85afa="" id="zarad-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Контроль заряда»
+<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо подожать выполнения цикла до 0% заряда</div><pre data-v-36a27e41=""><code class="hljs python"><code class="hljs python">import time 
 CHECK_INTERVAL = 5000
 
 def handle_battery_charge():
@@ -266,40 +261,4 @@ def handle_battery_charge():
         print("Критический уровень заряда! Срочно заряжаемся.")
 
 on_battery_charge_changed(handle_battery_charge)
-</code></pre>
-
-</div></div></div></div></div>
-<script>
-function switchContent(section) {
-  // Убираем активный класс у всех кнопок
-  const menuItems = document.querySelectorAll('.course_menu__list-item');
-  menuItems.forEach(item => {
-    item.classList.remove('active');
-  });
-  
-  // Скрываем весь контент
-  const contentSections = document.querySelectorAll('.course_about__info-left');
-  contentSections.forEach(section => {
-    section.classList.add('hidden');
-  });
-  
-  // Активируем нужную кнопку
-  const activeButton = document.querySelector(`.course_menu__list-item.${section === 'about' ? 'about-course' : section === 'content' ? 'course-content' : section === 'exercises' ? 'course-exercises' : section === 'chat' ? 'course-chat' : section === 'documents' ? 'course-documents' : section === 'arm' ? 'course-arm' : section === 'pasport' ? 'course-pasport' : section === 'configur' ? 'course-configur' : section === 'vid' ? 'course-vid' : section === 'lidar' ? 'course-lidar' : section === 'zarad' ? 'course-zarad' : 'course-about'}`);
-  if (activeButton) {
-    activeButton.classList.add('active');
-  }
-  
-  // Показываем нужный контент
-  const activeContent = document.getElementById(section+'-content');
-	console.log(activeContent);
-  if (activeContent) {
-    activeContent.classList.remove('hidden');
-  }
-}
-
-// Инициализация - показываем первый контент по умолчанию
-document.addEventListener('DOMContentLoaded', function() {
-  switchContent('about');
-});
-</script></div><!----></div></div></div></main>
-</body></html>
+</code></code></pre></div></div></div></div></div></div><!----></div></div></div></main></body></html>
