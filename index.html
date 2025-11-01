@@ -167,28 +167,61 @@ print(f"GPS: {'подключён' if GPS_ON else 'отключён'}")
 # Установить флаг настройки робота
 setting = True</code></pre>
 </div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="vid-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Робот учится видеть и подъезжать к цели»
-<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо будет заехать в красный квадрат до того момента как он станет зеленым. После, подожать выполнения цикла и нажать: "ESC". Выполнение симулятора должно быть выполнено на 80 - 90%</div><pre data-v-36a27e41=""><code class="hljs python">import math
+<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо будет заехать в красный квадрат до того момента как он станет зеленым.</div><pre data-v-36a27e41=""><code class="hljs python">import math
 
-def handle_servo(angle):  
-  robot.set_servo_angle(2, angle)
-  d = robot.get_sensor(1)
-  print(f"Куб обнаружен на {angle}°; дистанция {d} мм;подъезд завершён.")
+import math
 
-robot.set_motor_power(100, 1)
-robot.stop()
+# Константы
+SERVO_CHANNEL = 2
+SENSOR_CHANNEL = 1
+INITIAL_ANGLE = 0
+ANGLE_STEP = 15
+MIN_ANGLE = -180
+MAX_ANGLE = 0
+MOTOR_POWER_FORWARD = 100
+MOTOR_POWER_BACKWARD = -100
+SPEED_MULTIPLIER = 0.7
+ANGLE_THRESHOLD = -90
+MM_TO_M = 1000
 
-i = 0
+# Переменные
+global current_angle, direction, step, is_scanning, found_cube
+current_angle = INITIAL_ANGLE
+direction = -1
+step = ANGLE_STEP
+is_scanning = True
+found_cube = False
 
-while i < 361:
-    robot.set_servo_angle(2, i) 
-    handle_servo(i) 
-    i += 20
-    time.sleep(0.5)</code></pre>Итог:<br><br><img src="https://raw.githubusercontent.com/kkoova/kkoova.github.io/39b7c822c23f583c0bcc58009c19a6200ded6ade/assets/r_9.png" style="
-    width: 100%;
-">
+def move_to_cube(distance, angle):
+    if 90 > angle < 270:
+        robot.set_motor_power(MOTOR_POWER_BACKWARD, distance // MM_TO_M)
+    else:
+        robot.set_motor_power(MOTOR_POWER_FORWARD, distance // MM_TO_M)
+    robot.stop()
+    print(f"Куб обнаружен на {angle}°; дистанция {distance} мм; подъезд завершён.")
 
+
+def handle_servo():
+    global current_angle, direction, step, is_scanning, found_cube
+
+    robot.set_servo_angle(2, current_angle)
+    d = robot.get_sensor(1)
+    if d > 0:
+        move_to_cube(d, current_angle)
+        return
+    else:
+        current_angle += ANGLE_STEP
+
+        if current_angle > 360:
+            current_angle = MAX_ANGLE
+
+# Функция on_servo_rotate устаналивает циклический вызов функции handle_servo с интервалом 500мс.
+# Это является аналогом следующего цикла: while True: handle_servo() time.sleep(0.5)
+# Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
+on_servo_rotate(handle_servo)
+		
 </div><div bis_skin_checked="1" class="course_about__info-left" data-v-f5c85afa="" id="lidar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«LiDAR: ищем ближайшее препятствие»
-<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо подожать выполнения цикла и нажать: "ESC". Выполнение симулятора должно быть выполнено на 80 - 90%</div><pre data-v-36a27e41=""><code class="hljs python">import math
+<br><br>Код для симулятора:</div><pre data-v-36a27e41=""><code class="hljs python">import math
 CHECK_INTERVAL = 2000 #Интервал проверки поворота сервопривода
 measurements = {}
 
