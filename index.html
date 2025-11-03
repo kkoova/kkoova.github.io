@@ -20,7 +20,7 @@ function switchContent(section) {
   });
   
   // Активируем нужную кнопку
-  const activeButton = document.querySelector(`.course_menu__list-item.${section === 'about' ? 'about-course' : section === 'content' ? 'course-content' : section === 'exercises' ? 'course-exercises' : section === 'chat' ? 'course-chat' : section === 'documents' ? 'course-documents' : section === 'arm' ? 'course-arm' : section === 'pasport' ? 'course-pasport' : section === 'configur' ? 'course-configur' : section === 'vid' ? 'course-vid' : section === 'lidar' ? 'course-lidar' : section === 'zarad' ? 'course-zarad' : section === 'labirint' ? 'course-labirint' : section === 'gostar' ? 'course-gostar' : 'course-about'}`);
+  const activeButton = document.querySelector(`.course_menu__list-item.${section === 'about' ? 'about-course' : section === 'content' ? 'course-content' : section === 'exercises' ? 'course-exercises' : section === 'chat' ? 'course-chat' : section === 'documents' ? 'course-documents' : section === 'arm' ? 'course-arm' : section === 'pasport' ? 'course-pasport' : section === 'configur' ? 'course-configur' : section === 'vid' ? 'course-vid' : section === 'lidar' ? 'course-lidar' : section === 'zarad' ? 'course-zarad' : section === 'labirint' ? 'course-labirint' : section === 'gostar' ? 'course-gostar' : section === 'gotwostar' ? 'course-gotwostar' : 'course-about'}`);
   if (activeButton) {
     activeButton.classList.add('active');
   }
@@ -81,9 +81,12 @@ document.addEventListener('DOMContentLoaded', function() {
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-labirint" onclick="switchContent('labirint')" bis_skin_checked="1">
       <p>6.2</p>
       <div data-v-70b69a9a="" bis_skin_checked="1">«Лазер-радар: видим мир сквозь туман»</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gostar" onclick="switchContent('gostar')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gostar active" onclick="switchContent('gostar')" bis_skin_checked="1">
       <p>7.1</p>
       <div data-v-70b69a9a="" bis_skin_checked="1">«Автосбор пяти звёздочек»</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gotwostar" onclick="switchContent('gotwostar')" bis_skin_checked="1">
+      <p>7.2</p>
+      <div data-v-70b69a9a="" bis_skin_checked="1">«Автоматический контроль заряда»</div>
     </div></div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
     min-height: auto;
 "><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="about-content" hidden=""><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Движение по маршруту к финишу
@@ -299,7 +302,7 @@ def handle_battery_charge():
         print("Критический уровень заряда! Срочно заряжаемся.")
 
 on_battery_charge_changed(handle_battery_charge)
-</code></code></pre></div><div bis_skin_checked="1" class="course_about__info-left" data-v-f5c85afa="" id="labirint-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Лазер-радар: видим мир сквозь туман»
+</code></code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="labirint-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Лазер-радар: видим мир сквозь туман»
 <br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно доехать до финиша (WASD), следуя указателю и сделать 3 коппии карты (3 раза запустить код)</div><pre data-v-36a27e41=""><code class="hljs python"><code class="hljs python">import math
 
 # Переменные для отрисовки карты
@@ -385,6 +388,59 @@ def handle_frame():
         robot.stop()
 
 set_frame_handler(handle_frame)
+</code></code></pre></div><div bis_skin_checked="1" class="course_about__info-left" data-v-f5c85afa="" id="gotwostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
+<br><br>Код для симулятора:<br></div><pre data-v-36a27e41=""><code class="hljs python"><code class="hljs python">import math, time
+COLLECTED = 0
+
+# логика с движением к зарядной станции
+def go_charge(x_p, z_p):
+    drive(x_p, z_p)
+    while get_sensor(3) &lt; 90:
+        time.sleep(1)
+    return
+
+# логика с движением к звезде
+def drive(x_p, z_p):
+    pos = robot.get_gps()
+    x0, y0, z0 = pos['lon'], pos['alt'], pos['lat']
+
+    dx = x_p - x0
+    dz = z_p - z0
+    target_angle = math.degrees(math.atan2(dx, dz))
+    heading = robot.get_gyro_yaw()
+    turn_angle = target_angle - heading
+
+    if (turn_angle &lt; -180):
+        turn_angle = turn_angle + 360
+    if (turn_angle &gt; 180):
+        turn_angle = turn_angle - 360
+
+    finished_angle = turn_angle + 90
+    robot.set_servo_angle(1, finished_angle)
+    robot.set_motor_power(100, 0.1)
+    return
+
+# логика управления
+def handle_frame():
+    battery = robot.get_sensor(3) 
+    print(f"Батарея - {battery}")
+    stantion = robot.get_object("charge_stantion_position")
+    if battery &lt; 25:
+        x_c, z_c = stantion['x'], stantion['z'] 
+        go_charge(x_c, z_c)   
+
+    star = robot.get_object("star")    
+    if star:                             
+        x_s, z_s = star['x'], star['z']
+        drive(x_s, z_s)  
+        COLLECTED += 1
+        print(f"⭐ Собрано: {COLLECTED}/15")
+    time.sleep(0.5)
+
+# Функция set_frame_handler устаналивает циклический вызов функции handle_frame с интервалом 100мс.
+# Это является аналогом следующего цикла: while True: handle_frame()
+# Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
+set_frame_handler(handle_frame)
 </code></code></pre></div></div></div></div></div></div></div></div>
 </div></main>
-</body></html>
+<div id="q-notify" data-v-app=""><div class="q-notifications"><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-start"></div><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-end"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-start"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-end"></div><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-center"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-start justify-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-end justify-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap flex-center"></div></div></div></body></html>
