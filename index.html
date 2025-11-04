@@ -5,7 +5,86 @@
       _tmr.push({id: "3317481", type: "pageView", start: (new Date()).getTime()});
       (function (d, w, id) {
         if (d.getElementById(id)) return;
-      })(document, window, "tmr-code");</script><script>
+      })(document, window, "tmr-code");</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим все блоки кода с классом hljs
+    const codeBlocks = document.querySelectorAll('code.hljs');
+    
+    codeBlocks.forEach(codeBlock => {
+        // Создаем контейнер
+        const container = document.createElement('div');
+        container.className = 'code-container';
+        
+        // Оборачиваем код в контейнер
+        codeBlock.parentNode.insertBefore(container, codeBlock);
+        container.appendChild(codeBlock);
+        
+        // Создаем кнопку копирования
+        const copyButton = document.createElement('button');
+        copyButton.className = 'copy-btn';
+        copyButton.textContent = 'Копировать';
+        copyButton.onclick = function() {
+            copyCode(this);
+        };
+        
+        container.appendChild(copyButton);
+    });
+});
+
+function copyCode(button) {
+    const container = button.parentElement;
+    const codeBlock = container.querySelector('code.hljs');
+    const codeText = codeBlock.textContent;
+    
+    navigator.clipboard.writeText(codeText).then(() => {
+        const originalText = button.textContent;
+        button.textContent = '✓ Скопировано';
+        button.style.background = '#4CAF50';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.background = '';
+        }, 2000);
+    }).catch(err => {
+        console.error('Ошибка копирования: ', err);
+        button.textContent = '❌ Ошибка';
+    });
+}
+</script>
+
+<style>
+.code-container {
+    position: relative;
+    margin: 1em 0;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #d0ccec;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.copy-btn:hover {
+    background: #643cc8;
+}
+
+code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 1em;
+    border-radius: 5px;
+}
+</style><script>
 function switchContent(section) {
   // Убираем активный класс у всех кнопок
   const menuItems = document.querySelectorAll('.course_menu__list-item');
@@ -44,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <p>1.1</p>
       <div data-v-70b69a9a="" bis_skin_checked="1">Движение по маршруту к финишу</div>
     </div>
-    <div data-v-70b69a9a="" class="course_menu__list-item course-content" onclick="switchContent('content')" bis_skin_checked="1">
+    <div data-v-70b69a9a="" class="course_menu__list-item course-content active" onclick="switchContent('content')" bis_skin_checked="1">
       <p>1.2</p>
       <div data-v-70b69a9a="" bis_skin_checked="1">Маршрут через контрольные точки (сбор звёздочек)</div>
     </div>
@@ -81,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-labirint" onclick="switchContent('labirint')" bis_skin_checked="1">
       <p>6.2</p>
       <div data-v-70b69a9a="" bis_skin_checked="1">«Лазер-радар: видим мир сквозь туман»</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gostar active" onclick="switchContent('gostar')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gostar" onclick="switchContent('gostar')" bis_skin_checked="1">
       <p>7.1</p>
       <div data-v-70b69a9a="" bis_skin_checked="1">«Автосбор пяти звёздочек»</div>
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-gotwostar" onclick="switchContent('gotwostar')" bis_skin_checked="1">
@@ -105,7 +184,7 @@ robot.set_motor_power(100, 1.5)
 robot.stop()
 robot.set_servo_angle(1, 90)
 robot.set_motor_power(100, 2)
-robot.stop()</code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="content-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Маршрут через контрольные точки
+robot.stop()</code></pre></div><div bis_skin_checked="1" class="course_about__info-left" data-v-f5c85afa="" id="content-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Маршрут через контрольные точки
 <br><br>Код для симулятора:</div>
 <pre data-v-36a27e41=""><code class="hljs python">robot.set_servo_angle(1, 94)
 robot.set_motor_power(100, 5)
@@ -259,7 +338,7 @@ def handle_servo():
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 on_servo_rotate(handle_servo)
 </code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="lidar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>«LiDAR: ищем ближайшее препятствие»<br>Код для симулятора:
-</div><pre data-v-36a27e41=""><code class="hljs python"><code class="hljs python">import math
+</div><pre data-v-36a27e41=""><code class="hljs python">import math
 CHECK_INTERVAL = 2000 #Интервал проверки поворота сервопривода
 measurements = {}
 
@@ -284,7 +363,7 @@ robot.set_servo_angle(2, 0)
 # Это является аналогом следующего цикла: while True: handle_servo_rotate() time.sleep(CHECK_INTERVAL/1000)
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 on_servo_rotate(handle_servo_rotate)
-</code></code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="zarad-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Контроль заряда»
+</code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="zarad-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Контроль заряда»
 <br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо подожать выполнения цикла до 0% заряда</div><pre data-v-36a27e41=""><code class="hljs python"><code class="hljs python">import time 
 CHECK_INTERVAL = 5000
 
@@ -303,7 +382,7 @@ def handle_battery_charge():
 
 on_battery_charge_changed(handle_battery_charge)
 </code></code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="labirint-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Лазер-радар: видим мир сквозь туман»
-<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно доехать до финиша (WASD), следуя указателю и сделать 3 коппии карты (3 раза запустить код)</div><pre data-v-36a27e41=""><code class="hljs python"><code class="hljs python">import math
+<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно доехать до финиша (WASD), следуя указателю и сделать 3 коппии карты (3 раза запустить код)</div><pre data-v-36a27e41=""><code class="hljs python">import math
 
 # Переменные для отрисовки карты
 SIZE = 41
@@ -356,8 +435,38 @@ def handle_frame():
 # Это является аналогом следующего цикла: while True: handle_frame()
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 on_frame(handle_frame)
-</code></code></pre></div><div bis_skin_checked="1" class="course_about__info-left" data-v-f5c85afa="" id="gostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
-<br><br>Код для симулятора:<br></div><pre data-v-36a27e41=""><code class="hljs python"><code class="hljs python">import math, time
+</code></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
+<br><br>Навигация в лабиринте<br></div><pre data-v-36a27e41=""><code class="hljs python">import random
+measurements = [[random.randint(0, 1) for _ in range(3)] for _ in range(15)]
+
+back_count = 0
+steps = len(measurements)
+
+for i, sensors in enumerate(measurements):
+    left, front, right = sensors
+    steps -= 1
+
+    if front == 0:
+        action = "Движение вперед"
+        back_count = 0
+    elif right == 0:
+        action = "Поворот направо"
+        back_count = 0
+    elif left == 0:
+        action = "Поворот налево"
+        back_count = 0
+    else:
+        action = "Разворот"
+        back_count += 1
+
+    if back_count &gt;= 3: 
+        print(f"Шаг {i+1}: {sensors} → {action} | Осталось: {steps}")
+        print("Аварийная остановка! 3 тупика подряд")
+        break
+
+print(f"Шаг {i+1}: {sensors} -&gt; {action} | Осталось: {steps}")
+</code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="gostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
+<br><br>Код для симулятора:<br></div><pre data-v-36a27e41=""><code class="hljs python">import math, time
 
 def drive_to_star(x_star, z_star):
     pos = robot.get_gps()
@@ -388,8 +497,8 @@ def handle_frame():
         robot.stop()
 
 set_frame_handler(handle_frame)
-</code></code></pre></div><div bis_skin_checked="1" class="course_about__info-left" data-v-f5c85afa="" id="gotwostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
-<br><br>Код для симулятора:<br></div><pre data-v-36a27e41=""><code class="hljs python"><code class="hljs python">import math, time
+</code></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="gotwostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
+<br><br>Код для симулятора:<br></div><pre data-v-36a27e41=""><code class="hljs python">import math, time
 COLLECTED = 0
 
 # логика с движением к зарядной станции
@@ -441,6 +550,6 @@ def handle_frame():
 # Это является аналогом следующего цикла: while True: handle_frame()
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 set_frame_handler(handle_frame)
-</code></code></pre></div></div></div></div></div></div></div></div>
+</code></pre></div></div></div></div></div></div></div></div>
 </div></main>
-<div id="q-notify" data-v-app=""><div class="q-notifications"><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-start"></div><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-end"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-start"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-end"></div><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-center"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-start justify-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-end justify-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap flex-center"></div></div></div></body></html>
+</body></html>
