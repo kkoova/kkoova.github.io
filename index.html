@@ -6,7 +6,19 @@
       (function (d, w, id) {
         if (d.getElementById(id)) return;
       })(document, window, "tmr-code");</script>
-<script>function copyCode(button) {
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим все блоки кода с классом hljs
+    const codeBlocks = document.querySelectorAll('code.hljs');
+    
+    codeBlocks.forEach(codeBlock => {
+        // Создаем контейнер
+        const container = document.querySelectorAll('code-container')
+        container.appendChild(copyButton);
+    });
+});
+
+function copyCode(button) {
     const container = button.parentElement;
     const codeBlock = container.querySelector('code.hljs');
     const codeText = codeBlock.textContent;
