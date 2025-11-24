@@ -76,6 +76,7 @@ code.hljs {
 function switchContentModul(section) {
   // Убираем активный класс у всех кнопок
   const menuItems = document.querySelectorAll('.menu-button');
+
   menuItems.forEach(item => {
     item.classList.remove('active');
   });
@@ -85,7 +86,7 @@ function switchContentModul(section) {
   contentSections.forEach(section => {
     section.classList.add('hidden');
   });
-  
+
   // Активируем нужную кнопку
   const activeButton = document.querySelector(`.course__wrapper.${section === 'one' ? 'one' : section === 'two' ? 'two' : 'one'}`);
   if (activeButton) {
@@ -93,9 +94,8 @@ function switchContentModul(section) {
   }
   
   // Показываем нужный контент
-  const activeContent = document.getElementById('content');
-	console.log(activeContent);
-    console.log(content);
+  const activeContent = document.getElementById(section);
+
   if (activeContent) {
     activeContent.classList.remove('hidden');
   }
@@ -104,7 +104,8 @@ function switchContentModul(section) {
 // Инициализация - показываем первый контент по умолчанию
 document.addEventListener('DOMContentLoaded', function() {
   switchContentModul('one');
-}); 
+});
+ 
 function switchContent(section) {
   // Убираем активный класс у всех кнопок
   const menuItems = document.querySelectorAll('.course_menu__list-item');
@@ -142,8 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div data-v-70b69a9a="" class="course_menu__list" bis_skin_checked="1">
     <div data-v-70b69a9a="" class="course_menu__list-item about-course active" onclick="switchContent('about')" bis_skin_checked="1" style="/* height: 30%; */">
       
-      <div class="q-scrollarea__content"><!----><div data-v-70b69a9a="" bis_skin_checked="1">Занятие 1</div><div data-v-5f8d2b88="" style="
-"><div data-v-5f8d2b88="" class="course_lesson__list-item visited"><div data-v-5f8d2b88="" class="relative-position"><i data-v-5f8d2b88="" class="q-icon invert-image-1" aria-hidden="true" style="font-size: 24px;"><img src="https://lms.1t.ru/next/lms-2.0/activity-icons-client/ActivityTest.svg"></i><!----></div><div data-v-5f8d2b88="" class="course_lesson__list-item-content col"><div data-v-5f8d2b88="" class="course_lesson__title"><div data-v-5f8d2b88="" class="ellipsis-3-lines">Викторина</div></div><!----></div></div></div><div data-v-5f8d2b88=""><div data-v-5f8d2b88="" class="course_lesson__list-item visited"><div data-v-5f8d2b88="" class="relative-position"><i data-v-5f8d2b88="" class="q-icon invert-image-1" aria-hidden="true" style="font-size: 24px;"><img src="https://lms.1t.ru/next/lms-2.0/activity-icons-client/Interactive.svg"></i><!----></div><div data-v-5f8d2b88="" class="course_lesson__list-item-content col"><div data-v-5f8d2b88="" class="course_lesson__title"><div data-v-5f8d2b88="" class="ellipsis-3-lines">Симулятор</div></div><!----></div></div></div></div>
+      <div class="q-scrollarea__content"><!----><div data-v-70b69a9a="" bis_skin_checked="1">Занятие 1</div></div>
 
     </div>
     <div data-v-5f8d2b88=""></div>
@@ -208,7 +208,7 @@ robot.set_motor_power(100, 1.5)
 robot.stop()
 robot.set_servo_angle(1, 90)
 robot.set_motor_power(100, 2)
-robot.stop()</code><button class="copy-btn" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="content-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Маршрут через контрольные точки
+robot.stop()</code><button class="copy-btn" style="" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="content-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Маршрут через контрольные точки
 <br><br>Код для симулятора:</div>
 <pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">robot.set_servo_angle(1, 94)
 robot.set_motor_power(100, 5)
@@ -255,7 +255,7 @@ robot.stop()
 robot.set_servo_angle(1, 180)
 robot.set_motor_power(100, 1)
 robot.stop()
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="exercises-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Аэрофотосъёмка повреждений с помощью дрона
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="exercises-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Аэрофотосъёмка повреждений с помощью дрона
 <br><br>Ваша миссия — поднять БПЛА, облететь территорию и сделать чёткие фотографии всех дефектов (трещины на стенах, повреждения ангара, ямы на взлётной полосе и т. д.).
 Как только набор снимков будет полным, симулятор покажет окно «Задание выполнено».<br><br>Смена камеры - C
 <br>
@@ -268,14 +268,14 @@ robot.set_motor_power(100, 1.2)
 robot.stop()
 robot.set_servo_angle(1, 90)
 robot.set_motor_power(100, 10.1)
-robot.stop()</code><button class="copy-btn" style="">Копировать</button></div></div></div></div></pre>
+robot.stop()</code><button class="copy-btn" style="" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre>
 </div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="documents-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Умный светофор»
 <br><br>Код для симулятора:<br>1000 мм - 1 секунда</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">robot.blink(1, 1000)
 robot.blink(2, 1000)
-robot.blink(3, 1000)</code><button class="copy-btn">Копировать</button></div></div></div></div></pre>
+robot.blink(3, 1000)</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre>
 </div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="arm-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Перемещение блока роборукой»
 <br><br>Код для симулятора:</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">workshop.moveManipulator(180, 47, 45, 40, 30, 0)
-workshop.moveManipulator(180, 47, 45, 40, 20, 0)</code><button class="copy-btn">Копировать</button></div></div></div></div></pre>
+workshop.moveManipulator(180, 47, 45, 40, 20, 0)</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre>
 </div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="pasport-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Паспорт робота»
 <br><br>Код для симулятора:</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python"># Присвоить значения константам
 MODEL = "1T_Rex"     
@@ -288,7 +288,7 @@ GPS_ON = False
 # Вывести сообщения в соответствии с условиями задания
 print(f"Модель робота: {MODEL}, Оператор: {OPERATOR}, Заряд: {BATTERY}%")
 print(f"Моторов: {MOTORS}, LIDAR: {'подключён' if LIDAR_ON else 'отключён'}, "
-      f"GPS: {'подключён' if GPS_ON else 'отключён'}")</code><button class="copy-btn">Копировать</button></div></div></div></div></pre>
+      f"GPS: {'подключён' if GPS_ON else 'отключён'}")</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre>
 </div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="configur-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Конфигуратор робота»
 <br><br>Код для симулятора:</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python"># Запросить данные через input
 operator = input("Введите имя оператора: ")
@@ -309,7 +309,7 @@ print(f"GPS: {'подключён' if GPS_ON else 'отключён'}")
 
 
 # Установить флаг настройки робота
-setting = True</code><button class="copy-btn">Копировать</button></div></div></div></div></pre>
+setting = True</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre>
 </div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="vid-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Робот учится видеть и подъезжать к цели»
 <br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо будет заехать в красный квадрат до того момента как он станет зеленым.</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math
 
@@ -361,7 +361,7 @@ def handle_servo():
 # Это является аналогом следующего цикла: while True: handle_servo() time.sleep(0.5)
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 on_servo_rotate(handle_servo)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="lidar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>«LiDAR: ищем ближайшее препятствие»<br>Код для симулятора:
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="lidar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>«LiDAR: ищем ближайшее препятствие»<br>Код для симулятора:
 </div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math
 CHECK_INTERVAL = 2000 #Интервал проверки поворота сервопривода
 measurements = {}
@@ -387,7 +387,7 @@ robot.set_servo_angle(2, 0)
 # Это является аналогом следующего цикла: while True: handle_servo_rotate() time.sleep(CHECK_INTERVAL/1000)
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 on_servo_rotate(handle_servo_rotate)
-</code><button class="copy-btn" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
+</code><button class="copy-btn" style="" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
 <br><br>Навигация в лабиринте<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math
 
 # Фиксированные значения
@@ -409,7 +409,7 @@ print(f"Отношение площади к толщине: {ratio_rounded}")
 sqrt_result = math.sqrt(ratio)
 sqrt_rounded = round(sqrt_result, 2)
 print(f"Квадратный корень: {sqrt_rounded}")
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="zarad-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Контроль заряда»
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="zarad-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Контроль заряда»
 <br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо подожать выполнения цикла до 0% заряда</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import time 
 CHECK_INTERVAL = 5000
 
@@ -427,7 +427,7 @@ def handle_battery_charge():
         print("Критический уровень заряда! Срочно заряжаемся.")
 
 on_battery_charge_changed(handle_battery_charge)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="labirint-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Лазер-радар: видим мир сквозь туман»
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="labirint-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Лазер-радар: видим мир сквозь туман»
 <br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно доехать до финиша (WASD), следуя указателю и сделать 3 коппии карты (3 раза запустить код)</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math
 
 # Переменные для отрисовки карты
@@ -481,7 +481,7 @@ def handle_frame():
 # Это является аналогом следующего цикла: while True: handle_frame()
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 on_frame(handle_frame)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
 <br><br>Навигация в лабиринте<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import random
 measurements = [[random.randint(0, 1) for _ in range(3)] for _ in range(15)]
 
@@ -511,7 +511,7 @@ for i, sensors in enumerate(measurements):
         break
 
 print(f"Шаг {i+1}: {sensors} -&gt; {action} | Осталось: {steps}")
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="gostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="gostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
 <br><br>Код для симулятора:<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math, time
 
 def drive_to_star(x_star, z_star):
@@ -543,7 +543,7 @@ def handle_frame():
         robot.stop()
 
 set_frame_handler(handle_frame)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="gotwostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="gotwostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
 <br><br>Код для симулятора:<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math, time
 COLLECTED = 0
 
@@ -596,7 +596,7 @@ def handle_frame():
 # Это является аналогом следующего цикла: while True: handle_frame()
 # Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
 set_frame_handler(handle_frame)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
 <br><br>Навигация в лабиринте<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def delivery_cost(count):
     """Вычисляет стоимость доставки для указанного количества товаров"""
     if count == 0:
@@ -610,60 +610,23 @@ set_frame_handler(handle_frame)
 print(f"delivery_cost(0) = ${delivery_cost(0)}")
 print(f"delivery_cost(1) = ${delivery_cost(1)}")
 print(f"delivery_cost(4) = ${delivery_cost(4)}")
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div></div></div></div></div><div data-v-60f23178="" class="course__wrapper" bis_skin_checked="1" id="two"><div class="course_container">
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div></div></div></div></div><div data-v-60f23178="" class="course__wrapper hidden" bis_skin_checked="1" id="two"><div class="course_container">
   
   <div data-v-70b69a9a="" class="course_menu__list" bis_skin_checked="1">
     <div data-v-70b69a9a="" class="course_menu__list-item about-course" onclick="switchContent('about')" bis_skin_checked="1" style="/* height: 30%; */">
       
-      <div class="q-scrollarea__content"><!----><div data-v-70b69a9a="" bis_skin_checked="1">Занятие 1</div><div data-v-5f8d2b88="" style="
-"><div data-v-5f8d2b88="" class="course_lesson__list-item visited"><div data-v-5f8d2b88="" class="relative-position"><i data-v-5f8d2b88="" class="q-icon invert-image-1" aria-hidden="true" style="font-size: 24px;"><img src="https://lms.1t.ru/next/lms-2.0/activity-icons-client/ActivityTest.svg"></i><!----></div><div data-v-5f8d2b88="" class="course_lesson__list-item-content col"><div data-v-5f8d2b88="" class="course_lesson__title"><div data-v-5f8d2b88="" class="ellipsis-3-lines">Викторина</div></div><!----></div></div></div><div data-v-5f8d2b88=""><div data-v-5f8d2b88="" class="course_lesson__list-item visited"><div data-v-5f8d2b88="" class="relative-position"><i data-v-5f8d2b88="" class="q-icon invert-image-1" aria-hidden="true" style="font-size: 24px;"><img src="https://lms.1t.ru/next/lms-2.0/activity-icons-client/Interactive.svg"></i><!----></div><div data-v-5f8d2b88="" class="course_lesson__list-item-content col"><div data-v-5f8d2b88="" class="course_lesson__title"><div data-v-5f8d2b88="" class="ellipsis-3-lines">Симулятор</div></div><!----></div></div></div></div>
+      <div class="q-scrollarea__content"><!----><div data-v-70b69a9a="" bis_skin_checked="1">Занятие 15</div></div>
 
     </div>
     <div data-v-5f8d2b88=""></div>
     <div data-v-70b69a9a="" class="course_menu__list-item course-content" onclick="switchContent('content')" bis_skin_checked="1">
       
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 2</div>
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 16</div>
     </div>
-    <div data-v-70b69a9a="" class="course_menu__list-item course-exercises" onclick="switchContent('exercises')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 3</div>
-    </div>
-    <div data-v-70b69a9a="" class="course_menu__list-item course-chat" onclick="switchContent('chat')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 4</div>
-    </div>
-    <div data-v-70b69a9a="" class="course_menu__list-item course-documents" onclick="switchContent('documents')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 5</div>
-    </div>
-  <div data-v-70b69a9a="" class="course_menu__list-item course-arm" onclick="switchContent('arm')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 6</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-pasport" onclick="switchContent('pasport')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 7</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-configur" onclick="switchContent('configur')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 8</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-vid" onclick="switchContent('vid')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 9</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-lidar" onclick="switchContent('lidar')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 10</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-zarad" onclick="switchContent('zarad')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 11</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-labirint" onclick="switchContent('labirint')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 12</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gostar" onclick="switchContent('gostar')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 13</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gotwostar" onclick="switchContent('gotwostar')" bis_skin_checked="1">
-      
-      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 14</div>
-    </div></div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
+    
+    
+    
+  </div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
     min-height: auto;
 "><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="about-content" hidden=""><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Движение по маршруту к финишу
 <br><br>Код для симулятора:</div>
@@ -681,7 +644,7 @@ robot.set_motor_power(100, 1.5)
 robot.stop()
 robot.set_servo_angle(1, 90)
 robot.set_motor_power(100, 2)
-robot.stop()</code><button class="copy-btn" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="content-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Маршрут через контрольные точки
+robot.stop()</code><button class="copy-btn" style="" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="content-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Маршрут через контрольные точки
 <br><br>Код для симулятора:</div>
 <pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">robot.set_servo_angle(1, 94)
 robot.set_motor_power(100, 5)
@@ -728,362 +691,7 @@ robot.stop()
 robot.set_servo_angle(1, 180)
 robot.set_motor_power(100, 1)
 robot.stop()
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="exercises-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Аэрофотосъёмка повреждений с помощью дрона
-<br><br>Ваша миссия — поднять БПЛА, облететь территорию и сделать чёткие фотографии всех дефектов (трещины на стенах, повреждения ангара, ямы на взлётной полосе и т. д.).
-Как только набор снимков будет полным, симулятор покажет окно «Задание выполнено».<br><br>Смена камеры - C
-<br>
-Перезапуск - R
-<br>
-Фоторежим - F</div>
-</div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="chat-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Автономный заезд в зону погрузки
-<br><br>Код для симулятора:</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">robot.set_servo_angle(1, 130)
-robot.set_motor_power(100, 1.2) 
-robot.stop()
-robot.set_servo_angle(1, 90)
-robot.set_motor_power(100, 10.1)
-robot.stop()</code><button class="copy-btn" style="">Копировать</button></div></div></div></div></pre>
-</div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="documents-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Умный светофор»
-<br><br>Код для симулятора:<br>1000 мм - 1 секунда</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">robot.blink(1, 1000)
-robot.blink(2, 1000)
-robot.blink(3, 1000)</code><button class="copy-btn">Копировать</button></div></div></div></div></pre>
-</div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="arm-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Перемещение блока роборукой»
-<br><br>Код для симулятора:</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">workshop.moveManipulator(180, 47, 45, 40, 30, 0)
-workshop.moveManipulator(180, 47, 45, 40, 20, 0)</code><button class="copy-btn">Копировать</button></div></div></div></div></pre>
-</div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="pasport-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Паспорт робота»
-<br><br>Код для симулятора:</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python"># Присвоить значения константам
-MODEL = "1T_Rex"     
-OPERATOR = "Алиса"   
-BATTERY = 87          
-MOTORS = 4           
-LIDAR_ON = True       
-GPS_ON = False 
-
-# Вывести сообщения в соответствии с условиями задания
-print(f"Модель робота: {MODEL}, Оператор: {OPERATOR}, Заряд: {BATTERY}%")
-print(f"Моторов: {MOTORS}, LIDAR: {'подключён' if LIDAR_ON else 'отключён'}, "
-      f"GPS: {'подключён' if GPS_ON else 'отключён'}")</code><button class="copy-btn">Копировать</button></div></div></div></div></pre>
-</div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="configur-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Конфигуратор робота»
-<br><br>Код для симулятора:</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python"># Запросить данные через input
-operator = input("Введите имя оператора: ")
-mission  = input("Введите название миссии: ")
-lidar_in = input("LiDAR подключён? (да/нет): ")
-gps_in   = input("GPS подключён? (да/нет): ")
-
-# Преобразовать соответствующие данные в bool
-LIDAR_ON = (lidar_in == "да")
-GPS_ON   = (gps_in   == "да")
-
-# Вывести конфигурацию в соответствии с условиями задания
-print("=== Конфигурация робота ===")
-print(f"Оператор: {operator}")
-print(f"Миссия: {mission}")
-print(f"LIDAR: {'подключён' if LIDAR_ON else 'отключён'}")
-print(f"GPS: {'подключён' if GPS_ON else 'отключён'}")
-
-
-# Установить флаг настройки робота
-setting = True</code><button class="copy-btn">Копировать</button></div></div></div></div></pre>
-</div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="vid-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Робот учится видеть и подъезжать к цели»
-<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо будет заехать в красный квадрат до того момента как он станет зеленым.</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math
-
-# Константы
-SERVO_CHANNEL = 2
-SENSOR_CHANNEL = 1
-INITIAL_ANGLE = 0
-ANGLE_STEP = 15
-MIN_ANGLE = -180
-MAX_ANGLE = 0
-MOTOR_POWER_FORWARD = 100
-MOTOR_POWER_BACKWARD = -100
-SPEED_MULTIPLIER = 0.7
-ANGLE_THRESHOLD = -90
-MM_TO_M = 1000
-
-# Переменные
-global current_angle, direction, step, is_scanning, found_cube
-current_angle = INITIAL_ANGLE
-direction = -1
-step = ANGLE_STEP
-is_scanning = True
-found_cube = False
-
-def move_to_cube(distance, angle):
-    if 90 &gt; angle &lt; 270:
-        robot.set_motor_power(MOTOR_POWER_BACKWARD, distance // MM_TO_M)
-    else:
-        robot.set_motor_power(MOTOR_POWER_FORWARD, distance // MM_TO_M)
-    robot.stop()
-    print(f"Куб обнаружен на {angle}°; дистанция {distance} мм; подъезд завершён.")
-
-
-def handle_servo():
-    global current_angle, direction, step, is_scanning, found_cube
-
-    robot.set_servo_angle(2, current_angle)
-    d = robot.get_sensor(1)
-    if d &gt; 0:
-        move_to_cube(d, current_angle)
-        return
-    else:
-        current_angle += ANGLE_STEP
-
-        if current_angle &gt; 360:
-            current_angle = MAX_ANGLE
-
-# Функция on_servo_rotate устаналивает циклический вызов функции handle_servo с интервалом 500мс.
-# Это является аналогом следующего цикла: while True: handle_servo() time.sleep(0.5)
-# Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
-on_servo_rotate(handle_servo)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="lidar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>«LiDAR: ищем ближайшее препятствие»<br>Код для симулятора:
-</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math
-CHECK_INTERVAL = 2000 #Интервал проверки поворота сервопривода
-measurements = {}
-
-def handle_servo_rotate():
-    cur_angle = robot.get_servo_angle(2)
-    measurements[cur_angle] = robot.get_sensor(1)
-    robot.set_servo_angle(2, cur_angle + 60)
-
-    print(f"{cur_angle}° → {measurements[cur_angle]} мм")
-
-    if cur_angle == 300:
-        nearest_angle, nearest_dist = min(
-            measurements.items(),
-            key=lambda item: item[1] 
-        )
-
-        print(f"Ближайшее препятствие под {nearest_angle}° на {nearest_dist} мм")
-
-robot.set_servo_angle(2, 0)
-
-# Функция on_servo_rotate устаналивает циклический вызов функции handle_servo_rotate с интервалом CHECK_INTERVAL миллисекунд.
-# Это является аналогом следующего цикла: while True: handle_servo_rotate() time.sleep(CHECK_INTERVAL/1000)
-# Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
-on_servo_rotate(handle_servo_rotate)
-</code><button class="copy-btn" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
-<br><br>Навигация в лабиринте<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math
-
-# Фиксированные значения
-diameter = 10
-thickness = 5
-
-# 1. Площадь круга
-radius = diameter / 2
-area = math.pi * (radius ** 2)
-area_rounded = round(area, 2)
-print(f"Площадь круга: {area_rounded}")
-
-# 2. Отношение площади к толщине
-ratio = area / thickness
-ratio_rounded = round(ratio, 2)
-print(f"Отношение площади к толщине: {ratio_rounded}")
-
-# 3. Квадратный корень
-sqrt_result = math.sqrt(ratio)
-sqrt_rounded = round(sqrt_result, 2)
-print(f"Квадратный корень: {sqrt_rounded}")
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="zarad-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Контроль заряда»
-<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно надо подожать выполнения цикла до 0% заряда</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import time 
-CHECK_INTERVAL = 5000
-
-def handle_battery_charge():
-    battery = robot.get_sensor(3)
-    print(f"\nТекущий заряд: {battery}%")
-
-    if battery &gt;= 90:
-        print("Аккумулятор полностью заряжен.")
-    elif battery &gt;= 50:
-        print("Аккумулятор заряжен более чем наполовину.")
-    elif battery &gt;= 10:
-        print("Аккумулятор разряжен, скоро нужна подзарядка.")
-    else:
-        print("Критический уровень заряда! Срочно заряжаемся.")
-
-on_battery_charge_changed(handle_battery_charge)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="labirint-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Лазер-радар: видим мир сквозь туман»
-<br><br>Код для симулятора:<br>Для выполнение данного симулятора вам обязательно доехать до финиша (WASD), следуя указателю и сделать 3 коппии карты (3 раза запустить код)</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math
-
-# Переменные для отрисовки карты
-SIZE = 41
-CENTER = SIZE // 2
-SCALE = 0.1
-
-field = [[" "]*SIZE for _ in range(SIZE)]   # чистое 41×41 поле
-field[CENTER][CENTER] = "R"
-
-#field = [['ㅤ']*SIZE for _ in range(SIZE)]
-
-robot.set_servo_angle(2, 0)
-
-def print_map():
-    field[CENTER][CENTER] = 'R'
-
-    for row in field:
-        print("".join(row))
-
-    robot.set_servo_angle(2, 0)
-    stop_handler_frame()
-
-def handle_frame():
-    global field, SIZE, CENTER, SCALE
-    current_angle = robot.get_servo_angle(2)
-
-    if (current_angle &gt;= 360):
-      print_map()
-      return
-    
-    robot.set_servo_angle(2, current_angle)
-    dist_mm = robot.get_sensor(1)
-
-    if dist_mm &gt; 0:
-        dist_m = dist_mm / 1000
-
-        rad = math.radians(current_angle)
-        x = dist_m * math.cos(rad)
-        y = dist_m * math.sin(rad)
-
-        xi = int(round(CENTER + x / SCALE))
-        yi = int(round(CENTER - y / SCALE))
-
-        if 0 &lt;= xi &lt; SIZE and 0 &lt;= yi &lt; SIZE:
-            field[yi][xi] = "*"
-    
-    robot.set_servo_angle(2, current_angle + 10)
-
-# Функция on_frame устаналивает циклический вызов функции handle_frame с интервалом 200мс.
-# Это является аналогом следующего цикла: while True: handle_frame()
-# Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
-on_frame(handle_frame)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
-<br><br>Навигация в лабиринте<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import random
-measurements = [[random.randint(0, 1) for _ in range(3)] for _ in range(15)]
-
-back_count = 0
-steps = len(measurements)
-
-for i, sensors in enumerate(measurements):
-    left, front, right = sensors
-    steps -= 1
-
-    if front == 0:
-        action = "Движение вперед"
-        back_count = 0
-    elif right == 0:
-        action = "Поворот направо"
-        back_count = 0
-    elif left == 0:
-        action = "Поворот налево"
-        back_count = 0
-    else:
-        action = "Разворот"
-        back_count += 1
-
-    if back_count &gt;= 3: 
-        print(f"Шаг {i+1}: {sensors} → {action} | Осталось: {steps}")
-        print("Аварийная остановка! 3 тупика подряд")
-        break
-
-print(f"Шаг {i+1}: {sensors} -&gt; {action} | Осталось: {steps}")
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="gostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
-<br><br>Код для симулятора:<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math, time
-
-def drive_to_star(x_star, z_star):
-    pos = robot.get_gps()
-    x0, y0, z0 = pos['lon'], pos['alt'], pos['lat']
-
-    dx = x_star - x0
-    dz = z_star - z0
-    target_angle = math.degrees(math.atan2(dx, dz))
-    heading = robot.get_gyro_yaw()
-    turn_angle = target_angle - heading
-
-    if (turn_angle &lt; -180):
-        turn_angle = turn_angle + 360
-    if (turn_angle &gt; 180):
-        turn_angle = turn_angle - 360
-
-    finished_angle = turn_angle + 90
-    robot.set_servo_angle(1, finished_angle)
-    robot.set_motor_power(100, 0.1)
-    return
-
-def handle_frame():
-    star = robot.get_object('star')
-    if star is not None:
-        x_s, z_s = star['x'], star['z']
-        drive_to_star(x_s, z_s)
-    else:
-        robot.stop()
-
-set_frame_handler(handle_frame)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="gotwostar-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">«Автосбор пяти звёздочек»
-<br><br>Код для симулятора:<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math, time
-COLLECTED = 0
-
-# логика с движением к зарядной станции
-def go_charge(x_p, z_p):
-    drive(x_p, z_p)
-    while get_sensor(3) &lt; 90:
-        time.sleep(1)
-    return
-
-# логика с движением к звезде
-def drive(x_p, z_p):
-    pos = robot.get_gps()
-    x0, y0, z0 = pos['lon'], pos['alt'], pos['lat']
-
-    dx = x_p - x0
-    dz = z_p - z0
-    target_angle = math.degrees(math.atan2(dx, dz))
-    heading = robot.get_gyro_yaw()
-    turn_angle = target_angle - heading
-
-    if (turn_angle &lt; -180):
-        turn_angle = turn_angle + 360
-    if (turn_angle &gt; 180):
-        turn_angle = turn_angle - 360
-
-    finished_angle = turn_angle + 90
-    robot.set_servo_angle(1, finished_angle)
-    robot.set_motor_power(100, 0.1)
-    return
-
-# логика управления
-def handle_frame():
-    battery = robot.get_sensor(3) 
-    print(f"Батарея - {battery}")
-    stantion = robot.get_object("charge_stantion_position")
-    if battery &lt; 25:
-        x_c, z_c = stantion['x'], stantion['z'] 
-        go_charge(x_c, z_c)   
-
-    star = robot.get_object("star")    
-    if star:                             
-        x_s, z_s = star['x'], star['z']
-        drive(x_s, z_s)  
-        COLLECTED += 1
-        print(f"⭐ Собрано: {COLLECTED}/15")
-    time.sleep(0.5)
-
-# Функция set_frame_handler устаналивает циклический вызов функции handle_frame с интервалом 100мс.
-# Это является аналогом следующего цикла: while True: handle_frame()
-# Необходимо для корректного получения данных от датчиков в условиях данного симулятора.
-set_frame_handler(handle_frame)
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
-<br><br>Навигация в лабиринте<br></div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def delivery_cost(count):
-    """Вычисляет стоимость доставки для указанного количества товаров"""
-    if count == 0:
-        return 0
-    elif count == 1:
-        return 10.95
-    else:
-        return 10.95 + (count - 1) * 2.95
-
-# Вызов функции и вывод результатов
-print(f"delivery_cost(0) = ${delivery_cost(0)}")
-print(f"delivery_cost(1) = ${delivery_cost(1)}")
-print(f"delivery_cost(4) = ${delivery_cost(4)}")
-</code><button class="copy-btn">Копировать</button></div></div></div></div></pre></div></div></div></div></div></div></div></div>
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div></div></div></div></div></div></div></div>
 </div></div>
     
     <div class="q-drawer-container"><aside class="q-drawer q-drawer--left q-drawer--mini q-drawer--top-padding" style="width: 57px; transform: translateX(0px);"><div class="q-drawer__content fit scroll index_layout__drawer"><i class="q-icon text-grey-5 notranslate material-icons drawer__list-mini_button" aria-hidden="true" style="font-size: 32px;">menu</i><!----><div class="q-list q-list--dark index_layout__drawer-list" role="list"><div data-v-4cea62f6="" class="menu-button button-active index_layout__drawer-button student-course" style="
@@ -1108,4 +716,4 @@ print(f"delivery_cost(4) = ${delivery_cost(4)}")
 
 
 
-</body></html>
+<div id="q-notify" data-v-app=""><div class="q-notifications"><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-start"></div><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-end"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-start"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-end"></div><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-center"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-start justify-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-end justify-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap flex-center"></div></div></div></body></html>
