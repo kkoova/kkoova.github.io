@@ -73,12 +73,12 @@ code.hljs {
 }
 </style><script>
 
-function switchContentModul(section) {
+function switchContentModul(section, modulThis) {
   // Убираем активный класс у всех кнопок
   const menuItems = document.querySelectorAll('.menu-button');
 
   menuItems.forEach(item => {
-    item.classList.remove('active');
+    item.classList.remove('button-active');
   });
   
   // Скрываем весь контент
@@ -88,9 +88,8 @@ function switchContentModul(section) {
   });
 
   // Активируем нужную кнопку
-  const activeButton = document.querySelector(`.course__wrapper.${section === 'one' ? 'one' : section === 'two' ? 'two' : 'one'}`);
-  if (activeButton) {
-    activeButton.classList.add('active');
+  if (modulThis) {
+    activeButton.classList.add('button-active');
   }
   
   // Показываем нужный контент
@@ -106,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
   switchContentModul('one');
 });
  
-function switchContent(section) {
+function switchContent(section, buttonThis) {
   // Убираем активный класс у всех кнопок
   const menuItems = document.querySelectorAll('.course_menu__list-item');
   menuItems.forEach(item => {
@@ -120,9 +119,8 @@ function switchContent(section) {
   });
   
   // Активируем нужную кнопку
-  const activeButton = document.querySelector(`.course_menu__list-item.${section === 'about' ? 'about-course' : section === 'content' ? 'course-content' : section === 'exercises' ? 'course-exercises' : section === 'chat' ? 'course-chat' : section === 'documents' ? 'course-documents' : section === 'arm' ? 'course-arm' : section === 'pasport' ? 'course-pasport' : section === 'configur' ? 'course-configur' : section === 'vid' ? 'course-vid' : section === 'lidar' ? 'course-lidar' : section === 'zarad' ? 'course-zarad' : section === 'labirint' ? 'course-labirint' : section === 'gostar' ? 'course-gostar' : section === 'gotwostar' ? 'course-gotwostar' : 'course-about'}`);
-  if (activeButton) {
-    activeButton.classList.add('active');
+  if (buttonThis) {
+    buttonThis.classList.add('active');
   }
   
   // Показываем нужный контент
@@ -141,53 +139,53 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="breads_row__wrapper row" bis_skin_checked="1"><!----><div class="col breads_row__col" bis_skin_checked="1"><!----><div class="breads_row__list" bis_skin_checked="1"><div class="bread-button ellipsis small-breads breads_row__list-item" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень) <!----></div></div><div class="bread-button ellipsis" style="max-width: 100%;" bis_skin_checked="1">Инструкция к симуляторам курса 1 - 10<!----></div></div><div class="q-space" bis_skin_checked="1"></div><div class="user_info__wrapper col-3" bis_skin_checked="1"><div class="user_info__profile-button" bis_skin_checked="1"><!----><div class="ellipsis text-center q-mr-sm" bis_skin_checked="1">2 курс</div><img src="https://pkgh.ru/upload/logo.svg" class="user-info-img-avatar" alt=""><!----></div><!----><!----><!----><!----></div></div><div class="relative-position" style="height: 100%;width: 100%;flex: 1 1 0%;" bis_skin_checked="1"><div class="layout__scroll-wrapper custom-scroll-1" bis_skin_checked="1"><div data-v-60f23178="" class="full-height" bis_skin_checked="1"><div data-v-60f23178="" class="full-height" bis_skin_checked="1"><div data-v-60f23178="" class="course__wrapper" bis_skin_checked="1" id="one"><div class="course_container">
   
   <div data-v-70b69a9a="" class="course_menu__list" bis_skin_checked="1">
-    <div data-v-70b69a9a="" class="course_menu__list-item about-course active" onclick="switchContent('about')" bis_skin_checked="1" style="/* height: 30%; */">
+    <div data-v-70b69a9a="" class="course_menu__list-item about-course active" onclick="switchContent('about', this)" bis_skin_checked="1" style="/* height: 30%; */">
       
       <div class="q-scrollarea__content"><!----><div data-v-70b69a9a="" bis_skin_checked="1">Занятие 1</div></div>
 
     </div>
     <div data-v-5f8d2b88=""></div>
-    <div data-v-70b69a9a="" class="course_menu__list-item course-content" onclick="switchContent('content')" bis_skin_checked="1">
+    <div data-v-70b69a9a="" class="course_menu__list-item course-content" onclick="switchContent('content', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 2</div>
     </div>
-    <div data-v-70b69a9a="" class="course_menu__list-item course-exercises" onclick="switchContent('exercises')" bis_skin_checked="1">
+    <div data-v-70b69a9a="" class="course_menu__list-item course-exercises" onclick="switchContent('exercises', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 3</div>
     </div>
-    <div data-v-70b69a9a="" class="course_menu__list-item course-chat" onclick="switchContent('chat')" bis_skin_checked="1">
+    <div data-v-70b69a9a="" class="course_menu__list-item course-chat" onclick="switchContent('chat', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 4</div>
     </div>
-    <div data-v-70b69a9a="" class="course_menu__list-item course-documents" onclick="switchContent('documents')" bis_skin_checked="1">
+    <div data-v-70b69a9a="" class="course_menu__list-item course-documents" onclick="switchContent('documents', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 5</div>
     </div>
-  <div data-v-70b69a9a="" class="course_menu__list-item course-arm" onclick="switchContent('arm')" bis_skin_checked="1">
+  <div data-v-70b69a9a="" class="course_menu__list-item course-arm" onclick="switchContent('arm', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 6</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-pasport" onclick="switchContent('pasport')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-pasport" onclick="switchContent('pasport', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 7</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-configur" onclick="switchContent('configur')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-configur" onclick="switchContent('configur', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 8</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-vid" onclick="switchContent('vid')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-vid" onclick="switchContent('vid', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 9</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-lidar" onclick="switchContent('lidar')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-lidar" onclick="switchContent('lidar', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 10</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-zarad" onclick="switchContent('zarad')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-zarad" onclick="switchContent('zarad', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 11</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-labirint" onclick="switchContent('labirint')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-labirint" onclick="switchContent('labirint', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 12</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gostar" onclick="switchContent('gostar')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gostar" onclick="switchContent('gostar', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 13</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gotwostar" onclick="switchContent('gotwostar')" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-gotwostar" onclick="switchContent('gotwostar', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 14</div>
     </div></div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
@@ -255,7 +253,7 @@ robot.stop()
 robot.set_servo_angle(1, 180)
 robot.set_motor_power(100, 1)
 robot.stop()
-</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="exercises-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Аэрофотосъёмка повреждений с помощью дрона
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="exercises-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Аэрофотосъёмка повреждений с помощью дрона
 <br><br>Ваша миссия — поднять БПЛА, облететь территорию и сделать чёткие фотографии всех дефектов (трещины на стенах, повреждения ангара, ямы на взлётной полосе и т. д.).
 Как только набор снимков будет полным, симулятор покажет окно «Задание выполнено».<br><br>Смена камеры - C
 <br>
@@ -613,92 +611,95 @@ print(f"delivery_cost(4) = ${delivery_cost(4)}")
 </code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div></div></div></div></div><div data-v-60f23178="" class="course__wrapper hidden" bis_skin_checked="1" id="two"><div class="course_container">
   
   <div data-v-70b69a9a="" class="course_menu__list" bis_skin_checked="1">
-    <div data-v-70b69a9a="" class="course_menu__list-item about-course" onclick="switchContent('about')" bis_skin_checked="1" style="/* height: 30%; */">
+    <div data-v-70b69a9a="" class="course_menu__list-item course-five" onclick="switchContent('five', this)" bis_skin_checked="1" style="/* height: 30%; */">
       
       <div class="q-scrollarea__content"><!----><div data-v-70b69a9a="" bis_skin_checked="1">Занятие 15</div></div>
 
     </div>
-    <div data-v-5f8d2b88=""></div>
-    <div data-v-70b69a9a="" class="course_menu__list-item course-content" onclick="switchContent('content')" bis_skin_checked="1">
+    
+    <div data-v-70b69a9a="" class="course_menu__list-item course-six" onclick="switchContent('six', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 16</div>
     </div>
     
     
     
-  </div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
+  <div data-v-70b69a9a="" class="course_menu__list-item course-seven" onclick="switchContent('seven', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 17</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-egdht" onclick="switchContent('egdht', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 18</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-nine" onclick="switchContent('nine', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 19</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twozero" onclick="switchContent('twozero', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 20</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoone" onclick="switchContent('twoone', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 21</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twotwo" onclick="switchContent('twotwo', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 22</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twothri" onclick="switchContent('twothri', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 23</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twofour" onclick="switchContent('twofour', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 24</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twofive" onclick="switchContent('twofive', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 25</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twosix" onclick="switchContent('twosix', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 26</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoseven" onclick="switchContent('twoseven', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 27</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('twoeght', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 28</div>
+    </div></div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
     min-height: auto;
-"><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="about-content" hidden=""><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Движение по маршруту к финишу
+"><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="five-content" hidden=""><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+<br><br>Базовый текстовый интерфейс в терминале</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-</code><button class="copy-btn" style="" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="six-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">GUI для датчиков (Tkinter)
 <br><br>Код для симулятора:</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">robot.set_servo_angle(1, 90)
-robot.set_motor_power(100, 13) 
-robot.stop()
-robot.set_servo_angle(1, 60) 
-robot.set_motor_power(100, 1)
-robot.stop()
-robot.set_servo_angle(1, 90)
-robot.set_motor_power(100, 6)
-robot.stop()
-robot.set_servo_angle(1, 180)
-robot.set_motor_power(100, 1.5)
-robot.stop()
-robot.set_servo_angle(1, 90)
-robot.set_motor_power(100, 2)
-robot.stop()</code><button class="copy-btn" style="" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="content-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Маршрут через контрольные точки
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="seven-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+
+<br><br>Работа с данными от датчиков (эмуляция и логика)</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="egdht-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор «Предстартовая проверка»
 <br><br>Код для симулятора:</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">robot.set_servo_angle(1, 94)
-robot.set_motor_power(100, 5)
-robot.stop()
-robot.set_servo_angle(1, 140)
-robot.set_motor_power(50, 3)
-robot.stop()
-robot.set_servo_angle(1, 10)
-robot.set_motor_power(100, 3)
-robot.stop()
-robot.set_servo_angle(1, 180)
-robot.set_motor_power(100, 3.5)
-robot.stop()
-robot.set_servo_angle(1, 90)
-robot.set_motor_power(100, 3)
-robot.stop()
-robot.set_servo_angle(1, 10)
-robot.set_motor_power(100, 4)
-robot.stop()
-robot.set_servo_angle(1, 90)
-robot.set_motor_power(100, 1.5)
-robot.stop()
-robot.set_servo_angle(1, 180)
-robot.set_motor_power(100, 1.4)
-robot.stop()
-robot.set_servo_angle(1, 90)
-robot.set_motor_power(100, 5)
-robot.stop()
-robot.set_servo_angle(1, 180)
-robot.set_motor_power(100, 0.5)
-robot.stop()
-robot.set_servo_angle(1, 91)
-robot.set_motor_power(100, 2)
-robot.stop()
-robot.set_servo_angle(1, 180)
-robot.set_motor_power(100, 2.2)
-robot.stop()
-robot.set_servo_angle(1, 110)
-robot.set_motor_power(100, 4)
-robot.stop()
-robot.set_servo_angle(1, 30)
-robot.set_motor_power(100, 2)
-robot.stop()
-robot.set_servo_angle(1, 180)
-robot.set_motor_power(100, 1)
-robot.stop()
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="nine-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+<br><br>Алгоритмы с несколькими датчиками</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twozero-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Состояние батареи на основе скользящего среднего заряда батареи
+<br><br>Код для симулятора:</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoone-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+<br><br>Настройка параметров и работа с конфигурациями</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twotwo-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор «Динамическая конфигурация»
+
+
+<br><br>Код для симулятора:</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
 </code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div></div></div></div></div></div></div></div>
 </div></div>
     
-    <div class="q-drawer-container"><aside class="q-drawer q-drawer--left q-drawer--mini q-drawer--top-padding" style="width: 57px; transform: translateX(0px);"><div class="q-drawer__content fit scroll index_layout__drawer"><i class="q-icon text-grey-5 notranslate material-icons drawer__list-mini_button" aria-hidden="true" style="font-size: 32px;">menu</i><!----><div class="q-list q-list--dark index_layout__drawer-list" role="list"><div data-v-4cea62f6="" class="menu-button button-active index_layout__drawer-button student-course" style="
+    <div class="q-drawer-container"><aside class="q-drawer q-drawer--left q-drawer--mini q-drawer--top-padding" style="width: 57px; transform: translateX(0px);"><div class="q-drawer__content fit scroll index_layout__drawer"><i class="q-icon text-grey-5 notranslate material-icons drawer__list-mini_button" aria-hidden="true" style="font-size: 32px;">menu</i><!----><div class="q-list q-list--dark index_layout__drawer-list" role="list"><div data-v-4cea62f6="" class="menu-button index_layout__drawer-button student-course" style="
     align-items: flex-end;
 " onclick="switchContentModul('one')"><p style="
     text-align: center;
-">1</p><div data-v-4cea62f6="" class="hover-button"><div data-v-4cea62f6="" class="icon-label">1 Модуль</div></div><!----></div><div data-v-4cea62f6="" class="menu-button button index_layout__drawer-button student-course" style="
+">1</p><div data-v-4cea62f6="" class="hover-button"><div data-v-4cea62f6="" class="icon-label">1 Модуль</div></div><!----></div><div data-v-4cea62f6="" class="menu-button index_layout__drawer-button student-course" style="
     align-items: flex-end;
 " onclick="switchContentModul('two')"><p style="
     text-align: center;
@@ -716,4 +717,4 @@ robot.stop()
 
 
 
-<div id="q-notify" data-v-app=""><div class="q-notifications"><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-start"></div><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-end"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-start"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-end"></div><div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-center"></div><div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-start justify-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-end justify-center"></div><div class="q-notifications__list q-notifications__list--center fixed column no-wrap flex-center"></div></div></div></body></html>
+</body></html>
