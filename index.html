@@ -986,7 +986,36 @@ on_battery_charge_changed(handle_battery_charge)
 </code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода
 
 
-<br><br>Фильтрация и логическое решение на основе данных от нескольких датчиков</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
+<br><br>Фильтрация и логическое решение на основе данных от нескольких датчиков</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def decide_irrigation(sensor1, sensor2, sensor3):
+    MIN_VAL = 200
+    MAX_VAL = 800
+    THRESHOLD = 400
+
+    valid_values = []
+    for value in [sensor1, sensor2, sensor3]:
+        if MIN_VAL &lt;= value &lt;= MAX_VAL:
+            valid_values.append(value)
+
+    if not valid_values:
+        return "Ошибка: нет валидных данных от датчиков."
+
+    valid_values.sort()
+    n = len(valid_values)
+    if n % 2 == 1:
+        median = valid_values[n // 2]
+    else:
+        median = (valid_values[n // 2 - 1] + valid_values[n // 2]) / 2
+
+    if median &lt; THRESHOLD:
+        return "Включить полив"
+    else:
+        return "Выключить полив"
+
+
+print(decide_irrigation(350, 360, 370))
+print(decide_irrigation(500, 600, 700))
+print(decide_irrigation(100, 900, 1000))
+print(decide_irrigation(300, 900, 320))
 </code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoone-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
 
 <br><br>Настройка параметров и работа с конфигурациями</div>
