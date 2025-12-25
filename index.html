@@ -1019,13 +1019,83 @@ print(decide_irrigation(300, 900, 320))
 </code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoone-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
 
 <br><br>Настройка параметров и работа с конфигурациями</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import json
+
+with open("config.json", "r") as f:
+    config = json.load(f)
+    
+max_speed = config.get("max_speed", 100)
+mode = config.get("navigation", {}).get("mode", "manual")
+print("Максимальная скорость:", max_speed)
+print("Режим навигации:", mode)
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+<br><br>Валидация параметров конфигурации
+
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">max_speed = config.get("max_speed", 100)
+timeout = config.get("sensor_timeout", 1000)
+
+# Проверяем, находится ли max_speed в диапазоне 0–200
+if not (0 &lt;= max_speed &lt;= 200):
+    print("Некорректный max_speed. Заменён на 100.")
+    max_speed = 100
+
+# Проверяем, находится ли sensor_timeout в диапазоне 100–5000
+if not (100 &lt;= timeout &lt;= 5000):
+    print("Некорректный sensor_timeout. Заменён на 1000.")
+    timeout = 1000
+
+print("Проверка завершена.")
+print("Максимальная скорость:", max_speed)
+print("Таймаут датчика:", timeout)
+
+# Обновим конфиг текущими валидированными значениями
+config["max_speed"] = max_speed
+config["sensor_timeout"] = timeout
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+<br><br>Изменение и сохранение конфигурации
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">config["navigation"]["mode"] = "auto"     # Устанавливаем новый режим навигации
+config["sensor_timeout"] = 1500 
+
+with open("config.json", "w") as f:              # Открываем файл на запись
+    json.dump(config, f, indent=4)   
+
+print("Конфигурация успешно сохранена в файл.")
 </code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twotwo-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор «Динамическая конфигурация»
 
 
-<br><br>Код для симулятора:</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">-
-</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div></div></div></div></div></div></div></div>
+<br><br>Код для симулятора: В файле конфигурации вставить данный код:<br><br>{<br>
+  "max_speed": 75<br>
+}<br><br>Как выполнить:<br>
+
+Запусти config.py — в консоли увидишь Скорость: 75 (или 50, если файла/ключа нет).
+Измени max_speed в config.json (например, на 30) и сохрани — новое значение применится автоматически на следующем тике (≈ через 3 секунды).
+Если сломать JSON или удалить файл — в консоли появится [CONFIG ERROR] …, а скорость вернётся к DEFAULT_MAX_SPEED (=50).<br></div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import json
+
+FRAME_HANDLER_INTERVAL = 3000
+DEFAULT_MAX_SPEED = 50
+CONFIG_FILE = "config.json"
+MAX_SPEED_KEY = "max_speed"
+
+def get_max_speed():
+    try:
+        with open(CONFIG_FILE, "r") as f:
+            config = json.load(f)
+        max_speed = config.get(MAX_SPEED_KEY, DEFAULT_MAX_SPEED)
+        return max_speed
+    except Exception as e:
+        print(f"[CONFIG ERROR] Не удалось прочитать {CONFIG_FILE}: {e}")
+        return DEFAULT_MAX_SPEED
+
+def handle_frame():
+    max_speed = get_max_speed()
+    robot.set_motor_power(max_speed)
+    print(f"Скорость: {max_speed}")
+
+set_frame_handler(handle_frame)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div></div></div></div></div></div></div></div>
 </div></div>
     
     <div class="q-drawer-container"><aside class="q-drawer q-drawer--left q-drawer--mini q-drawer--top-padding" style="width: 57px; transform: translateX(0px);"><div class="q-drawer__content fit scroll index_layout__drawer"><i class="q-icon text-grey-5 notranslate material-icons drawer__list-mini_button" aria-hidden="true" style="font-size: 32px;">menu</i><!----><div class="q-list q-list--dark index_layout__drawer-list" role="list"><div data-v-4cea62f6="" class="menu-button index_layout__drawer-button student-course" style="
