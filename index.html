@@ -1443,6 +1443,201 @@ with open(filename, "w") as f:
 with open(filename, "r") as f:
     if len(f.readlines()) &gt; 1000:
         os.rename(filename, "robot_config_old.json")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoseven-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание: Автоматический анализ параметра с GO/NO‑GO логикой
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import logging
+
+# === Задание 1: базовое правило и анализ параметра ===
+
+rule = {"threshold": 100, "go_if_below": True}
+value = 120
+
+def check_param(value, rule):
+    if rule["go_if_below"] and value &gt; rule["threshold"]:
+        return "NO-GO"
+    if not rule["go_if_below"] and value &lt; rule["threshold"]:
+        return "NO-GO"
+    return "GO"
+
+status = check_param(value, rule)
+print(f"Статус параметра: {status}")
+
+# === Дополнение 1: обработка ошибок и логирование ===
+
+logging.basicConfig(filename="log.txt", level=logging.INFO)
+
+def safe_analysis(value, rule):
+    try:
+        result = check_param(value, rule)
+        logging.info(f"Результат анализа: {result}")
+        return result
+    except Exception as e:
+        logging.error(f"Ошибка анализа: {e}")
+        return "NO-GO"
+
+result = safe_analysis(value, rule)
+print("Анализ завершён:", result)
+
+# === Дополнение 2: простой юнит-тест ===
+
+def test_check_param_go():
+    rule = {"threshold": 100, "go_if_below": True}
+    assert check_param(90, rule) == "GO"
+
+test_check_param_go()
+print("Тест пройден.")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Обработка ошибок и логирование анализа
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import logging
+
+logging.basicConfig(filename="log.txt", level=logging.INFO)
+
+def safe_analysis(value, rule):
+    try:
+        result = check_param(value, rule)
+        logging.info(f"Результат анализа: {result}")
+        return result
+    except Exception as e:
+        logging.error(f"Ошибка анализа: {e}")
+        return "NO-GO"
+
+result = safe_analysis(value, rule)
+
+print("Анализ завершён:", result)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Обработка ошибок и логирование анализа
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def test_check_param_go():
+    rule = {"threshold": 100, "go_if_below": True}
+    assert check_param(90, rule) == "GO"
+
+test_check_param_go()
+
+print("Тест пройден.")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoeght-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Простой GUI для телеметрии робота
+
+
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python"># -----------------------------
+# ФУНКЦИЯ СОЗДАНИЯ GUI ПАНЕЛИ
+# -----------------------------
+def create_sensors_gui():
+    title_label = gui.label("Датчики робота")
+    title_label.config(fontSize=18, color="darkblue")
+    title_label.pack(side="top", pady=10)
+
+    distance_label = gui.label("Дальномер (sensor 1):")
+    distance_label.config(fontSize=14, color="black")
+    distance_label.pack(side="top", pady=2)
+
+    global distance_value_label
+    distance = robot.get_sensor(1)
+    
+    if distance != "error":
+        distance_value_label = gui.label(str(distance)+" мм")
+    else:
+        distance_value_label = gui.label("Ошибка", color="red")
+    
+    distance_value_label.config(fontSize=16, color="darkgreen")
+    distance_value_label.pack(side="top", pady=2) 
+
+    angle_label = gui.label("Угол поворота (sensor 2):")
+    angle_label.config(fontSize=14, color="black")
+    angle_label.pack(side="top", pady=2)
+
+    global angle_value_label
+    angle = robot.get_sensor(2)
+
+    if angle != "error":
+        angle_value_label = gui.label(str(angle)+"°")
+    else:
+        angle_value_label = gui.label("Ошибка", color="red")
+    
+    angle_value_label.config(fontSize=16, color="darkgreen")
+    angle_value_label.pack(side="top", pady=2)
+
+    global charge_value_label
+    charge = robot.get_sensor(3)
+
+    if charge != "error":
+      charge_value_label = gui.label(str(charge)+"°")
+    else:
+        charge_value_label = gui.label("Ошибка", color="red")
+    
+    charge_value_label.config(fontSize=16, color="darkgreen")
+    charge_value_label.pack(side="top", pady=2)
+
+    update_button = gui.button("СТОП", command=stop_robot)
+    update_button.config(width="150px", height="40px", background="red")
+    update_button.pack(side="top", pady=10)
+
+    close_button = gui.button("Закрыть", command=close_gui)
+    close_button.config(width="100px", height="40px", background="lightcoral")
+    close_button.pack(side="top", pady=5)
+
+# --------------------------------------
+# ФУНКЦИЯ ОБНОВЛЕНИЯ ОТОБРАЖАЕМЫХ ДАННЫХ
+# --------------------------------------
+def update_sensor_display():
+    try:
+        distance = robot.get_sensor(1)
+
+        if distance != "error":
+            distance_value_label.config(text=f"{distance} мм")
+        else:
+            distance_value_label.config(text="Ошибка", color="red")
+    except Exception as e:
+        distance_value_label.config(text="Ошибка", color="red")
+    
+    try:
+        servo_angle = robot.get_sensor(2)
+        if servo_angle != "error":
+            angle_value_label.config(text=f"{servo_angle}°")
+        else:
+            angle_value_label.config(text="Ошибка", color="red")
+    except Exception as e:
+        angle_value_label.config(text="Ошибка", color="red")
+
+    try:
+        charge = robot.get_sensor(3)
+        if charge != "error":
+            charge_value_label.config(text=f"{charge}%")
+        else:
+            charge_value_label.config(text="Ошибка", color="red")
+    except Exception as e:
+        charge_value_label.config(text="Ошибка", color="red")
+
+# -------------------------------
+# СЛУЖЕБНЫЕ ДЕЙСТВИЯ ОТ КНОПОК GUI
+# -------------------------------
+def stop_robot():
+    robot.stop()
+
+def close_gui():
+    print("GUI закрыт")
+
+# -------------------------------
+# СБОРКА И ЗАПУСК ОБНОВЛЕНИЯ GUI
+# -------------------------------
+create_sensors_gui()
+
+def handle_frame():
+  update_sensor_display()
+
+set_frame_handler(handle_frame)
+  
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода: Автоматический анализ одного параметра и логирование
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def check_param(value, threshold): 
+    if value &lt; threshold:   
+        return "GO"     
+    else:
+        return "NO-GO"       
+
+value = 98                       
+threshold = 100                     
+
+try:
+    result = check_param(value, threshold)   
+    print(result)                        
+except:
+    print("NO-GO")
 </code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div></div></div></div></div></div></div></div>
 </div></div>
     
