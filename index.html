@@ -986,36 +986,52 @@ on_battery_charge_changed(handle_battery_charge)
 </code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода
 
 
-<br><br>Фильтрация и логическое решение на основе данных от нескольких датчиков</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def decide_irrigation(sensor1, sensor2, sensor3):
-    MIN_VAL = 200
-    MAX_VAL = 800
-    THRESHOLD = 400
+<br><br>Фильтрация и логическое решение на основе данных от нескольких датчиков</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import statistics
 
-    valid_values = []
-    for value in [sensor1, sensor2, sensor3]:
-        if MIN_VAL &lt;= value &lt;= MAX_VAL:
-            valid_values.append(value)
+def get_valid_data(data):
+    """1 & 2. Исключает значения вне диапазона [200, 800]."""
+    return [val for val in data if 200 <= val <= 800]
 
+def get_median(valid_data):
+    """3. Рассчитывает медиану через стандартную библиотеку."""
+    if not valid_data:
+        return None
+    return statistics.median(valid_data)
+
+def get_irrigation_status(median):
+    """4. Принимает решение на основе медианы."""
+    if median is None:
+        return None
+    return median < 400
+
+def process_irrigation_logic(sensor_data):
+    """Основной процесс: объединяет все шаги."""
+    # 1. Фильтруем
+    valid_values = get_valid_data(sensor_data)
+    
+    # 5. Проверяем на наличие данных
     if not valid_values:
-        return "Ошибка: нет валидных данных от датчиков."
+        print("Ошибка данных: нет валидных значений.")
+        return
 
-    valid_values.sort()
-    n = len(valid_values)
-    if n % 2 == 1:
-        median = valid_values[n // 2]
-    else:
-        median = (valid_values[n // 2 - 1] + valid_values[n // 2]) / 2
+    # 2. Считаем медиану
+    median_val = get_median(valid_values)
+    
+    # 3. Получаем решение
+    is_on = get_irrigation_status(median_val)
+    
+    # Вывод результата
+    status_text = "Включить" if is_on else "Выключить"
+    print(f"Медиана: {median_val} -> Полив: {status_text}")
 
-    if median &lt; THRESHOLD:
-        return "Включить полив"
-    else:
-        return "Выключить полив"
+# Примеры:
+test_1 = [100, 300, 400, 500, 900] # Валидные: [300, 400, 500], Медиана: 400
+test_2 = [250, 350, 1000]          # Валидные: [250, 350], Медиана: 300
+test_3 = [10, 50, 900]             # Валидных нет
 
-
-print(decide_irrigation(350, 360, 370))
-print(decide_irrigation(500, 600, 700))
-print(decide_irrigation(100, 900, 1000))
-print(decide_irrigation(300, 900, 320))
+process_irrigation_logic(test_1)
+process_irrigation_logic(test_2)
+process_irrigation_logic(test_3)
 </code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoone-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
 
 <br><br>Настройка параметров и работа с конфигурациями</div>
