@@ -1,0 +1,465 @@
+<html lang="ru"><head>
+<meta charset="UTF-8">
+<title>Лабораторная работа №3 — DAC и ACL в Linux</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  color: #222;
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: #fff;
+  padding: 30px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+header p {
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 30px;
+}
+
+section {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+h2, h3 {
+  color: #2c3e50;
+}
+
+code, pre {
+  background: #1e1e1e;
+  color: #dcdcdc;
+  padding: 12px;
+  border-radius: 6px;
+  display: block;
+  margin: 10px 0;
+}
+
+textarea {
+  width: 100%;
+  min-height: 70px;
+  font-family: monospace;
+  padding: 10px;
+  margin-top: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #ecf0f1;
+}
+
+.hint {
+  background: #eef6ff;
+  border-left: 5px solid #3498db;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+
+.variant-toggle {
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 14px 22px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.variant-toggle:hover {
+  background: #1f2f3a;
+}
+
+.variant-list {
+  display: none;
+  margin-top: 20px;
+}
+
+button {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover {
+  background: #2980b9;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Лабораторная работа №3</h1>
+<p>Разграничение доступа к информационным ресурсам (DAC, ACL, Linux)</p>
+</header>
+
+<main>
+
+<section>
+  <h2>1. Цель и формат работы</h2>
+  <p>Изучение принципов построения систем разграничения доступа. Отработка практических навыком управления доступом в Linux. В данной работе необходимо реализовать дискреционную модель разграничения доступа. Так как при изучении курса применяется Kali Linux, то разграничение доступа предполагается выполнять также в этой системе.</p>
+  <ul>
+    <li>Все команды <strong>необходимо </strong>фиксировать (скрин)</li>
+    <li>Необходимо создать файл отчета - Лаб3_ФИО<br><strong>Обязательные элементы:</strong><br>- титульный лист<br>- скрины команд и их вывода<br>- таблица<br>- скрин результата теста</li>
+    <li>В конце работы выполняется <strong>тест</strong> (скрин)</li>
+  </ul>
+</section>
+
+<section>
+<h2>2. Теоретические сведения</h2><p>
+    В Linux используется <strong>дискреционная модель управления доступом (DAC)</strong>.
+    Каждый файл и каталог имеет:
+  </p>
+  <ul>
+    <li>владельца (user)</li>
+    <li>группу (group)</li>
+    <li>набор прав: <code>r</code> — чтение, <code>w</code> — запись, <code>x</code> — выполнение</li>
+  </ul>
+  <div class="hint">
+    В данной работе реализуется только модель DAC и ACL. Мандатное и ролевое управление
+    рассматриваются теоретически и здесь не применяются.
+  </div>
+
+<h3>2.1 Дискреционное управление доступом (DAC)</h3>
+<p>
+DAC — модель управления доступом, при которой владелец объекта определяет,
+кто и с какими правами может получать доступ к ресурсу.
+</p>
+
+<h3>2.2 Расширенные списки контроля доступа (ACL)</h3>
+<p>
+ACL (Access Control Lists) позволяют задавать права доступа не только для владельца,
+группы и остальных пользователей, но и для <strong>конкретных пользователей и групп</strong>.
+</p>
+
+<h3>Основные команды ACL</h3>
+
+<p><strong>Просмотр текущих ACL для файла или каталога:</strong></p>
+<pre>$ getfacl НАЗВАНИЕ_ДИРЕКТОРИИ</pre>
+
+<p>
+Команда отображает владельца ресурса, группы и назначенные им права доступа,
+включая расширенные ACL-записи.
+</p>
+
+<p><strong>Изменение прав доступа для конкретной группы пользователей:</strong></p>
+<pre>$ setfacl -R -m d:g:ГРУППА:rwx НАЗВАНИЕ_ДИРЕКТОРИИ</pre>
+
+<p>
+Данная команда рекурсивно назначает группе указанные права доступа
+к каталогу и всем вложенным объектам.
+</p>
+
+<div class="hint">
+После настройки ACL необходимо выполнить команду <code>getfacl</code> и зафиксировать
+результат для каждой группы пользователей.
+</div>
+</section>
+
+<section>
+<h2>3. Выбор темы организации (по номеру ПК) + тестовый сценарий</h2>
+
+<button class="variant-toggle" id="variantBtn" style="
+    width: 100%;
+">
+Показать варианты организации (1–15)
+</button>
+
+<div class="variant-list" id="variantList" style="display: none;">
+<table>
+  <tbody><tr>
+    <th>Вариант</th>
+    <th>Тема организации</th>
+  </tr>
+
+  <tr><td>1</td><td>Магазин</td></tr>
+  <tr><td>2</td><td>IT-компания</td></tr>
+  <tr><td>3</td><td>Университет</td></tr>
+  <tr><td>4</td><td>Больница</td></tr>
+  <tr><td>5</td><td>Банк</td></tr>
+  <tr><td>6</td><td>Школа</td></tr>
+  <tr><td>7</td><td>Логистическая компания</td></tr>
+  <tr><td>8</td><td>Отель</td></tr>
+  <tr><td>9</td><td>Ресторан</td></tr>
+  <tr><td>10</td><td>Фитнес-центр</td></tr>
+  <tr><td>11</td><td>Строительная фирма</td></tr>
+  <tr><td>12</td><td>Юридическая компания</td></tr>
+  <tr><td>13</td><td>Издательство</td></tr>
+  <tr><td>14</td><td>Медиа-студия</td></tr>
+  <tr><td>15</td><td>Библиотека</td></tr>
+</tbody></table>
+
+<p>
+По выбранной теме самостоятельно определить:
+</p>
+<ul>
+<li>3 группы пользователей</li>
+<li>3 информационных ресурса</li>
+<li>права доступа для каждой группы</li>
+</ul>
+<p>Данные решения должны быть отражены в отчете.</p>
+</div>
+
+  <h3>Группы пользователей</h3>
+  <ul>
+    <li><code>admins</code> — администрация</li>
+    <li><code>staff</code> — сотрудники</li>
+    <li><code>students</code> — обучающиеся</li>
+  </ul>
+
+  <h3>Информационные ресурсы</h3>
+  <ul>
+    <li><code>информация о зарплате работников</code></li>
+    <li><code>персональные данные клиентов</code></li>
+    <li><code>электронная библиотека</code></li>
+  </ul><h3>Итоговая таблица (тест)</h3><table>
+    <tbody><tr>
+      <th>Ресурс</th>
+      <th>admins</th>
+      <th>staff</th>
+      <th>students</th>
+    </tr>
+    <tr>
+      <td>информация о зарплате работников</td>
+      <td>rwx</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>персональные данные клиентов</td>
+      <td>r</td>
+      <td>rwx</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>электронная библиотека</td>
+      <td>r</td>
+      <td>r</td>
+      <td>r</td>
+    </tr>
+  </tbody></table>
+</section>
+
+<section>
+<h2>4. Практическая часть</h2>
+
+<h3>Шаг 1. Переход в рабочую директорию</h3>
+<pre>$ cd /home</pre>
+
+
+<h3>Шаг 2. Создание директорий (ресурсов)</h3>
+<pre>$ mkdir НАЗВАНИЕ_ДИРЕКТОРИИ</pre>
+
+
+<h3>Шаг 3. Создание групп пользователей</h3>
+<pre>$ groupadd НАЗВАНИЕ_ГРУППЫ</pre>
+
+
+<h3>Шаг 4. Создание пользователей</h3>
+<pre>$ useradd -m ИМЯ_ПОЛЬЗОВАТЕЛЯ -g ГРУППА
+$ passwd ИМЯ_ПОЛЬЗОВАТЕЛЯ
+</pre>
+
+
+<h3>Шаг 5. Просмотр созданых пользователей</h3><p>Откройте файл, содержащий сведения о пользователях. Путь к файлу: 
+/etc/passwd. </p><h3>Шаг 6. Настройка ACL</h3>
+<pre>$ setfacl -R -m d:g:ГРУППА:rwx НАЗВАНИЕ_ДИРЕКТОРИИ
+</pre><p>–R – опция, указывающая, что изменения касаются всех файлов и подкаталогов, 
+которые в настоящее время существуют в каталоге, где устанавливается ACL <br>–m – опция, указывающая, что далее следуют изменения настроек ACL<br>rwx – это пример изменений, можно установить любые права доступа (например, 
+r или rx или - )<br>d – указывает на то, что изменения касаются настроек по умолчанию, то есть всех 
+подкаталогов и файлов, которые будут созданы в данной директории. Может не 
+применяться. Тогда все изменения будут касаться только существующих файлов 
+и подкаталогов
+<br>g – означает, что права доступа меняются для группы, далее следует её название;
+<br>u - означает, что права доступа меняются для отдельного пользователя, далее 
+следует его имя </p>
+
+
+<h3>Шаг 7. Проверка прав доступа</h3>
+<p>
+Для каждого ресурса необходимо выполнить команду просмотра ACL
+<strong>для каждой группы пользователей</strong>.
+</p>
+<pre>$ getfacl НАЗВАНИЕ_ДИРЕКТОРИИ
+</pre>
+
+<p>
+В отчете должно быть представлено <strong>не менее 3 скриншотов</strong>
+вывода команды <code>getfacl</code></p>
+
+<h3>Шаг 8. Заполнение таблицы</h3><p>Пример таблицы смотрите в п.3.</p></section>
+
+<section id="testSection">
+  <h2>5. Тест (базовые команды Linux и разграничение доступа)</h2>
+
+  <form id="accessTest">
+
+    <p>1. Для чего используется команда <code>cd</code></p>
+    <label><input type="radio" name="q1" value="0"> Создание директории</label><br>
+    <label><input type="radio" name="q1" value="1"> Переход в другую директорию</label><br>
+    <label><input type="radio" name="q1" value="0"> Просмотр содержимого каталога</label><br>
+    <label><input type="radio" name="q1" value="0"> Удаление файлов</label>
+
+    <p>2. Что делает команда <code>ls</code></p>
+    <label><input type="radio" name="q2" value="0"> Изменяет права доступа</label><br>
+    <label><input type="radio" name="q2" value="0"> Создаёт файл</label><br>
+    <label><input type="radio" name="q2" value="1"> Отображает содержимое директории</label><br>
+    <label><input type="radio" name="q2" value="0"> Показывает текущего пользователя</label>
+
+    <p>3. Для чего используется команда <code>mkdir</code></p>
+    <label><input type="radio" name="q3" value="1"> Создание директорий</label><br>
+    <label><input type="radio" name="q3" value="0"> Удаление директорий</label><br>
+    <label><input type="radio" name="q3" value="0"> Переход между каталогами</label><br>
+    <label><input type="radio" name="q3" value="0"> Просмотр ACL</label>
+
+    <p>4. Что делает команда <code>cat</code></p>
+    <label><input type="radio" name="q4" value="0"> Создаёт файл</label><br>
+    <label><input type="radio" name="q4" value="1"> Выводит содержимое файла</label><br>
+    <label><input type="radio" name="q4" value="0"> Изменяет права доступа</label><br>
+    <label><input type="radio" name="q4" value="0"> Показывает владельца файла</label>
+
+    <p>5. Какая команда отображает текущий путь?</p>
+    <label><input type="radio" name="q5" value="0"> whoami</label><br>
+    <label><input type="radio" name="q5" value="1"> pwd</label><br>
+    <label><input type="radio" name="q5" value="0"> ls -l</label><br>
+    <label><input type="radio" name="q5" value="0"> echo</label>
+
+    <p>6. Для чего используется команда <code>groupadd</code></p>
+    <label><input type="radio" name="q6" value="1"> Создание новой группы</label><br>
+    <label><input type="radio" name="q6" value="0"> Добавление пользователя в группу</label><br>
+    <label><input type="radio" name="q6" value="0"> Удаление группы</label><br>
+    <label><input type="radio" name="q6" value="0"> Просмотр групп</label>
+
+    <p>7. Что делает команда <code>useradd</code></p>
+    <label><input type="radio" name="q7" value="0"> Изменяет пароль</label><br>
+    <label><input type="radio" name="q7" value="1"> Создаёт нового пользователя</label><br>
+    <label><input type="radio" name="q7" value="0"> Назначает ACL</label><br>
+    <label><input type="radio" name="q7" value="0"> Удаляет пользователя</label>
+
+    <p>8. Какая команда используется для задания пароля пользователю?</p>
+    <label><input type="radio" name="q8" value="0"> login</label><br>
+    <label><input type="radio" name="q8" value="1"> passwd</label><br>
+    <label><input type="radio" name="q8" value="0"> usermod</label><br>
+    <label><input type="radio" name="q8" value="0"> chmod</label>
+
+    <p>9. Что отображает команда <code>getfacl</code></p>
+    <label><input type="radio" name="q9" value="0"> Только владельца файла</label><br>
+    <label><input type="radio" name="q9" value="1"> Все права доступа (ACL)</label><br>
+    <label><input type="radio" name="q9" value="0"> Размер файла</label><br>
+    <label><input type="radio" name="q9" value="0"> Содержимое файла</label>
+
+    <p>10. Для чего используется команда <code>setfacl</code></p>
+    <label><input type="radio" name="q10" value="0"> Просмотр ACL</label><br>
+    <label><input type="radio" name="q10" value="1"> Изменение прав доступа ACL</label><br>
+    <label><input type="radio" name="q10" value="0"> Изменение владельца</label><br>
+    <label><input type="radio" name="q10" value="0"> Создание каталога</label>
+
+    <p>11. Что означает этот параметр  в командах Linux? <code>-R</code></p>
+    <label><input type="radio" name="q11" value="1"> Рекурсивное применение</label><br>
+    <label><input type="radio" name="q11" value="0"> Только чтение</label><br>
+    <label><input type="radio" name="q11" value="0"> Удаление файлов</label><br>
+    <label><input type="radio" name="q11" value="0"> Вывод в файл</label>
+
+    <p>12. Что означает эта запись в ACL? <code>d:g:group:rwx</code></p>
+    <label><input type="radio" name="q12" value="0"> Удаление группы</label><br>
+    <label><input type="radio" name="q12" value="1"> Права по умолчанию для группы</label><br>
+    <label><input type="radio" name="q12" value="0"> Права владельца</label><br>
+    <label><input type="radio" name="q12" value="0"> Права остальных</label>
+
+    <p>13. Какая команда показывает текущего пользователя?</p>
+    <label><input type="radio" name="q13" value="1"> whoami</label><br>
+    <label><input type="radio" name="q13" value="0"> id</label><br>
+    <label><input type="radio" name="q13" value="0"> pwd</label><br>
+    <label><input type="radio" name="q13" value="0"> groups</label>
+
+    <p>14. Для чего используется команда <code>rm</code></p>
+    <label><input type="radio" name="q14" value="0"> Просмотр файлов</label><br>
+    <label><input type="radio" name="q14" value="1"> Удаление файлов и каталогов</label><br>
+    <label><input type="radio" name="q14" value="0"> Изменение прав</label><br>
+    <label><input type="radio" name="q14" value="0"> Создание файлов</label>
+
+    <p>15. Какая команда выводит подробную информацию о файлах?</p>
+    <label><input type="radio" name="q15" value="0"> ls</label><br>
+    <label><input type="radio" name="q15" value="1"> ls -l</label><br>
+    <label><input type="radio" name="q15" value="0"> cat</label><br>
+    <label><input type="radio" name="q15" value="0"> pwd</label>
+
+    <br><br>
+    <button type="button" onclick="finishTest()" style="
+    width: 100%;
+">Проверить результаты</button>
+  </form>
+
+  <div id="finalResult" style="display:none; font-size:18px; font-weight:bold;"></div>
+</section>
+
+
+
+</main>
+
+<footer>
+Лабораторная работа №3 · DAC и ACL - УД - 24 - 11
+</footer>
+
+<script>
+document.getElementById("variantBtn").onclick = function () {
+  const list = document.getElementById("variantList");
+  list.style.display = list.style.display === "block" ? "none" : "block";
+};
+
+function finishTest() {
+  let score = 0;
+  document.querySelectorAll("#accessTest input[type=radio]:checked")
+    .forEach(el => score += Number(el.value));
+
+  document.getElementById("accessTest").style.display = "none";
+
+  const result = document.getElementById("finalResult");
+  result.style.display = "block";
+  result.textContent = "Результат теста: " + score + " из 15";
+}</script>
+
+
+
+</body></html>
