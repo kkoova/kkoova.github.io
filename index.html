@@ -989,8 +989,8 @@ on_battery_charge_changed(handle_battery_charge)
 <br><br>Фильтрация и логическое решение на основе данных от нескольких датчиков</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import statistics
 
 def get_valid_data(data):
-    """1 & 2. Исключает значения вне диапазона [200, 800]."""
-    return [val for val in data if 200 <= val <= 800]
+    """1 &amp; 2. Исключает значения вне диапазона [200, 800]."""
+    return [val for val in data if 200 &lt;= val &lt;= 800]
 
 def get_median(valid_data):
     """3. Рассчитывает медиану через стандартную библиотеку."""
@@ -1002,7 +1002,7 @@ def get_irrigation_status(median):
     """4. Принимает решение на основе медианы."""
     if median is None:
         return None
-    return median < 400
+    return median &lt; 400
 
 def process_irrigation_logic(sensor_data):
     """Основной процесс: объединяет все шаги."""
@@ -1022,7 +1022,968 @@ def process_irrigation_logic(sensor_data):
     
     # Вывод результата
     status_text = "Включить" if is_on else "Выключить"
-    print(f"Медиана: {median_val} -> Полив: {status_text}")
+    print(f"Медиана: {median_val} -&gt; Полив: {status_text}")
+
+# Примеры:
+test_1 = [100, 300, 400, 500, 900] # Валидные: [300, 400, 500], Медиана: 400
+test_2 = [250, 350, 1000]          # Валидные: [250, 350], Медиана: 300
+test_3 = [10, 50, 900]             # Валидных нет
+
+process_irrigation_logic(test_1)
+process_irrigation_logic(test_2)
+process_irrigation_logic(test_3)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoone-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+<br><br>Настройка параметров и работа с конфигурациями</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import json
+
+with open("config.json", "r") as f:
+    config = json.load(f)
+    
+max_speed = config.get("max_speed", 100)
+mode = config.get("navigation", {}).get("mode", "manual")
+print("Максимальная скорость:", max_speed)
+print("Режим навигации:", mode)
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+<br><br>Валидация параметров конфигурации
+
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">max_speed = config.get("max_speed", 100)
+timeout = config.get("sensor_timeout", 1000)
+
+# Проверяем, находится ли max_speed в диапазоне 0–200
+if not (0 &lt;= max_speed &lt;= 200):
+    print("Некорректный max_speed. Заменён на 100.")
+    max_speed = 100
+
+# Проверяем, находится ли sensor_timeout в диапазоне 100–5000
+if not (100 &lt;= timeout &lt;= 5000):
+    print("Некорректный sensor_timeout. Заменён на 1000.")
+    timeout = 1000
+
+print("Проверка завершена.")
+print("Максимальная скорость:", max_speed)
+print("Таймаут датчика:", timeout)
+
+# Обновим конфиг текущими валидированными значениями
+config["max_speed"] = max_speed
+config["sensor_timeout"] = timeout
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+<br><br>Изменение и сохранение конфигурации
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">config["navigation"]["mode"] = "auto"     # Устанавливаем новый режим навигации
+config["sensor_timeout"] = 1500 
+
+with open("config.json", "w") as f:              # Открываем файл на запись
+    json.dump(config, f, indent=4)   
+
+print("Конфигурация успешно сохранена в файл.")
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twotwo-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор «Динамическая конфигурация»
+
+
+<br><br>Код для симулятора: В файле конфигурации вставить данный код:<br><br>{<br>
+  "max_speed": 75<br>
+}<br><br>Как выполнить:<br>
+
+Запусти config.py — в консоли увидишь Скорость: 75 (или 50, если файла/ключа нет).
+Измени max_speed в config.json (например, на 30) и сохрани — новое значение применится автоматически на следующем тике (≈ через 3 секунды).
+Если сломать JSON или удалить файл — в консоли появится [CONFIG ERROR] …, а скорость вернётся к DEFAULT_MAX_SPEED (=50).<br></div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import json
+
+FRAME_HANDLER_INTERVAL = 3000
+DEFAULT_MAX_SPEED = 50
+CONFIG_FILE = "config.json"
+MAX_SPEED_KEY = "max_speed"
+
+def get_max_speed():
+    try:
+        with open(CONFIG_FILE, "r") as f:
+            config = json.load(f)
+        max_speed = config.get(MAX_SPEED_KEY, DEFAULT_MAX_SPEED)
+        return max_speed
+    except Exception as e:
+        print(f"[CONFIG ERROR] Не удалось прочитать {CONFIG_FILE}: {e}")
+        return DEFAULT_MAX_SPEED
+
+def handle_frame():
+    max_speed = get_max_speed()
+    robot.set_motor_power(max_speed)
+    print(f"Скорость: {max_speed}")
+
+set_frame_handler(handle_frame)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twotri-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание: Перехват ошибок и создание логов
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def divide_numbers():
+    try:
+        a = float(input("Введите делимое: "))     
+        b = float(input("Введите делитель: "))  
+        result = a / b                            
+    except ZeroDivisionError:                   
+        print("Ошибка: деление на ноль.")    
+    except ValueError:                            
+        print("Ошибка: введено не число.")       
+    except Exception as e:                   
+        print(f"Неожиданная ошибка: {e}")          
+    else:                                           
+        print("Результат деления:", result)     
+
+divide_numbers()
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание: Пользовательское исключение
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">class SensorError(Exception):
+    """Ошибка: температура вне допустимого диапазона."""     
+    pass                                                     
+
+def check_temperature(temp: float) -&gt; None:
+    if temp &lt; -50 or temp &gt; 100:                             
+        raise SensorError(f"Температура недопустима: {temp}")
+
+def run_temperature_check():
+    try:
+        t = float(input("Введите температуру: "))            
+        check_temperature(t)                                 
+    except SensorError as e:                                  
+        print("Сбой датчика:", e)                            
+    except ValueError:                                        
+        print("Ошибка: введено не число (температура).")
+    else:                                                     
+        print("Температура в норме:", t)                     
+
+run_temperature_check()
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание: Защищённый цикл (watchdog-подход)
+
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import time                                          
+import random                                         
+
+MAX_ATTEMPTS = 5                                       
+SLEEP_BETWEEN_TRIES = 0.5                          
+
+class SensorFailure(Exception):
+    """Исключение отказа датчика."""             
+    pass
+
+def get_sensor_data():
+    value = random.choice([23.5, None, 21.1, None, 25.3])
+    if value is None:                            
+        raise SensorFailure("Нет сигнала от датчика")  
+    return value                                         
+
+def main_loop():
+    for attempt in range(1, MAX_ATTEMPTS + 1):           
+        try:
+            data = get_sensor_data()                    
+            print(f"Данные с датчика: {data}")           
+            break                                        
+        except SensorFailure as e:                       
+            print(f"Попытка {attempt} неудачна: {e}")    
+            time.sleep(SLEEP_BETWEEN_TRIES)              
+    else:                                                
+        print("Ошибка: система отказала после 5 попыток.")
+main_loop()
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twofour-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор «Обработка сбоев датчиков»
+
+
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math, time, random
+CHECK_INTERVAL = 1000
+failure_count = 0
+error_chance = 0.2
+
+def get_sensor_with_tracking_error(sensor_type):
+    global failure_count
+    if random.random() &lt; error_chance:
+        failure_count += 1
+
+        print('Ошибка №' + str(failure_count) + ', данные не получены')
+        return 'error'
+    else:
+        sensor_data = robot.get_sensor(sensor_type)
+        print(f"Данные получены: {sensor_data} мм")
+        return sensor_data
+
+def handle_frame():
+  global failure_count
+  if failure_count &gt;= 3:
+    print("Критический сбой! Остановка.")
+    robot.stop()
+    stop_loop()
+  else:
+    get_sensor_with_tracking_error(1)
+
+set_frame_handler(handle_frame)
+    
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода: Создание лога ошибок
+
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">class SensorFailure(Exception):
+    """Ошибка: сбой датчика"""
+    pass
+
+def compute(a, b):
+    try:
+        if b &lt; 0:
+            raise SensorFailure("Датчик вернул некорректное значение")
+            result = a / b
+            return result
+    except ZeroDivisionError:
+        with open("error.log", "a") as log_file:
+            log_file.write("Ошибка: деление на ноль\n")
+    except SensorFailure as e:
+        with open("error.log", "a") as log_file:
+            log_file.write(f"Ошибка: {e}\n")
+
+compute(10, 0)
+compute(10, -5)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twofive-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание (TextCSV): Запись логов в TXT и дозапись показаний в CSV
+
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">from datetime import datetime    
+import csv                        
+import random                    
+
+LOG = "log.txt"                  
+CSVF = "measurements.csv"       
+
+print("=== TXT + CSV ===")  
+
+# --- ЧАСТЬ A: Запись трёх строк в log.txt с временными метками ---
+with open(LOG, "a", encoding="utf-8") as lf:                  
+    for i in range(3):                                   
+        ts = datetime.now().isoformat(timespec="seconds")       
+        lf.write(f"{ts} - Событие #{i+1}\n")             
+        lf.flush()                                       
+
+print("\n[TXT] Хвост log.txt:")
+try:
+    with open(LOG, "r", encoding="utf-8") as lf:         
+        lines = lf.readlines()                           
+        tail = "".join(lines[-5:]) if lines else "(пусто)"     
+        print(tail if tail else "(пусто)")               
+except FileNotFoundError:
+    print("(log.txt отсутствует)")                       
+
+# --- ЧАСТЬ B: Дозапись в measurements.csv (с заголовком при первом запуске) ---
+file_exists = os.path.isfile(CSVF)                        
+with open(CSVF, "a", newline="", encoding="utf-8") as cf:       
+    writer = csv.writer(cf)                              
+    if not file_exists:                                  
+        writer.writerow(["time", "temperature", "humidity"])
+    writer.writerow([
+        datetime.now().isoformat(timespec="seconds"),    
+        round(random.uniform(20.0, 28.0), 1),            
+        random.randint(35, 65)                           
+    ])
+
+print("\n[CSV] Хвост measurements.csv:")
+try:
+    with open(CSVF, "r", encoding="utf-8") as cf:        
+        rows = cf.readlines()                            
+        tail = "".join(rows[-4:]) if rows else "(пусто)" 
+        print(tail if tail else "(пусто)")                        
+except FileNotFoundError:
+    print("(measurements.csv отсутствует)")                       
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание (JSON + ротация): Обновление sensor.json и ротация log.txt
+
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">from datetime import datetime    
+import csv                     
+import random 
+import os                         
+import json                        
+
+LOG = "log.txt"                  
+CSVF = "measurements.csv"       
+JSONF = "sensor.json"              
+ROTATED = "log_old.txt"          
+
+print("=== TXT + CSV ===")  # Заголовок блока, чтобы в консоли было видно, что выполняется
+
+# --- ЧАСТЬ A: Запись трёх строк в log.txt с временными метками ---
+with open(LOG, "a", encoding="utf-8") as lf:                   
+    for i in range(3):                                   
+        ts = datetime.now().isoformat(timespec="seconds")      
+        lf.write(f"{ts} - Событие #{i+1}\n")             
+        lf.flush()                                       
+
+print("\n[TXT] Хвост log.txt:")
+try:
+    with open(LOG, "r", encoding="utf-8") as lf:         
+        lines = lf.readlines()                           
+        tail = "".join(lines[-5:]) if lines else "(пусто)"     
+        print(tail if tail else "(пусто)")               
+except FileNotFoundError:
+    print("(log.txt отсутствует)")                       
+
+# --- ЧАСТЬ B: Дозапись в measurements.csv (с заголовком при первом запуске) ---
+file_exists = os.path.isfile(CSVF)                       
+with open(CSVF, "a", newline="", encoding="utf-8") as cf:      
+    writer = csv.writer(cf)                              
+    if not file_exists:                                  
+        writer.writerow(["time", "temperature", "humidity"])
+    writer.writerow([
+        datetime.now().isoformat(timespec="seconds"),    
+        round(random.uniform(20.0, 28.0), 1),            
+        random.randint(35, 65)                           
+    ])
+
+print("\n[CSV] Хвост measurements.csv:")
+try:
+    with open(CSVF, "r", encoding="utf-8") as cf:        
+        rows = cf.readlines()                            
+        tail = "".join(rows[-4:]) if rows else "(пусто)" 
+        print(tail if tail else "(пусто)")               
+except FileNotFoundError:
+    print("(measurements.csv отсутствует)")             
+
+# ============================================================
+print("\n===: JSON + РОТАЦИЯ ===")  # Заголовок второго задания
+
+if not os.path.isfile(JSONF):                                                  
+    with open(JSONF, "w", encoding="utf-8") as jf:                             
+        json.dump(
+            {"time": datetime.now().isoformat(timespec="seconds"), "temp": 24.5}, 
+            jf,
+            ensure_ascii=False,
+            indent=2
+        )
+
+with open(JSONF, "r", encoding="utf-8") as jf:                                  
+    data = json.load(jf)                                                        
+
+before_temp = data.get("temp", 24.5)                                            
+data["temp"] = round(before_temp + 0.5, 2)                                      
+data["updated_at"] = datetime.now().isoformat(timespec="seconds")              # Ставим временную метку обновления
+
+with open(JSONF, "w", encoding="utf-8") as jf:                                 
+    json.dump(data, jf, ensure_ascii=False, indent=2)                           
+
+print(f"[JSON] temp: {before_temp} -&gt; {data['temp']}  (updated_at={data['updated_at']})")  
+
+def _count_lines(path: str) -&gt; int:
+    """Подсчёт строк в текстовом файле. Возвращает 0, если файл отсутствует."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:                           
+            return sum(1 for _ in f)                                          
+    except FileNotFoundError:
+        return 0                                                               
+
+line_count = _count_lines(LOG)                                                 
+if line_count &gt; 1000:                                                          
+    if os.path.exists(ROTATED):                                                 
+        os.remove(ROTATED)
+    os.rename(LOG, ROTATED)                                                     # Переименуем log.txt -&gt; log_old.txt
+    print(f"[ROTATE] log.txt ({line_count} строк) -&gt; log_old.txt")              
+else:
+    print(f"[ROTATE] Ротация не требуется (строк: {line_count})")             
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twosix-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор «Логирование движения и датчиков»
+
+
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math, time, random, csv
+from datetime import datetime
+
+CSV_HEADER = ['timestamp', 'motor_power', 'servo_angle', 'distance']
+csv_rows = [] 
+global loop_index
+loop_index = 0
+CHECK_INTERVAL = 3000
+
+def handle_frame():
+    global loop_index
+    
+    current_time = datetime.now().strftime("%H:%M:%S")
+    robot.set_servo_angle(1, 60)
+    try:
+        motor_power = robot.get_sensor(4)
+
+        if motor_power == 0:
+            robot.set_motor_power(30)
+        elif motor_power == 30:
+            robot.set_motor_power(50)
+        elif motor_power == 50:
+            robot.set_motor_power(30)
+    except Exception:
+        motor_power = "error"
+
+    try:
+        distance = robot.get_sensor(1)
+    except Exception:
+        distance = "error"
+    
+    try:
+        servo_angle = robot.get_sensor(2)
+    except Exception:
+        servo_angle = "error"
+
+    row = [current_time, motor_power, servo_angle, distance]
+    csv_rows.append(row) 
+
+    with open('/home/pyodide/robot_log.csv', 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        if loop_index == 0:
+            writer.writerow(CSV_HEADER)
+        writer.writerow(row)
+
+        print(f"Итерация {loop_index + 1}: время={current_time}, мощность={motor_power}%, угол={servo_angle}°, расстояние={distance}мм")
+    loop_index += 1 
+
+    if loop_index &gt;= 10:
+        try:
+            download_csv_now()
+        except Exception as e: 
+            print(f"Ошибка при скачивании CSV: {e}")
+
+        robot.stop()
+        stop_loop()
+
+set_frame_handler(handle_frame)
+
+ 
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода: Чтение и модификация JSON-конфига с ротацией логов
+
+
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import json
+import os
+
+filename = "robot_config.json"
+
+if os.path.exists(filename):
+    with open(filename, "r") as f:
+        data = json.load(f)
+else:
+    data = {"temp": 24.0, "status": "OK"}
+
+data["temp"] += 0.5
+
+with open(filename, "w") as f:
+    json.dump(data, f, indent=2)
+    f.flush()
+
+with open(filename, "r") as f:
+    if len(f.readlines()) &gt; 1000:
+        os.rename(filename, "robot_config_old.json")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoseven-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание: Автоматический анализ параметра с GO/NO‑GO логикой
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import logging
+
+# === Задание 1: базовое правило и анализ параметра ===
+
+rule = {"threshold": 100, "go_if_below": True}
+value = 120
+
+def check_param(value, rule):
+    if rule["go_if_below"] and value &gt; rule["threshold"]:
+        return "NO-GO"
+    if not rule["go_if_below"] and value &lt; rule["threshold"]:
+        return "NO-GO"
+    return "GO"
+
+status = check_param(value, rule)
+print(f"Статус параметра: {status}")
+
+# === Дополнение 1: обработка ошибок и логирование ===
+
+logging.basicConfig(filename="log.txt", level=logging.INFO)
+
+def safe_analysis(value, rule):
+    try:
+        result = check_param(value, rule)
+        logging.info(f"Результат анализа: {result}")
+        return result
+    except Exception as e:
+        logging.error(f"Ошибка анализа: {e}")
+        return "NO-GO"
+
+result = safe_analysis(value, rule)
+print("Анализ завершён:", result)
+
+# === Дополнение 2: простой юнит-тест ===
+
+def test_check_param_go():
+    rule = {"threshold": 100, "go_if_below": True}
+    assert check_param(90, rule) == "GO"
+
+test_check_param_go()
+print("Тест пройден.")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Обработка ошибок и логирование анализа
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import logging
+
+logging.basicConfig(filename="log.txt", level=logging.INFO)
+
+def safe_analysis(value, rule):
+    try:
+        result = check_param(value, rule)
+        logging.info(f"Результат анализа: {result}")
+        return result
+    except Exception as e:
+        logging.error(f"Ошибка анализа: {e}")
+        return "NO-GO"
+
+result = safe_analysis(value, rule)
+
+print("Анализ завершён:", result)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Обработка ошибок и логирование анализа
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def test_check_param_go():
+    rule = {"threshold": 100, "go_if_below": True}
+    assert check_param(90, rule) == "GO"
+
+test_check_param_go()
+
+print("Тест пройден.")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoeght-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Простой GUI для телеметрии робота
+
+
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python"># -----------------------------
+# ФУНКЦИЯ СОЗДАНИЯ GUI ПАНЕЛИ
+# -----------------------------
+def create_sensors_gui():
+    title_label = gui.label("Датчики робота")
+    title_label.config(fontSize=18, color="darkblue")
+    title_label.pack(side="top", pady=10)
+
+    distance_label = gui.label("Дальномер (sensor 1):")
+    distance_label.config(fontSize=14, color="black")
+    distance_label.pack(side="top", pady=2)
+
+    global distance_value_label
+    distance = robot.get_sensor(1)
+    
+    if distance != "error":
+        distance_value_label = gui.label(str(distance)+" мм")
+    else:
+        distance_value_label = gui.label("Ошибка", color="red")
+    
+    distance_value_label.config(fontSize=16, color="darkgreen")
+    distance_value_label.pack(side="top", pady=2) 
+
+    angle_label = gui.label("Угол поворота (sensor 2):")
+    angle_label.config(fontSize=14, color="black")
+    angle_label.pack(side="top", pady=2)
+
+    global angle_value_label
+    angle = robot.get_sensor(2)
+
+    if angle != "error":
+        angle_value_label = gui.label(str(angle)+"°")
+    else:
+        angle_value_label = gui.label("Ошибка", color="red")
+    
+    angle_value_label.config(fontSize=16, color="darkgreen")
+    angle_value_label.pack(side="top", pady=2)
+
+    global charge_value_label
+    charge = robot.get_sensor(3)
+
+    if charge != "error":
+      charge_value_label = gui.label(str(charge)+"°")
+    else:
+        charge_value_label = gui.label("Ошибка", color="red")
+    
+    charge_value_label.config(fontSize=16, color="darkgreen")
+    charge_value_label.pack(side="top", pady=2)
+
+    update_button = gui.button("СТОП", command=stop_robot)
+    update_button.config(width="150px", height="40px", background="red")
+    update_button.pack(side="top", pady=10)
+
+    close_button = gui.button("Закрыть", command=close_gui)
+    close_button.config(width="100px", height="40px", background="lightcoral")
+    close_button.pack(side="top", pady=5)
+
+# --------------------------------------
+# ФУНКЦИЯ ОБНОВЛЕНИЯ ОТОБРАЖАЕМЫХ ДАННЫХ
+# --------------------------------------
+def update_sensor_display():
+    try:
+        distance = robot.get_sensor(1)
+
+        if distance != "error":
+            distance_value_label.config(text=f"{distance} мм")
+        else:
+            distance_value_label.config(text="Ошибка", color="red")
+    except Exception as e:
+        distance_value_label.config(text="Ошибка", color="red")
+    
+    try:
+        servo_angle = robot.get_sensor(2)
+        if servo_angle != "error":
+            angle_value_label.config(text=f"{servo_angle}°")
+        else:
+            angle_value_label.config(text="Ошибка", color="red")
+    except Exception as e:
+        angle_value_label.config(text="Ошибка", color="red")
+
+    try:
+        charge = robot.get_sensor(3)
+        if charge != "error":
+            charge_value_label.config(text=f"{charge}%")
+        else:
+            charge_value_label.config(text="Ошибка", color="red")
+    except Exception as e:
+        charge_value_label.config(text="Ошибка", color="red")
+
+# -------------------------------
+# СЛУЖЕБНЫЕ ДЕЙСТВИЯ ОТ КНОПОК GUI
+# -------------------------------
+def stop_robot():
+    robot.stop()
+
+def close_gui():
+    print("GUI закрыт")
+
+# -------------------------------
+# СБОРКА И ЗАПУСК ОБНОВЛЕНИЯ GUI
+# -------------------------------
+create_sensors_gui()
+
+def handle_frame():
+  update_sensor_display()
+
+set_frame_handler(handle_frame)
+  
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода: Автоматический анализ одного параметра и логирование
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def check_param(value, threshold): 
+    if value &lt; threshold:   
+        return "GO"     
+    else:
+        return "NO-GO"       
+
+value = 98                       
+threshold = 100                     
+
+try:
+    result = check_param(value, threshold)   
+    print(result)                        
+except:
+    print("NO-GO")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div></div></div></div></div><div data-v-60f23178="" class="course__wrapper hidden" bis_skin_checked="1" id="thri"><div class="course_container">
+  
+  <div data-v-70b69a9a="" class="course_menu__list" bis_skin_checked="1">
+    <div data-v-70b69a9a="" class="course_menu__list-item course-five" onclick="switchContent('twonine', this)" bis_skin_checked="1" style="/* height: 30%; */">
+      
+      <div class="q-scrollarea__content"><!----><div data-v-70b69a9a="" bis_skin_checked="1">Занятие 29</div></div>
+
+    </div>
+    
+    <div data-v-70b69a9a="" class="course_menu__list-item course-six" onclick="switchContent('thrithri', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 30</div>
+    </div>
+    
+    
+    
+  <div data-v-70b69a9a="" class="course_menu__list-item course-seven" onclick="switchContent('seven', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 31</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-egdht" onclick="switchContent('egdht', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 32</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-nine" onclick="switchContent('nine', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 33</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twozero" onclick="switchContent('twozero', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 34</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoone" onclick="switchContent('twoone', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 35</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twotwo" onclick="switchContent('twotwo', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 36</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twothri" onclick="switchContent('twotri', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 37</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twofour" onclick="switchContent('twofour', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 38</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twofive" onclick="switchContent('twofive', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 39</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twosix" onclick="switchContent('twosix', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 40</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoseven" onclick="switchContent('twoseven', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 41</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('twoeght', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 42</div>
+    </div></div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
+    min-height: auto;
+"><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twonine-content" hidden=""><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import random
+import time
+
+a_list = []
+
+for i in range(6):
+    rnd_int = random.randint(10, 50)
+    a_list.append(rnd_int)
+    print(str(i) + ": " + str(rnd_int))
+    time.sleep(1)
+
+print(a_list)
+print(sum(a_list))
+print(round(float(sum(a_list))/len(a_list), 2))
+
+print("Готово")</code><button class="copy-btn" style="" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="thrithri-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Код для симулятора:</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import robot_utils
+
+
+power = 30
+
+turn_left(robot) 
+drive_forward(robot, power, 1.0)
+turn_right(robot)
+drive_forward(robot, power, 1.0)
+reset_steering(robot)
+
+
+for i in range(3):
+    power += (i * 10)
+    drive_forward(robot, power, 1.0)
+
+robot.stop()    </code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самостоятельной работы
+
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import time
+import numpy as np
+
+# Размер массива
+N = 1_000_000
+
+# Python-список
+py_list = list(range(N))
+start_py = time.perf_counter()
+py_result = [x * 2 for x in py_list]
+end_py = time.perf_counter()
+py_time = end_py - start_py
+
+# NumPy-массив
+np_array = np.arange(N)
+start_np = time.perf_counter()
+np_result = np_array * 2
+end_np = time.perf_counter()
+np_time = end_np - start_np
+
+# Вывод
+print(f"Python time: {py_time:.2f} сек.")
+print(f"NumPy time: {np_time:.2f} сек.")
+if np_time &gt; 0:
+    print(f"Вывод: NumPy быстрее в {py_time / np_time:.2f} раз.")
+else:
+    print("Вывод: NumPy слишком быстр — невозможно рассчитать.")
+
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="seven-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+
+<br><br>Работа с данными от датчиков (эмуляция и логика)</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import random
+
+# Функция ультразвукового датчика
+def read_ultrasonic():
+    return random.randint(20, 300)  # расстояние в см
+
+# Функция инфракрасного датчика
+def read_ir():
+    return random.choice([True, False])  # движение: да или нет
+
+# Функция контактного датчика
+def read_contact():
+    return random.choice([True, False])  # контакт есть / нет
+
+# Текущие значения сенсоров
+distance = read_ultrasonic()
+motion = read_ir()
+contact = read_contact()
+
+print("Ультразвук (см):", distance)
+print("Движение обнаружено:", motion)
+print("Контакт сработал:", contact)
+
+if distance &lt; 40 and motion and contact:
+    print("⚠ Аварийное сближение! Срочная остановка!")
+else:
+    print("Система стабильна. Продолжается наблюдение.")
+
+distances = [read_ultrasonic() for _ in range(5)]
+average = sum(distances) / len(distances)
+
+motions = [read_ir() for _ in range(5)]
+motion_count = motions.count(True)
+
+print("\n--- Статистика ---") 
+print("Среднее расстояние:", round(average, 2), "см")
+print("Движение замечено:", motion_count, "раз(а) из 5")
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="egdht-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор «Предстартовая проверка»
+<br><br>Код для симулятора:</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def prelaunch_check():
+    distance = robot.get_sensor(1)
+    angle = robot.get_sensor(2)
+
+    is_correct_angle = angle &lt;= 180 and angle &gt;= 0
+    is_correct_distance = distance &gt; 0
+
+    return is_correct_angle, is_correct_distance
+
+def handle_check():
+    is_correct_angle, is_correct_distance = prelaunch_check()
+
+    if is_correct_angle and is_correct_distance:
+        print("Результат проверки: GO")
+    elif not is_correct_distance:
+        print("Результат проверки: NO-GO: Неисправен дальномер")
+    elif not is_correct_angle:
+        print("Результат проверки: NO-GO: Недопустимый угол")
+
+on_check_handler(handle_check)
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
+<br><br>Эмуляция показаний и логика обработки от трёх сенсоров</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import random
+
+def read_sensor_ultrasonic():
+    return random.randint(10, 200)
+
+def read_sensor_ir():
+    return random.choice([True, False])
+
+def read_sensor_contact():
+    return random.choice([True, False])
+
+ultra = read_sensor_ultrasonic()
+ir = read_sensor_ir()
+contact = read_sensor_contact()
+
+print(f"Distance: {ultra} см")
+print(f"Motion: {ir}")
+print(f"Contact: {contact}")
+
+if ultra &lt; 50 and ir and contact:
+    print("Аварийное сближение! Включить стоп-механику.")
+else:
+    print("Наблюдение... условий для реакции нет.")
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="nine-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+
+<br><br>Алгоритмы с несколькими датчиками</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">s1, s2, s3 = 420, 150, 460
+
+def is_valid(value):
+    return 200 &lt;= value &lt;= 800
+
+raw_data = [s1, s2, s3]
+valid_data = [val for val in raw_data if is_valid(val)]
+
+if not valid_data:
+    print("Ошибка: все значения вне допустимого диапазона!")
+    decision_value = None
+else:
+    average = sum(valid_data) / len(valid_data)
+    print("Среднее значение влажности:", round(average, 2))
+    decision_value = average
+
+if is_valid(s1):
+    decision_value = s1
+    print("Используем приоритетный датчик s1:", s1)
+else:
+    print("Приоритетный датчик s1 не используется (невалидное значение)")
+
+if decision_value is not None:
+    if decision_value &lt; 450:
+        print("Полив ВКЛ")
+    else:
+        print("Полив ВЫКЛ")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twozero-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Состояние батареи на основе скользящего среднего заряда батареи
+<br><br>Код для симулятора:</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">CHECK_INTERVAL = 1000
+BATTERY_CHANNEL = 3
+TEST_COUNT = 15
+
+global battery_values, status_labels, test_index
+
+battery_values = []
+status_labels = {
+  "high": "Отличное (&gt;4.2В)",
+  "medium": "Хорошее (3.5-4.2В)",
+  "low": "Требует зарядки (&lt;3.5В)",
+}
+test_index = 1
+
+def calculate_average_battery_charge(battery_value):
+    global battery_values
+
+    if len(battery_values) &gt; 4:
+        battery_values.pop(0)
+    
+    battery_values.append(battery_value)
+    avg = sum(battery_values) / len(battery_values)
+
+    return round(avg, 2)
+
+def get_status_label(average_battery_charge):
+    global status_labels
+    
+    if average_battery_charge &gt; 4.2:
+        return status_labels["high"]
+    elif average_battery_charge &gt;= 3.5:
+        return status_labels["medium"]
+    else:
+        return status_labels["low"]
+
+def handle_battery_charge():
+    global test_index
+
+    battery = robot.get_sensor(BATTERY_CHANNEL)
+    average_battery_charge = calculate_average_battery_charge(battery)
+    label = get_status_label(average_battery_charge)
+
+    print(f"{test_index} | {battery}В | {average_battery_charge}В | {label}")
+    
+    test_index += 1
+
+    if test_index &gt; TEST_COUNT:
+        stop_handler_function()
+
+# Функция on_battery_charge_changed устаналивает циклический вызов функции handle_battery_charge с интервалом CHECK_INTERVAL миллисекунд.
+# Это является аналогом следующего цикла: while True: handle_battery_charge() time.sleep(CHECK_INTERVAL/1000)
+# Необходимо для корректного получения данных от датчиков.
+on_battery_charge_changed(handle_battery_charge)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода
+
+
+<br><br>Фильтрация и логическое решение на основе данных от нескольких датчиков</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import statistics
+
+def get_valid_data(data):
+    """1 &amp; 2. Исключает значения вне диапазона [200, 800]."""
+    return [val for val in data if 200 &lt;= val &lt;= 800]
+
+def get_median(valid_data):
+    """3. Рассчитывает медиану через стандартную библиотеку."""
+    if not valid_data:
+        return None
+    return statistics.median(valid_data)
+
+def get_irrigation_status(median):
+    """4. Принимает решение на основе медианы."""
+    if median is None:
+        return None
+    return median &lt; 400
+
+def process_irrigation_logic(sensor_data):
+    """Основной процесс: объединяет все шаги."""
+    # 1. Фильтруем
+    valid_values = get_valid_data(sensor_data)
+    
+    # 5. Проверяем на наличие данных
+    if not valid_values:
+        print("Ошибка данных: нет валидных значений.")
+        return
+
+    # 2. Считаем медиану
+    median_val = get_median(valid_values)
+    
+    # 3. Получаем решение
+    is_on = get_irrigation_status(median_val)
+    
+    # Вывод результата
+    status_text = "Включить" if is_on else "Выключить"
+    print(f"Медиана: {median_val} -&gt; Полив: {status_text}")
 
 # Примеры:
 test_1 = [100, 300, 400, 500, 900] # Валидные: [300, 400, 500], Медиана: 400
@@ -1667,13 +2628,14 @@ except:
     text-align: center;
 ">2</p><div data-v-4cea62f6="" class="hover-button" onclick="switchContentModul('two')"><div data-v-4cea62f6="" class="icon-label">2 Модуль</div></div><!----></div><div data-v-4cea62f6="" class="menu-button button index_layout__drawer-button student-course" style="
     align-items: flex-end;
-"><p style="
+" onclick="switchContentModul('thri')"><p style="
     text-align: center;
 ">3</p><div data-v-4cea62f6="" class="hover-button"><div data-v-4cea62f6="" class="icon-label">3 Модуль</div></div><!----></div><div data-v-4cea62f6="" class="menu-button button index_layout__drawer-button student-course" style="
     align-items: flex-end;
 "><p style="
     text-align: center;
 ">4</p><div data-v-4cea62f6="" class="hover-button"><div data-v-4cea62f6="" class="icon-label">4 Модуль</div></div><!----></div></div><!----></div></aside></div></main>
+
 
 
 
