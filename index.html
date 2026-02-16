@@ -1670,10 +1670,10 @@ except:
     
     
     
-  <div data-v-70b69a9a="" class="course_menu__list-item course-seven" onclick="switchContent('seven', this)" bis_skin_checked="1">
+  <div data-v-70b69a9a="" class="course_menu__list-item course-seven" onclick="switchContent('31', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 31</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-egdht" onclick="switchContent('egdht', this)" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-egdht" onclick="switchContent('32', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 32</div>
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-nine" onclick="switchContent('nine', this)" bis_skin_checked="1">
@@ -1772,93 +1772,104 @@ if np_time &gt; 0:
 else:
     print("Вывод: NumPy слишком быстр — невозможно рассчитать.")
 
-</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="seven-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="31-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
 
 
-<br><br>Работа с данными от датчиков (эмуляция и логика)</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import random
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import numpy as np
 
-# Функция ультразвукового датчика
-def read_ultrasonic():
-    return random.randint(20, 300)  # расстояние в см
+arr = np.arange(1, 11)
 
-# Функция инфракрасного датчика
-def read_ir():
-    return random.choice([True, False])  # движение: да или нет
+squares = arr ** 2
+sines = np.round(np.sin(arr), 3)
+cosines = np.round(np.cos(arr), 3)
 
-# Функция контактного датчика
-def read_contact():
-    return random.choice([True, False])  # контакт есть / нет
+sum_arr = np.sum(arr)
+mean_arr = np.round(np.mean(arr), 2)
 
-# Текущие значения сенсоров
-distance = read_ultrasonic()
-motion = read_ir()
-contact = read_contact()
-
-print("Ультразвук (см):", distance)
-print("Движение обнаружено:", motion)
-print("Контакт сработал:", contact)
-
-if distance &lt; 40 and motion and contact:
-    print("⚠ Аварийное сближение! Срочная остановка!")
-else:
-    print("Система стабильна. Продолжается наблюдение.")
-
-distances = [read_ultrasonic() for _ in range(5)]
-average = sum(distances) / len(distances)
-
-motions = [read_ir() for _ in range(5)]
-motion_count = motions.count(True)
-
-print("\n--- Статистика ---") 
-print("Среднее расстояние:", round(average, 2), "см")
-print("Движение замечено:", motion_count, "раз(а) из 5")
-</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="egdht-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор «Предстартовая проверка»
+print("Исходный массив:", arr)
+print("Массив квадратов:", squares)
+print("Массив синусов:", sines)
+print("Массив косинусов:", cosines)
+print("Сумма элементов:", sum_arr)
+print("Среднее значение:", mean_arr)
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="32-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор»
 <br><br>Код для симулятора:</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def prelaunch_check():
-    distance = robot.get_sensor(1)
-    angle = robot.get_sensor(2)
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">
+import numpy as np
+import time
 
-    is_correct_angle = angle &lt;= 180 and angle &gt;= 0
-    is_correct_distance = distance &gt; 0
+global distances, is_moving
+is_moving = False
 
-    return is_correct_angle, is_correct_distance
+print('Точки маршрута: ', points.tolist())
 
-def handle_check():
-    is_correct_angle, is_correct_distance = prelaunch_check()
+distances = []
+print("Начинаем движение по маршруту")
 
-    if is_correct_angle and is_correct_distance:
-        print("Результат проверки: GO")
-    elif not is_correct_distance:
-        print("Результат проверки: NO-GO: Неисправен дальномер")
-    elif not is_correct_angle:
-        print("Результат проверки: NO-GO: Недопустимый угол")
+def print_distances_info():
+    global distances
+    total = np.sum(distances)
+    average = np.mean(distances)
+    print(f"Общая длина маршрута: {total:.2f}")
+    print(f"Средняя длина одного участка: {average:.2f}")
 
-on_check_handler(handle_check)
+def check_move_to_target(target_point):
+  pos = robot.get_gps()
+  x0, y0, z0 = pos['lon'], pos['alt'], pos['lat']
+  dist = np.linalg.norm(np.array([x0, z0]) - target_point)
+  if dist &lt; 0.1:
+    return True
+  else:
+    return False
+
+def handle_frame():
+    global points, distances, is_moving
+
+    if (len(points) == 1):
+        print_distances_info()
+        stop_frame_handler()
+        return
+    else:
+        a = points[0]
+        b = points[1]
+
+        if is_moving:
+            if check_move_to_target(b):
+                is_moving = False
+                robot.stop()
+                time.sleep(1)
+                points = np.delete(points, 0, axis=0)
+            return
+        else:
+            dist = np.linalg.norm(b - a)
+            distances.append(dist)
+            is_moving = True
+            print(f"Участок: от {a} до {b}, расстояние = {dist:.2f}")
+            moveTo(b[0], b[1])
+    
+
+set_frame_handler(handle_frame)
 </code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самоконтроля/самопроверки
-<br><br>Эмуляция показаний и логика обработки от трёх сенсоров</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import random
+<br><br>Тренажёр кода: Проверка версий библиотек
 
-def read_sensor_ultrasonic():
-    return random.randint(10, 200)
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">try:
+    import numpy as np
+    print("NumPy:", np.__version__) 
+except ImportError:
+    print("Не удалось импортировать библиотеку NumPy")
 
-def read_sensor_ir():
-    return random.choice([True, False])
+try:
+    import pandas as pd
+    print("Pandas:", pd.__version__)
+except ImportError:
+    print("Не удалось импортировать библиотеку Pandas")
 
-def read_sensor_contact():
-    return random.choice([True, False])
-
-ultra = read_sensor_ultrasonic()
-ir = read_sensor_ir()
-contact = read_sensor_contact()
-
-print(f"Distance: {ultra} см")
-print(f"Motion: {ir}")
-print(f"Contact: {contact}")
-
-if ultra &lt; 50 and ir and contact:
-    print("Аварийное сближение! Включить стоп-механику.")
-else:
-    print("Наблюдение... условий для реакции нет.")
+try:
+    import matplotlib
+    print("Matplotlib:", matplotlib.__version__)
+except ImportError:
+    print("Не удалось импортировать библиотеку Matplotlib")
 </code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="nine-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
 
 <br><br>Алгоритмы с несколькими датчиками</div>
