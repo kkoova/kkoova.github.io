@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Лабораторная работа №4 — Пассивный анализ веб-приложений</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  color: #222;
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: #fff;
+  padding: 30px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+header p {
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 30px;
+}
+
+section {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+h2, h3 {
+  color: #2c3e50;
+}
+
+code, pre {
+  background: #1e1e1e;
+  color: #dcdcdc;
+  padding: 12px;
+  border-radius: 6px;
+  display: block;
+  margin: 10px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background: #ecf0f1;
+  width: 35%;
+}
+
+.hint {
+  background: #eef6ff;
+  border-left: 5px solid #3498db;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+
+button {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover {
+  background: #2980b9;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Лабораторная работа №4</h1>
+<p>Сбор информации о веб-приложении. Пассивный анализ</p>
+</header>
+
+<main>
+
+<section>
+<h2>1. Цель и формат работы</h2>
+<p>
+Целью лабораторной работы является изучение методов пассивного анализа
+веб-приложений и получение практических навыков сбора информации
+из открытых источников без активного воздействия на систему.
+</p>
+
+<ul>
+  <li>Работа выполняется <strong>по 1 или 2 человекам</strong></li>
+  <li>Анализ проводится для <strong>любого веб-приложения</strong></li>
+  <li>Все действия необходимо <strong>зафиксировать скриншотами</strong></li>
+  <li>Отчёт сохраняется в формате: <strong>Лаб4_ФИО</strong></li>
+</ul>
+</section>
+
+<section>
+<h2>2. Теоретические сведения</h2>
+<p>
+Сбор информации — начальный этап анализа безопасности веб-приложений.
+Пассивный анализ предполагает получение данных без прямого взаимодействия
+с уязвимыми компонентами системы.
+</p>
+
+<h3>Пассивный анализ включает:</h3>
+<ul>
+  <li>изучение доменной информации</li>
+  <li>анализ DNS-записей</li>
+  <li>изучение файлов конфигурации (robots.txt)</li>
+  <li>анализ клиентского кода</li>
+  <li>использование поисковых операторов</li>
+</ul>
+
+<div class="hint">
+Пассивный анализ не нарушает работоспособность системы и не оставляет
+следов в логах сервера.
+</div>
+</section>
+<section>
+<h2>3. Практическая часть</h2>
+
+<h3>Шаг 1. Анализ домена с помощью WHOIS</h3>
+<p>
+Выполните анализ домена с помощью команды в kali <code>whois ВАШ_ЛЮБОЙ_САЙТ(пример.ru)</code> 
+</p>
+
+<p><strong>В отчёт занести:</strong></p>
+
+<table>
+<tr><th>Домен (domain)</th><td>---</td></tr>
+<tr><th>Статус домена (state)</th><td>---</td></tr>
+<tr><th>Регистратор (registrar)</th><td>---</td></tr>
+<tr><th>Административный контакт (admin-contact)</th><td>---</td></tr>
+<tr><th>Дата регистрации (created)</th><td>---</td></tr>
+<tr><th>Оплачен до (paid-till)</th><td>---</td></tr>
+</table>
+
+<div class="hint">Ниже таблицы разместить скриншот результата WHOIS-запроса.</div>
+
+<h3>Шаг 2. Анализ DNS (dnsdumpster.com)</h3>
+<p>
+Перейдите на сайт <a href="https://dnsdumpster.com/"><strong>dnsdumpster.com</strong></a> и выполните анализ выбранного домена (ВАШ_ЛЮБОЙ_САЙТ).
+</p>
+
+<table>
+<tr><th>Обнаруженные поддомены (Host)</th><td>---</td></tr>
+<tr><th>IP-адреса (IP)</th><td>---</td></tr>
+<tr><th>Используемые сервисы (Services)</th><td>---</td></tr>
+<tr><th>Выводы</th><td>---</td></tr>
+</table>
+
+<div class="hint">Ниже таблицы добавить скриншот карты DNS.</div>
+
+<h3>Шаг 3. Анализ файла robots.txt</h3>
+<p>
+Откройте файл по адресу:
+</p>
+<pre>https://ВАШ_ЛЮБОЙ_САЙТ/robots.txt</pre>
+
+<table>
+<tr><th>Наличие файла</th><td>Да / Нет</td></tr>
+<tr><th>Запрещённые директории</th><td>---</td></tr>
+<tr><th>Потенциально интересные пути</th><td>---</td></tr>
+</table>
+
+<div class="hint">Ниже таблицы добавить скриншот robots.txt</div>
+
+<h3>Шаг 4. Анализ клиентской части (F12)</h3>
+<p>
+Перейдите на сайт ВАШ_ЛЮБОЙ_САЙТ и нажмите F12, проанализируйте информацию, запишите ее в таблицу.
+</p>
+<table>
+<tr><th>Используемые технологии</th><td>HTML\CSS\JAVA - указать скриншотами</td></tr>
+<tr><th>Комментарии в коде</th><td>Есть / Нет (+ скрин)</td></tr>
+<tr><th>Ошибки в Console?</th><td>Есть / Нет (+ скрин)</td></tr>
+</table>
+
+<div class="hint">Ниже таблицы добавить скриншот клиентской части</div>
+
+<h3>Шаг 5. Поисковые операторы</h3>
+
+<table>
+<tr>
+  <th>Цель</th>
+  <th>Запрос</th>
+  <th>Результат</th>
+</tr>
+<tr><td>Поиск поддоменов</td><td>site:ВАШ_ЛЮБОЙ_САЙТ</td><td>скрин</td></tr>
+<tr><td>Админ-панель</td><td>site:ВАШ_ЛЮБОЙ_САЙТ inurl:admin</td><td>скрин</td></tr>
+<tr><td>Небезопасные страницы</td><td>site:ВАШ_ЛЮБОЙ_САЙТ inurl:http</td><td>скрин</td></tr>
+<tr><td>Файлы конфигурации</td><td>site:ВАШ_ЛЮБОЙ_САЙТ filetype:conf</td><td>скрин</td></tr>
+</table>
+
+<h3>Шаг 6. theHarvester</h3>
+<pre>
+theHarvester -d ВАШ_ЛЮБОЙ_САЙТ -b yahoo
+theHarvester -d ВАШ_ЛЮБОЙ_САЙТ -b urlscan
+theHarvester -d ВАШ_ЛЮБОЙ_САЙТ -b ЛЮБОЙ_SOURCE
+</pre>
+
+<div class="hint">Для нахождения ЛЮБОГО_SOURCE - используйте команду "theHarvester -help" и найдите строку: -b, --source SOURCE</div>
+
+<div class="hint">Ниже добавить скриншот всех 3 команд + вывод об информации, что была полученна (кол-во Hosts, emails и т.д.) </div>
+
+</section>
+
+<section>
+<h2>4. Вывод</h2>
+<p>
+Сделайте общий вывод о степени открытости веб-приложения и возможных
+рисках утечки информации на этапе пассивного анализа.
+</p>
+</section>
+
+<section>
+<h2>5. Тест (пассивный анализ)</h2>
+
+<form id="test">
+
+<p>1. Что относится к пассивному анализу?</p>
+<label><input type="radio" name="q1" value="0"> SQL-инъекции</label><br>
+<label><input type="radio" name="q1" value="1"> Анализ WHOIS и DNS</label><br>
+<label><input type="radio" name="q1" value="0"> Подбор паролей</label>
+
+<p>2. Какая информация НЕ получается через WHOIS?</p>
+<label><input type="radio" name="q2" value="0"> Дата регистрации</label><br>
+<label><input type="radio" name="q2" value="0"> Регистратор</label><br>
+<label><input type="radio" name="q2" value="1"> Пароль администратора</label>
+
+<p>3. Для чего используется dnsdumpster?</p>
+<label><input type="radio" name="q3" value="0"> Эксплуатация уязвимостей</label><br>
+<label><input type="radio" name="q3" value="1"> Анализ DNS и поддоменов</label><br>
+<label><input type="radio" name="q3" value="0"> Сканирование портов</label>
+
+<p>4. Что может раскрывать robots.txt?</p>
+<label><input type="radio" name="q4" value="0"> Хеши паролей</label><br>
+<label><input type="radio" name="q4" value="0"> Конфигурацию сервера</label><br>
+<label><input type="radio" name="q4" value="1"> Скрытые директории</label>
+
+<p>5. F12 используется для:</p>
+<label><input type="radio" name="q5" value="0"> Атаки на сервер</label><br>
+<label><input type="radio" name="q5" value="1"> Анализа клиентского кода</label><br>
+<label><input type="radio" name="q5" value="0"> Перехвата трафика</label>
+
+<p>6. Поисковые операторы позволяют:</p>
+<label><input type="radio" name="q6" value="0"> Взламывать БД</label><br>
+<label><input type="radio" name="q6" value="1"> Искать скрытую информацию</label><br>
+<label><input type="radio" name="q6" value="0"> Обходить авторизацию</label>
+
+<p>7. theHarvester — это:</p>
+<label><input type="radio" name="q7" value="0"> Антивирус</label><br>
+<label><input type="radio" name="q7" value="1"> Инструмент OSINT</label><br>
+<label><input type="radio" name="q7" value="0"> Эксплойт</label>
+
+<p>8. OSINT — это:</p>
+<label><input type="radio" name="q8" value="0"> Защита данных</label><br>
+<label><input type="radio" name="q8" value="1"> Анализ открытых источников</label><br>
+<label><input type="radio" name="q8" value="0"> Атака на сеть</label>
+
+<p>9. Что является результатом пассивного анализа?</p>
+<label><input type="radio" name="q9" value="0"> Удаление данных</label><br>
+<label><input type="radio" name="q9" value="1"> Информационный профиль системы</label><br>
+<label><input type="radio" name="q9" value="0"> Получение доступа</label>
+
+<p>10. Почему пассивный анализ безопасен?</p>
+<label><input type="radio" name="q10" value="1"> Не взаимодействует с сервером напрямую</label><br>
+<label><input type="radio" name="q10" value="0"> Использует эксплойты</label><br>
+<label><input type="radio" name="q10" value="0"> Отключает защиту</label>
+
+<br><br>
+<button type="button" onclick="finishTest()">Проверить тест</button>
+</form>
+
+<div id="result" style="display:none; font-size:18px; font-weight:bold;"></div>
+</section>
+
+</main>
+
+<footer>
+Лабораторная работа №4 · Пассивный анализ веб-приложений
+</footer>
+
+<script>
+function finishTest() {
+  let score = 0;
+  document.querySelectorAll("#test input[type=radio]:checked")
+    .forEach(el => score += Number(el.value));
+
+  document.getElementById("test").style.display = "none";
+  const res = document.getElementById("result");
+  res.style.display = "block";
+  res.textContent = "Результат теста: " + score + " из 10";
+}
+</script>
+
+</body>
+</html>
