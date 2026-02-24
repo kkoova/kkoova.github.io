@@ -1676,10 +1676,10 @@ except:
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-egdht" onclick="switchContent('32', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 32</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-nine" onclick="switchContent('nine', this)" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-nine" onclick="switchContent('33', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 33</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twozero" onclick="switchContent('twozero', this)" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twozero" onclick="switchContent('34', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 34</div>
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoone" onclick="switchContent('twoone', this)" bis_skin_checked="1">
@@ -1795,8 +1795,7 @@ print("Сумма элементов:", sum_arr)
 print("Среднее значение:", mean_arr)
 </code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="32-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор»
 <br><br>Код для симулятора:</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">
-import numpy as np
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import numpy as np
 import time
 
 global distances, is_moving
@@ -1870,141 +1869,97 @@ try:
     print("Matplotlib:", matplotlib.__version__)
 except ImportError:
     print("Не удалось импортировать библиотеку Matplotlib")
-</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="nine-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+</code><button class="copy-btn" onclick="copyCode(this)">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="33-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
 
-<br><br>Алгоритмы с несколькими датчиками</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">s1, s2, s3 = 420, 150, 460
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">data = [100, 102, 98, 101, 99, 103, 97, 100, 104, 96, 101, 99, 102, 98, 100]
+window_size = 3
+alpha = 0.3
 
-def is_valid(value):
-    return 200 &lt;= value &lt;= 800
+ma = []
+for i in range(len(data) - window_size + 1):
+    window = data[i:i + window_size]
+    average = sum(window) / window_size
+    ma.append(round(average, 2))
 
-raw_data = [s1, s2, s3]
-valid_data = [val for val in raw_data if is_valid(val)]
+ema = []
+ema.append(round(data[0], 2))
 
-if not valid_data:
-    print("Ошибка: все значения вне допустимого диапазона!")
-    decision_value = None
-else:
-    average = sum(valid_data) / len(valid_data)
-    print("Среднее значение влажности:", round(average, 2))
-    decision_value = average
+for i in range(1, len(data)):
+    ema_value = alpha * data[i] + (1 - alpha) * ema[i-1]
+    ema.append(round(ema_value, 2))
 
-if is_valid(s1):
-    decision_value = s1
-    print("Используем приоритетный датчик s1:", s1)
-else:
-    print("Приоритетный датчик s1 не используется (невалидное значение)")
+print("Исходные данные:", data)
+print("Сглаживание MA (окно 3):", ma)
+print("Сглаживание EMA (alpha=0.3):", ema)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Викторина
+</div><img style="
+    height: auto;
+    width: 100%;
+" src="https://kkoova.github.io/assets/%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B033.png">
+</div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="34-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Код для симулятора:</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">global step_count
+step_count = 0
 
-if decision_value is not None:
-    if decision_value &lt; 450:
-        print("Полив ВКЛ")
-    else:
-        print("Полив ВЫКЛ")
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twozero-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Состояние батареи на основе скользящего среднего заряда батареи
-<br><br>Код для симулятора:</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">CHECK_INTERVAL = 1000
-BATTERY_CHANNEL = 3
-TEST_COUNT = 15
+global distance_buffer
+distance_buffer = []
 
-global battery_values, status_labels, test_index
+global smoothed_angle
+smoothed_angle = robot.get_sensor(2)
 
-battery_values = []
-status_labels = {
-  "high": "Отличное (&gt;4.2В)",
-  "medium": "Хорошее (3.5-4.2В)",
-  "low": "Требует зарядки (&lt;3.5В)",
-}
-test_index = 1
+def moving_average(buffer, new_value):
+    buffer.append(new_value)
+    if len(buffer) &gt; 5:
+        buffer.pop(0)
+    return sum(buffer) / len(buffer)
 
-def calculate_average_battery_charge(battery_value):
-    global battery_values
+def exponential_smoothing(prev, new):
+    alpha = 0.2
+    return alpha * new + (1 - alpha) * prev
 
-    if len(battery_values) &gt; 4:
-        battery_values.pop(0)
+def handle_frame():
+    global step_count, distance_buffer, smoothed_angle
     
-    battery_values.append(battery_value)
-    avg = sum(battery_values) / len(battery_values)
+    step_count += 1
 
-    return round(avg, 2)
+    raw_distance = robot.get_sensor(1)
+    raw_angle = robot.get_sensor(2)
 
-def get_status_label(average_battery_charge):
-    global status_labels
-    
-    if average_battery_charge &gt; 4.2:
-        return status_labels["high"]
-    elif average_battery_charge &gt;= 3.5:
-        return status_labels["medium"]
-    else:
-        return status_labels["low"]
+    smoothed_distance = moving_average(distance_buffer, raw_distance)
+    smoothed_angle = exponential_smoothing(smoothed_angle, raw_angle)
 
-def handle_battery_charge():
-    global test_index
+    print(f"Шаг {step_count}: Расстояние (сырое/сглаженное) = {raw_distance:.1f} / {smoothed_distance:.1f} мм, Угол (сырой/сглаженный) = {raw_angle:.1f} / {smoothed_angle:.1f}°")
 
-    battery = robot.get_sensor(BATTERY_CHANNEL)
-    average_battery_charge = calculate_average_battery_charge(battery)
-    label = get_status_label(average_battery_charge)
-
-    print(f"{test_index} | {battery}В | {average_battery_charge}В | {label}")
-    
-    test_index += 1
-
-    if test_index &gt; TEST_COUNT:
-        stop_handler_function()
-
-# Функция on_battery_charge_changed устаналивает циклический вызов функции handle_battery_charge с интервалом CHECK_INTERVAL миллисекунд.
-# Это является аналогом следующего цикла: while True: handle_battery_charge() time.sleep(CHECK_INTERVAL/1000)
-# Необходимо для корректного получения данных от датчиков.
-on_battery_charge_changed(handle_battery_charge)
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода
-
-
-<br><br>Фильтрация и логическое решение на основе данных от нескольких датчиков</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import statistics
-
-def get_valid_data(data):
-    """1 &amp; 2. Исключает значения вне диапазона [200, 800]."""
-    return [val for val in data if 200 &lt;= val &lt;= 800]
-
-def get_median(valid_data):
-    """3. Рассчитывает медиану через стандартную библиотеку."""
-    if not valid_data:
-        return None
-    return statistics.median(valid_data)
-
-def get_irrigation_status(median):
-    """4. Принимает решение на основе медианы."""
-    if median is None:
-        return None
-    return median &lt; 400
-
-def process_irrigation_logic(sensor_data):
-    """Основной процесс: объединяет все шаги."""
-    # 1. Фильтруем
-    valid_values = get_valid_data(sensor_data)
-    
-    # 5. Проверяем на наличие данных
-    if not valid_values:
-        print("Ошибка данных: нет валидных значений.")
+    if smoothed_distance &lt; 400 and (abs(smoothed_angle) &gt; 45):
+        print("Условия выполнены: дистанция &lt; 400 мм и угол &gt; 45°. Остановка робота.")
+        robot.stop()
+        stop_loop()
         return
-
-    # 2. Считаем медиану
-    median_val = get_median(valid_values)
     
-    # 3. Получаем решение
-    is_on = get_irrigation_status(median_val)
+    if step_count &gt;= 20:
+        print("Выполнено 20 шагов анализа. Завершение.")
+        stop_loop()
     
-    # Вывод результата
-    status_text = "Включить" if is_on else "Выключить"
-    print(f"Медиана: {median_val} -&gt; Полив: {status_text}")
+set_frame_handler(handle_frame)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самостоятельной работы 3
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import random
+data = [random.randint(10, 100) for _ in range(20)]
 
-# Примеры:
-test_1 = [100, 300, 400, 500, 900] # Валидные: [300, 400, 500], Медиана: 400
-test_2 = [250, 350, 1000]          # Валидные: [250, 350], Медиана: 300
-test_3 = [10, 50, 900]             # Валидных нет
+smooth_data = []
 
-process_irrigation_logic(test_1)
-process_irrigation_logic(test_2)
-process_irrigation_logic(test_3)
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoone-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
+for i in range(len(data)):
+    if i &lt; 4:
+        smooth_data.append(data[i])                  
+    else:
+        avg = sum(data[i-4:i+1]) / 5            
+        smooth_data.append(round(avg, 1))
+
+print("Исходные данные:", data)
+print("Сглаженные данные:", smooth_data)
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Викторина
+</div><img style="
+    height: auto;
+    width: 100%;
+" src="https://kkoova.github.io/assets/%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B034.png"></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoone-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
 
 <br><br>Настройка параметров и работа с конфигурациями</div>
 <pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import json
