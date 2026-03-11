@@ -1,0 +1,230 @@
+<html lang="ru"><head>
+<meta charset="UTF-8">
+<title>Лабораторная работа №5 — Активный анализ сети</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  color: #222;
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(135deg,#2c3e50,#34495e);
+  color:#fff;
+  padding:30px;
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+}
+
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:30px;
+}
+
+section{
+  background:#fff;
+  border-radius:10px;
+  padding:25px;
+  margin-bottom:30px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.06);
+}
+
+h2,h3{
+  color:#2c3e50;
+}
+
+code,pre{
+  background:#1e1e1e;
+  color:#dcdcdc;
+  padding:12px;
+  border-radius:6px;
+  display:block;
+  margin:10px 0;
+}
+
+button{
+  background:#3498db;
+  color:#fff;
+  border:none;
+  padding:12px 20px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#2980b9;
+}
+
+.hint{
+  background:#eef6ff;
+  border-left:5px solid #3498db;
+  padding:15px;
+  border-radius:6px;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Лабораторная работа №5</h1>
+<p>Активный анализ сетевой инфраструктуры</p>
+</header>
+
+<main>
+
+<section>
+<h2>1. Цель работы</h2>
+
+<p>Ознакомиться с некоторыми инструментами для анализа безопасности вебприложений и сканирования их на уязвимости. Приобрести практические навыки проведения анализа. Проведите анализ веб-приложений DVWA и OWASP Juice Shop при помощи следующих инструментов (Whatweb, Nikto, OWASP Zed Attack Proxy)
+</p><p>Содержание отчета</p>
+
+<ul>
+<li>Титульный лист</li>
+<li>Задание </li>
+<li>Результаты анализа приложения с помощью whatweb </li>
+<li>Результаты анализа приложения с помощью nikto </li>
+<li>Результаты анализа приложения с помощью OWASP Zed Attack Proxy (ZAP) </li><li>Вывод</li></ul>
+
+<div class="hint">Внимание! За несвоевременное представление работы на проверку оценка снижается на 1 балл!
+</div>
+
+</section>
+
+
+<section>
+<h2>2. Теоретические сведения</h2>
+
+<h3>2.1 Активный анализ</h3>
+
+<p>
+Активный анализ — это метод исследования сети, при котором
+исследователь отправляет специальные сетевые пакеты к узлам сети
+для получения информации об их состоянии.
+</p>
+
+<p>
+В отличие от пассивного анализа, активный анализ
+<strong>взаимодействует с сетью</strong>, создавая сетевой трафик.
+</p>
+
+<h3>2.2 Основные задачи активного анализа</h3>
+
+<ul>
+<li>обнаружение активных устройств</li>
+<li>сканирование портов</li>
+<li>определение сетевых сервисов</li>
+<li>поиск уязвимостей</li>
+</ul>
+
+
+
+
+
+
+
+
+
+</section>
+
+
+
+
+
+<section>
+
+<h2>3. Установка инструментов</h2>
+
+<h3>Шаг 1. Установите приложение DVWA</h3>
+
+<pre>sudo apt install -y docker.io
+
+sudo systemctl enable docker --now
+
+sudo docker search web-dvwa 
+
+sudo docker pull vulnerables/web-dvwa 
+
+sudo docker run docker.io/vulnerables/web-dvwa:latest </pre><p>Далее необходимо перейти по URL-адресу, указанному в подробном выводе терминала</p><div class="hint"><p>Учётные данные для входа в DVWA: </p><ul><li>Логин: admin</li><li>Пароль: password</li></ul><p>Нажмите кнопку «Create / Reset Database». Перезапустите приложение.</p></div>
+
+<h3>Шаг 2. Установите и запустите приложение OWASP Juice Shop</h3>
+
+<pre>sudo apt install -y docker.io
+    
+sudo systemctl enable docker --now
+
+sudo docker pull bkimminich/juice-shop
+
+sudo docker run -d -p 3000:3000 --name juice-shop bkimminich/juice-shop
+</pre>
+
+<div class="hint"><p>После запуска контейнер доступен в веб-браузере: в Linux — по адресу http://localhost:3000 </p></div><h3>Шаг 3. Whatweb</h3>
+
+<pre>whatweb цель(DVWA\OWASP Juice Shop) –v –a 1 
+</pre>
+
+<div class="hint"><p>Запишите в отчет сведения, которые удалось получить: какие используются веб-технологии, веб-сервер, библиотеки, перенаправления, интересные для тестирования поля и т.п.</p></div><h3>Шаг 4. Nikto</h3>
+
+<pre> nikto –h цель(DVWA\OWASP Juice Shop) –p порт(DVWA\OWASP Juice Shop)
+</pre>
+
+<div class="hint"><p>Проанализируйте результат сканирования. Запишите в отчет результаты анализа. </p></div><h3>Шаг 5. OWASP Zed Attack Proxy (ZAP)</h3>
+
+<pre>sudo apt install zaproxy
+</pre><p>Запустите автоматическое сканирование (установите «use traditional spider»)
+    
+</p><img src="https://kkoova.github.io/assets/l5-1.png"><br>
+
+<img src="https://kkoova.github.io/assets/l5-2.png"><p>Изучите результаты сканирования. Во вкладке «sites» разверните папку с исследуемым сайтом, чтобы просмотреть файлы, которые обнаружил инструмент «Spider». 
+</p><img src="https://kkoova.github.io/assets/l5-3.png"><p>Откройте вкладку «Alerts». Просмотрите найденные уязвимости. Уязвимости уровней «High» и «Medium» изучите подробно, при возможности попробуйте поэксплуатировать.
+</p><img src="https://kkoova.github.io/assets/l5-4.png"><div class="hint">
+Результаты каждого действия должны быть зафиксированы
+скриншотом и добавлены в отчет.
+</div>
+
+</section>
+
+
+
+
+</main>
+
+<footer>
+Лабораторная работа №5 · Активный анализ
+</footer>
+
+
+<script>
+
+function finish(){
+
+let score=0;
+
+document.querySelectorAll("#test input[type=radio]:checked")
+.forEach(el=>score+=Number(el.value));
+
+document.getElementById("test").style.display="none";
+
+let r=document.getElementById("result");
+r.style.display="block";
+r.textContent="Результат: "+score+" из 10";
+
+}
+
+</script>
+
+
+</body></html>
