@@ -1700,13 +1700,13 @@ except:
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-twofive" onclick="switchContent('39', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 39</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twosix" onclick="switchContent('twosix', this)" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twosix" onclick="switchContent('40', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 40</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoseven" onclick="switchContent('twoseven', this)" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoseven" onclick="switchContent('41', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 41</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('twoeght', this)" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('42', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 42</div>
     </div></div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
@@ -2271,94 +2271,20 @@ for distance in distances:
         state = "MOVE"
 
 print("Сценарий завершён")
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twosix-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор «Логирование движения и датчиков»
-
-
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="40-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>Викторина
+</div><iframe src="https://kkoova.github.io/assets/%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B040.html" width="100%" style="
+    height: 450px;
+"></iframe><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>Задание для самоконтроля/самопроверки
 </div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import math, time, random, csv
-from datetime import datetime
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">commands = ['вперёд', 'влево', 'вправо', 'назад', 'стоп', 'вперёд']
 
-CSV_HEADER = ['timestamp', 'motor_power', 'servo_angle', 'distance']
-csv_rows = [] 
-global loop_index
-loop_index = 0
-CHECK_INTERVAL = 3000
+for command in commands:
+    print(f"Выполнено: {command}")
+    if command == 'стоп':
+        break
 
-def handle_frame():
-    global loop_index
-    
-    current_time = datetime.now().strftime("%H:%M:%S")
-    robot.set_servo_angle(1, 60)
-    try:
-        motor_power = robot.get_sensor(4)
-
-        if motor_power == 0:
-            robot.set_motor_power(30)
-        elif motor_power == 30:
-            robot.set_motor_power(50)
-        elif motor_power == 50:
-            robot.set_motor_power(30)
-    except Exception:
-        motor_power = "error"
-
-    try:
-        distance = robot.get_sensor(1)
-    except Exception:
-        distance = "error"
-    
-    try:
-        servo_angle = robot.get_sensor(2)
-    except Exception:
-        servo_angle = "error"
-
-    row = [current_time, motor_power, servo_angle, distance]
-    csv_rows.append(row) 
-
-    with open('/home/pyodide/robot_log.csv', 'a', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        if loop_index == 0:
-            writer.writerow(CSV_HEADER)
-        writer.writerow(row)
-
-        print(f"Итерация {loop_index + 1}: время={current_time}, мощность={motor_power}%, угол={servo_angle}°, расстояние={distance}мм")
-    loop_index += 1 
-
-    if loop_index &gt;= 10:
-        try:
-            download_csv_now()
-        except Exception as e: 
-            print(f"Ошибка при скачивании CSV: {e}")
-
-        robot.stop()
-        stop_loop()
-
-set_frame_handler(handle_frame)
-
- 
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода: Чтение и модификация JSON-конфига с ротацией логов
-
-
-</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import json
-import os
-
-filename = "robot_config.json"
-
-if os.path.exists(filename):
-    with open(filename, "r") as f:
-        data = json.load(f)
-else:
-    data = {"temp": 24.0, "status": "OK"}
-
-data["temp"] += 0.5
-
-with open(filename, "w") as f:
-    json.dump(data, f, indent=2)
-    f.flush()
-
-with open(filename, "r") as f:
-    if len(f.readlines()) &gt; 1000:
-        os.rename(filename, "robot_config_old.json")
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoseven-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание: Автоматический анализ параметра с GO/NO‑GO логикой
+print("Сценарий завершён.")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="41-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание: Автоматический анализ параметра с GO/NO‑GO логикой
 </div>
 <pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import logging
 
@@ -2426,7 +2352,7 @@ print("Анализ завершён:", result)
 test_check_param_go()
 
 print("Тест пройден.")
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twoeght-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 2 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Простой GUI для телеметрии робота
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="42-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Простой GUI для телеметрии робота
 
 
 </div>
@@ -2573,6 +2499,7 @@ except:
 "><p style="
     text-align: center;
 ">4</p><div data-v-4cea62f6="" class="hover-button"><div data-v-4cea62f6="" class="icon-label">4 Модуль</div></div><!----></div></div><!----></div></aside></div></main>
+
 
 
 
