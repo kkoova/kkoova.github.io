@@ -1709,6 +1709,9 @@ except:
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('42', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 42</div>
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('att3', this)" bis_skin_checked="1">
+      
+      <div data-v-70b69a9a="" bis_skin_checked="1">Промежуточная аттестация</div>
     </div></div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
     min-height: auto;
 "><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="twonine-content" hidden=""><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажер кода
@@ -2284,201 +2287,95 @@ for command in commands:
         break
 
 print("Сценарий завершён.")
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="41-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание: Автоматический анализ параметра с GO/NO‑GO логикой
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="41-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Викторина
 </div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import logging
+<iframe src="https://kkoova.github.io/assets/%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B041.html" width="100%" style="
+    height: 450px;
+"></iframe><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>Тренажер кода:
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">values = [65, 72, 88, 80, 90, 69, 86, 70, 85]
 
-# === Задание 1: базовое правило и анализ параметра ===
+stats = {"GREEN": 0, "YELLOW": 0, "RED": 0}
 
-rule = {"threshold": 100, "go_if_below": True}
-value = 120
-
-def check_param(value, rule):
-    if rule["go_if_below"] and value &gt; rule["threshold"]:
-        return "NO-GO"
-    if not rule["go_if_below"] and value &lt; rule["threshold"]:
-        return "NO-GO"
-    return "GO"
-
-status = check_param(value, rule)
-print(f"Статус параметра: {status}")
-
-# === Дополнение 1: обработка ошибок и логирование ===
-
-logging.basicConfig(filename="log.txt", level=logging.INFO)
-
-def safe_analysis(value, rule):
-    try:
-        result = check_param(value, rule)
-        logging.info(f"Результат анализа: {result}")
-        return result
-    except Exception as e:
-        logging.error(f"Ошибка анализа: {e}")
-        return "NO-GO"
-
-result = safe_analysis(value, rule)
-print("Анализ завершён:", result)
-
-# === Дополнение 2: простой юнит-тест ===
-
-def test_check_param_go():
-    rule = {"threshold": 100, "go_if_below": True}
-    assert check_param(90, rule) == "GO"
-
-test_check_param_go()
-print("Тест пройден.")
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Обработка ошибок и логирование анализа
-</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import logging
-
-logging.basicConfig(filename="log.txt", level=logging.INFO)
-
-def safe_analysis(value, rule):
-    try:
-        result = check_param(value, rule)
-        logging.info(f"Результат анализа: {result}")
-        return result
-    except Exception as e:
-        logging.error(f"Ошибка анализа: {e}")
-        return "NO-GO"
-
-result = safe_analysis(value, rule)
-
-print("Анализ завершён:", result)
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Обработка ошибок и логирование анализа
-</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def test_check_param_go():
-    rule = {"threshold": 100, "go_if_below": True}
-    assert check_param(90, rule) == "GO"
-
-test_check_param_go()
-
-print("Тест пройден.")
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="42-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Простой GUI для телеметрии робота
-
-
-</div>
-<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python"># -----------------------------
-# ФУНКЦИЯ СОЗДАНИЯ GUI ПАНЕЛИ
-# -----------------------------
-def create_sensors_gui():
-    title_label = gui.label("Датчики робота")
-    title_label.config(fontSize=18, color="darkblue")
-    title_label.pack(side="top", pady=10)
-
-    distance_label = gui.label("Дальномер (sensor 1):")
-    distance_label.config(fontSize=14, color="black")
-    distance_label.pack(side="top", pady=2)
-
-    global distance_value_label
-    distance = robot.get_sensor(1)
-    
-    if distance != "error":
-        distance_value_label = gui.label(str(distance)+" мм")
+def check_signal(value):
+    if value &lt;= 70:
+        print(f"{value} - норма. Индикатор: GREEN")
+        stats["GREEN"] += 1
+    elif value &lt;= 85:
+        print(f"{value} - предупреждение. Индикатор: YELLOW")
+        stats["YELLOW"] += 1
     else:
-        distance_value_label = gui.label("Ошибка", color="red")
-    
-    distance_value_label.config(fontSize=16, color="darkgreen")
-    distance_value_label.pack(side="top", pady=2) 
+        print(f"{value} - ТРЕВОГА! Индикатор: RED")
+        print("Звук: BEEP")
+        stats["RED"] += 1
 
-    angle_label = gui.label("Угол поворота (sensor 2):")
-    angle_label.config(fontSize=14, color="black")
-    angle_label.pack(side="top", pady=2)
+for val in values:
+    check_signal(val)
 
-    global angle_value_label
+print("\nПроверка завершена")
+print(f"GREEN: {stats['GREEN']}")
+print(f"YELLOW: {stats['YELLOW']}")
+print(f"RED: {stats['RED']}")
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="att3-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Промежуточная аттестация
+</div>
+
+<iframe src="https://kkoova.github.io/assets/%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B042.html" width="100%" style="
+    height: 450px;
+"></iframe></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="42-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор
+</div>
+<pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">global step_count
+step_count = 0
+robot.set_motor_power(100)
+robot.set_servo_angle(1,130)
+
+# определяем функцию для обработки кадра
+def handle_frame():
+    global step_count
+    step_count += 1
+
+    distance = robot.get_sensor(1)
     angle = robot.get_sensor(2)
 
-    if angle != "error":
-        angle_value_label = gui.label(str(angle)+"°")
+    print(f"Шаг {step_count}: Расстояние = {distance} мм, Угол = {angle}°")
+
+    is_close = distance &lt; 1000
+    is_sharp_turn = abs(angle) &gt; 45
+
+    if is_close and is_sharp_turn:
+        print("АВАРИЙНАЯ СИТУАЦИЯ! Включены оба сигнала")
+        robot.led(1, 'red', 'on', 500)
+        robot.beep()
+        robot.stop()
+    elif is_close:
+        print("ОПАСНО: Расстояние слишком мало! Включен световой сигнал")
+        robot.led(1, 'red', 'on', 500)
+    elif is_sharp_turn:
+        print("ОПАСНО: Резкий поворот! Включен звуковой сигнал")
+        robot.beep()
     else:
-        angle_value_label = gui.label("Ошибка", color="red")
-    
-    angle_value_label.config(fontSize=16, color="darkgreen")
-    angle_value_label.pack(side="top", pady=2)
+        print("Всё в норме")
+    if step_count &gt;= 10:
+        robot.stop()
+        print("Наблюдение завершено")
+        stop_loop()
 
-    global charge_value_label
-    charge = robot.get_sensor(3)
+# вызываем функцию для запуска цикла и передаем в нее функцию для обработки кадра
+set_frame_handler(handle_frame)</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самостоятельной работы 2
+</div>
+<iframe src="https://kkoova.github.io/assets/%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B042.html" width="100%" style="
+    height: 450px;
+"></iframe><br><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Задание для самостоятельной работы 3
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">status = 'тревога'
 
-    if charge != "error":
-      charge_value_label = gui.label(str(charge)+"°")
-    else:
-        charge_value_label = gui.label("Ошибка", color="red")
-    
-    charge_value_label.config(fontSize=16, color="darkgreen")
-    charge_value_label.pack(side="top", pady=2)
+print(f"Текущий статус: {status}")
 
-    update_button = gui.button("СТОП", command=stop_robot)
-    update_button.config(width="150px", height="40px", background="red")
-    update_button.pack(side="top", pady=10)
-
-    close_button = gui.button("Закрыть", command=close_gui)
-    close_button.config(width="100px", height="40px", background="lightcoral")
-    close_button.pack(side="top", pady=5)
-
-# --------------------------------------
-# ФУНКЦИЯ ОБНОВЛЕНИЯ ОТОБРАЖАЕМЫХ ДАННЫХ
-# --------------------------------------
-def update_sensor_display():
-    try:
-        distance = robot.get_sensor(1)
-
-        if distance != "error":
-            distance_value_label.config(text=f"{distance} мм")
-        else:
-            distance_value_label.config(text="Ошибка", color="red")
-    except Exception as e:
-        distance_value_label.config(text="Ошибка", color="red")
-    
-    try:
-        servo_angle = robot.get_sensor(2)
-        if servo_angle != "error":
-            angle_value_label.config(text=f"{servo_angle}°")
-        else:
-            angle_value_label.config(text="Ошибка", color="red")
-    except Exception as e:
-        angle_value_label.config(text="Ошибка", color="red")
-
-    try:
-        charge = robot.get_sensor(3)
-        if charge != "error":
-            charge_value_label.config(text=f"{charge}%")
-        else:
-            charge_value_label.config(text="Ошибка", color="red")
-    except Exception as e:
-        charge_value_label.config(text="Ошибка", color="red")
-
-# -------------------------------
-# СЛУЖЕБНЫЕ ДЕЙСТВИЯ ОТ КНОПОК GUI
-# -------------------------------
-def stop_robot():
-    robot.stop()
-
-def close_gui():
-    print("GUI закрыт")
-
-# -------------------------------
-# СБОРКА И ЗАПУСК ОБНОВЛЕНИЯ GUI
-# -------------------------------
-create_sensors_gui()
-
-def handle_frame():
-  update_sensor_display()
-
-set_frame_handler(handle_frame)
-  
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Тренажёр кода: Автоматический анализ одного параметра и логирование
-</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">def check_param(value, threshold): 
-    if value &lt; threshold:   
-        return "GO"     
-    else:
-        return "NO-GO"       
-
-value = 98                       
-threshold = 100                     
-
-try:
-    result = check_param(value, threshold)   
-    print(result)                        
-except:
-    print("NO-GO")
+if status == 'тревога':
+    print("Сигнал: КРАСНЫЙ + ЗВУК")
+elif status == 'ожидание':
+    print("Сигнал: ЖЁЛТЫЙ")
+elif status == 'норма':
+    print("Сигнал: ЗЕЛЁНЫЙ")
+else:
+    print("Сигнал отключён")
 </code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div></div></div></div></div></div></div></div>
 </div></div>
     
@@ -2499,6 +2396,7 @@ except:
 "><p style="
     text-align: center;
 ">4</p><div data-v-4cea62f6="" class="hover-button"><div data-v-4cea62f6="" class="icon-label">4 Модуль</div></div><!----></div></div><!----></div></aside></div></main>
+
 
 
 
