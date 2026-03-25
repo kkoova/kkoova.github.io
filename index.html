@@ -1703,13 +1703,13 @@ except:
     </div><div data-v-70b69a9a="" class="course_menu__list-item course-twosix" onclick="switchContent('40', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 40</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoseven" onclick="switchContent('411', this)" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoseven" onclick="switchContent('41', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 41</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('4222', this)" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('42', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Занятие 42</div>
-    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('att33', this)" bis_skin_checked="1">
+    </div><div data-v-70b69a9a="" class="course_menu__list-item course-twoeght" onclick="switchContent('att3', this)" bis_skin_checked="1">
       
       <div data-v-70b69a9a="" bis_skin_checked="1">Промежуточная аттестация</div>
     </div></div></div><div data-v-60f23178="" class="relative-position" bis_skin_checked="1"><div data-v-60f23178="" class="absolute-full custom-scroll-1" bis_skin_checked="1"><div data-v-f5c85afa="" class="course_about__info" bis_skin_checked="1" style="
@@ -2274,7 +2274,29 @@ for distance in distances:
         state = "MOVE"
 
 print("Сценарий завершён")
-</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="40-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>Викторина
+</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="40-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>Симулятор
+</div><pre data-v-36a27e41=""><div class="code-container"><div class="code-container"><div class="code-container"><div class="code-container"><code class="hljs python">import asyncio
+
+async def drive_loop():
+    robot.set_motor_power(100)
+    for _ in range(20):
+        print("движение...")
+        await asyncio.sleep(0.5)
+
+async def sensor_loop():
+    for _ in range(10):
+        distance = robot.get_sensor(1)
+        print(f"дистанция: {distance} мм")
+        await asyncio.sleep(1.0)
+
+async def main():
+    await asyncio.gather(
+    drive_loop(),
+    sensor_loop()
+    )
+    robot.stop()
+
+asyncio.run(main())</code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>Викторина
 </div><iframe src="https://kkoova.github.io/assets/%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B040.html" width="100%" style="
     height: 450px;
 "></iframe><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1"><br>Задание для самоконтроля/самопроверки
@@ -2318,7 +2340,7 @@ print(f"RED: {stats['RED']}")
 </code><button class="copy-btn" onclick="copyCode(this)" style="">Копировать</button></div></div></div></div></pre></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="att3-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Промежуточная аттестация
 </div>
 
-<iframe src="https://kkoova.github.io/assets/%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%BD%D0%B042.html" width="100%" style="
+<iframe src="https://kkoova.github.io/assets/att3.html" width="100%" style="
     height: 450px;
 "></iframe></div><div bis_skin_checked="1" class="course_about__info-left hidden" data-v-f5c85afa="" id="42-content"><div data-v-f5c85afa="" class="course_about__subtitle" bis_skin_checked="1">Модуль 3 - Автономные мобильные роботы: программирование и электроника (начальный уровень)</div><div data-v-f5c85afa="" class="course_about__description" bis_skin_checked="1">Симулятор
 </div>
@@ -2396,6 +2418,7 @@ else:
 "><p style="
     text-align: center;
 ">4</p><div data-v-4cea62f6="" class="hover-button"><div data-v-4cea62f6="" class="icon-label">4 Модуль</div></div><!----></div></div><!----></div></aside></div></main>
+
 
 
 
