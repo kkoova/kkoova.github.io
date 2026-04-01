@@ -1,0 +1,241 @@
+<html lang="ru"><head>
+<meta charset="UTF-8">
+<title>Лабораторная работа №5 — Активный анализ сети</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  color: #222;
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(135deg,#2c3e50,#34495e);
+  color:#fff;
+  padding:30px;
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+}
+
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:30px;
+}
+
+section{
+  background:#fff;
+  border-radius:10px;
+  padding:25px;
+  margin-bottom:30px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.06);
+}
+
+h2,h3{
+  color:#2c3e50;
+}
+
+code,pre{
+  background:#1e1e1e;
+  color:#dcdcdc;
+  padding:12px;
+  border-radius:6px;
+  display:block;
+  margin:10px 0;
+}
+
+button{
+  background:#3498db;
+  color:#fff;
+  border:none;
+  padding:12px 20px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#2980b9;
+}
+
+.hint{
+  background:#eef6ff;
+  border-left:5px solid #3498db;
+  padding:15px;
+  border-radius:6px;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Лабораторная работа №6</h1>
+<p>Тестирование веб-приложения на проникновение методом полного перебора</p>
+</header>
+
+<main>
+
+<section>
+<h2>1. Цель работы</h2>
+
+<p>Получить практические навыки тестирования веб-приложения на устойчивость к
+атакам методом полного перебора (brute-force). Убедиться в ненадежности простых
+паролей, в необходимости применения дополнительных технологий проактивной защиты
+учётных данных.
+</p><p>Содержание отчета</p>
+
+<ul>
+<li>Титульный лист</li>
+<li>Задание </li>
+<li>Работа с hydra</li>
+<li>Работа с BurpSuite Intruder</li>
+<li>Выполнение задания в соответствии с вариантом</li><li>Выводы о проделанной работе (вкл. рекомендации по предотвращению
+проникновения методом полного перебора)</li></ul>
+
+<div class="hint">Внимание! За несвоевременное представление работы на проверку оценка снижается на 1 балл!
+</div>
+
+</section>
+
+
+<section>
+<h2>2. Теоретические сведения</h2>
+
+<h3>2.1 Brute-force</h3>
+
+<p>Brute-force (атака полным перебором) – метод решения математических задач,
+сложность которого зависит от количества всех возможных решений. Сам же термин
+brute-force обычно используется в контексте хакерских атак, когда злоумышленник
+пытается подобрать логин/пароль к какой-либо учетной записи или сервису.
+</p>
+
+
+
+<h3>2.2 Тест на проникновение</h3>
+
+<p>Тест на проникновение — это практика попыток взломать собственные ИТсистемы, используя те же способы, что и хакеры. Это позволяет выявлять любые
+уязвимости.</p>
+
+
+
+
+
+
+
+
+
+<h3>2.3 Цель тестирования</h3><p>В данной работе в качестве тестируемого веб-приложения используется DVWA.
+Damn Vulnerable Web Application (DVWA) — это веб-приложение на PHP/MySQL,
+которое содержит множество уязвимостей. Его главная цель — помочь профессионалам
+по безопасности протестировать их навыки и инструменты в легальном окружении,
+помочь веб-разработчикам лучше понять процесс безопасности веб-приложений и помочь
+и студентам и учителям в изучении безопасности веб-приложений в контролируем
+окружении аудитории.</p></section>
+
+
+
+
+
+<section>
+
+<h2>3. Установка инструментов</h2>
+  
+<div class="hint" style="
+    border-left: 5px solid #d72a2a;
+    background: lightcoral;
+">! ВНИМАНИЕ: DVWA не эмулирует уязвимости веб-приложений, уязвимости
+внутри DVWA являются настоящими, поэтому работайте с ним только на
+виртуальной машине. Не загружайте его на любой сервер, имеющий выход в
+Интернет.
+</div><h3>Шаг 1. hydra</h3>
+  <p>В данной работе для атаки перебором используется программа, предустановленная
+в Kali Linux – hydra.<br>Справку по имеющимся опциям можно получить, выполнив команду:</p>
+  <pre>hydra –h</pre>
+<h3>Шаг 1. Установите приложение DVWA</h3>
+
+<pre>sudo apt install -y docker.io
+
+sudo systemctl enable docker --now
+
+sudo docker search web-dvwa 
+
+sudo docker pull vulnerables/web-dvwa 
+
+sudo docker run docker.io/vulnerables/web-dvwa:latest </pre><p>Далее необходимо перейти по URL-адресу, указанному в подробном выводе терминала</p><div class="hint"><p>Учётные данные для входа в DVWA: </p><ul><li>Логин: admin</li><li>Пароль: password</li></ul><p>Нажмите кнопку «Create / Reset Database». Перезапустите приложение.</p></div>
+
+<h3>Шаг 2. ткройте Burp Suite. Его можно найти в списке приложений Kali Linux &gt; Web
+Applications &gt; Web Application Proxies &gt; burpsuite</h3>
+
+<img src="https://kkoova.github.io/assets/l6-1.png">
+
+<br><div class="hint"><p>Запустите временный проект. Откройте Proxy &gt; Intercept, как на скриншоте ниже.
+Откройте настроенный для работы браузер (кнопка «Open browser»). В открытый браузер скопируйте URL открытого DVWA. Введите логин и пароль.
+</p></div><br><img src="https://kkoova.github.io/assets/l6-2.png"><br><br><div class="hint"><p>Выставите уровень безопасности «Low» (На вкладке «DVWA Security»)
+Затем перейдите во вкладку «Brute Force».<br><br>Все готово! Можно начинать перехватывать трафик.</p></div><br><img src="https://kkoova.github.io/assets/l6-3.png"><br><br><div class="hint"><p>Перейдите в BurpSuite (не закрывайте браузер, сверните его). Включите перехват «Intercept
+is on».</p></div><br><img src="https://kkoova.github.io/assets/l6-4.png"><br><br><div class="hint"><p>Перейдите в браузер в DVWA и введите логин «admin» и произвольный пароль. Нажмите
+кнопку «Login».</p></div><br><img src="https://kkoova.github.io/assets/l6-5.png"><br><br><div class="hint"><p>Вас перебросит в BurpSuite на вкладку перехватчика. Нажмите на кнопку «Forward», и
+перейдите на вкладку «HTTP History». Не закрывая BurpSuite, разверните браузер и
+проверьте, что на веб-форме появилось сообщение об ошибке.</p></div><br><img src="https://kkoova.github.io/assets/l6-6.png"><img src="https://kkoova.github.io/assets/l6-7.png"><img src="https://kkoova.github.io/assets/l6-8.png">
+
+
+
+
+
+
+
+
+
+
+
+<p>Откройте вкладку «Alerts». Просмотрите найденные уязвимости. Уязвимости уровней «High» и «Medium» изучите подробно, при возможности попробуйте поэксплуатировать.
+</p><div class="hint">
+Результаты каждого действия должны быть зафиксированы
+скриншотом и добавлены в отчет.
+</div>
+
+</section>
+
+
+
+
+</main>
+
+<footer>
+Лабораторная работа №5 · Активный анализ
+</footer>
+
+
+<script>
+
+function finish(){
+
+let score=0;
+
+document.querySelectorAll("#test input[type=radio]:checked")
+.forEach(el=>score+=Number(el.value));
+
+document.getElementById("test").style.display="none";
+
+let r=document.getElementById("result");
+r.style.display="block";
+r.textContent="Результат: "+score+" из 10";
+
+}
+
+</script>
+
+
+
+
+</body></html>
