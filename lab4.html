@@ -153,39 +153,13 @@ footer {
 <h3>Шаг 0. Настройка</h3>
   <p>В настройках виртуальной машины<br>Устройства -> Сеть -> Настроить сеть -> Выбираем сетевой мост</p>
   <pre>sudo apt update</pre>
-<h3>Шаг 1. Анализ домена с помощью WHOIS</h3>
+<h3>Шаг 1. Анализ DNS (dnsdumpster.com)</h3>
 <p>
-Выполните анализ домена с помощью команды в kali <code>whois ВАШ_ЛЮБОЙ_САЙТ(пример.ru)</code> 
+  Перейдите на <a href="https://suip.biz/ru/?act=subfinder">сайт</a> и выполните анализ выбранного домена (ВАШ_ЛЮБОЙ_САЙТ).
 </p>
+<div class="hint">Вставте скрин всех поддоменов выбранного сайта, сделайте вывод</div>
 
-<p><strong>В отчёт занести:</strong></p>
-
-<table>
-<tbody><tr><th>Домен (domain)</th><td>---</td></tr>
-<tr><th>Статус домена (state)</th><td>---</td></tr>
-<tr><th>Регистратор (registrar)</th><td>---</td></tr>
-<tr><th>Административный контакт (admin-contact)</th><td>---</td></tr>
-<tr><th>Дата регистрации (created)</th><td>---</td></tr>
-<tr><th>Оплачен до (paid-till)</th><td>---</td></tr>
-</tbody></table>
-
-<div class="hint">Ниже таблицы разместить скриншот результата WHOIS-запроса.</div>
-
-<h3>Шаг 2. Анализ DNS (dnsdumpster.com)</h3>
-<p>
-  Перейдите на сайт <a href="https://dnsdumpster.com/"><strong>dnsdumpster.com</strong></a> и выполните анализ выбранного домена (ВАШ_ЛЮБОЙ_САЙТ).
-</p>
-<div class="hint">Если сайт долго грузиться - переходите к шагу 3, как страница будет доступна - выполните шаг 2 (если страница так же будет недоступна, проведите анализ <a href="https://suip.biz/ru/?act=subfinder">тут</a>)</div>
-<table>
-<tbody><tr><th>Обнаруженные поддомены (Host)</th><td>---</td></tr>
-<tr><th>IP-адреса (IP)</th><td>---</td></tr>
-<tr><th>Используемые сервисы (Services)</th><td>---</td></tr>
-<tr><th>Выводы</th><td>---</td></tr>
-</tbody></table>
-
-<div class="hint">Ниже таблицы добавить вывода dnsdumpster.com</div>
-
-<h3>Шаг 3. Анализ файла robots.txt</h3>
+<h3>Шаг 2. Анализ файла robots.txt</h3>
 <p>
 Откройте файл по адресу:
 </p>
@@ -199,7 +173,7 @@ footer {
 
 <div class="hint">Ниже таблицы добавить скриншот robots.txt</div>
 
-<h3>Шаг 4. Анализ клиентской части (F12)</h3>
+<h3>Шаг 3. Анализ клиентской части (F12)</h3>
 <p>
 Перейдите на сайт ВАШ_ЛЮБОЙ_САЙТ и нажмите F12, проанализируйте информацию, запишите ее в таблицу.
 </p>
@@ -211,7 +185,7 @@ footer {
 
 <div class="hint">Ниже таблицы добавить скриншот клиентской части</div>
 
-<h3>Шаг 5. Поисковые операторы</h3>
+<h3>Шаг 4. Поисковые операторы</h3>
 <div class="hint">Команды выполняются в поисковой строке браузера</div>
 <table>
 <tbody><tr>
@@ -225,7 +199,7 @@ footer {
 <tr><td>Файлы конфигурации</td><td>site:ВАШ_ЛЮБОЙ_САЙТ filetype:conf</td><td>скрин</td></tr>
 </tbody></table>
 
-<h3>Шаг 6. theHarvester</h3>
+<h3>Шаг 5. theHarvester</h3>
 <pre>theHarvester -d ВАШ_ЛЮБОЙ_САЙТ -b yahoo
 theHarvester -d ВАШ_ЛЮБОЙ_САЙТ -b urlscan
 theHarvester -d ВАШ_ЛЮБОЙ_САЙТ -b ЛЮБОЙ_SOURCE
