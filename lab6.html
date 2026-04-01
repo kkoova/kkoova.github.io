@@ -75,7 +75,7 @@ footer{
   color:#666;
 }
 </style>
-</head>
+<meta content="extension" property="gosuslugi.plugin.extension.content"></head>
 
 <body>
 
@@ -174,19 +174,35 @@ sudo docker pull vulnerables/web-dvwa
 
 sudo docker run docker.io/vulnerables/web-dvwa:latest </pre><p>Далее необходимо перейти по URL-адресу, указанному в подробном выводе терминала</p><div class="hint"><p>Учётные данные для входа в DVWA: </p><ul><li>Логин: admin</li><li>Пароль: password</li></ul><p>Нажмите кнопку «Create / Reset Database». Перезапустите приложение.</p></div>
 
-<h3>Шаг 2. ткройте Burp Suite. Его можно найти в списке приложений Kali Linux &gt; Web
+<h3>Шаг 2. Откройте Burp Suite. Его можно найти в списке приложений Kali Linux &gt; Web
 Applications &gt; Web Application Proxies &gt; burpsuite</h3>
 
-<img src="https://kkoova.github.io/assets/l6-1.png">
+<img src="https://kkoova.github.io/assets/l6-1.png" style="
+    WIDTH: 100%;
+">
 
-<br><div class="hint"><p>Запустите временный проект. Откройте Proxy &gt; Intercept, как на скриншоте ниже.
+<p>Запустите временный проект. Откройте Proxy &gt; Intercept, как на скриншоте ниже.
 Откройте настроенный для работы браузер (кнопка «Open browser»). В открытый браузер скопируйте URL открытого DVWA. Введите логин и пароль.
-</p></div><br><img src="https://kkoova.github.io/assets/l6-2.png"><br><br><div class="hint"><p>Выставите уровень безопасности «Low» (На вкладке «DVWA Security»)
-Затем перейдите во вкладку «Brute Force».<br><br>Все готово! Можно начинать перехватывать трафик.</p></div><br><img src="https://kkoova.github.io/assets/l6-3.png"><br><br><div class="hint"><p>Перейдите в BurpSuite (не закрывайте браузер, сверните его). Включите перехват «Intercept
-is on».</p></div><br><img src="https://kkoova.github.io/assets/l6-4.png"><br><br><div class="hint"><p>Перейдите в браузер в DVWA и введите логин «admin» и произвольный пароль. Нажмите
-кнопку «Login».</p></div><br><img src="https://kkoova.github.io/assets/l6-5.png"><br><br><div class="hint"><p>Вас перебросит в BurpSuite на вкладку перехватчика. Нажмите на кнопку «Forward», и
+</p><img src="https://kkoova.github.io/assets/l6-2.png" style="
+    WIDTH: 100%;
+"><br><br><p>Выставите уровень безопасности «Low» (На вкладке «DVWA Security»)
+Затем перейдите во вкладку «Brute Force».</p><div class="hint"><p>Все готово! Можно начинать перехватывать трафик.</p></div><br><img src="https://kkoova.github.io/assets/l6-3.png" style="
+    WIDTH: 100%;
+"><br><br><div class="hint"><p>Перейдите в BurpSuite (не закрывайте браузер, сверните его). Включите перехват «Intercept
+is on».</p></div><br><img src="https://kkoova.github.io/assets/l6-4.png" style="
+    WIDTH: 100%;
+"><br><br><div class="hint"><p>Перейдите в браузер в DVWA и введите логин «admin» и произвольный пароль. Нажмите
+кнопку «Login».</p></div><br><img src="https://kkoova.github.io/assets/l6-5.png" style="
+    WIDTH: 100%;
+"><br><br><div class="hint"><p>Вас перебросит в BurpSuite на вкладку перехватчика. Нажмите на кнопку «Forward», и
 перейдите на вкладку «HTTP History». Не закрывая BurpSuite, разверните браузер и
-проверьте, что на веб-форме появилось сообщение об ошибке.</p></div><br><img src="https://kkoova.github.io/assets/l6-6.png"><img src="https://kkoova.github.io/assets/l6-7.png"><img src="https://kkoova.github.io/assets/l6-8.png">
+проверьте, что на веб-форме появилось сообщение об ошибке.</p></div><br><img src="https://kkoova.github.io/assets/l6-6.png" style="
+    WIDTH: 100%;
+"><img src="https://kkoova.github.io/assets/l6-7.png" style="
+    WIDTH: 100%;
+"><img src="https://kkoova.github.io/assets/l6-8.png" style="
+    WIDTH: 100%;
+">
 
 
 
@@ -234,6 +250,7 @@ r.textContent="Результат: "+score+" из 10";
 }
 
 </script>
+
 
 
 
