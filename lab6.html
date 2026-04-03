@@ -1,6 +1,6 @@
 <html lang="ru"><head>
 <meta charset="UTF-8">
-<title>Лабораторная работа №5 — Активный анализ сети</title>
+title&gt;Лабораторная работа №6 — Тестирование веб-приложения на проникновение методом полного перебора
 
 <style>
 body {
@@ -164,15 +164,7 @@ Damn Vulnerable Web Application (DVWA) — это веб-приложение н
   <pre>hydra –h</pre>
 <h3>Шаг 1. Установите приложение DVWA</h3>
 
-<pre>sudo apt install -y docker.io
-
-sudo systemctl enable docker --now
-
-sudo docker search web-dvwa 
-
-sudo docker pull vulnerables/web-dvwa 
-
-sudo docker run docker.io/vulnerables/web-dvwa:latest </pre><p>Далее необходимо перейти по URL-адресу, указанному в подробном выводе терминала</p><div class="hint"><p>Учётные данные для входа в DVWA: </p><ul><li>Логин: admin</li><li>Пароль: password</li></ul><p>Нажмите кнопку «Create / Reset Database». Перезапустите приложение.</p></div>
+<pre>sudo docker run docker.io/vulnerables/web-dvwa:latest </pre><p>Далее необходимо перейти по URL-адресу, указанному в подробном выводе терминала</p><div class="hint"><p>Учётные данные для входа в DVWA: </p><ul><li>Логин: admin</li><li>Пароль: password</li></ul><p>Нажмите кнопку «Create / Reset Database». Перезапустите приложение.</p></div>
 
 <h3>Шаг 2. Откройте Burp Suite. Его можно найти в списке приложений Kali Linux &gt; Web
 Applications &gt; Web Application Proxies &gt; burpsuite</h3>
@@ -200,7 +192,9 @@ is on».</p></div><br><img src="https://kkoova.github.io/assets/l6-4.png" style=
     WIDTH: 100%;
 "><img src="https://kkoova.github.io/assets/l6-7.png" style="
     WIDTH: 100%;
-"><img src="https://kkoova.github.io/assets/l6-8.png" style="
+"><br><br><div class="hint">Таким образом вы получили всю необходимую информацию для составления команды
+перебора паролей. Выключите перехват.
+</div><br><img src="https://kkoova.github.io/assets/l6-8.png" style="
     WIDTH: 100%;
 ">
 
@@ -214,13 +208,49 @@ is on».</p></div><br><img src="https://kkoova.github.io/assets/l6-4.png" style=
 
 
 
-<p>Откройте вкладку «Alerts». Просмотрите найденные уязвимости. Уязвимости уровней «High» и «Medium» изучите подробно, при возможности попробуйте поэксплуатировать.
-</p><div class="hint">
-Результаты каждого действия должны быть зафиксированы
-скриншотом и добавлены в отчет.
+<h3>Шаг 3. Составьте команду для перебора паролей</h3><div class="hint">Синтаксис команды для перебора паролей (логинов) в общем виде:<br><br>
+$ hydra [[[-l LOGIN|-L FILE] [-p PASS|-P FILE]] | [-C FILE]] [-e nsr] [-o FILE] [-t
+TASKS] [-M FILE [-T TASKS]] [-w TIME] [-W TIME] [-f] [-s PORT] [-x
+MIN:MAX:CHARSET]
+[-c
+TIME]
+[-ISOuvVd46]
+[-m
+MODULE_OPT]
+[service://server[:PORT][/OPT]]
 </div>
 
-</section>
+<p>Подробнее о применении этой команды:<br><br>hydra опции логины пароли адрес_цели метод параметры_модуля<br><br>
+-s - указать порт;<br>
+По умолчанию используется порт 80. Его можно не указывать.<br>
+-M - взять список целей из файла;<br>
+-x - генератор паролей;<br><br>
+Опция -x задается вместо списка паролей. Синтаксис ее такой:<br>
+минимальная_длина:максимальная_длина:набор_символов
+Максимальное и минимальное количество символов указываются цифрами.<br>
+В наборе символов нужно указать a для всех букв в нижнем регистре, A -
+для букв в верхнем регистре и 1 для всех цифр от 0 до 9. Дополнительные
+символы указываются после этой конструкции.<br><br>
+Пример:<br>
+4:5:aA1. - пароль, размером от 4 до 5 символов, состоит из цифр, букв
+верхнего и нижнего регистра или точки.<br><br>
+-u - по умолчанию hydra проверяет все пароли для первого логина, эта опция
+позволяет проверить один пароль для всех логинов;<br>
+-f - выйти, если правильный логин/пароль найден;<br>
+-o - сохранить результат в файл;-t - количество потоков для программы;<br>
+-w - время между запросами в секундах;<br>
+-v - подробный вывод;<br>
+-V - выводить тестируемые логины и пароли.
+Логины задаются после следующих опций:<br>
+-l - использовать конкретный логин;<br>
+-L - выбирать логины из файла со списком
+Пароли задаются аналогично логинам:<br>
+-p - использовать конкретный пароль;<br>
+-P - использовать пароль из файла со списком;<br></p><div class="hint">Пример конкретного запроса (тестовый):<br><br>$ hydra -V -s 42001 -l admin -P /usr/share/john/password.lst 127.0.0.1 http-get-form
+"/vulnerabilities/brute/:username=^USER^&amp;password=^PASS^&amp;Login=Login:H=Cookie:
+PHPSESSID=hccgdbv8j4soptd9nf2dmfhrso;
+incorrect."
+</div></section>
 
 
 
@@ -250,6 +280,7 @@ r.textContent="Результат: "+score+" из 10";
 }
 
 </script>
+
 
 
 
