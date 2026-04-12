@@ -1,4 +1,4 @@
-<html lang="ru"><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><head>
+<html lang="ru"><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><head><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script>
 <meta charset="UTF-8">
 </head><body>title&gt;Лабораторная работа №6 — Тестирование веб-приложения на проникновение методом полного перебора
 
@@ -74,7 +74,21 @@ footer{
   padding:20px;
   color:#666;
 }
-</style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #ecf0f1;
+}</style>
 <meta content="extension" property="gosuslugi.plugin.extension.content">
 
 
@@ -218,7 +232,39 @@ is on».</p></div><br><img src="https://kkoova.github.io/assets/l6-4.png" style=
     WIDTH: 100%;
 "><p>Дождитесь окончания команды, происходит перебор паролей! Как команда отработает, вы увидите логин и пароль, попробуйте зайти с ними в Brute Force</p><img src="https://kkoova.github.io/assets/l66-3.png" style="
     WIDTH: 100%;
+"><p>Вот что должно получиться:</p><img src="https://kkoova.github.io/assets/l66-4.png" style="
+    WIDTH: 100%;
 "><br><br><div class="hint">Поздравляю! Вы взломали пароль! Теперь составте еще 2 команды, но с другим словарем паролей
+</div><p>Для получения списка словарей, напишите в терминале:</p><pre>locate wordlist</pre><p>Выберите любой словарь из списка (пример: /usr/share/wordlists/dnsmap.txt), и замените в вашей прошлой команде -P, таким образом вы предоставите другой список паролей для перебора </p><img src="https://kkoova.github.io/assets/l66-5.png" style="
+    WIDTH: 100%;
+"><br><br><div class="hint">
+Составте таким образом еще 2 команды, составте в отчете таблицу, сравните время выполнения(быстро/долго), где больше всего было сделанно попыток
+</div><table>
+    <tbody><tr>
+      <th></th>
+      <th>Скорость</th>
+      <th>Кол-во попыток</th>
+      <th>Какой словарь использовали</th>
+    </tr>
+    <tr>
+      <td>1 команда</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>2 команда</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>3 команда</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+  </tbody></table><br><div class="hint">Скрины всех 3 команд и их итог!
 </div></section>
 
 
@@ -249,6 +295,7 @@ r.textContent="Результат: "+score+" из 10";
 }
 
 </script>
+
 
 
 
