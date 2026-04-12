@@ -1,4 +1,4 @@
-<html lang="ru"><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><head><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script>
+<html lang="ru"><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><head><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script>
 <meta charset="UTF-8">
 </head><body>title&gt;Лабораторная работа №6 — Тестирование веб-приложения на проникновение методом полного перебора
 
@@ -270,7 +270,20 @@ is on».</p></div><br><img src="https://kkoova.github.io/assets/l6-4.png" style=
 "><br><br><div class="hint">Для начала создайте два текстовых файла: один – с предполагаемыми логинами, а второй – с паролями для перебора. Включите в эти файлы уже известные Вам логин «admin» и пароль к нему
 </div><br><img src="https://kkoova.github.io/assets/l66-6.png" style="
     WIDTH: 100%;
-"></section>
+        "><p>Теперь еще раз проделаете все действия по перехвату трафика, описанные в Шаг 2. - Шаг 3.</p><div class="hint">Получите новый перехваченный трафик (с Medium) и отправьте его в инструмент «Intruder»: (Send to Intruder) 
+</div><br><img src="https://kkoova.github.io/assets/l66-8.png" style="
+    WIDTH: 100%;
+        "><p>Перейдите на вкладку «Positoins», и сбросьте специальные символы в запросе, с помощью кнопки «Clear». Затем необходимо присвоить специальные символы только параметрам «admin» и «password» с помощью кнопки «Add»:</p><img src="https://kkoova.github.io/assets/l66-9.png" style="
+    WIDTH: 100%;
+        "><p>Затем выберите способ атаки «Cluster Bomb» и перейдите во вкладку «Payloads». Загрузите изначально заготовленные файлы с логинами и паролями: </p><img src="https://kkoova.github.io/assets/l66-10.png" style="
+    WIDTH: 100%;
+        "><br><br><img src="https://kkoova.github.io/assets/l66-11.png" style="
+    WIDTH: 100%;
+        "><br><br><div class="hint">После этого нажмите кнопку «Start Attack». Цель перебора: определить стороку с уникальным параметром «length», который отличается от всех остальных. В этой строке и будет искомый логин и пароль. 
+</div><br><img src="https://kkoova.github.io/assets/l66-12.png" style="
+    WIDTH: 100%;
+        "></section><section><h3>Шаг 5. Выполните задание по вариантам! (В соответсвии с номером в журнале, если больше одного студента выполняют работу, то и вариантов на выполнение так же будет больше
+            )</h3></section>
 
 
 
@@ -300,6 +313,7 @@ r.textContent="Результат: "+score+" из 10";
 }
 
 </script>
+
 
 
 
