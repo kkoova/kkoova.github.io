@@ -194,3 +194,19 @@ body, html {
     top: 0;
     z-index: 999;
 }
+.course_about__info {
+    background-color: var(--bg-panel);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    min-height: 450px;
+}
+.course_about__info-left {
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 32px;
+}
