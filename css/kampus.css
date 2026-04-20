@@ -210,3 +210,6 @@ body, html {
     flex-direction: column;
     padding: 32px;
 }
+.hidden {
+    display: none;
+}
