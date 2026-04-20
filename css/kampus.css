@@ -105,3 +105,28 @@ body, html {
     background-color: #643cc8;
     color: #fff;
 }
+.relative-position {
+    position: relative;
+}
+.layout__scroll-wrapper {
+    bottom: 0;
+    left: 0;
+    padding: 0 16px 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.custom-scroll-1 {
+    overflow: auto;
+}
+.fit, .full-height {
+    height: 100% !important;
+}
+.course__wrapper {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 300px 1fr;
+    height: inherit;
+    transition: all .2s ease;
+    width: 100%;
+}
