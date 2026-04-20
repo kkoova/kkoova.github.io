@@ -35,6 +35,25 @@
     --progress-track-color: #7850f033;
     --hover-progress-color: #fff;
 }
+@font-face {
+    font-display: swap;
+    font-family: Montserrat;
+    font-weight: 600;
+    src: url(../fonts/Montserrat-SemiBold.d5e0cc78.ttf);
+}
+body, html {
+    box-sizing: border-box;
+    margin: 0;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+    font-family: Roboto, -apple-system, Helvetica Neue, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    min-height: 100%;
+    min-width: 100px;
+}
 .colum, .flex, .row {
     display: flex;
     flex-wrap: wrap;
