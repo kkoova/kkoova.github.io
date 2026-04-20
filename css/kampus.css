@@ -1,0 +1,18 @@
+.course_menu__list-item {
+    align-items: center;
+    background-color: #643cc81a;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    padding: 16px;
+    position: relative;
+}
+
+.course_menu__list-item.active {
+    background-color: #643cc8;
+    color: #fff;
+}
