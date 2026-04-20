@@ -1,3 +1,74 @@
+:root .light-theme {
+    --main-bg: #d0ccec;
+    --dark-purple-bg: #7850f099;
+    --lesson-nav-btn-bg: #dcdcf0;
+    --main-dark-purple-1: #c5bde8;
+    --main-dark-purple-2: linear-gradient(180deg, #dcdcf0, #baafe5 100%, #b4b4dc 0);
+    --main-dark-purple-4: #643cc8;
+    --main-dark-purple-5: linear-gradient(180deg, #dcdcf0, #baafe5 100%, #b4b4dc 0);
+    --main-dark-purple-6: #dcdcf0;
+    --main-dark-purple-8: #dcdcf0;
+    --main-text: #1e1e28;
+    --white-text-1: #1e1e28;
+    --white-text-2: #1e1e28;
+    --white-text-3: #1e1e2899;
+    --main-light-purple-4: linear-gradient(180deg, #b4a0dc, #8c78dc);
+    --main-light-purple-5: #643cc833;
+    --main-light-purple-2-hover: #dcdcf0;
+    --main-purple-4: #7850f066;
+    --scroll-thumb: #000c;
+    --user-menu-bg: #c4bce8;
+    --tooltip-bg: #beb2f0;
+    --font-settings-bg: #dcdcf0;
+    --payment-color: #f0f;
+    --payment-button-bg: #643cc833;
+    --button-active: #643cc8;
+    --select-options-1: #d0ccec;
+    --bg-panel: #643cc81a;
+    --bg-panel-solid: #b2a7db;
+    --bg-panel-hover: #00000026;
+    --bg-panel-active: #643cc8;
+    --bg-solid: #dcdcf0;
+    --bg-solid-dark: #d0ccec;
+    --bg-panel-opacity: #dcdcf0cc;
+    --progress-color: #7850f0;
+    --progress-track-color: #7850f033;
+    --hover-progress-color: #fff;
+}
+.colum, .flex, .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+.breads_row__wrapper {
+    align-items: center;
+    color: var(--white-text-1);
+    flex-wrap: nowrap;
+    max-width: 100%;
+    padding: 0 16px;
+}
+.breads_row__col {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+}
+.breads_row__list {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    width: 100%;
+}
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.bread-button {
+    color: var(--white-text-1);
+    font-family: Play, sans-serif;
+    font-size: 22px;
+    line-height: 28px;
+}
 .course_menu__list-item {
     align-items: center;
     background-color: #643cc81a;
@@ -11,7 +82,6 @@
     padding: 16px;
     position: relative;
 }
-
 .course_menu__list-item.active {
     background-color: #643cc8;
     color: #fff;
