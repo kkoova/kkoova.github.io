@@ -213,3 +213,62 @@ body, html {
 .hidden {
     display: none;
 }
+.code-container {
+  position: relative;
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 20px 0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  overflow-x: auto;
+}
+.code-container code {
+  display: block;
+  font-family: "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #dcdcdc;
+  white-space: pre;
+}
+
+.code-container .hljs-keyword { color: #569cd6; }
+.code-container .hljs-built_in { color: #4ec9b0; }
+.code-container .hljs-string { color: #ce9178; }
+.code-container .hljs-number { color: #b5cea8; }
+.code-container .hljs-comment { color: #6a9955; }
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #2d2d2d;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.copy-btn:hover {
+  background: #3c3c3c;
+  border-color: #666;
+}
+.copy-btn:active {
+  transform: scale(0.95);
+}
+.copy-btn.copied {
+  background: #4caf50;
+  border-color: #4caf50;
+  color: #fff;
+}
+.code-container::-webkit-scrollbar {
+  height: 8px;
+}
+.code-container::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+.code-container::-webkit-scrollbar-track {
+  background: transparent;
+}
