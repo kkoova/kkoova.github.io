@@ -130,3 +130,19 @@ body, html {
     transition: all .2s ease;
     width: 100%;
 }
+.course_about__info-left {
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 32px;
+}
+.course_about__subtitle {
+    color: var(--white-text-2);
+    font-family: Furore, Montserrat, sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 16px;
+}
