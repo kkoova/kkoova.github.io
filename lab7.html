@@ -1,5 +1,5 @@
-<html lang="ru"><head><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script>
-<script>async function sha256(str) {
+<html lang="ru"><head><script defer="">
+async function sha256(str) {
   const buf = new TextEncoder().encode(str);
   const hash = await crypto.subtle.digest("SHA-256", buf);
   return Array.from(new Uint8Array(hash))
@@ -9,6 +9,8 @@
 
 document.querySelectorAll(".checkBtn").forEach(btn => {
   btn.addEventListener("click", async function() {
+    console.log("clicked");
+
     const section = this.closest(".task");
     const input = section.querySelector(".passwordInput").value;
     const correctHash = section.dataset.hash;
@@ -24,7 +26,8 @@ document.querySelectorAll(".checkBtn").forEach(btn => {
     }
   });
 });
-</script><meta charset="UTF-8">
+</script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script>
+<meta charset="UTF-8">
 </head><body><style>
 body {
   font-family: "Segoe UI", Arial, sans-serif;
@@ -199,7 +202,8 @@ th {
   
 <h3>Шаг 1. Запустите приложение DVWA</h3>
 
-<pre>sudo docker run docker.io/vulnerables/web-dvwa:latest </pre>
+<pre>sudo docker run docker.io/vulnerables/web-dvwa:latest </pre><p>Отчет офорляйте по типу:<br>1. Команда для нахождения пароля<br>2.Скриншот правильного выполнения на данной странице
+</p>
 
 
 
@@ -225,7 +229,9 @@ th {
     margin-top: -6;
 ">Найдите пароль для пользователя: "pablo"</h3>
   <input type="password" class="passwordInput" placeholder="Введите пароль">
-  <button class="checkBtn">Проверить</button>
+  <button class="checkBtn" style="
+    width: 100%;
+">Проверить</button>
 </section>
 
 
@@ -235,6 +241,7 @@ th {
 
 <footer>Лабораторная работа №6 — Тестирование веб-приложения на проникновение методом полного перебора
 </footer>
+
 
 
 
