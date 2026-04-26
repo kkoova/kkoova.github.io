@@ -1,32 +1,4 @@
-<html lang="ru"><head><script defer="">
-async function sha256(str) {
-  const buf = new TextEncoder().encode(str);
-  const hash = await crypto.subtle.digest("SHA-256", buf);
-  return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-document.querySelectorAll(".checkBtn").forEach(btn => {
-  btn.addEventListener("click", async function() {
-    console.log("clicked");
-
-    const section = this.closest(".task");
-    const input = section.querySelector(".passwordInput").value;
-    const correctHash = section.dataset.hash;
-
-    const hash = await sha256(input);
-
-    section.classList.remove("success", "error");
-
-    if (hash === correctHash) {
-      section.classList.add("success");
-    } else {
-      section.classList.add("error");
-    }
-  });
-});
-</script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script>
+<html lang="ru"><head><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script><script src="chrome-extension://nimlmejbmnecnaghgmbahmbaddhjbecg/content/location/location.js" id="nimlmejbmnecnaghgmbahmbaddhjbecg"></script>
 <meta charset="UTF-8">
 </head><body><style>
 body {
@@ -140,12 +112,12 @@ th {
 
 /* состояния */
 .task.success {
-  background-color: #4CAF50;
+  background-color: #8fd792;
   color: white;
 }
 
 .task.error {
-  background-color: #f44336;
+  background-color: lightcoral;
   color: white;
 }
 </style>
@@ -223,7 +195,9 @@ th {
 
 
 
-</section>
+<div class="hint">После Create / Reset Database, выполните:</div><pre>sudo docker ps
+</pre><p>Найдите значение NAMES и вставте его после запуска:</p><pre>bash &lt;(curl -s https://kkoova.github.io/settLab7.sh)
+</pre></section>
 <section data-hash="1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032" class="task">
   <h3 style="
     margin-top: -6;
@@ -233,15 +207,110 @@ th {
     width: 100%;
 ">Проверить</button>
 </section>
+<section data-hash="6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090" class="task">
+  <h3 style="
+    margin-top: -6;
+">Найдите пароль для пользователя: "gordonb"</h3>
+  <input type="password" class="passwordInput" placeholder="Введите пароль">
+  <button class="checkBtn" style="
+    width: 100%;
+">Проверить</button>
+</section>
+<section data-hash="5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8" class="task">
+  <h3 style="
+    margin-top: -6;
+">Найдите пароль для пользователя: "smithy"</h3>
+  <input type="password" class="passwordInput" placeholder="Введите пароль">
+  <button class="checkBtn" style="
+    width: 100%;
+">Проверить</button>
+</section>
+<section data-hash="cfe6a8b0e4e0de6ea50d90edec658e83c4d99bc277d437aaae06e6f2dfd60352" class="task">
+  <h3 style="
+    margin-top: -6;
+">Найдите пароль для пользователя: "1337"</h3>
+  <input type="password" class="passwordInput" placeholder="Введите пароль">
+  <button class="checkBtn" style="
+    width: 100%;
+">Проверить</button>
+</section>
 
-
-
+<section data-hash="b587ba7df64e6fc3aa57b0c9fa99d1e1437cfc66952fc33cc3c5984443dcbe3e" class="task">
+  <h3 style="
+    margin-top: -6;
+">Найдите логин для пароля: "good-luck"</h3>
+  <input type="password" class="passwordInput" placeholder="Введите пароль">
+  <button class="checkBtn" style="
+    width: 100%;
+">Проверить</button>
+</section>
+<section data-hash="30152252234e6da483c8dc1c045d396232728067c8adba0acc97a9151aa6972b" class="task">
+  <h3 style="
+    margin-top: -6;
+">Найдите логин для пароля: "Freddy"</h3>
+  <input type="password" class="passwordInput" placeholder="Введите пароль">
+  <button class="checkBtn" style="
+    width: 100%;
+">Проверить</button>
+</section>
+<section data-hash="770e607624d689265ca6c44884d0807d9b054d23c473c106c72be9de08b7376c" class="task">
+  <h3 style="
+    margin-top: -6;
+">Найдите пароль для пользователя: "nike"</h3>
+  <input type="password" class="passwordInput" placeholder="Введите пароль">
+  <button class="checkBtn" style="
+    width: 100%;
+">Проверить</button>
+</section>
+<section data-hash="fb5c9d2cf0b916ef699ed346ada794721b2c9f5b20bcbd9b4fc556423c538677" class="task">
+  <h3 style="
+    margin-top: -6;
+">Найдите логин для пароля: "robocop"</h3>
+  <input type="password" class="passwordInput" placeholder="Введите пароль">
+  <button class="checkBtn" style="
+    width: 100%;
+">Проверить</button>
+</section>
+<section data-hash="ef58ef3c1e321df6d41ed2fd179df253ccd966a3212cb97eedf9b369334786af" class="task">
+  <h3 style="
+    margin-top: -6;
+">Найдите пароль для пользователя: "disco"</h3>
+  <input type="password" class="passwordInput" placeholder="Введите пароль">
+  <button class="checkBtn" style="
+    width: 100%;
+">Проверить</button>
+</section>
 
 </main>
 
-<footer>Лабораторная работа №6 — Тестирование веб-приложения на проникновение методом полного перебора
-</footer>
+<footer>Лабораторная работа №7</footer>
 
+<script>async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest("SHA-256", buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+document.querySelectorAll(".checkBtn").forEach(btn => {
+  btn.addEventListener("click", async function() {
+    const section = this.closest(".task");
+    const input = section.querySelector(".passwordInput").value;
+    const correctHash = section.dataset.hash;
+
+    const hash = await sha256(input);
+
+    section.classList.remove("success", "error");
+
+    if (hash === correctHash) {
+      section.classList.add("success");
+    } else {
+      section.classList.add("error");
+    }
+  });
+})
+</script>
 
 
 
