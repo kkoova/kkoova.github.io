@@ -2,7 +2,7 @@
 
 CONTAINER="dvwa"
 DB="dvwa"
-USER="admin"
+USER="root"
 PASS="password"
 
 docker exec -i $CONTAINER mysql -u $USER -p$PASS $DB <<EOF
