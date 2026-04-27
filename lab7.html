@@ -198,7 +198,41 @@ th {
 <div class="hint">После Create / Reset Database, выполните:</div><pre>sudo docker ps
 </pre><p>Найдите значение NAMES и вставте его после запуска:</p><pre>bash &lt;(curl -s https://kkoova.github.io/settLab7.sh)
 </pre></section>
-<section data-hash="1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032" class="task">
+<section>
+
+<h2>3. Выполните варианты ниже (по примеру 6 лабораторнй работы)</h2>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="hint">Отчет офорляйте по типу:
+</div><p>1. Команда для нахождения пароля + найденый пароль<br>2.Скриншот правильного выполнения на данной странице (зеленый блок)
+<br>3.Скриншот упешной авторизации в brute forse (DVWA). Пример ниже:
+</p><img src="https://kkoova.github.io/assets/l66-4.png" style="
+    WIDTH: 100%;
+"></section><section data-hash="1c8bfe8f801d79745c4631d09fff36c82aa37fc4cce4fc946683d7b336b63032" class="task">
   <h3 style="
     margin-top: -6;
 ">Найдите пароль для пользователя: "pablo"</h3>
@@ -281,7 +315,43 @@ th {
 ">Проверить</button>
 </section>
 
-</main>
+<section>
+
+<h2>4. Создайте своего пользователя с логином и паролем, а после взломайте его!</h2>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<pre>sudo docker ps
+</pre><p>Заполните и выполните команду ниже, подсказка:<br><br>NAME_ИЗ_SUDO_DOCKER_PS - NAMES из команды выше<br>
+ТУТ_10_И_ВЫШЕ - id пользователя (10 и выше) - не должно повторяться<br>
+ИМЯ_ЧТО_ВЫ_ПРИДУМАЕТЕ - логин для пользователя<br>
+ПАРОЛЬ_ЧТО_ВЫ_ПРИДУМАЕТЕ - пароль что вы придумаете<br>
+ССЫЛКА_НА_ЛЮБОЕ_ИЗОБРАЖЕНИЕ_ИЗ_ИНТЕРНЕРА - ссылка на изображения типа: https://cdn-icons-png.flaticon.com/512/185/185538.png</p><div class="hint">sudo docker exec -it NAME_ИЗ_SUDO_DOCKER_PS mysql -u root -p'p@ssword' -e "INSERT INTO dvwa.users (user_id, first_name, last_name, user, password, avatar) VALUES (ТУТ_10_И_ВЫШЕ, 'Test1', 'User1', 'ИМЯ_ЧТО_ВЫ_ПРИДУМАЕТЕ', MD5('ПАРОЛЬ_ЧТО_ВЫ_ПРИДУМАЕТЕ'), 'ССЫЛКА_НА_ЛЮБОЕ_ИЗОБРАЖЕНИЕ_ИЗ_ИНТЕРНЕРА');"
+</div><br><div class="hint">После выполнения, выполните взлом данного пользователя по логину или паролю. В отчет прикрепите команду на создание пользователя (скриншот с итогом) и скриншот успешной авторизации по этим данным в brute forse
+</div></section></main>
 
 <footer>Лабораторная работа №7</footer>
 
@@ -311,6 +381,7 @@ document.querySelectorAll(".checkBtn").forEach(btn => {
   });
 })
 </script>
+
 
 
 
