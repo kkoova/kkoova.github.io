@@ -8,7 +8,7 @@ BASE="https://kkoova.github.io/assets/deb"
 
 wget $BASE/steghide_0.5.1-15_amd64.deb
 wget $BASE/libmcrypt4_2.5.8-8+b1_amd64.deb
-wget $BASE/libmhash2_0.9.9.9-11_amd64.deb
+wget $BASE/libmhash2_0.9.9.9-11+b1_amd64.deb
 wget $BASE/stegcracker_2.1.0-5_all.deb
 wget $BASE/stegosuite_0.9.0-1_all.deb
 
