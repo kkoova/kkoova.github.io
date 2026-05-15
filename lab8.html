@@ -1,0 +1,355 @@
+<html lang="ru"><head>
+    
+<meta charset="UTF-8">
+</head><body><style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  color: #222;
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(135deg,#2c3e50,#34495e);
+  color:#fff;
+  padding:30px;
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+}
+
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:30px;
+}
+
+section{
+  background:#fff;
+  border-radius:10px;
+  padding:25px;
+  margin-bottom:30px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.06);
+}
+
+h2,h3{
+  color:#2c3e50;
+}
+
+code,pre{
+  background:#1e1e1e;
+  color:#dcdcdc;
+  padding:12px;
+  border-radius:6px;
+  display:block;
+  margin:10px 0;
+}
+
+button{
+  background:#3498db;
+  color:#fff;
+  border:none;
+  padding:12px 20px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#2980b9;
+}
+
+.hint{
+  background:#eef6ff;
+  border-left:5px solid #3498db;
+  padding:15px;
+  border-radius:6px;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  color:#666;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #ecf0f1;
+}
+
+
+.passwordInput {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkBtn {
+  padding: 8px 16px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.checkBtn:hover {
+  background-color: #1976D2;
+}
+
+/* состояния */
+.task.success {
+  background-color: #8fd792;
+  color: white;
+}
+
+.task.error {
+  background-color: lightcoral;
+  color: white;
+}
+</style>
+<meta content="extension" property="gosuslugi.plugin.extension.content">
+
+
+
+<header>
+<h1>Лабораторная работа №8</h1>
+<p>Применение стеганографии</p>
+</header>
+
+<main>
+
+<section>
+<h2>1. Цель работы</h2>
+
+<p>Познакомиться со стеганографией - методом защиты информации. Получить практические навыки применения стеганографических инструментов.  
+</p><p>Содержание отчета</p>
+
+<ul>
+<li>Титульный лист</li>
+<li>Цель работы </li>
+<li>Работа с steghide и stegcracker:<ul><li>Введенные команды</li><li>Скриншоты с подтверждением результатов</li><li>Сравнение исходных файлов и файлов с внедренным скрытым содержимым (визуально и по параметрам</li></ul></li>
+
+<li>Работа с stegosuite: <ul><li>Скриншоты с подтверждением результатов</li><li>Сравнение исходных файлов и файлов с внедренным скрытым содержимым (визуально и по параметрам)</li></ul></li><li>Выполнение индивидуального задания<ul><li>Вариант</li><li>Введенные команды</li><li>Скриншоты с подтверждением результатов</li><li>Найденная секретная фраза</li></ul></li></ul>
+
+<div class="hint">Внимание! За несвоевременное представление работы на проверку оценка снижается на 1 балл!
+</div>
+
+</section>
+
+
+
+
+
+
+
+
+<section>
+
+<h2>2. Немного теории</h2>
+  
+<div class="hint">Стеганография (τεγανός — скрытый + γράφω — пишу, дословно «скрытопись») — это междисциплинарная наука и искусство передавать сокрытые данные, внутри других, не сокрытых, данных.</div><h3>Шаг 1. Цели стеганографии:</h3><p>1.Цифровые отпечатки (DigitalFingerprinting)<br>Различные стеганографические метки-сообщения для каждой копии контейнера<br><br>2.Стеганографически еводяные знаки (DigitalWatermarking)<br>Одинаковые метки для каждой копии контейнера<br><br>3. Скрытая передача/хранение данных<br>Передача/хранениеданныхтакимобразом,чтобыниктонедогадалсяосамом фактесуществованияскрытогосообщения</p><h3>Шаг 1. Классификация методов стеганографии</h3><p>1. Классические:<br>симпатические чернила, трафареты для наложения на текст, микроточки, микрофотоснимки и т.д<br><br>2. Компьютерные:<br>использование особенностей вычислительной платформы и специальных свойств компьютерных форматов данных: скрытие данных в неиспользуемых областях форматов файлов, подмена символов в названиях файлов, текстовая стеганография и т. д.<br><br>3. Цифровые<br>внедрение дополнительной информации в цифровые аудио-/фото/видеообъекты, используя некоторую избыточность информации</p>
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section><section>
+
+<h2>3. Начало работы c картинками и работа с steghide </h2>
+  
+
+  
+  
+<h3>Шаг 1. Установите все необходимые для работы инструменты</h3>
+
+<pre>bash &lt;(curl -s https://kkoova.github.io/assets/deb/install_8lab.sh)</pre><h3>Шаг 2. Запустите скрипт и введите свой вариант в соответсвии с номером в журнале (Если Вас за рабочим местом больше одного - введите сначала один вариант, потом запустите скрипт снова и второй)</h3><pre>bash &lt;(curl -s https://kkoova.github.io/assets/deb/start.sh)</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="hint"><p>Создайте папку с Вашей Фамилией на рабочем столе, поместите в нее:<br><br>1. Изображение в формате jpg (В папке "Для лабораторной 8 вариант ВАШ ВАРИАНТ" на рабочем столе)<br>2. Непустой текстовый файл (создайте самостоятельно)
+<br>3. Архив с несколькими непустыми файлами (создайте самостоятельно)<br>Пример:
+</p><img src="https://kkoova.github.io/assets/l8-1.png" style="
+    WIDTH: 100%;
+"></div><h3>Шаг 3.  Зафиксируйте данные о размере изображения, файла и архива (Скриншот)</h3><h3>Шаг 4.  Поместите текстовый файл в изображение с помощью steghide при помощи команды, приведенной ниже. При этом программа предложит задать и подтвердить парольную фразу, с помощью которой при необходимости файл можно будет извлечь. </h3><div class="hint"><p>! Примечание: Не придумывайте сложную парольную фразу, чтобы не увеличивать время выполнения работы, так как в дальнейшем задание предусматривает ее подбор. Со сложными паролями можно потренироваться самостоятельно.
+</p></div><pre>steghide embed -cf ИЗОБРАЖЕНИЕ.jpg -ef ТЕКСТОВЫЙ_ФАЙЛ
+</pre><h3>Шаг 5.   Проверьте получившийся файл (файл с изображением). Сравните его визуально с исходным. Видна ли разница? Сравните размер файла с зафиксированными в п.2.2 размерами исходного изображения и текстового файла.</h3><h3>Шаг 6.    Извлеките спрятанный текстовый файл при помощи команды (программа запросит парольную фразу):</h3><pre>steghide extract -sf ФАЙЛ_ИЗ_КОТОРОГО_ИЗВЛЕКАЕМ -xf ФАЙЛ_КУДА_ИЗВЛЕКАЕМ (с его расширением, по типу: text_2.txt или folder.tar.gz)
+</pre><h3>Шаг 7.    Повторите Шаг 4 - Шаг 6 для архива, содержащего несколько файлов.</h3><div class="hint"><p>Поздравляю! Вы смогли сначала спрятать файл в картину, а после его достать!<br>Хотя визуально картинка не поменялась (только ее вес)
+</p></div></section>
+<section>
+
+<h2>4.  Работа с stegcracker</h2>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Шаг 1.    Попробуйте «взломать» файлы со скрытыми данными (полученные ранее в Шаг 4 - Шаг 7.) при помощи stegcracker</h3><pre>stegcracker ФАЙЛ_СО_СКРЫТЫМИ_ДАННЫМИ ФАЙЛ_СО_СЛОВАРЕМ
+</pre><div class="hint" style="
+    border-left: 5px solid #d72a2a;
+    background: lightcoral;
+">Если взлом не удался, попробуйте поменять словарь<br>Если файл не открывается, попробуйте поменять его расширение
+</div><br><div class="hint">Сравните полученные при помощи stegcracker файлы с исходными
+</div></section>
+
+
+
+
+
+
+
+
+
+
+<section>
+
+<h2>5.  Работа с stegosuite</h2>
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Шаг 1.     Откройте программу stegosuite. Для этого просто введите ее название в терминале. Нажмите «File» -&gt; «Open» и выберите файл с изображением (тот же, что и в "3. Начало работы c картинками и работа с steghide" задания)</h3><pre>stegcracker ФАЙЛ_СО_СКРЫТЫМИ_ДАННЫМИ ФАЙЛ_СО_СЛОВАРЕМ
+</pre><div class="hint" style="
+    border-left: 5px solid #d72a2a;
+    background: lightcoral;
+">Если взлом не удался, попробуйте поменять словарь<br>Если файл не открывается, попробуйте поменять его расширение
+</div><br><div class="hint">Сравните полученные при помощи stegcracker файлы с исходными
+</div></section></main>
+
+<footer>Лабораторная работа №8</footer>
+
+<script>async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest("SHA-256", buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+document.querySelectorAll(".checkBtn").forEach(btn => {
+  btn.addEventListener("click", async function() {
+    const section = this.closest(".task");
+    const input = section.querySelector(".passwordInput").value;
+    const correctHash = section.dataset.hash;
+
+    const hash = await sha256(input);
+
+    section.classList.remove("success", "error");
+
+    if (hash === correctHash) {
+      section.classList.add("success");
+    } else {
+      section.classList.add("error");
+    }
+  });
+})
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
