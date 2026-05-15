@@ -17,6 +17,10 @@ wget $BASE/libslf4j-java_1.7.32-2_all.deb
 wget $BASE/liblogback-java_1.2.11-6_all.deb
 wget $BASE/libpicocli-java_4.6.2-2_all.deb
 
+wget $BASE/libswt-gtk-4-jni_4.29.0-1_amd64.deb
+wget $BASE/libswt-gtk-4-java_4.29.0-1_amd64.deb
+wget $BASE/libswt-cairo-gtk-4-jni_4.29.0-1_amd64.deb
+
 echo "[3/3] Установка .deb пакетов..."
 
 sudo dpkg -i libmcrypt4_*.deb
@@ -26,6 +30,10 @@ sudo dpkg -i steghide_*.deb
 sudo dpkg -i libslf4j-java_*.deb
 sudo dpkg -i liblogback-java_*.deb
 sudo dpkg -i libpicocli-java_*.deb
+
+sudo dpkg -i libswt-gtk-4-jni_*.deb
+sudo dpkg -i libswt-gtk-4-java_*.deb
+sudo dpkg -i libswt-cairo-gtk-4-jni_*.deb
 
 sudo dpkg -i stegcracker_*.deb || sudo apt --fix-broken install -y
 
