@@ -13,8 +13,6 @@ wget $BASE/stegcracker_2.1.0-5_all.deb
 wget $BASE/stegosuite_0.9.0-1_all.deb
 
 echo "[2/3] Установка зависимостей системы..."
-sudo apt update || true
-sudo apt install -y python3 python3-pip default-jre
 
 echo "[3/3] Установка .deb пакетов..."
 
