@@ -19,28 +19,34 @@ createApp({
         // Функция для расчета линий между островами
         const calculatePaths = () => {
             const newPaths = [];
-            // Сортируем острова по порядку, чтобы линия шла правильно
             const sortedIslands = [...islands.value].sort((a, b) => a.order - b.order);
 
             for (let i = 0; i < sortedIslands.length - 1; i++) {
                 const start = sortedIslands[i];
                 const end = sortedIslands[i + 1];
 
-                // Центрируем начало линии (добавляем половину ширины острова, например 50px)
+                // Координаты центров островов (добавляем смещение, чтобы линия выходила из центра)
                 const x1 = start.x + 50;
                 const y1 = start.y + 50;
                 const x2 = end.x + 50;
                 const y2 = end.y + 50;
 
-                const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-                const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                // Находим среднюю точку между островами
+                const midX = (x1 + x2) / 2;
+                const midY = (y1 + y2) / 2;
 
-                newPaths.push({
-                    left: x1 + 'px',
-                    top: y1 + 'px',
-                    width: distance + 'px',
-                    transform: `rotate(${angle}deg)`
-                });
+                // Добавляем "хаос": случайное смещение для контрольной точки кривой
+                // Чем больше число, тем сильнее изгиб. 
+                // Используем индекс i, чтобы изгиб был "стабильным" и не дергался при перерисовке
+                const offset = 80; 
+                const chaoticX = midX + (Math.sin(i) * offset); 
+                const chaoticY = midY + (Math.cos(i) * offset);
+
+                // Формируем команду для Квадратичной кривой Безье: 
+                // M = переместиться в начало, Q = согнуть через точку (chaotic), закончить в (x2, y2)
+                const d = `M ${x1} ${y1} Q ${chaoticX} ${chaoticY} ${x2} ${y2}`;
+
+                newPaths.push({ d });
             }
             paths.value = newPaths;
         };

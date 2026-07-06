@@ -55,11 +55,17 @@
                 <main class="map-viewport">
                     <div class="map-canvas">
                         <!-- Пунктирные линии -->
-                        <div v-for="(path, index) in paths" 
-                            :key="'path-'+index" 
-                            class="map-path" 
-                            :style="path">
-                        </div>
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 5;">
+                            <path v-for="(path, index) in paths" 
+                                :key="'path-'+index" 
+                                :d="path.d" 
+                                fill="transparent" 
+                                stroke="rgba(255,255,255,0.5)" 
+                                stroke-width="4" 
+                                stroke-dasharray="10, 15" 
+                                stroke-linecap="round"
+                                class="path-animation" />
+                        </svg>
 
                         <!-- Отрисовка островов из Firebase -->
                         <div v-for="island in islands" 

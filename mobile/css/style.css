@@ -143,3 +143,35 @@ body {
     padding: 2px 6px;
     font-size: 10px;
 }
+
+.path-animation {
+    stroke-dasharray: 10, 15;
+    animation: dashScroll 20s linear infinite;
+}
+
+@keyframes dashScroll {
+    from {
+        stroke-dashoffset: 500;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Добавим легкое покачивание островам для пущей хаотичности */
+.island-node {
+    animation: float 4s ease-in-out infinite;
+}
+
+.island-node:nth-child(even) {
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.ship-node .island-img {
+    filter: drop-shadow(0 0 10px rgba(255, 126, 33, 0.5)); /* Оранжевое свечение корабля */
+}
