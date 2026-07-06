@@ -2,156 +2,55 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Godot Course: Mobile</title>
+    <title>Godot Mobile Course</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-blue: #296BF4;
-            --accent-orange: #ff7e21;
-        }
-        body {
-            background-color: var(--primary-blue);
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .pixel-font { font-family: 'Press Start 2P', cursive; }
-        
-        /* Пиксельные кнопки и поля */
-        .pixel-border {
-            border: 4px solid #000;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
-        }
-        .btn-orange {
-            background-color: var(--accent-orange);
-            transition: transform 0.1s;
-        }
-        .btn-orange:active { transform: translate(2px, 2px); }
-        
-        .input-field {
-            color: #000;
-            padding: 10px;
-            border: 3px solid var(--primary-blue);
-            outline: none;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
         
-        <!-- МОДАЛКА РЕГИСТРАЦИИ -->
+        <!-- Контейнер авторизации/регистрации -->
         <div v-if="!currentStudent" class="bg-white p-8 pixel-border max-w-md w-full text-black">
-            <h2 class="pixel-font text-sm mb-6 text-blue-600 text-center">РЕГИСТРАЦИЯ ПИРАТА</h2>
             
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold mb-1">НИКНЕЙМ (для рейтинга):</label>
-                    <input v-model="form.nickname" class="w-full input-field" placeholder="Gamer123">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold mb-1">ФИО:</label>
-                    <input v-model="form.fullName" class="w-full input-field" placeholder="Иванов Иван">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold mb-1">ГРУППА:</label>
-                    <select v-model="form.group" class="w-full input-field">
-                        <option value="МД-1">МД-1</option>
-                        <option value="МД-2">МД-2</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold mb-1">№ ЗАЧЕТКИ:</label>
-                    <input v-model="form.studentId" class="w-full input-field" placeholder="123456">
-                </div>
-                
-                <button @click="handleRegister" class="w-full btn-orange pixel-font text-[10px] py-4 text-white mt-4">
-                    ПОДНЯТЬ ПАРУСА!
-                </button>
+            <!-- ФОРМА ВХОДА -->
+            <div v-if="authMode === 'login'">
+                <h2 class="pixel-font text-sm mb-6 text-blue-600 text-center">ВХОД В ПОРТ</h2>
+                <input v-model="loginForm.nickname" class="input-field" placeholder="Никнейм">
+                <input v-model="loginForm.studentId" class="input-field" placeholder="№ Зачетки">
+                <button @click="handleLogin" class="btn-primary w-full pixel-font text-[10px]">ВОЙТИ</button>
+                <p class="mt-4 text-center">Нет аккаунта? <span @click="authMode = 'register'" class="link-action">Зарегистрироваться</span></p>
             </div>
+
+            <!-- ФОРМА РЕГИСТРАЦИИ -->
+            <div v-if="authMode === 'register'">
+                <h2 class="pixel-font text-sm mb-6 text-orange-500 text-center">НОВЫЙ ПИРАТ</h2>
+                <input v-model="regForm.nickname" class="input-field" placeholder="Никнейм">
+                <input v-model="regForm.fullName" class="input-field" placeholder="ФИО">
+                <input v-model="regForm.group" class="input-field" placeholder="Группа (напр. МД-21)">
+                <input v-model="regForm.studentId" class="input-field" placeholder="№ Зачетки">
+                <button @click="handleRegister" class="btn-primary w-full pixel-font text-[10px]">НАЧАТЬ ПУТЬ</button>
+                <p class="mt-4 text-center">Уже есть аккаунт? <span @click="authMode = 'login'" class="link-action">Войти</span></p>
+            </div>
+
         </div>
 
-        <!-- КАРТА (показывается только после логина) -->
-        <div v-else class="text-center">
-            <h1 class="pixel-font mb-4">Привет, {{ currentStudent.nickname }}!</h1>
-            <p>Карта островов загружается...</p>
-            <button @click="logout" class="mt-10 opacity-50 text-xs underline">выйти (сбросить токен)</button>
+        <!-- КАРТА (показывается после входа) -->
+        <div v-else class="w-full h-full text-center">
+            <header class="p-4 bg-black bg-opacity-30 flex justify-between items-center">
+                <span class="pixel-font text-xs">Капитан: {{ currentStudent.nickname }}</span>
+                <button @click="logout" class="text-xs underline text-orange-400">Сменить аккаунт</button>
+            </header>
+            <div class="mt-20">
+                <h1 class="pixel-font text-2xl">КАРТА ОСТРОВОВ</h1>
+                <p class="mt-4 text-orange-200">Тут скоро появятся твои приключения...</p>
+            </div>
         </div>
 
     </div>
 
-    <!-- Firebase модули (замени конфиг на свой) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAbUTirRRVQYKm5xhlyW8EfCC6u4vat4fk",
-            authDomain: "mobile-godot.firebaseapp.com",
-            projectId: "mobile-godot",
-            storageBucket: "mobile-godot.firebasestorage.app",
-            messagingSenderId: "627472316601",
-            appId: "1:627472316601:web:5eea116c4967af86c48368"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const { createApp, ref, onMounted } = Vue;
-
-        createApp({
-            setup() {
-                const currentStudent = ref(null);
-                const form = ref({
-                    nickname: '',
-                    fullName: '',
-                    group: 'МД-1',
-                    studentId: ''
-                });
-
-                // 1. Проверка при загрузке: есть ли сохраненный студент?
-                onMounted(async () => {
-                    const savedId = localStorage.getItem('pirate_token');
-                    if (savedId) {
-                        const docSnap = await getDoc(doc(db, "students", savedId));
-                        if (docSnap.exists()) {
-                            currentStudent.value = docSnap.data();
-                        }
-                    }
-                });
-
-                // 2. Логика регистрации
-                const handleRegister = async () => {
-                    if (!form.value.nickname || !form.value.studentId) {
-                        alert("Заполни поля, юнга!");
-                        return;
-                    }
-
-                    try {
-                        const docRef = await addDoc(collection(db, "students"), {
-                            ...form.value,
-                            totalScore: 0,
-                            completedIslands: [],
-                            createdAt: new Date()
-                        });
-                        
-                        localStorage.setItem('pirate_token', docRef.id);
-                        currentStudent.value = { ...form.value };
-                        alert("Добро пожаловать в команду!");
-                    } catch (e) {
-                        console.error("Ошибка: ", e);
-                    }
-                };
-
-                const logout = () => {
-                    localStorage.removeItem('pirate_token');
-                    location.reload();
-                };
-
-                return { form, currentStudent, handleRegister, logout };
-            }
-        }).mount('#app');
-    </script>
+    <!-- Подключаем основной скрипт как модуль -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
