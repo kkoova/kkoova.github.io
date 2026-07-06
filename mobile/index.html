@@ -3,111 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Godot Mobile Course</title>
+    <title>Godot Course: Mobile</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-blue: #296BF4;
+            --accent-orange: #ff7e21;
+        }
         body {
-            background-color: #296BF4;
+            background-color: var(--primary-blue);
             color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            overflow-x: hidden;
+            font-family: 'Segoe UI', sans-serif;
         }
         .pixel-font { font-family: 'Press Start 2P', cursive; }
-        .map-container {
-            width: 2000px; height: 1000px;
-            position: relative;
-            background: #296BF4 url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); /* временная текстура воды */
+        
+        /* Пиксельные кнопки и поля */
+        .pixel-border {
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
         }
-        .island {
-            position: absolute;
-            cursor: pointer;
-            transition: transform 0.3s;
-            text-align: center;
+        .btn-orange {
+            background-color: var(--accent-orange);
+            transition: transform 0.1s;
         }
-        .island:hover { transform: scale(1.1); }
-        .island img { width: 120px; image-rendering: pixelated; }
-        .accent-color { color: #ff7e21; }
-        .btn-accent { background-color: #ff7e21; color: white; border-radius: 0; }
-        .modal {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            background: white; color: #333;
-            padding: 20px; z-index: 100;
-            width: 80%; max-width: 600px;
-            box-shadow: 10px 10px 0px #000;
+        .btn-orange:active { transform: translate(2px, 2px); }
+        
+        .input-field {
+            color: #000;
+            padding: 10px;
+            border: 3px solid var(--primary-blue);
+            outline: none;
         }
     </style>
 </head>
 <body>
-    <div id="app">
-        <!-- Шапка -->
-        <header class="p-5 flex justify-between items-center bg-opacity-50 bg-black">
-            <h1 class="pixel-font text-sm">Godot Mobile Islands</h1>
-            <div class="leaderboard-preview text-xs">
-                Лидер: <span class="accent-color">Pirate_Student1</span> | Твой Ранг: 12
-            </div>
-        </header>
-
-        <!-- Карта -->
-        <div class="map-container" @click.self="selectedIsland = null">
-            <div v-for="island in islands" 
-                 :key="island.id" 
-                 class="island" 
-                 :style="{ left: island.position.x + 'px', top: island.position.y + 'px' }"
-                 @click="selectedIsland = island">
-                <img :src="island.img" :alt="island.title">
-                <p class="text-xs mt-2 pixel-font" :style="{ color: island.type === 'ship' ? '#ff7e21' : 'white' }">
-                    {{ island.title }}
-                </p>
-            </div>
-        </div>
-
-        <!-- Модалка с теорией/практикой -->
-        <div v-if="selectedIsland" class="modal">
-            <h2 class="pixel-font text-blue-600 mb-4">{{ selectedIsland.title }}</h2>
-            <div class="content overflow-y-auto max-h-96">
-                <p class="mb-4"><strong>Теория:</strong> {{ selectedIsland.content.theory }}</p>
-                <div class="p-4 bg-orange-100 border-l-4 border-orange-500 text-sm">
-                    <strong>Практика:</strong> {{ selectedIsland.content.practice }}
+    <div id="app" class="min-h-screen flex items-center justify-center p-4">
+        
+        <!-- МОДАЛКА РЕГИСТРАЦИИ -->
+        <div v-if="!currentStudent" class="bg-white p-8 pixel-border max-w-md w-full text-black">
+            <h2 class="pixel-font text-sm mb-6 text-blue-600 text-center">РЕГИСТРАЦИЯ ПИРАТА</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold mb-1">НИКНЕЙМ (для рейтинга):</label>
+                    <input v-model="form.nickname" class="w-full input-field" placeholder="Gamer123">
                 </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">ФИО:</label>
+                    <input v-model="form.fullName" class="w-full input-field" placeholder="Иванов Иван">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">ГРУППА:</label>
+                    <select v-model="form.group" class="w-full input-field">
+                        <option value="МД-1">МД-1</option>
+                        <option value="МД-2">МД-2</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">№ ЗАЧЕТКИ:</label>
+                    <input v-model="form.studentId" class="w-full input-field" placeholder="123456">
+                </div>
+                
+                <button @click="handleRegister" class="w-full btn-orange pixel-font text-[10px] py-4 text-white mt-4">
+                    ПОДНЯТЬ ПАРУСА!
+                </button>
             </div>
-            <button @click="selectedIsland = null" class="mt-4 px-4 py-2 bg-blue-600 text-white">Закрыть</button>
         </div>
+
+        <!-- КАРТА (показывается только после логина) -->
+        <div v-else class="text-center">
+            <h1 class="pixel-font mb-4">Привет, {{ currentStudent.nickname }}!</h1>
+            <p>Карта островов загружается...</p>
+            <button @click="logout" class="mt-10 opacity-50 text-xs underline">выйти (сбросить токен)</button>
+        </div>
+
     </div>
 
-    <script>
+    <!-- Firebase модули (замени конфиг на свой) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbUTirRRVQYKm5xhlyW8EfCC6u4vat4fk",
+            authDomain: "mobile-godot.firebaseapp.com",
+            projectId: "mobile-godot",
+            storageBucket: "mobile-godot.firebasestorage.app",
+            messagingSenderId: "627472316601",
+            appId: "1:627472316601:web:5eea116c4967af86c48368"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         const { createApp, ref, onMounted } = Vue;
+
         createApp({
             setup() {
-                const islands = ref([]);
-                const selectedIsland = ref(null);
-
-                onMounted(async () => {
-                    // В будущем тут будет fetch('content.json')
-                    islands.value = [
-                        {
-                            id: 1,
-                            type: 'learning',
-                            title: 'Остров Начала',
-                            img: 'https://cdn-icons-png.flaticon.com/512/3514/3514419.png', // Временная иконка
-                            position: { x: 200, y: 300 },
-                            content: { theory: 'Godot - это круто!', practice: 'Создай Sprite2D' }
-                        },
-                        {
-                            id: 2,
-                            type: 'ship',
-                            title: 'Контрольная',
-                            img: 'https://cdn-icons-png.flaticon.com/512/3004/3004052.png',
-                            position: { x: 500, y: 200 },
-                            content: { theory: 'Быстрый тест на время', practice: 'Ответь на 5 вопросов' }
-                        }
-                    ];
+                const currentStudent = ref(null);
+                const form = ref({
+                    nickname: '',
+                    fullName: '',
+                    group: 'МД-1',
+                    studentId: ''
                 });
 
-                return { islands, selectedIsland };
+                // 1. Проверка при загрузке: есть ли сохраненный студент?
+                onMounted(async () => {
+                    const savedId = localStorage.getItem('pirate_token');
+                    if (savedId) {
+                        const docSnap = await getDoc(doc(db, "students", savedId));
+                        if (docSnap.exists()) {
+                            currentStudent.value = docSnap.data();
+                        }
+                    }
+                });
+
+                // 2. Логика регистрации
+                const handleRegister = async () => {
+                    if (!form.value.nickname || !form.value.studentId) {
+                        alert("Заполни поля, юнга!");
+                        return;
+                    }
+
+                    try {
+                        const docRef = await addDoc(collection(db, "students"), {
+                            ...form.value,
+                            totalScore: 0,
+                            completedIslands: [],
+                            createdAt: new Date()
+                        });
+                        
+                        localStorage.setItem('pirate_token', docRef.id);
+                        currentStudent.value = { ...form.value };
+                        alert("Добро пожаловать в команду!");
+                    } catch (e) {
+                        console.error("Ошибка: ", e);
+                    }
+                };
+
+                const logout = () => {
+                    localStorage.removeItem('pirate_token');
+                    location.reload();
+                };
+
+                return { form, currentStudent, handleRegister, logout };
             }
         }).mount('#app');
     </script>
