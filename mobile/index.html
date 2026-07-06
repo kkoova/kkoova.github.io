@@ -38,14 +38,68 @@
 
         <!-- КАРТА (показывается после входа) -->
         <div v-else class="w-full h-full text-center">
-            <header class="p-4 bg-black bg-opacity-30 flex justify-between items-center">
-                <span class="pixel-font text-xs">Капитан: {{ currentStudent.nickname }}</span>
-                <button @click="logout" class="text-xs underline text-orange-400">Сменить аккаунт</button>
-            </header>
-            <div class="mt-20">
-                <h1 class="pixel-font text-2xl">КАРТА ОСТРОВОВ</h1>
-                <p class="mt-4 text-orange-200">Тут скоро появятся твои приключения...</p>
-            </div>
+            <div class="h-screen flex flex-col">
+                <!-- Шапка -->
+                <header class="h-[60px] p-4 bg-black/40 flex justify-between items-center border-b-4 border-black/20">
+                    <div class="flex items-center gap-4">
+                        <span class="pixel-font text-[10px]">🗺️ Острова: {{ islands.length }}</span>
+                        <span class="pixel-font text-[10px] text-orange-400">🏆 Очки: {{ currentStudent.totalScore || 0 }}</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="pixel-font text-[10px]">{{ currentStudent.nickname }} ({{ currentStudent.group }})</span>
+                        <button @click="logout" class="bg-red-500 text-[8px] pixel-font p-2 border-b-4 border-red-800 active:border-0">ВЫЙТИ</button>
+                    </div>
+                </header>
+
+                <!-- Вьюпорт карты -->
+                <main class="map-viewport">
+                    <div class="map-canvas">
+                        
+                        <!-- Отрисовка островов из Firebase -->
+                        <div v-for="island in islands" 
+                                :key="island.id"
+                                class="island-node"
+                                :class="{ 'ship-node': island.type === 'ship' }"
+                                :style="{ left: island.x + 'px', top: island.y + 'px' }"
+                                @click="openIsland(island)">
+                            
+                            <!-- Если картинки нет, показываем стандартную -->
+                            <img :src="island.img || 'assets/default_island.png'" class="island-img">
+                            
+                            <div class="island-label pixel-font">
+                                {{ island.title }}
+                            </div>
+                        </div>
+
+                    </div>
+                </main>
+                </div>
+
+                <!-- Модальное окно Острова (Теория/Практика) -->
+                <div v-if="selectedIsland" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+                <div class="bg-white text-black w-full max-w-2xl max-h-[90vh] overflow-y-auto pixel-border p-6 relative">
+                    <button @click="selectedIsland = null" class="absolute top-2 right-2 text-2xl">×</button>
+                    
+                    <h2 class="pixel-font text-blue-600 mb-6">{{ selectedIsland.title }}</h2>
+                    
+                    <!-- Вывод шагов из объекта steps (как на твоем скриншоте) -->
+                    <div class="space-y-6">
+                        <div v-if="selectedIsland.steps.theory" class="p-4 bg-blue-50 border-l-4 border-blue-500">
+                            <h3 class="font-bold mb-2">📖 ТЕОРИЯ</h3>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.theory }}</p>
+                        </div>
+
+                        <div v-if="selectedIsland.steps.practice" class="p-4 bg-orange-50 border-l-4 border-orange-500">
+                            <h3 class="font-bold mb-2">🛠️ ПРАКТИКА</h3>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.practice }}</p>
+                        </div>
+                        
+                        <div class="mt-8 flex gap-4">
+                            <button class="btn-primary flex-1 pixel-font text-[10px]">СДАТЬ ЗАДАНИЕ</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
         </div>
 
     </div>
