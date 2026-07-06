@@ -42,19 +42,25 @@
                 <!-- Шапка -->
                 <header class="h-[60px] p-4 bg-black/40 flex justify-between items-center border-b-4 border-black/20">
                     <div class="flex items-center gap-4">
-                        <span class="pixel-font text-[10px]">🗺️ Острова: {{ islands.length }}</span>
-                        <span class="pixel-font text-[10px] text-orange-400">🏆 Очки: {{ currentStudent.totalScore || 0 }}</span>
+                        <button @click="loadLeaderboard" class="btn-primary px-4 py-1 text-[10px] pixel-font">🏆 РЕЙТИНГ</button>
+                        <span class="pixel-font text-[10px] text-orange-400">Твои очки: {{ currentStudent.totalScore || 0 }}</span>
                     </div>
                     <div class="flex items-center gap-4">
-                        <span class="pixel-font text-[10px]">{{ currentStudent.nickname }} ({{ currentStudent.group }})</span>
-                        <button @click="logout" class="bg-red-500 text-[8px] pixel-font p-2 border-b-4 border-red-800 active:border-0">ВЫЙТИ</button>
+                        <span class="pixel-font text-[10px]">{{ currentStudent.nickname }}</span>
+                        <button @click="logout" class="bg-red-500 text-[8px] pixel-font p-2 border-b-4 border-red-800">ВЫЙТИ</button>
                     </div>
                 </header>
 
                 <!-- Вьюпорт карты -->
                 <main class="map-viewport">
                     <div class="map-canvas">
-                        
+                        <!-- Пунктирные линии -->
+                        <div v-for="(path, index) in paths" 
+                            :key="'path-'+index" 
+                            class="map-path" 
+                            :style="path">
+                        </div>
+
                         <!-- Отрисовка островов из Firebase -->
                         <div v-for="island in islands" 
                                 :key="island.id"
@@ -100,6 +106,33 @@
                     </div>
                 </div>
                 </div>
+        </div>
+
+        <div v-if="showLeaderboard" class="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
+            <div class="bg-white text-black w-full max-w-lg pixel-border p-6 relative">
+                <button @click="showLeaderboard = false" class="absolute top-2 right-2 text-2xl">×</button>
+                
+                <h2 class="pixel-font text-blue-600 mb-4 text-center">ТАБЛИЦА ЛИДЕРОВ</h2>
+                
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th class="pixel-font">Ранг</th>
+                            <th class="pixel-font">Пират</th>
+                            <th class="pixel-font">Группа</th>
+                            <th class="pixel-font">Очки</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(student, index) in leaderboard" :key="index">
+                            <td><span class="rank-badge pixel-font">{{ index + 1 }}</span></td>
+                            <td class="font-bold">{{ student.nickname }}</td>
+                            <td>{{ student.group }}</td>
+                            <td class="text-orange-600 font-bold">{{ student.totalScore }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
