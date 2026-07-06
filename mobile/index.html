@@ -1,1 +1,115 @@
-Начало карты
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godot Mobile Course</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #296BF4;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .pixel-font { font-family: 'Press Start 2P', cursive; }
+        .map-container {
+            width: 2000px; height: 1000px;
+            position: relative;
+            background: #296BF4 url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); /* временная текстура воды */
+        }
+        .island {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-align: center;
+        }
+        .island:hover { transform: scale(1.1); }
+        .island img { width: 120px; image-rendering: pixelated; }
+        .accent-color { color: #ff7e21; }
+        .btn-accent { background-color: #ff7e21; color: white; border-radius: 0; }
+        .modal {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: white; color: #333;
+            padding: 20px; z-index: 100;
+            width: 80%; max-width: 600px;
+            box-shadow: 10px 10px 0px #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Шапка -->
+        <header class="p-5 flex justify-between items-center bg-opacity-50 bg-black">
+            <h1 class="pixel-font text-sm">Godot Mobile Islands</h1>
+            <div class="leaderboard-preview text-xs">
+                Лидер: <span class="accent-color">Pirate_Student1</span> | Твой Ранг: 12
+            </div>
+        </header>
+
+        <!-- Карта -->
+        <div class="map-container" @click.self="selectedIsland = null">
+            <div v-for="island in islands" 
+                 :key="island.id" 
+                 class="island" 
+                 :style="{ left: island.position.x + 'px', top: island.position.y + 'px' }"
+                 @click="selectedIsland = island">
+                <img :src="island.img" :alt="island.title">
+                <p class="text-xs mt-2 pixel-font" :style="{ color: island.type === 'ship' ? '#ff7e21' : 'white' }">
+                    {{ island.title }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Модалка с теорией/практикой -->
+        <div v-if="selectedIsland" class="modal">
+            <h2 class="pixel-font text-blue-600 mb-4">{{ selectedIsland.title }}</h2>
+            <div class="content overflow-y-auto max-h-96">
+                <p class="mb-4"><strong>Теория:</strong> {{ selectedIsland.content.theory }}</p>
+                <div class="p-4 bg-orange-100 border-l-4 border-orange-500 text-sm">
+                    <strong>Практика:</strong> {{ selectedIsland.content.practice }}
+                </div>
+            </div>
+            <button @click="selectedIsland = null" class="mt-4 px-4 py-2 bg-blue-600 text-white">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, onMounted } = Vue;
+        createApp({
+            setup() {
+                const islands = ref([]);
+                const selectedIsland = ref(null);
+
+                onMounted(async () => {
+                    // В будущем тут будет fetch('content.json')
+                    islands.value = [
+                        {
+                            id: 1,
+                            type: 'learning',
+                            title: 'Остров Начала',
+                            img: 'https://cdn-icons-png.flaticon.com/512/3514/3514419.png', // Временная иконка
+                            position: { x: 200, y: 300 },
+                            content: { theory: 'Godot - это круто!', practice: 'Создай Sprite2D' }
+                        },
+                        {
+                            id: 2,
+                            type: 'ship',
+                            title: 'Контрольная',
+                            img: 'https://cdn-icons-png.flaticon.com/512/3004/3004052.png',
+                            position: { x: 500, y: 200 },
+                            content: { theory: 'Быстрый тест на время', practice: 'Ответь на 5 вопросов' }
+                        }
+                    ];
+                });
+
+                return { islands, selectedIsland };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
