@@ -50,7 +50,7 @@ body {
     height: calc(100vh - 60px); /* Минус высота шапки */
     overflow: auto;
     position: relative;
-    background-color: #296BF4;
+    background-color: #baab80;
     background-image: radial-gradient(rgba(255,255,255,0.1) 2px, transparent 2px);
     background-size: 40px 40px; /* Сетка как в редакторе Godot */
 }
@@ -77,11 +77,9 @@ body {
 }
 
 .island-img {
-    width: 100px;
-    height: 100px;
+    width: 100%;
     object-fit: contain;
-    image-rendering: pixelated; /* Чтобы пиксели были четкими */
-    filter: drop-shadow(0 8px 0 rgba(0,0,0,0.2));
+    image-rendering: pixelated;
 }
 
 .island-label {
