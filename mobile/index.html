@@ -77,12 +77,12 @@
                                 :style="{ left: island.x + 'px', top: island.y + 'px' }"
                                 @click="openIsland(island)">
                             
-                            <div class="scroll-container">
-                                <span class="scroll-text">{{ island.title }}</span>
-                            </div>
-
                             <!-- Если картинки нет, показываем стандартную -->
                             <img :src="island.img || 'assets/default_island.png'" class="island-img">
+                            
+                            <div class="island-label pixel-font">
+                                {{ island.title }}
+                            </div>
                         </div>
 
                     </div>
