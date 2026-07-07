@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <img src="https://kkoova.github.io/mobile/assets/map/comaps.png" class="player-hud-icon" alt="Player">
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
         
         <!-- Контейнер авторизации/регистрации -->
@@ -55,6 +54,8 @@
                 <!-- Вьюпорт карты -->
                 <main class="map-viewport">
                     <div class="map-canvas">
+                        <!-- Компас -->
+                        <img src="https://kkoova.github.io/mobile/assets/map/comaps.png" class="player-hud-icon">
                         <!-- Пунктирные линии -->
                         <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 5;">
                             <path v-for="(path, index) in paths" 

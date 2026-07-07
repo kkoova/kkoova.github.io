@@ -59,13 +59,12 @@ body {
     border-width: 10px;
     border-color: #baab80;
     background-color: #baab80;
-    width: 2000px;
+    width: 1800px;
     height: 750px;
     position: relative;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    mask-image: url(https://kkoova.github.io/mobile/assets/map/map-mask-black.png);
-    -webkit-mask-box-image: url(https://kkoova.github.io/mobile/assets/map/map-mask-black.png) 30 fill repeat;
+    -webkit-mask-box-image: url(https://kkoova.github.io/mobile/assets/map/map-mask-black.png) 7 fill repeat;
 }
 
 /* Остров */
@@ -182,19 +181,10 @@ body {
 }
 
 .player-hud-icon {
-  position: fixed; 
-  
-  bottom: 20px; 
-  right: 20px; 
-  
-  width: 100%;
-  height: auto;
-  
-  z-index: 9999; 
-  
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  
-  user-select: none;
-  pointer-events: none; 
+    position: relative;
+    bottom: -37%;
+    right: -73%;
+    width: 800px;
+    height: auto;
+    z-index: 9999;
 }
