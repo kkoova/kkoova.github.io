@@ -50,24 +50,22 @@ body {
     height: calc(100vh - 60px); /* Минус высота шапки */
     overflow: auto;
     position: relative;
-    background-color: #baab80;
     background-image: radial-gradient(rgba(255,255,255,0.1) 2px, transparent 2px);
     background-size: 40px 40px; /* Сетка как в редакторе Godot */
 }
 
 .map-canvas {
-    width: 2000px; /* Размер игрового мира */
-    height: 2000px;
+    margin: 30px;
+    border-width: 10px;
+    border-color: #baab80;
+    background-color: #baab80;
+    width: 2000px;
+    height: 750px;
     position: relative;
-
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-
-    -webkit-mask-image: url('https://kkoova.github.io/mobile/assets/map/map-mask-black.png');
-    mask-image: url('https://kkoova.github.io/mobile/assets/map/map-mask-black.png');
-
-    -webkit-mask-box-image: url('https://kkoova.github.io/mobile/assets/map/map-mask-black.png') 30 fill repeat;
-    mask-box-image: url('https://kkoova.github.io/mobile/assets/map/map-mask-black.png') 30 fill repeat;
+    mask-image: url(https://kkoova.github.io/mobile/assets/map/map-mask-black.png);
+    -webkit-mask-box-image: url(https://kkoova.github.io/mobile/assets/map/map-mask-black.png) 30 fill repeat;
 }
 
 /* Остров */
@@ -181,4 +179,22 @@ body {
 
 .ship-node .island-img {
     filter: drop-shadow(0 0 10px rgba(255, 126, 33, 0.5)); /* Оранжевое свечение корабля */
+}
+
+.player-hud-icon {
+  position: fixed; 
+  
+  bottom: 20px; 
+  right: 20px; 
+  
+  width: 100%;
+  height: auto;
+  
+  z-index: 9999; 
+  
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  
+  user-select: none;
+  pointer-events: none; 
 }
