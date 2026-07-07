@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: var(--primary-blue);
+    background-color: #977d4e;
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -59,6 +59,15 @@ body {
     width: 2000px; /* Размер игрового мира */
     height: 2000px;
     position: relative;
+
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+
+    -webkit-mask-image: url('https://kkoova.github.io/mobile/assets/map/map-mask-black.png');
+    mask-image: url('https://kkoova.github.io/mobile/assets/map/map-mask-black.png');
+
+    -webkit-mask-box-image: url('https://kkoova.github.io/mobile/assets/map/map-mask-black.png') 30 fill repeat;
+    mask-box-image: url('https://kkoova.github.io/mobile/assets/map/map-mask-black.png') 30 fill repeat;
 }
 
 /* Остров */
