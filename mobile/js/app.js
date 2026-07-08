@@ -202,7 +202,7 @@ createApp({
         return { 
             currentStudent, authMode, loginForm, regForm, islands, selectedIsland,
             handleLogin, handleRegister, logout, openIsland, paths, showLeaderboard,
-            leaderboard, loadLeaderboard, arrayUnion
+            leaderboard, loadLeaderboard
         };
     }
 }).mount('#app');
