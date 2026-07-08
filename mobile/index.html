@@ -100,12 +100,15 @@
                     <div class="space-y-6">
                         <div v-if="selectedIsland.steps.theory" class="p-4 bg-blue-50 border-l-4 border-blue-500">
                             <h3 class="font-bold mb-2">📖 ТЕОРИЯ</h3>
-                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.theory }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.theory.media }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.theory.text }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.theory.title }}</p>
                         </div>
 
                         <div v-if="selectedIsland.steps.practice" class="p-4 bg-orange-50 border-l-4 border-orange-500">
                             <h3 class="font-bold mb-2">🛠️ ПРАКТИКА</h3>
-                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.practice }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.practice.task }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.practice.title }}</p>
                         </div>
                         
                         <div class="mt-8 flex gap-4">
