@@ -88,6 +88,9 @@
                     </div>
                 </main>
                 </div>
+                
+                <!-- Модальное окно Острова (Теория/Практика) -->
+                <div v-if="selectedIsland" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
                 <!-- Если выбран корабль -->
                 <div v-if="selectedIsland.type === 'ship'" class="parchment-bg p-8 w-full max-w-xl">
                     
@@ -126,8 +129,7 @@
                         <button @click="selectedIsland = null; quizState = 'intro'" class="pixel-btn-wood px-8 py-3 pixel-font text-xs">ВЕРНУТЬСЯ НА КАРТУ</button>
                     </div>
                 </div>    
-                <!-- Модальное окно Острова (Теория/Практика) -->
-                <div v-if="selectedIsland" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+                <!-- Если выбран теория\практика -->
                 <div class="map-container bg-white text-black w-full max-w-2xl max-h-[90vh] overflow-y-auto pixel-border p-6 relative">
                     <button @click="selectedIsland = null" class="absolute top-2 right-2 text-2xl">×</button>
                     
