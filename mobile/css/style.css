@@ -84,7 +84,6 @@ body {
 .island-img {
     transform-origin: top left;
     transform: scale(2.5);
-    width: 100%;
     object-fit: contain;
     image-rendering: pixelated;
 }
@@ -190,3 +189,32 @@ body {
     z-index: 9999;
 }
 
+.scroll-container {
+    position: absolute;
+    top: -50px; /* Поднимаем над островом */
+    left: 100%;
+    transform: translateX(-50%) translateY(10px); /* Смещение вниз для анимации */
+    
+    width: 180px; /* Подбери под размер своего изображения */
+    height: 60px;
+    
+    background-image: url('https://kkoova.github.io/mobile/assets/map/scroll.png'); /* Путь к твоему свитку */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    opacity: 0; /* Изначально невидим */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none; /* Чтобы свиток не мешал кликать по острову */
+    z-index: 20;
+    image-rendering: pixelated;
+}
+
+.island-node:hover .scroll-container {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
