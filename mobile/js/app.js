@@ -37,6 +37,7 @@ createApp({
                 const start = sortedIslands[i];
                 const end = sortedIslands[i + 1];
 
+                if (start == 9 || start == 7) return;
                 // Координаты центров островов (добавляем смещение, чтобы линия выходила из центра)
                 const x1 = start.x + 50;
                 const y1 = start.y + 50;
