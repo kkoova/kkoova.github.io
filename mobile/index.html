@@ -88,7 +88,44 @@
                     </div>
                 </main>
                 </div>
+                <!-- Если выбран корабль -->
+                <div v-if="selectedIsland.type === 'ship'" class="parchment-bg p-8 w-full max-w-xl">
+                    
+                    <!-- ЭКРАН 1: ИНТРО -->
+                    <div v-if="quizState === 'intro'" class="text-center">
+                        <h2 class="pixel-font text-xl mb-4">⚓ {{ selectedIsland.title }}</h2>
+                        <p class="mb-6">Приготовьтесь к абордажу! У вас будет {{ selectedIsland.timeLimit }} секунд на ответы.</p>
+                        <p class="text-xs italic mb-6">Тест доступен до: {{ formatDate(selectedIsland.activeUntil) }}</p>
+                        <button @click="startQuiz" class="pixel-btn-wood px-8 py-3 pixel-font text-xs">В БОЙ!</button>
+                    </div>
 
+                    <!-- ЭКРАН 2: ВОПРОСЫ -->
+                    <div v-if="quizState === 'started'">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="pixel-font text-[10px]">Вопрос {{ currentQuestionIndex + 1 }}/{{ selectedIsland.questions.length }}</span>
+                            <span class="pixel-font text-[10px] text-red-700">⏳ {{ quizTimer }}с</span>
+                        </div>
+                        <div class="timer-bar mb-6" :style="{ width: (quizTimer / selectedIsland.timeLimit * 100) + '%' }"></div>
+                        
+                        <h3 class="text-lg font-bold mb-6">{{ selectedIsland.questions[currentQuestionIndex].q }}</h3>
+                        
+                        <div class="space-y-2">
+                            <button v-for="(ans, idx) in selectedIsland.questions[currentQuestionIndex].a" 
+                                    @click="handleAnswer(idx)"
+                                    class="option-btn pixel-font text-[8px]">
+                                {{ idx + 1 }}. {{ ans }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ЭКРАН 3: РЕЗУЛЬТАТ -->
+                    <div v-if="quizState === 'result'" class="text-center">
+                        <h2 class="pixel-font text-xl mb-4">БОЙ ОКОНЧЕН!</h2>
+                        <p class="text-4xl font-bold mb-4">{{ quizScore }} / {{ selectedIsland.questions.length }}</p>
+                        <p class="mb-6">Вы заработали {{ quizScore * 10 }} золотых монет!</p>
+                        <button @click="selectedIsland = null; quizState = 'intro'" class="pixel-btn-wood px-8 py-3 pixel-font text-xs">ВЕРНУТЬСЯ НА КАРТУ</button>
+                    </div>
+                </div>    
                 <!-- Модальное окно Острова (Теория/Практика) -->
                 <div v-if="selectedIsland" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
                 <div class="bg-white text-black w-full max-w-2xl max-h-[90vh] overflow-y-auto pixel-border p-6 relative">

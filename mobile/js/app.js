@@ -128,10 +128,63 @@ createApp({
             location.reload();
         };
 
+        const quizState = ref('intro'); // 'intro', 'started', 'result'
+        const currentQuestionIndex = ref(0);
+        const quizTimer = ref(0);
+        const quizScore = ref(0);
+        const timerInterval = ref(null);
+
+        const startQuiz = () => {
+            quizState.value = 'started';
+            currentQuestionIndex.value = 0;
+            quizScore.value = 0;
+            quizTimer.value = selectedIsland.value.timeLimit;
+            
+            // Запуск таймера
+            timerInterval.value = setInterval(() => {
+                if (quizTimer.value > 0) {
+                    quizTimer.value--;
+                } else {
+                    finishQuiz();
+                }
+            }, 1000);
+        };
+
+        const handleAnswer = (index) => {
+            const isCorrect = index === selectedIsland.value.questions[currentQuestionIndex.value].correct;
+            if (isCorrect) quizScore.value++;
+            
+            if (currentQuestionIndex.value < selectedIsland.value.questions.length - 1) {
+                currentQuestionIndex.value++;
+            } else {
+                finishQuiz();
+            }
+        };
+
+        const finishQuiz = async () => {
+            clearInterval(timerInterval.value);
+            quizState.value = 'result';
+            
+            // Сохранение в Firebase
+            const studentRef = doc(db, "students", currentStudent.value.id);
+            const quizResult = {
+                islandId: selectedIsland.value.id,
+                score: quizScore.value,
+                total: selectedIsland.value.questions.length,
+                date: new Date()
+            };
+            
+            // Обновляем очки и добавляем результат (упрощенно)
+            await updateDoc(studentRef, {
+                totalScore: (currentStudent.value.totalScore || 0) + quizScore.value * 10,
+                completedQuizzes: arrayUnion(quizResult)
+            });
+        };
+
         return { 
             currentStudent, authMode, loginForm, regForm, islands, selectedIsland,
             handleLogin, handleRegister, logout, openIsland, paths, showLeaderboard,
-            leaderboard, loadLeaderboard
+            leaderboard, loadLeaderboard, updateDoc, arrayUnion
         };
     }
 }).mount('#app');
