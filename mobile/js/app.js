@@ -19,7 +19,25 @@ createApp({
         // Функция для расчета линий между островами
         const calculatePaths = () => {
             const newPaths = [];
-            const sortedIslands = [...islands.value].sort((a, b) => a.order - b.order);
+            const sortedIslands = [...islands.value].sort((a, b) => {
+                let orderA = a.order;
+                let orderB = b.order;
+
+                // Меняем виртуальный вес: если это 7, превращаем в 8, и наоборот
+                if (orderA === 7) orderA = 8;
+                else if (orderA === 8) orderA = 7;
+
+                if (orderB === 7) orderB = 8;
+                else if (orderB === 8) orderB = 7;
+
+                if (orderA === 9) orderA = 8;
+                else if (orderA === 8) orderA = 9;
+
+                if (orderB === 9) orderB = 8;
+                else if (orderB === 8) orderB = 9;
+
+                return orderA - orderB;
+            });
 
             for (let i = 0; i < sortedIslands.length - 1; i++) {
                 const start = sortedIslands[i];

@@ -12,7 +12,7 @@
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
         
         <!-- Контейнер авторизации/регистрации -->
-        <div v-if="!currentStudent" class="bg-white p-8 pixel-border max-w-md w-full text-black">
+        <div v-if="!currentStudent" class="map-container bg-white p-8 pixel-border max-w-md w-full text-black">
             
             <!-- ФОРМА ВХОДА -->
             <div v-if="authMode === 'login'">
@@ -80,7 +80,7 @@
                             <!-- Если картинки нет, показываем стандартную -->
                             <img :src="island.img || 'assets/default_island.png'" class="island-img">
                             
-                            <div class="island-label pixel-font">
+                            <div class="scroll-container pixel-font">
                                 {{ island.title }}
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                 </div>    
                 <!-- Модальное окно Острова (Теория/Практика) -->
                 <div v-if="selectedIsland" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-                <div class="bg-white text-black w-full max-w-2xl max-h-[90vh] overflow-y-auto pixel-border p-6 relative">
+                <div class="map-container bg-white text-black w-full max-w-2xl max-h-[90vh] overflow-y-auto pixel-border p-6 relative">
                     <button @click="selectedIsland = null" class="absolute top-2 right-2 text-2xl">×</button>
                     
                     <h2 class="pixel-font text-blue-600 mb-6">{{ selectedIsland.title }}</h2>
@@ -137,12 +137,15 @@
                     <div class="space-y-6">
                         <div v-if="selectedIsland.steps.theory" class="p-4 bg-blue-50 border-l-4 border-blue-500">
                             <h3 class="font-bold mb-2">📖 ТЕОРИЯ</h3>
-                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.theory }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.theory.media }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.theory.text }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.theory.title }}</p>
                         </div>
 
                         <div v-if="selectedIsland.steps.practice" class="p-4 bg-orange-50 border-l-4 border-orange-500">
                             <h3 class="font-bold mb-2">🛠️ ПРАКТИКА</h3>
-                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.practice }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.practice.task }}</p>
+                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.practice.title }}</p>
                         </div>
                         
                         <div class="mt-8 flex gap-4">
@@ -154,7 +157,7 @@
         </div>
 
         <div v-if="showLeaderboard" class="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-            <div class="bg-white text-black w-full max-w-lg pixel-border p-6 relative">
+            <div class="map-container bg-white text-black w-full max-w-lg pixel-border p-6 relative">
                 <button @click="showLeaderboard = false" class="absolute top-2 right-2 text-2xl">×</button>
                 
                 <h2 class="pixel-font text-blue-600 mb-4 text-center">ТАБЛИЦА ЛИДЕРОВ</h2>
