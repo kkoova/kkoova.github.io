@@ -12,7 +12,7 @@
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
         
         <!-- Контейнер авторизации/регистрации -->
-        <div v-if="!currentStudent" class="bg-white p-8 pixel-border max-w-md w-full text-black">
+        <div v-if="!currentStudent" class="map-container bg-white p-8 pixel-border max-w-md w-full text-black">
             
             <!-- ФОРМА ВХОДА -->
             <div v-if="authMode === 'login'">
@@ -91,7 +91,7 @@
 
                 <!-- Модальное окно Острова (Теория/Практика) -->
                 <div v-if="selectedIsland" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-                <div class="bg-white text-black w-full max-w-2xl max-h-[90vh] overflow-y-auto pixel-border p-6 relative">
+                <div class="map-container bg-white text-black w-full max-w-2xl max-h-[90vh] overflow-y-auto pixel-border p-6 relative">
                     <button @click="selectedIsland = null" class="absolute top-2 right-2 text-2xl">×</button>
                     
                     <h2 class="pixel-font text-blue-600 mb-6">{{ selectedIsland.title }}</h2>
@@ -117,7 +117,7 @@
         </div>
 
         <div v-if="showLeaderboard" class="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-            <div class="bg-white text-black w-full max-w-lg pixel-border p-6 relative">
+            <div class="map-container bg-white text-black w-full max-w-lg pixel-border p-6 relative">
                 <button @click="showLeaderboard = false" class="absolute top-2 right-2 text-2xl">×</button>
                 
                 <h2 class="pixel-font text-blue-600 mb-4 text-center">ТАБЛИЦА ЛИДЕРОВ</h2>

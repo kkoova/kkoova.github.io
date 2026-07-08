@@ -14,17 +14,18 @@ body {
 .pixel-font { font-family: 'Press Start 2P', cursive; }
 
 .pixel-border {
+    border-color: white;
     border: 4px solid #000;
     box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
 }
 
 .btn-primary {
     background-color: var(--accent-orange);
-    color: white;
+    color: #baab80;
     padding: 12px;
-    border: 3px solid #000;
     cursor: pointer;
     transition: transform 0.1s;
+    box-shadow: 0px 5px 0px #977d4e;
 }
 
 .btn-primary:active { transform: translate(3px, 3px); }
@@ -217,4 +218,13 @@ body {
 .island-node:hover .scroll-container {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
+}
+
+.map-container {
+    image-rendering: crisp-edges;
+    margin: 30px;
+    border-width: 10px;
+    -webkit-mask-box-image: url(https://kkoova.github.io/mobile/assets/map/map-mask-black.png) 7 fill repeat;
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
