@@ -190,8 +190,6 @@ body {
     z-index: 9999;
 }
 
-<<<<<<< HEAD
-/* Стиль пергаментного окна */
 .parchment-bg {
     background-color: #f2e3c9;
     background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); /* Текстура бумаги */
@@ -234,7 +232,7 @@ body {
 
 .option-btn:hover {
     background: rgba(139, 69, 19, 0.2);
-=======
+
 .scroll-container {
     position: absolute;
     top: -50px; /* Поднимаем над островом */
@@ -272,5 +270,4 @@ body {
     -webkit-mask-box-image: url(https://kkoova.github.io/mobile/assets/map/map-mask-black.png) 7 fill repeat;
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
->>>>>>> f590ed86856e3861d335c816cec801d2cf82473d
 }

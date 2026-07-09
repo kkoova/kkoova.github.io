@@ -30,19 +30,16 @@ createApp({
                 if (orderB === 7) orderB = 8;
                 else if (orderB === 8) orderB = 7;
 
-                if (orderA === 9) orderA = 8;
-                else if (orderA === 8) orderA = 9;
-
-                if (orderB === 9) orderB = 8;
-                else if (orderB === 8) orderB = 9;
-
                 return orderA - orderB;
             });
 
             for (let i = 0; i < sortedIslands.length - 1; i++) {
                 const start = sortedIslands[i];
                 const end = sortedIslands[i + 1];
-
+                
+                if (end.order === 8 || end.order === 9) {
+                    continue;
+                }
                 // Координаты центров островов (добавляем смещение, чтобы линия выходила из центра)
                 const x1 = start.x + 50;
                 const y1 = start.y + 50;
