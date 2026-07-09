@@ -16,6 +16,12 @@ createApp({
         const showLeaderboard = ref(false); // Состояние для модалки рейтинга
         const leaderboard = ref([]);
 
+        const quizState = ref('intro'); // 'intro', 'started', 'result'
+        const currentQuestionIndex = ref(0);
+        const quizTimer = ref(0);
+        const quizScore = ref(0);
+        const timerInterval = ref(null);
+
         // Функция для расчета линий между островами
         const calculatePaths = () => {
             const newPaths = [];
@@ -37,7 +43,7 @@ createApp({
                 const start = sortedIslands[i];
                 const end = sortedIslands[i + 1];
                 
-                if (end.order === 8 || end.order === 9) {
+                if (end == 8 || end == 9) {
                     continue;
                 }
                 // Координаты центров островов (добавляем смещение, чтобы линия выходила из центра)
@@ -142,13 +148,7 @@ createApp({
             localStorage.removeItem('pirate_token');
             location.reload();
         };
-        /*
-        const quizState = ref('intro'); // 'intro', 'started', 'result'
-        const currentQuestionIndex = ref(0);
-        const quizTimer = ref(0);
-        const quizScore = ref(0);
-        const timerInterval = ref(null);
-
+        
         const startQuiz = () => {
             quizState.value = 'started';
             currentQuestionIndex.value = 0;
@@ -195,7 +195,7 @@ createApp({
                 completedQuizzes: arrayUnion(quizResult)
             });
         };
-        */
+        
         return { 
             currentStudent, authMode, loginForm, regForm, islands, selectedIsland,
             handleLogin, handleRegister, logout, openIsland, paths, showLeaderboard,

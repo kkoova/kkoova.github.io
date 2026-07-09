@@ -177,9 +177,11 @@ body {
     50% { transform: translateY(-10px); }
 }
 
+/*
 .ship-node .island-img {
-    filter: drop-shadow(0 0 10px rgba(255, 126, 33, 0.5)); /* Оранжевое свечение корабля */
+    filter: drop-shadow(0 0 10px rgba(255, 126, 33, 0.5));
 }
+*/
 
 .player-hud-icon {
     position: relative;
@@ -189,7 +191,7 @@ body {
     height: auto;
     z-index: 9999;
 }
-/*
+
 .parchment-bg {
     background-color: #f2e3c9;
     background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
@@ -199,7 +201,7 @@ body {
     color: #4a2c1d;
     position: relative;
 }
-
+/*
 .pixel-btn-wood {
     background-color: #8b4513;
     color: #f2e3c9;
