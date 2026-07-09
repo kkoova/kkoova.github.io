@@ -1,41 +1,39 @@
-import { db, collection, addDoc, doc, getDoc, getDocs, query, where, orderBy } from './firebase-config.js';
+import { 
+    db, collection, addDoc, doc, getDoc, getDocs, query, where, orderBy, updateDoc, arrayUnion 
+} from './firebase-config.js';
 
 const { createApp, ref, onMounted } = Vue;
 
 createApp({
     setup() {
+        // --- СОСТОЯНИЕ ИГРОКА И АВТОРИЗАЦИИ ---
         const currentStudent = ref(null);
         const authMode = ref('login');
-        const islands = ref([]); // Хранилище островов
-        const selectedIsland = ref(null); // Для модалки
-        
         const loginForm = ref({ nickname: '', studentId: '' });
         const regForm = ref({ nickname: '', fullName: '', group: '', studentId: '' });
 
+        // --- СОСТОЯНИЕ КАРТЫ И КОНТЕНТА ---
+        const islands = ref([]);
         const paths = ref([]);
-        const showLeaderboard = ref(false); // Состояние для модалки рейтинга
+        const selectedIsland = ref(null);
         const leaderboard = ref([]);
+        const showLeaderboard = ref(false);
 
-        const quizState = ref('intro'); // 'intro', 'started', 'result'
+        // --- СОСТОЯНИЕ КВИЗА (КОРАБЛИ) ---
+        const quizState = ref('intro'); 
         const currentQuestionIndex = ref(0);
         const quizTimer = ref(0);
         const quizScore = ref(0);
         const timerInterval = ref(null);
 
-        // Функция для расчета линий между островами
+        // --- ЛОГИКА ГЕНЕРАЦИИ ПУТЕЙ (С ХАОСОМ) ---
         const calculatePaths = () => {
             const newPaths = [];
             const sortedIslands = [...islands.value].sort((a, b) => {
                 let orderA = a.order;
                 let orderB = b.order;
-
-                // Меняем виртуальный вес: если это 7, превращаем в 8, и наоборот
-                if (orderA === 7) orderA = 8;
-                else if (orderA === 8) orderA = 7;
-
-                if (orderB === 7) orderB = 8;
-                else if (orderB === 8) orderB = 7;
-
+                if (orderA === 7) orderA = 8; else if (orderA === 8) orderA = 7;
+                if (orderB === 7) orderB = 8; else if (orderB === 8) orderB = 7;
                 return orderA - orderB;
             });
 
@@ -43,36 +41,33 @@ createApp({
                 const start = sortedIslands[i];
                 const end = sortedIslands[i + 1];
                 
-                if (end == 8 || end == 9) {
-                    continue;
-                }
-                // Координаты центров островов (добавляем смещение, чтобы линия выходила из центра)
+                if (end.order == 8 || end.order == 9) continue;
+
                 const x1 = start.x + 50;
                 const y1 = start.y + 50;
                 const x2 = end.x + 50;
                 const y2 = end.y + 50;
 
-                // Находим среднюю точку между островами
                 const midX = (x1 + x2) / 2;
                 const midY = (y1 + y2) / 2;
-
-                // Добавляем "хаос": случайное смещение для контрольной точки кривой
-                // Чем больше число, тем сильнее изгиб. 
-                // Используем индекс i, чтобы изгиб был "стабильным" и не дергался при перерисовке
                 const offset = 80; 
                 const chaoticX = midX + (Math.sin(i) * offset); 
                 const chaoticY = midY + (Math.cos(i) * offset);
 
-                // Формируем команду для Квадратичной кривой Безье: 
-                // M = переместиться в начало, Q = согнуть через точку (chaotic), закончить в (x2, y2)
                 const d = `M ${x1} ${y1} Q ${chaoticX} ${chaoticY} ${x2} ${y2}`;
-
                 newPaths.push({ d });
             }
             paths.value = newPaths;
         };
 
-        // Загрузка рейтинга
+        // --- РАБОТА С ДАННЫМИ (FIREBASE) ---
+        const loadIslands = async () => {
+            const q = query(collection(db, "islands"), orderBy("order", "asc"));
+            const snap = await getDocs(q);
+            islands.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            calculatePaths();
+        };
+
         const loadLeaderboard = async () => {
             const q = query(collection(db, "students"), orderBy("totalScore", "desc"));
             const snap = await getDocs(q);
@@ -80,108 +75,93 @@ createApp({
             showLeaderboard.value = true;
         };
 
-        // Обнови loadIslands, чтобы после загрузки считались пути
-        const loadIslands = async () => {
-            const q = query(collection(db, "islands"), orderBy("order", "asc"));
-            const snap = await getDocs(q);
-            islands.value = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            calculatePaths(); // <--- Считаем пути
+        const formatTimestamp = (ts) => {
+            if (!ts) return "";
+            return ts.toDate().toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
         };
 
+        const isQuizAvailable = (island) => {
+            if (!island.availableFrom || !island.availableUntil) return true;
+            const now = new Date();
+            return now >= island.availableFrom.toDate() && now <= island.availableUntil.toDate();
+        };
+
+        // --- ЛОГИКА АВТОРИЗАЦИИ ---
         onMounted(async () => {
             const savedId = localStorage.getItem('pirate_token');
             if (savedId) {
                 const docSnap = await getDoc(doc(db, "students", savedId));
                 if (docSnap.exists()) {
                     currentStudent.value = { id: docSnap.id, ...docSnap.data() };
-                    // Если залогинены — грузим карту
                     loadIslands();
                 }
             }
         });
 
-        // Открытие острова
-        const openIsland = (island) => {
-            selectedIsland.value = island;
-        };
-
-        // ВХОД
         const handleLogin = async () => {
             if (!loginForm.value.nickname || !loginForm.value.studentId) return alert("Заполни поля!");
-            
-            const q = query(
-                collection(db, "students"), 
-                where("nickname", "==", loginForm.value.nickname),
-                where("studentId", "==", loginForm.value.studentId)
-            );
-
+            const q = query(collection(db, "students"), where("nickname", "==", loginForm.value.nickname), where("studentId", "==", loginForm.value.studentId));
             const querySnapshot = await getDocs(q);
             if (!querySnapshot.empty) {
                 const userDoc = querySnapshot.docs[0];
                 localStorage.setItem('pirate_token', userDoc.id);
                 currentStudent.value = { id: userDoc.id, ...userDoc.data() };
+                loadIslands();
             } else {
-                alert("Пират не найден! Проверь ник или зачетку.");
+                alert("Пират не найден!");
             }
         };
 
-        // РЕГИСТРАЦИЯ
         const handleRegister = async () => {
-            // Простая валидация
             if (!regForm.value.nickname || !regForm.value.studentId) return alert("Заполни данные!");
-
             try {
-                const docRef = await addDoc(collection(db, "students"), {
-                    ...regForm.value,
-                    totalScore: 0,
-                    completedIslands: [],
-                    createdAt: new Date()
-                });
+                const docRef = await addDoc(collection(db, "students"), { ...regForm.value, totalScore: 0, completedQuizzes: [], createdAt: new Date() });
                 localStorage.setItem('pirate_token', docRef.id);
                 currentStudent.value = { id: docRef.id, ...regForm.value };
-            } catch (e) {
-                alert("Ошибка при регистрации");
-            }
+                loadIslands();
+            } catch (e) { alert("Ошибка регистрации"); }
         };
 
-        const logout = () => {
-            localStorage.removeItem('pirate_token');
-            location.reload();
+        const logout = () => { localStorage.removeItem('pirate_token'); location.reload(); };
+
+        // --- ЛОГИКА ВЗАИМОДЕЙСТВИЯ С ОСТРОВАМИ ---
+        const openIsland = (island) => {
+            selectedIsland.value = island;
+            quizState.value = 'intro';
         };
-        
+
+        const closeIsland = () => {
+            selectedIsland.value = null;
+            quizState.value = 'intro';
+            clearInterval(timerInterval.value);
+        };
+
+        // --- ЛОГИКА КВИЗА (ТЕСТЫ НА ВРЕМЯ) ---
         const startQuiz = () => {
             quizState.value = 'started';
             currentQuestionIndex.value = 0;
             quizScore.value = 0;
-            quizTimer.value = selectedIsland.value.timeLimit;
+            quizTimer.value = selectedIsland.value.timeLimitSeconds || 60;
             
-            // Запуск таймера
             timerInterval.value = setInterval(() => {
-                if (quizTimer.value > 0) {
-                    quizTimer.value--;
-                } else {
-                    finishQuiz();
-                }
+                if (quizTimer.value > 0) quizTimer.value--;
+                else finishQuiz();
             }, 1000);
         };
 
         const handleAnswer = (index) => {
             const isCorrect = index === selectedIsland.value.questions[currentQuestionIndex.value].correct;
             if (isCorrect) quizScore.value++;
-            
-            if (currentQuestionIndex.value < selectedIsland.value.questions.length - 1) {
-                currentQuestionIndex.value++;
-            } else {
-                finishQuiz();
-            }
+            if (currentQuestionIndex.value < selectedIsland.value.questions.length - 1) currentQuestionIndex.value++;
+            else finishQuiz();
         };
 
         const finishQuiz = async () => {
             clearInterval(timerInterval.value);
             quizState.value = 'result';
             
-            // Сохранение в Firebase
             const studentRef = doc(db, "students", currentStudent.value.id);
+            const scoreToAdd = quizScore.value * 10;
             const quizResult = {
                 islandId: selectedIsland.value.id,
                 score: quizScore.value,
@@ -189,17 +169,19 @@ createApp({
                 date: new Date()
             };
             
-            // Обновляем очки и добавляем результат (упрощенно)
             await updateDoc(studentRef, {
-                totalScore: (currentStudent.value.totalScore || 0) + quizScore.value * 10,
+                totalScore: (currentStudent.value.totalScore || 0) + scoreToAdd,
                 completedQuizzes: arrayUnion(quizResult)
             });
+            // Локально обновляем очки, чтобы рейтинг сразу изменился
+            currentStudent.value.totalScore += scoreToAdd;
         };
-        
+
         return { 
             currentStudent, authMode, loginForm, regForm, islands, selectedIsland,
-            handleLogin, handleRegister, logout, openIsland, paths, showLeaderboard,
-            leaderboard, loadLeaderboard
+            paths, showLeaderboard, leaderboard, quizState, currentQuestionIndex,
+            quizTimer, quizScore, handleLogin, handleRegister, logout, openIsland, 
+            closeIsland, loadLeaderboard, startQuiz, handleAnswer, formatTimestamp, isQuizAvailable
         };
     }
 }).mount('#app');
