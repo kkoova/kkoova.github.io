@@ -142,7 +142,7 @@ createApp({
             localStorage.removeItem('pirate_token');
             location.reload();
         };
-
+        /*
         const quizState = ref('intro'); // 'intro', 'started', 'result'
         const currentQuestionIndex = ref(0);
         const quizTimer = ref(0);
@@ -195,7 +195,7 @@ createApp({
                 completedQuizzes: arrayUnion(quizResult)
             });
         };
-
+        */
         return { 
             currentStudent, authMode, loginForm, regForm, islands, selectedIsland,
             handleLogin, handleRegister, logout, openIsland, paths, showLeaderboard,

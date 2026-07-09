@@ -189,12 +189,12 @@ body {
     height: auto;
     z-index: 9999;
 }
-
+/*
 .parchment-bg {
     background-color: #f2e3c9;
-    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); /* Текстура бумаги */
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
     border: 20px solid transparent;
-    border-image: url('https://i.imgur.com/83pZ7vI.png') 30 stretch; /* Сюда можно найти рамку свитков */
+    border-image: url('https://i.imgur.com/83pZ7vI.png') 30 stretch;
     box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 100px rgba(139, 69, 19, 0.2);
     color: #4a2c1d;
     position: relative;
@@ -232,17 +232,17 @@ body {
 
 .option-btn:hover {
     background: rgba(139, 69, 19, 0.2);
-
+*/
 .scroll-container {
     position: absolute;
-    top: -50px; /* Поднимаем над островом */
+    top: -50px;
     left: 100%;
-    transform: translateX(-50%) translateY(10px); /* Смещение вниз для анимации */
+    transform: translateX(-50%) translateY(10px); 
     
-    width: 180px; /* Подбери под размер своего изображения */
+    width: 180px; 
     height: 60px;
     
-    background-image: url('https://kkoova.github.io/mobile/assets/map/scroll.png'); /* Путь к твоему свитку */
+    background-image: url('https://kkoova.github.io/mobile/assets/map/scroll.png'); 
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -251,9 +251,9 @@ body {
     align-items: center;
     justify-content: center;
     
-    opacity: 0; /* Изначально невидим */
+    opacity: 0; 
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    pointer-events: none; /* Чтобы свиток не мешал кликать по острову */
+    pointer-events: none; 
     z-index: 20;
     image-rendering: pixelated;
 }
