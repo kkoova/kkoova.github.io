@@ -10,7 +10,6 @@
 </head>
 <body>
     <div id="app" class="min-h-screen flex items-center justify-center p-4">
-        
         <!-- КОНТЕЙНЕР АВТОРИЗАЦИИ -->
         <div v-if="!currentStudent" class="map-container bg-white p-8 pixel-border max-w-md w-full text-black">
             <!-- ВХОД -->
@@ -86,7 +85,19 @@
                 
             <!-- МОДАЛЬНОЕ ОКНО (ОБЩЕЕ) -->
             <div v-if="selectedIsland" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-                
+                <!-- Тип: Обучение (Превью) -->
+                <div v-if="selectedIsland.type === 'learning'" class="map-container bg-white text-black w-full max-w-md pixel-border p-6 relative">
+                    <button @click="closeIsland" class="absolute top-2 right-2 text-2xl">×</button>
+                    
+                    <h2 class="pixel-font text-blue-600 mb-6 uppercase text-center">{{ selectedIsland.title }}</h2>
+                    
+                    <p class="text-sm mb-6 text-center">Вы готовы высадиться на этот берег и изучить его тайны?</p>
+
+                    <!-- Кнопка теперь вызывает функцию загрузки контента -->
+                    <button @click="openFullLesson(selectedIsland)" class="btn-primary w-full py-4 pixel-font">
+                        ВЫСАДИТЬСЯ →
+                    </button>
+                </div>
                 <!-- КОРАБЛЬ (КВИЗ) -->
                 <div v-if="selectedIsland.type === 'ship'" class="parchment-bg p-8 w-full max-w-xl relative">
                     <button @click="closeIsland" class="absolute top-2 right-2 text-2xl text-brown-900">×</button>
@@ -141,36 +152,28 @@
                     </div>
                 </div> 
 
-                <!-- ОСТРОВ (ОБУЧЕНИЕ) -->
-                <div v-if="selectedIsland.type === 'learning'" class="map-container bg-white text-black w-full max-w-2xl max-h-[90vh] overflow-y-auto pixel-border p-6 relative">
-                    <button @click="closeIsland" class="absolute top-2 right-2 text-2xl">×</button>
-                    <h2 class="pixel-font text-blue-600 mb-6 uppercase">{{ selectedIsland.title }}</h2>
-                    
-                    <div class="space-y-6">
-                        <!-- Теория -->
-                        <div v-if="selectedIsland.steps && selectedIsland.steps.theory" class="p-4 bg-blue-50 border-l-4 border-blue-500">
-                            <h3 class="font-bold mb-2">📖 {{ selectedIsland.steps.theory.title || 'ТЕОРИЯ' }}</h3>
-                            <div v-if="selectedIsland.steps.theory.media" class="mb-4">
-                                <img :src="selectedIsland.steps.theory.media" class="w-full rounded border-2 border-blue-200">
-                            </div>
-                            <p class="text-sm whitespace-pre-wrap leading-relaxed">{{ selectedIsland.steps.theory.text }}</p>
-                        </div>
+                <!-- ПОЛНОЭКРАННЫЙ СУДОВОЙ ЖУРНАЛ (ВЫНЕСЕН ИЗ МОДАЛКИ) -->
+                <div v-if="isLearningMode" class="learning-overlay">
+                    <aside class="learning-sidebar pixel-font">
+                        <h3>📖 СУДОВОЙ ЖУРНАЛ</h3>
+                        <!-- Используем currentLessonTitle, так как selectedIsland мы закроем -->
+                        <p class="text-[8px] opacity-50 mb-4">{{ currentLessonTitle }}</p>
+                        <button @click="isLearningMode = false" class="btn-primary mt-auto text-[8px]">↩ НА КАРТУ</button>
+                    </aside>
 
-                        <!-- Практика -->
-                        <div v-if="selectedIsland.steps && selectedIsland.steps.practice" class="p-4 bg-orange-50 border-l-4 border-orange-500">
-                            <h3 class="font-bold mb-2">🛠️ {{ selectedIsland.steps.practice.title || 'ПРАКТИКА' }}</h3>
-                            <p class="text-sm whitespace-pre-wrap">{{ selectedIsland.steps.practice.task }}</p>
-                            
-                            <!-- Поле для сдачи ссылки -->
-                            <div class="mt-4 pt-4 border-t border-orange-200">
-                                <label class="block text-[10px] font-bold mb-1">ССЫЛКА НА GITHUB:</label>
-                                <div class="flex gap-2">
-                                    <input type="text" class="input-field mb-0 text-xs" placeholder="https://github.com/...">
-                                    <button class="btn-primary py-2 px-4 text-[8px] pixel-font">ОТПРАВИТЬ</button>
-                                </div>
+                    <main class="learning-content bg-[#f2e3c9]">
+                        <!-- Сюда вставляется загруженный HTML -->
+                        <div v-html="currentLessonHTML" class="theory-viewer"></div>
+                        
+                        <div class="theory-section mt-20 p-10 border-t-4 border-brown-900 border-dashed">
+                            <h2 class="pixel-font">🛠️ СДАТЬ РАБОТУ</h2>
+                            <p class="text-sm mb-4">Вставьте ссылку на ваш GitHub репозиторий с выполненным заданием.</p>
+                            <div class="flex gap-2">
+                                <input type="text" v-model="githubLink" class="input-field mb-0" placeholder="https://github.com/...">
+                                <button @click="submitAssignment" class="btn-primary px-6">ОТПРАВИТЬ</button>
                             </div>
                         </div>
-                    </div>
+                    </main>
                 </div>
             </div>
         </div>

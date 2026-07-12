@@ -26,6 +26,49 @@ createApp({
         const quizScore = ref(0);
         const timerInterval = ref(null);
 
+        const isLearningMode = ref(false);
+        const currentLessonHTML = ref('');
+        const currentLessonTitle = ref('');
+        const githubLink = ref('');
+
+        const openFullLesson = async (island) => {
+        // 1. Сохраняем название для заголовка
+        currentLessonTitle.value = island.title;
+            
+            // 2. Если в Firebase прописано имя файла, грузим его
+            if (island.contentFile) {
+                try {
+                    const response = await fetch(`content/${island.contentFile}`);
+                    if (response.ok) {
+                        const encodedData = await response.text();
+                        // Декодируем Base64 (поддержка кириллицы)
+                        currentLessonHTML.value = decodeURIComponent(escape(window.atob(encodedData)));
+                    } else {
+                        currentLessonHTML.value = "<h2>Ошибка</h2><p>Файл манускрипта не найден в архивах гитхаба.</p>";
+                    }
+                } catch (e) {
+                    currentLessonHTML.value = "<h2>Ошибка связи</h2><p>Не удалось получить данные с сервера.</p>";
+                }
+            } else {
+                currentLessonHTML.value = "<h2>Пустой свиток</h2><p>Для этого острова еще не написана история...</p>";
+            }
+
+            // 3. Открываем полноэкранный режим и закрываем маленькое превью
+            isLearningMode.value = true;
+            selectedIsland.value = null; 
+        };
+
+        const submitAssignment = async () => {
+            if (!githubLink.value.includes('github.com')) {
+                alert("Юнга, это не похоже на ссылку GitHub!");
+                return;
+            }
+            // Здесь будет логика сохранения ссылки в Firebase (сделаем позже)
+            alert("Ваша работа отправлена капитану на проверку!");
+            githubLink.value = '';
+            isLearningMode.value = false;
+        };
+
         // --- ЛОГИКА ГЕНЕРАЦИИ ПУТЕЙ (С ХАОСОМ) ---
         const calculatePaths = () => {
             const newPaths = [];
@@ -181,7 +224,9 @@ createApp({
             currentStudent, authMode, loginForm, regForm, islands, selectedIsland,
             paths, showLeaderboard, leaderboard, quizState, currentQuestionIndex,
             quizTimer, quizScore, handleLogin, handleRegister, logout, openIsland, 
-            closeIsland, loadLeaderboard, startQuiz, handleAnswer, formatTimestamp, isQuizAvailable
+            closeIsland, loadLeaderboard, startQuiz, handleAnswer, formatTimestamp, isQuizAvailable,
+            isLearningMode, currentLessonHTML, currentLessonTitle, githubLink,
+            openFullLesson, submitAssignment
         };
     }
 }).mount('#app');
