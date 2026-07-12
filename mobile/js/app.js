@@ -26,10 +26,43 @@ createApp({
         const quizScore = ref(0);
         const timerInterval = ref(null);
 
-        const isLearningMode = ref(false);
         const currentLessonHTML = ref('');
         const currentLessonTitle = ref('');
         const githubLink = ref('');
+
+        const isAdminMode = ref(false);
+        const allStudents = ref([]);
+        const isLearningMode = ref(false);
+
+        // Функция загрузки всех студентов (только для админа)
+        const loadAllStudents = async () => {
+            try {
+                // Запрашиваем всех студентов, сортируем по группе
+                const q = query(collection(db, "students"), orderBy("group", "asc"));
+                const snap = await getDocs(q);
+                allStudents.value = snap.docs.map(doc => ({ 
+                    id: doc.id, 
+                    ...doc.data() 
+                }));
+            } catch (e) {
+                console.error("Ошибка при получении списка экипажа:", e);
+            }
+        };
+
+        // Функция для начисления баллов за GitHub (бонус)
+        const awardPoints = async (studentId, points) => {
+            try {
+                const sRef = doc(db, "students", studentId);
+                await updateDoc(sRef, {
+                    totalScore: increment(points)
+                });
+                // Обновляем список, чтобы сразу увидеть результат
+                await loadAllStudents();
+                alert(`Начислено ${points} золотых монет!`);
+            } catch (e) {
+                alert("Не удалось начислить баллы");
+            }
+        };
 
         const openFullLesson = async (island) => {
         // 1. Сохраняем название для заголовка
@@ -60,11 +93,27 @@ createApp({
 
         const submitAssignment = async () => {
             if (!githubLink.value.includes('github.com')) {
-                alert("Юнга, это не похоже на ссылку GitHub!");
+                alert("Нужна ссылка на GitHub!");
                 return;
             }
-            // Здесь будет логика сохранения ссылки в Firebase (сделаем позже)
-            alert("Ваша работа отправлена капитану на проверку!");
+
+            const studentRef = doc(db, "students", currentStudent.value.id);
+            
+            const newJob = {
+                islandId: selectedIsland.value.id,
+                islandTitle: selectedIsland.value.title,
+                link: githubLink.value,
+                status: "pending", // статус "на проверке"
+                submittedAt: new Date()
+            };
+
+            await updateDoc(studentRef, {
+                submittedJobs: arrayUnion(newJob),
+                // Опционально: добавляем в список пройденных, чтобы открыть следующий остров
+                completedIslands: arrayUnion(selectedIsland.value.id) 
+            });
+
+            alert("Работа отправлена на проверку!");
             githubLink.value = '';
             isLearningMode.value = false;
         };
@@ -147,22 +196,39 @@ createApp({
             const querySnapshot = await getDocs(q);
             if (!querySnapshot.empty) {
                 const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+                
                 localStorage.setItem('pirate_token', userDoc.id);
-                currentStudent.value = { id: userDoc.id, ...userDoc.data() };
+                currentStudent.value = { id: userDoc.id, ...userData };
+                
+                // ПРОВЕРКА РОЛИ
+                if (userData.role === 'admin') {
+                    isAdminMode.value = true;
+                    loadAllStudents(); // Загружаем список группы для учителя
+                }
+                
                 loadIslands();
-            } else {
-                alert("Пират не найден!");
             }
         };
 
         const handleRegister = async () => {
             if (!regForm.value.nickname || !regForm.value.studentId) return alert("Заполни данные!");
+
             try {
-                const docRef = await addDoc(collection(db, "students"), { ...regForm.value, totalScore: 0, completedQuizzes: [], createdAt: new Date() });
+                const docRef = await addDoc(collection(db, "students"), {
+                    ...regForm.value,
+                    role: "student", // <--- Всегда студент при регистрации
+                    totalScore: 0,
+                    completedIslands: [],
+                    submittedJobs: [], // Сюда будут падать ссылки на гитхаб
+                    createdAt: new Date()
+                });
                 localStorage.setItem('pirate_token', docRef.id);
-                currentStudent.value = { id: docRef.id, ...regForm.value };
+                currentStudent.value = { id: docRef.id, ...regForm.value, role: "student" };
                 loadIslands();
-            } catch (e) { alert("Ошибка регистрации"); }
+            } catch (e) {
+                alert("Ошибка регистрации");
+            }
         };
 
         const logout = () => { localStorage.removeItem('pirate_token'); location.reload(); };
@@ -221,12 +287,39 @@ createApp({
         };
 
         return { 
-            currentStudent, authMode, loginForm, regForm, islands, selectedIsland,
-            paths, showLeaderboard, leaderboard, quizState, currentQuestionIndex,
-            quizTimer, quizScore, handleLogin, handleRegister, logout, openIsland, 
-            closeIsland, loadLeaderboard, startQuiz, handleAnswer, formatTimestamp, isQuizAvailable,
-            isLearningMode, currentLessonHTML, currentLessonTitle, githubLink,
-            openFullLesson, submitAssignment
+            currentStudent, 
+            authMode, 
+            loginForm, 
+            regForm, 
+            islands, 
+            selectedIsland,
+            paths, 
+            showLeaderboard, 
+            leaderboard, 
+            quizState, 
+            currentQuestionIndex,
+            quizTimer, 
+            quizScore, 
+            handleLogin, 
+            handleRegister, 
+            logout, 
+            openIsland, 
+            closeIsland, 
+            loadLeaderboard, 
+            startQuiz, 
+            handleAnswer, 
+            formatTimestamp, 
+            isQuizAvailable,
+            isAdminMode, 
+            allStudents,
+            loadAllStudents,
+            isLearningMode, 
+            currentLessonHTML, 
+            currentLessonTitle, 
+            githubLink,
+            openFullLesson, 
+            submitAssignment,
+            awardPoints
         };
     }
 }).mount('#app');

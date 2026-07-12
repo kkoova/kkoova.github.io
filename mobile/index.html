@@ -31,7 +31,7 @@
                 <p class="mt-4 text-center">Уже есть аккаунт? <span @click="authMode = 'login'" class="link-action">Войти</span></p>
             </div>
         </div>
-
+ 
         <!-- ОСНОВНОЙ ИНТЕРФЕЙС КАРТЫ -->
         <div v-else class="w-full h-full text-center">
             <div class="h-screen flex flex-col">
@@ -46,7 +46,46 @@
                         <button @click="logout" class="bg-red-500 text-[8px] pixel-font p-2 border-b-4 border-red-800">ВЫЙТИ</button>
                     </div>
                 </header>
+                        <!-- АДМИН-ПАНЕЛЬ (КАПИТАНСКИЙ МОСТИК) -->
+                <div v-if="isAdminMode" class="fixed inset-0 bg-[#1a1a1a] z-[300] text-white flex flex-col p-8 pixel-font">
+                    <div class="flex justify-between items-center mb-8 border-b-4 border-gray-700 pb-4">
+                        <h2 class="text-xl text-orange-500">🚩 КАПИТАНСКИЙ МОСТИК</h2>
+                        <button @click="isAdminMode = false" class="bg-gray-700 p-2 text-[10px]">ВЕРНУТЬСЯ К КАРТЕ</button>
+                    </div>
 
+                    <div class="flex-1 overflow-y-auto">
+                        <table class="w-full text-left text-[10px]">
+                            <thead>
+                                <tr class="text-gray-400 border-b border-gray-800">
+                                    <th class="p-4">СТУДЕНТ</th>
+                                    <th>ГРУППА</th>
+                                    <th>ОЧКИ</th>
+                                    <th>ВЫПОЛНЕННЫЕ ТЕСТЫ</th>
+                                    <th>GITHUB РАБОТЫ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="s in allStudents" :key="s.id" class="border-b border-gray-900 hover:bg-gray-800">
+                                    <td class="p-4 text-orange-200">{{ s.nickname }} <br> <span class="text-[8px] opacity-50">{{ s.fullName }}</span></td>
+                                    <td>{{ s.group }}</td>
+                                    <td class="text-green-400">{{ s.totalScore }}</td>
+                                    <td>
+                                        <div v-for="q in s.completedQuizzes" class="text-[8px] text-gray-400">
+                                            ⚓ Остров {{ q.islandId.slice(0,4) }}: {{ q.score }}/{{ q.total }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <!-- Тут будут ссылки на их репозитории -->
+                                        <div v-for="job in s.submittedJobs" class="mb-2">
+                                            <a :href="job.link" target="_blank" class="text-blue-400 underline">Смотреть код</a>
+                                            <button @click="awardPoints(s.id, 50)" class="ml-2 bg-orange-600 p-1 text-[6px]">+50 очков</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>       
                 <!-- Карта -->
                 <main class="map-viewport">
                     <div class="map-canvas">
