@@ -3,23 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT_SESSION // NOTHING_TECH</title>
+    <title>IT_SESSION // NOTHING_OS_V3</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="nothing-os">
-    <div class="dot-grid"></div>
+    <!-- СЛОЙ 0: Фон темы -->
+    <div id="productBg" class="bg-layer"></div>
 
-    <!-- Системная информация по углам -->
-    <div class="system-ui">
-        <div class="top-left type-body">TIME // <span id="clock">00:00:00</span></div>
-        <div class="top-right type-body">KNOWLEDGE_LOAD // <div class="mini-bar"><div></div></div> 84%</div>
+    <!-- СЛОЙ 1: Умные точки (Инвертируют цвет) -->
+    <div class="smart-dots-layer"></div>
+
+    <!-- СЛОЙ 2: Системный UI (Всегда сверху) -->
+    <div class="system-ui type-callout">
+        <div class="top-left type-body ">TIME // <span id="clock">00:00:00</span></div>
+        <div class="top-right type-body">
+            KNOWLEDGE_LOAD // <div class="mini-bar"><div></div></div> 84%
+        </div>
         <div class="bottom-left type-body">TEMP // 24°C OUTSIDE</div>
         <div class="bottom-right type-body">REF. №IT_2024_S1</div>
     </div>
 
+    <!-- СЛОЙ 3: Контент приложения -->
     <main id="app-container" class="view-wheel">
         
-        <!-- СЦЕНА 1: КОЛЕСО -->
+        <!-- ЭКРАН 1: КОЛЕСО -->
         <section class="screen wheel-screen">
             <div class="wheel-box">
                 <div class="pointer"></div>
@@ -28,17 +35,16 @@
             <button id="spinBtn" class="btn-main">GENERATE_PATH</button>
         </section>
 
-        <!-- СЦЕНА 2: СТРАНИЦА ПРОДУКТА -->
+        <!-- ЭКРАН 2: СТРАНИЦА ТЕМЫ -->
         <section class="screen product-screen">
             <div id="productBg" class="bg-image"></div>
-            
-            <!-- Летающие карточки (фичи) -->
+            <!-- Сетка летающих иконок (как на скрине Nothing) -->
             <div id="features-container" class="features-layer"></div>
 
-            <!-- Центральный блок информации -->
+            <!-- Центральная карточка -->
             <div class="info-card glass">
                 <div class="tag matrix-text" id="topicTag">#DESIGN • LIVE</div>
-                <h1 id="topicTitle" class="matrix-text main-title">TOPIC_TITLE</h1>
+                <h1 id="topicTitle" class="matrix-text main-title">TOPIC_NAME</h1>
                 
                 <div class="tasks">
                     <div class="task-item">
@@ -57,8 +63,8 @@
                         LEVEL: <span id="difficulty">01</span>
                     </div>
                     <div class="btns">
-                        <button class="btn-main white" onclick="location.reload()">FINISH</button>
-                        <button id="rerollBtn" class="btn-outline">RE_ROLL</button>
+                        <button class="btn-main-white" onclick="location.reload()">FINISH_SESSION</button>
+                        <button id="rerollBtn" class="btn-outline type-body">RE_ROLL_SYSTEM</button>
                     </div>
                 </div>
             </div>

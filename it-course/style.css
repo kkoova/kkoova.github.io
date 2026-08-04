@@ -1,89 +1,118 @@
 @font-face {
     font-family: 'NDot';
-    src: url('https://db.onlinewebfonts.com/t/730303e421c60a2b0c34532c1e878e63.woff2') format('woff2');
+    src: url('https://kkoova.github.io/it-course/font/Ndot55-Regular.otf') format('woff2');
+}
+
+/* Эмуляция NType82 */
+@font-face {
+    font-family: 'NType82';
+    src: url('https://kkoova.github.io/it-course/font/NType82-Regular.otf');
+}
+
+@font-face {
+    font-family: 'LatteraMonoLL';
+    src: url('https://kkoova.github.io/it-course/font/LetteraMonoLL-Regular.otf');
 }
 
 :root {
-    --bg: #000000;
-    --accent: #FFFB05;
-    --text: #ffffff;
-    --border: rgba(255, 255, 255, 0.2);
+    --bg-black: #000000;
+    --accent-yellow: #FFFB05;
+    --border-white: rgba(255, 255, 255, 1);
 }
 
 body, html {
     margin: 0; padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    overflow: hidden;
+    background: var(--bg-black);
+    color: #fff;
+    font-family: 'NDot', sans-serif;
     height: 100vh;
+    overflow: hidden;
 }
 
-/* Точечная сетка */
-.dot-grid {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: radial-gradient(#222 1px, transparent 1px);
-    background-size: 40px 40px;
-    z-index: -1;
+/* СЛОИ */
+
+/* Слой 0: Фон */
+.bg-layer {
+    position: fixed; inset: 0; z-index: 0;
+    background-size: cover; background-position: center;
+    filter: brightness(0.4); transition: background-image 1s ease;
 }
 
-/* Шрифты */
+/* Слой 1: Умные точки (Твой код в CSS реализации) */
+.smart-dots-layer {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: difference; /* Та самая инверсия! */
+    background-image: radial-gradient(circle, #ffffff 1.2px, transparent 1.2px);
+    background-size: 80px 80px; /* Размер сетки */
+    opacity: 0.7;
+}
+
+/* Слой 2: Системный UI */
+.system-ui div[class^="top-"], .system-ui div[class^="bottom-"] {
+    position: fixed; z-index: 100; font-size: 10px; color: #888;
+}
+.top-left { top: 30px; left: 40px; }
+.top-right { top: 30px; right: 40px; display: flex; align-items: center; gap: 10px; }
+.bottom-left { bottom: 30px; left: 40px; }
+.bottom-right { bottom: 30px; right: 40px; }
+
+.mini-bar { width: 40px; height: 3px; background: #333; }
+.mini-bar div { height: 100%; width: 84%; background: var(--accent-yellow); }
+
+/* ШРИФТЫ */
 .matrix-text { font-family: 'NDot', monospace; text-transform: uppercase; }
 .type-body {
-    font-family: 'Inter', sans-serif; /* Здесь в идеале NType82 */
-    font-size: 0.9rem;
-    font-weight: 400;
-    line-height: 1.4;
+    font-family: 'NType82', sans-serif;
+    font-size: 0.9rem; font-weight: 400; line-height: 1.4;
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.type-callout {
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-family: 'LatteraMonoLL', sans-serif;
+    font-size: .6875rem;
+    font-weight: 400;
+    line-height: .75625rem;
 }
 
-/* Системные подписи по углам */
-.system-ui .top-left, .system-ui .top-right, .system-ui .bottom-left, .system-ui .bottom-right {
-    position: fixed; font-size: 10px; color: #666; z-index: 100;
-}
-.top-left { top: 20px; left: 30px; }
-.top-right { top: 20px; right: 30px; display: flex; align-items: center; gap: 8px; }
-.bottom-left { bottom: 20px; left: 30px; }
-.bottom-right { bottom: 20px; right: 30px; }
-
-.mini-bar { width: 40px; height: 3px; background: #222; }
-.mini-bar div { width: 84%; height: 100%; background: var(--accent); }
-
-/* Контейнер приложения */
+/* ПЕРЕКЛЮЧЕНИЯ ЭКРАНОВ */
 #app-container {
-    width: 100vw; height: 100vh;
+    position: relative; z-index: 10; width: 100%; height: 100%;
     display: flex; justify-content: center; align-items: center;
-    transition: all 1s cubic-bezier(0.8, 0, 0.2, 1);
+    transition: all 0.8s cubic-bezier(0.8, 0, 0.2, 1);
 }
 
-/* Состояния */
+.screen { position: absolute; transition: 0.8s; }
+
 .view-wheel .wheel-screen { opacity: 1; transform: scale(1); }
 .view-wheel .product-screen { opacity: 0; transform: scale(1.1); pointer-events: none; }
 
-.view-result .wheel-screen { opacity: 0; transform: scale(0.8); filter: blur(20px); pointer-events: none; }
+.view-result .wheel-screen { opacity: 0; transform: scale(0.9); filter: blur(20px); pointer-events: none; }
 .view-result .product-screen { opacity: 1; transform: scale(1); }
 
-/* Колесо (Исправлено) */
-.wheel-box { position: relative; border: 1px solid var(--border); border-radius: 50%; padding: 15px; }
-.wheel-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 1px solid var(--border); border-radius: 50%; transform: scale(1.05); }
-
+/* КОЛЕСО */
+.wheel-box { position: relative; border: 1px solid var(--border-white); border-radius: 50%; padding: 15px; }
 #wheel { transition: transform 5s cubic-bezier(0.1, 0, 0, 1); }
-
 .pointer {
     position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
     width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent;
-    border-top: 20px solid var(--accent); z-index: 10;
+    border-top: 20px solid var(--accent-yellow); z-index: 10;
 }
 
-/* Кнопки */
+/* КНОПКИ */
 .btn-main {
     background: #fff; color: #000; border: none; padding: 18px 45px;
-    border-radius: 100px; font-weight: bold; cursor: pointer;
-    margin-top: 40px; text-transform: uppercase; font-size: 14px;
+    border-radius: 100px; font-weight: bold; cursor: pointer; text-transform: uppercase;
 }
-.btn-main:hover { transform: scale(1.05); }
+.btn-main-white {
+    background: #fff; color: #000; border: none; padding: 12px 30px;
+    border-radius: 100px; font-weight: bold; cursor: pointer; text-transform: uppercase;
+}
+.btn-outline {
+    background: transparent; color: #fff; border: 1px solid #fff;
+    padding: 12px 25px; border-radius: 100px; cursor: pointer;
+}
 
 /* Карточка продукта */
 .product-screen { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
