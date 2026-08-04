@@ -1,0 +1,34 @@
+{
+  "topics": [
+    {
+      "id": "01",
+      "title": "WEB_DESIGN",
+      "bgImage": "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1000",
+      "liveTask": "Создаем сетку 4х4 в стиле Nothing OS.",
+      "selfTask": "Реализовать адаптив под мобильные устройства.",
+      "teamSize": "2",
+      "difficulty": "01",
+      "features": [
+        {"label": "Specs", "sub": "TECHNICAL", "icon": "https://cdn-icons-png.flaticon.com/512/665/665049.png"},
+        {"label": "Performance", "sub": "FAST", "icon": "https://cdn-icons-png.flaticon.com/512/975/975515.png"},
+        {"label": "Essential", "sub": "UI/UX", "icon": "https://cdn-icons-png.flaticon.com/512/1260/1260206.png"},
+        {"label": "Nothing OS", "sub": "SYSTEM", "icon": "https://cdn-icons-png.flaticon.com/512/1828/1828304.png"}
+      ]
+    },
+    {
+      "id": "02",
+      "title": "CYBER_SEC",
+      "bgImage": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000",
+      "liveTask": "Разбор SQL Injection на практике.",
+      "selfTask": "Закрыть уязвимость в предоставленном коде.",
+      "teamSize": "6",
+      "difficulty": "03",
+      "features": [
+        {"label": "Security", "sub": "ENCRYPTED", "icon": "https://cdn-icons-png.flaticon.com/512/1162/1162501.png"},
+        {"label": "Nodes", "sub": "GLOBAL", "icon": "https://cdn-icons-png.flaticon.com/512/2821/2821637.png"},
+        {"label": "Firewall", "sub": "ACTIVE", "icon": "https://cdn-icons-png.flaticon.com/512/3132/3132641.png"},
+        {"label": "Logs", "sub": "STRICT", "icon": "https://cdn-icons-png.flaticon.com/512/2965/2965279.png"}
+      ]
+    }
+  ]
+}
