@@ -2,10 +2,10 @@
   "topics": [
     {
       "id": "01",
-      "title": "WEB_DESIGN",
+      "title": "DEVOPS_TERMINAL",
       "bgImage": "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1000",
-      "liveTask": "Создаем сетку 4х4 в стиле Nothing OS.",
-      "selfTask": "Реализовать адаптив под мобильные устройства.",
+      "liveTask": "Никаких окон, только черный экран и белые буквы",
+      "selfTask": "Работа с Linux",
       "teamSize": "2",
       "difficulty": "01",
       "features": [
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "id": "02",
+      "id": "06",
       "title": "CYBER_SEC",
       "bgImage": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000",
       "liveTask": "Разбор SQL Injection на практике.",
@@ -59,19 +59,25 @@
         {"label": "Logs", "sub": "STRICT", "icon": "https://cdn-icons-png.flaticon.com/512/2965/2965279.png"}
       ]
     },{
-      "id": "04",
-      "title": "CYBER_SEC",
-      "bgImage": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000",
-      "liveTask": "Разбор SQL Injection на практике.",
-      "selfTask": "Закрыть уязвимость в предоставленном коде.",
-      "teamSize": "6",
-      "difficulty": "03",
-      "features": [
-        {"label": "Security", "sub": "ENCRYPTED", "icon": "https://cdn-icons-png.flaticon.com/512/1162/1162501.png"},
-        {"label": "Nodes", "sub": "GLOBAL", "icon": "https://cdn-icons-png.flaticon.com/512/2821/2821637.png"},
-        {"label": "Firewall", "sub": "ACTIVE", "icon": "https://cdn-icons-png.flaticon.com/512/3132/3132641.png"},
-        {"label": "Logs", "sub": "STRICT", "icon": "https://cdn-icons-png.flaticon.com/512/2965/2965279.png"}
-      ]
-    }
+          "id": "04",
+          "title": "DEVOPS_CLI",
+          "tag": "#TERMINAL • BASH",
+          "bgImage": "assets/img/terminal_bg.jpg",
+          "docsUrl": "./docs/devops_cli.html",
+          "steps": [
+            { "id": "l1", "type": "live", "text": "Освоение навигации (pwd, ls, cd)" },
+            { "id": "l2", "type": "live", "text": "Работа с файлами (mkdir, touch)" },
+            { "id": "s1", "type": "self", "text": "Поиск скрытого файла (.hint.txt)" },
+            { "id": "s2", "type": "self", "text": "Перемещение и переименование (mv)" }
+          ],
+          "difficulty": "02",
+          "teamSize": "2",
+          "features": [
+            {"label": "Env", "sub": "LINUX", "icon": "assets/icons/linux.png"},
+            {"label": "CLI", "sub": "BASH", "icon": "assets/icons/terminal.png"},
+            {"label": "Rule", "sub": "NO_UNDO", "icon": "assets/icons/alert.png"},
+            {"label": "Skill", "sub": "LERP", "icon": "assets/icons/gear.png"}
+          ]
+        }
   ]
 }

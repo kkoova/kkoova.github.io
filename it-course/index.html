@@ -19,7 +19,7 @@
         <div class="top-right type-body">
             KNOWLEDGE_LOAD // <div class="mini-bar"><div></div></div> 84%
         </div>
-        <div class="bottom-left type-body">TEMP // 24°C OUTSIDE</div>
+        <div class="bottom-left type-body">ROLE // <span id="user-role">STUDENT</span></div>
         <div class="bottom-right type-body">REF. №IT_2026_S1</div>
     </div>
 
@@ -33,6 +33,10 @@
                 <canvas id="wheel" width="600" height="600"></canvas>
             </div>
             <button id="spinBtn" class="btn-main">GENERATE_PATH</button>
+            <div id="student-tools" class="student-input-zone">
+                <input type="text" id="topicCodeInput" class="git-input" placeholder="ENTER_TOPIC_CODE">
+                <button onclick="unlockTopic()" class="btn-outline">UNLOCK_TASK</button>
+            </div>
         </section>
 
         <!-- ЭКРАН 2: СТРАНИЦА ТЕМЫ -->
@@ -43,49 +47,56 @@
 
             <!-- Центральная карточка -->
             <div class="info-card glass">
-                <div class="tag matrix-text" id="topicTag">#DESIGN • LIVE</div>
-                <h1 id="topicTitle" class="matrix-text main-title">TOPIC_NAME</h1>
-                
-                <div class="tasks">
-                    <div class="task-item">
-                        <span class="label type-body">// LIVE_CODING</span>
-                        <p id="liveTask" class="type-body">...</p>
+                <div id="topic-presentation">
+                    <div class="tag matrix-text" id="topicTag">#DESIGN • LIVE</div>
+                    <h1 id="topicTitle" class="matrix-text main-title">TOPIC_NAME</h1>
+                    
+                    <div class="tasks">
+                        <div class="task-item">
+                            <span class="label type-body">// LIVE_CODING</span>
+                            <p id="liveTask" class="type-body">...</p>
+                        </div>
+                        <div class="task-item yellow">
+                            <span class="label type-body">// INDEPENDENT_WORK</span>
+                            <p id="selfTask" class="type-body">...</p>
+                        </div>
                     </div>
-                    <div class="task-item yellow">
-                        <span class="label type-body">// INDEPENDENT_WORK</span>
-                        <p id="selfTask" class="type-body">...</p>
-                    </div>
-                </div>
 
-                <div class="card-footer">
-                    <div class="meta type-body">
-                        TEAM: <span id="teamSize">2</span>_PERS<br>
-                        LEVEL: <span id="difficulty">01</span>
-                    </div>
-                    <div class="btns">
-                        <button class="btn-main-white" onclick="location.reload()">FINISH_SESSION</button>
-                        <button id="rerollBtn" class="btn-outline type-body">RE_ROLL_SYSTEM</button>
+                    <div class="card-footer">
+                        <div class="meta type-body">
+                            TEAM: <span id="teamSize">2</span>_PERS<br>
+                            LEVEL: <span id="difficulty">01</span>
+                        </div>
+                        <div class="btns" id="admin-btn">
+                            <button class="btn-main-white" onclick="saveSession()">FINISH_SESSION</button>
+                            <button id="rerollBtn" class="btn-outline type-body">RE_ROLL_SYSTEM</button>
+                        </div>
                     </div>
                 </div>
+                <div id="topic-workspace" class="hidden">
+                    <div class="workspace-header">
+                        <span class="type-body yellow">// MISSION_PROGRESS</span>
+                        <div class="progress-line"><div id="step-progress"></div></div>
+                    </div>
+
+                    <div id="steps-list" class="steps-container"></div>
+
+                    <div class="docs-link-box">
+                        <a id="externalDocs" href="#" target="_blank" class="btn-outline type-body">OPEN_FULL_DOCUMENTATION</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submission-zone glass" id="report-stud">
+                <h3 class="type-body">// SUBMIT_REPORT</h3>
+                <input type="text" id="studentFIO" class="git-input" placeholder="FULL_NAMES (PARTNERS)">
+                <input type="text" id="repoLink" class="git-input" placeholder="GITHUB_REPO_URL">
+                <button class="btn-main-white" onclick="submitWork()">SEND_TO_LOGBOOK</button>
             </div>
         </section>
 
     </main>
 
     <script src="script.js"></script>
-
-        <!-- Окно Логбука -->
-    <div id="logbook" class="logbook-overlay">
-        <div class="logbook-card glass">
-            <div class="matrix-text" style="font-size: 1.5rem;">SESSION_COMPLETE</div>
-            <p class="type-body" id="logbook-desc" style="margin-top: 20px;">YOU WERE: MOBILE_DEV</p>
-            
-            <input type="text" id="gitCommit" class="git-input" placeholder="ENTER_GIT_COMMIT_HASH">
-            
-            <div class="btns">
-                <button class="btn-main-white" onclick="saveSession()">SAVE_AND_CLOSE</button>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

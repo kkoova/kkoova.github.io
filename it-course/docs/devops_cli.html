@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>DOCS // DEVOPS_CLI_v1.0</title>
+    <link rel="stylesheet" href="../style.css"> <!-- Путь к основным стилям -->
+    <style>
+        body { overflow-y: auto; padding: 60px; text-transform: none; }
+        .doc-container { max-width: 900px; margin: 0 auto; background: rgba(255,255,255,0.02); border: 1px solid #222; padding: 40px; border-radius: 20px; }
+        h1, h2 { font-family: 'NDot', monospace; color: var(--accent-yellow); border-bottom: 1px solid #222; padding-bottom: 10px; }
+        .cmd-block { background: #111; border-left: 3px solid var(--accent-yellow); padding: 15px; margin: 20px 0; font-family: 'monospace'; }
+        code { color: var(--accent-yellow); font-weight: bold; }
+        .step-info { margin-bottom: 30px; line-height: 1.6; color: #ccc; }
+        .warning-box { border: 1px solid #ff4444; padding: 15px; color: #ff4444; font-size: 0.8rem; margin: 20px 0; }
+        .shortcut { background: #333; padding: 2px 6px; border-radius: 4px; color: #fff; font-size: 0.8rem; }
+    </style>
+</head>
+<body class="nothing-os">
+    <div class="dot-grid"></div>
+
+    <div class="doc-container">
+        <header>
+            <div class="type-body" style="color: #666;">DOCUMENTATION_UNIT // №04</div>
+            <h1>TERMINAL_INTERFACE_BASICS</h1>
+            <p class="type-body">Цель: Полный отказ от GUI (интерфейса мыши) для управления ОС.</p>
+        </header>
+
+        <!-- ЧАСТЬ 1: ТЕОРИЯ -->
+        <section>
+            <h2>01_CONCEPT</h2>
+            <div class="step-info type-body">
+                Терминал (CLI) — прямой способ общения с ядром системы. <br>
+                Путь в Linux начинается с корня <code>/</code> или домашней папки пользователя <code>~</code>.
+            </div>
+        </section>
+
+        <!-- ЧАСТЬ 2: LIVE CODING -->
+        <section>
+            <h2>02_LIVE_CODING_GUIDE</h2>
+            
+            <div class="step-info">
+                <strong>Шаг 1: Навигация</strong>
+                <div class="cmd-block">
+                    <code>pwd</code> — Узнать текущий путь.<br>
+                    <code>ls -la</code> — Показать все файлы (включая скрытые).<br>
+                    <code>cd Documents</code> — Перейти в папку.
+                </div>
+            </div>
+
+            <div class="step-info">
+                <strong>Шаг 2: Манипуляция данными</strong>
+                <div class="cmd-block">
+                    <code>mkdir PROJ_X</code> — Создать папку.<br>
+                    <code>touch config.tmp</code> — Создать пустой файл.<br>
+                    <code>cp config.tmp backup.tmp</code> — Копировать файл.<br>
+                    <code>mv backup.tmp old_config.tmp</code> — Переименовать/Переместить.
+                </div>
+            </div>
+
+            <div class="step-info">
+                <strong>Шаг 3: Массовые операции (Automation)</strong>
+                <div class="cmd-block">
+                    <code>mkdir test_{1..10}</code> — Создать 10 папок одной командой.<br>
+                    <code>rm -rf test_*</code> — Удалить все папки, начинающиеся на "test".
+                </div>
+                <div class="warning-box">
+                    ВНИМАНИЕ: Команда RM стирает файлы навсегда. Корзины не существует.
+                </div>
+            </div>
+        </section>
+
+        <!-- ЧАСТЬ 3: КВЕСТ -->
+        <section>
+            <h2>03_INDEPENDENT_QUEST: "LOST_DATA"</h2>
+            <div class="step-info type-body">
+                <strong>Вводные:</strong> Данные проекта были перемещены вредоносным скриптом. <br>
+                <strong>Локация:</strong> <code>~/LABYRINTH</code>
+            </div>
+
+            <div class="step-info">
+                <strong>Алгоритм поиска:</strong>
+                <ol>
+                    <li>Войти в начальный сектор: <code>cd ~/LABYRINTH</code>.</li>
+                    <li>Искать файл-подсказку. Помните: хакеры скрывают файлы (используйте <code>-a</code>).</li>
+                    <li>Прочитать содержимое подсказки: <code>cat .hint.txt</code>.</li>
+                    <li>Следовать по указанному пути. Найти файл <code>core_v04.bin</code>.</li>
+                    <li>Эвакуировать файл: переместить его в корень домашней папки и переименовать в <code>final_result.py</code>.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ЧАСТЬ 4: ГОРЯЧИЕ КЛАВИШИ -->
+        <section>
+            <h2>04_PRO_SKILLS</h2>
+            <div class="step-info type-body">
+                <span class="shortcut">TAB</span> — Автодополнение (начни писать имя файла и нажми TAB). <br>
+                <span class="shortcut">↑ / ↓</span> — История команд (не пиши одно и то же дважды). <br>
+                <span class="shortcut">Ctrl + C</span> — Прервать любую застрявшую команду.
+            </div>
+        </section>
+
+        <footer style="margin-top: 50px; border-top: 1px solid #222; padding-top: 20px;">
+            <button class="btn-main-white" onclick="window.close()">CLOSE_DOCUMENTATION</button>
+        </footer>
+    </div>
+</body>
+</html>
