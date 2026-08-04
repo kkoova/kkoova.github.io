@@ -14,13 +14,13 @@
     <div class="smart-dots-layer"></div>
 
     <!-- СЛОЙ 2: Системный UI (Всегда сверху) -->
-    <div class="system-ui type-callout">
+    <div class="system-ui">
         <div class="top-left type-body ">TIME // <span id="clock">00:00:00</span></div>
         <div class="top-right type-body">
             KNOWLEDGE_LOAD // <div class="mini-bar"><div></div></div> 84%
         </div>
         <div class="bottom-left type-body">TEMP // 24°C OUTSIDE</div>
-        <div class="bottom-right type-body">REF. №IT_2024_S1</div>
+        <div class="bottom-right type-body">REF. №IT_2026_S1</div>
     </div>
 
     <!-- СЛОЙ 3: Контент приложения -->
@@ -73,5 +73,19 @@
     </main>
 
     <script src="script.js"></script>
+
+        <!-- Окно Логбука -->
+    <div id="logbook" class="logbook-overlay">
+        <div class="logbook-card glass">
+            <div class="matrix-text" style="font-size: 1.5rem;">SESSION_COMPLETE</div>
+            <p class="type-body" id="logbook-desc" style="margin-top: 20px;">YOU WERE: MOBILE_DEV</p>
+            
+            <input type="text" id="gitCommit" class="git-input" placeholder="ENTER_GIT_COMMIT_HASH">
+            
+            <div class="btns">
+                <button class="btn-main-white" onclick="saveSession()">SAVE_AND_CLOSE</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

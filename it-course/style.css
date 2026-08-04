@@ -50,7 +50,7 @@ body, html {
 
 /* Слой 2: Системный UI */
 .system-ui div[class^="top-"], .system-ui div[class^="bottom-"] {
-    position: fixed; z-index: 100; font-size: 10px; color: #888;
+    position: fixed;
 }
 .top-left { top: 30px; left: 40px; }
 .top-right { top: 30px; right: 40px; display: flex; align-items: center; gap: 10px; }
@@ -61,14 +61,14 @@ body, html {
 .mini-bar div { height: 100%; width: 84%; background: var(--accent-yellow); }
 
 /* ШРИФТЫ */
-.matrix-text { font-family: 'NDot', monospace; text-transform: uppercase; }
+.matrix-text { 
+    text-transform: uppercase;
+    font-family: 'Ndot', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    line-height: 2.5rem;
+ }
 .type-body {
-    font-family: 'NType82', sans-serif;
-    font-size: 0.9rem; font-weight: 400; line-height: 1.4;
-    text-transform: uppercase; letter-spacing: 0.5px;
-}
-
-.type-callout {
     text-transform: uppercase;
     font-family: 'LatteraMonoLL', sans-serif;
     font-size: .6875rem;
@@ -80,7 +80,9 @@ body, html {
 #app-container {
     position: relative; z-index: 10; width: 100%; height: 100%;
     display: flex; justify-content: center; align-items: center;
-    transition: all 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+    /* Убираем transition: all 0.8s! Заменяем на конкретику: */
+    transition: opacity 0.8s ease, filter 0.8s ease; 
+    will-change: transform; /* Подсказка браузеру для оптимизации */
 }
 
 .screen { position: absolute; transition: 0.8s; }
@@ -91,9 +93,48 @@ body, html {
 .view-result .wheel-screen { opacity: 0; transform: scale(0.9); filter: blur(20px); pointer-events: none; }
 .view-result .product-screen { opacity: 1; transform: scale(1); }
 
-/* КОЛЕСО */
-.wheel-box { position: relative; border: 1px solid var(--border-white); border-radius: 50%; padding: 15px; }
+.wheel-box {
+    position: relative;
+    border: 1px solid var(--border-white);
+    border-radius: 50%;
+    padding: 25px; /* Увеличили отступ для насечек */
+}
+/* Боковые скобы прицела */
+.wheel-box::before, .wheel-box::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    height: 1px;
+    background: var(--accent-yellow);
+    z-index: 100;
+}
+
+.wheel-box::before { left: -10px; } /* Левая линия */
+.wheel-box::after { right: -10px; } /* Правая линия */
+
+/* Верхняя рамка захвата (Scope) */
+.wheel-wrapper-nothing {
+    position: relative;
+}
+
+/* Добавим «уголки» для фокусировки на верхнем секторе */
+.wheel-box .pointer {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 25px solid var(--accent-yellow);
+    z-index: 110;
+    filter: drop-shadow(0 0 5px rgba(255, 251, 5, 0.5));
+}
+
 #wheel { transition: transform 5s cubic-bezier(0.1, 0, 0, 1); }
+
 .pointer {
     position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
     width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent;
@@ -137,3 +178,49 @@ body, html {
 .feature-node { position: absolute; display: flex; flex-direction: column; align-items: center; }
 .f-icon { width: 90px; height: 90px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 20px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; }
 .f-icon img { max-width: 60%; filter: grayscale(1) brightness(2); }
+
+/* Анимация левитации */
+@keyframes floating {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(5px, 10px) rotate(0.5deg); }
+    66% { transform: translate(-5px, 5px) rotate(-0.5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.screen.product-screen .info-card, 
+.screen.product-screen .feature-node {
+    animation: floating 8s ease-in-out infinite;
+}
+
+/* Разные задержки, чтобы элементы качались несинхронно */
+.feature-node:nth-child(1) { animation-delay: 0s; }
+.feature-node:nth-child(2) { animation-delay: -2s; }
+.feature-node:nth-child(3) { animation-delay: -4s; }
+.feature-node:nth-child(4) { animation-delay: -6s; }
+
+/* Стили для Logbook (окно финала) */
+.logbook-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.95);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: 0.5s;
+}
+
+.logbook-overlay.active { opacity: 1; pointer-events: all; }
+
+.logbook-card {
+    width: 400px; padding: 40px; border: 1px solid var(--accent-yellow);
+    text-align: center; background: #000;
+}
+
+.git-input {
+    background: transparent; border: none; border-bottom: 1px solid #444;
+    color: var(--accent-yellow); width: 100%; padding: 10px 0;
+    margin: 20px 0; font-family: 'NDot', monospace; font-size: 1.2rem;
+    outline: none; text-align: center;
+}
+
+/* Пройденные темы на колесе */
+.completed-topic {
+    filter: grayscale(1) opacity(0.3);
+}
