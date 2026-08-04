@@ -62,7 +62,7 @@
           "id": "04",
           "title": "DEVOPS_CLI",
           "tag": "#TERMINAL • BASH",
-          "bgImage": "assets/img/terminal_bg.jpg",
+          "bgImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1674733786441/115a2844-321d-40a5-ae33-b8def0c54ff9.jpeg",
           "docsUrl": "./docs/devops_cli.html",
           "steps": [
             { "id": "l1", "type": "live", "text": "Освоение навигации (pwd, ls, cd)" },
