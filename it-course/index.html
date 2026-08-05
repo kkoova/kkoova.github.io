@@ -67,10 +67,6 @@
                             TEAM: <span id="teamSize">2</span>_PERS<br>
                             LEVEL: <span id="difficulty">01</span>
                         </div>
-                        <div class="btns" id="admin-btn">
-                            <button class="btn-main-white" onclick="saveSession()">FINISH_SESSION</button>
-                            <button id="rerollBtn" class="btn-outline type-body">RE_ROLL_SYSTEM</button>
-                        </div>
                     </div>
                 </div>
                 <div id="topic-workspace" class="hidden">
@@ -80,18 +76,34 @@
                     </div>
 
                     <div id="steps-list" class="steps-container"></div>
-
-                    <div class="docs-link-box">
-                        <a id="externalDocs" href="#" target="_blank" class="btn-outline type-body">OPEN_FULL_DOCUMENTATION</a>
-                    </div>
+                </div>
+                <div class="btns">
+                    <button id="admin-btn" class="btn-main-white" onclick="saveSession()">FINISH_SESSION</button>
+                    <button id="rerollBtn" class="btn-outline type-body">RE_ROLL_SYSTEM</button>
+                    <button class="btn-main-white student-only" onclick="openReport()">SUBMIT_REPORT</button>
+                    <a id="externalDocs" href="#" target="_blank" class="btn-outline type-body">OPEN_FULL_DOCUMENTATION</a>
                 </div>
             </div>
+            <div id="report-modal" class="report-overlay">
+                <div class="submission-zone glass">
+                    <div class="modal-header">
+                        <h3 class="type-body">// SUBMIT_REPORT</h3>
+                        <button class="close-btn" onclick="closeReport()">×</button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <div class="input-group">
+                            <span class="label type-body">PARTNERS_FIO</span>
+                            <input type="text" id="studentFIO" class="git-input" placeholder="IVANOV, PETROV...">
+                        </div>
+                        <div class="input-group">
+                            <span class="label type-body">GITHUB_LINK</span>
+                            <input type="text" id="repoLink" class="git-input" placeholder="https://github.com/...">
+                        </div>
+                    </div>
 
-            <div class="submission-zone glass" id="report-stud">
-                <h3 class="type-body">// SUBMIT_REPORT</h3>
-                <input type="text" id="studentFIO" class="git-input" placeholder="FULL_NAMES (PARTNERS)">
-                <input type="text" id="repoLink" class="git-input" placeholder="GITHUB_REPO_URL">
-                <button class="btn-main-white" onclick="submitWork()">SEND_TO_LOGBOOK</button>
+                    <button class="btn-main-white full-width" onclick="submitWork()">SEND_TO_LOGBOOK</button>
+                </div>
             </div>
         </section>
 

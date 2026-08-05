@@ -19,11 +19,11 @@ function updateSystemUI() {
     const now = new Date();
     document.getElementById('clock').innerText = now.toTimeString().split(' ')[0];
     
-    // Динамический Knowledge Load (пример: прогресс с сентября по декабрь)
+    /* Динамический Knowledge Load (пример: прогресс с сентября по декабрь)
     const start = new Date(now.getFullYear(), 8, 1);
     const end = new Date(now.getFullYear(), 11, 31);
     const progress = Math.max(0, Math.min(100, ((now - start) / (end - start)) * 100));
-    document.querySelector('.mini-bar div').style.width = progress + '%';
+    document.querySelector('.mini-bar div').style.width = progress + '%';*/
 }
 
 // 1. ОПРЕДЕЛЕНИЕ РОЛИ
@@ -38,6 +38,7 @@ if (isAdmin) {
 } else {
     document.getElementById('spinBtn').style.display = 'none';
     document.getElementById('admin-btn').style.display = 'none';
+    document.getElementById('rerollBtn').style.display = 'none';
 }
 
 // 2. ФУНКЦИЯ РАЗБЛОКИРОВКИ ТЕМЫ ДЛЯ СТУДЕНТА
@@ -75,7 +76,23 @@ function submitWork() {
     studentHistory.push(sessionData);
     localStorage.setItem('student_submissions', JSON.stringify(studentHistory));
 
-    location.reload();
+    alert("SUCCESS: DATA_SENT_TO_LOGBOOK");
+    closeReport();
+    
+    // Опционально: возвращаем на экран колеса
+    location.reload(); 
+}
+
+// Открыть окно отчета
+function openReport() {
+    const modal = document.getElementById('report-modal');
+    modal.classList.add('active');
+}
+
+// Закрыть окно отчета
+function closeReport() {
+    const modal = document.getElementById('report-modal');
+    modal.classList.remove('active');
 }
 
 function drawWheel() {

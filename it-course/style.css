@@ -328,3 +328,59 @@ body, html {
     font-size: 0.75rem;
     margin: 20px 0;
 }
+
+/* Оверлей для отчета */
+.report-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(15px);
+    z-index: 1000;
+    display: none; /* Скрыто по умолчанию */
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.report-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Стили самого окна внутри оверлея */
+.report-overlay .submission-zone {
+    width: 400px;
+    padding: 40px;
+    border: 1px solid var(--accent-yellow);
+    background: rgba(10, 10, 10, 0.9);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-btn:hover { color: var(--accent-yellow); }
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.full-width { width: 100%; margin-top: 20px; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
