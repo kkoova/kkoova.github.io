@@ -87,36 +87,6 @@
             <div class="type-body" id="final-status">STATUS: IN_PROGRESS</div>
         </footer>
     </div>
-
-    <script>
-        function toggleHint(id) {
-            const h = document.getElementById(id);
-            h.style.display = h.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function markDone(id) {
-            const card = document.getElementById(id);
-            card.classList.add('done');
-            card.classList.remove('active');
-            
-            // Активируем следующую карточку
-            const next = card.nextElementSibling;
-            if (next && next.classList.contains('step-card')) {
-                next.classList.add('active');
-                next.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-
-            // Обновляем прогресс-бар
-            const total = document.querySelectorAll('.step-card').length;
-            const done = document.querySelectorAll('.step-card.done').length;
-            const percent = (done / total) * 100;
-            document.getElementById('doc-progress').style.width = percent + '%';
-
-            if(percent === 100) {
-                document.getElementById('final-status').innerText = 'STATUS: ALL_SYSTEMS_GO';
-                document.getElementById('final-status').style.color = '#FFFB05';
-            }
-        }
-    </script>
+    <script src="../script.js"></script>
 </body>
 </html>

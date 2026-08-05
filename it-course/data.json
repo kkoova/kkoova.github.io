@@ -2,17 +2,23 @@
   "topics": [
     {
       "id": "01",
-      "title": "DEVOPS_TERMINAL",
-      "bgImage": "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1000",
-      "liveTask": "Никаких окон, только черный экран и белые буквы",
-      "selfTask": "Работа с Linux",
-      "teamSize": "2",
+      "title": "GIT_PROTOCOL",
+      "tag": "#DEVOPS • VERSION_CONTROL",
+      "bgImage": "assets/img/git_bg.jpg",
+      "docsUrl": "docs/git_basics.html",
+      "steps": [
+        { "id": "g1", "type": "live", "text": "Авторизация: Настройка имени и почты (git config)" },
+        { "id": "g2", "type": "live", "text": "Инициализация: Создание локального склада (git init)" },
+        { "id": "g3", "type": "self", "text": "Первый снимок: Добавление файла и коммит (add/commit)" },
+        { "id": "g4", "type": "self", "text": "Облако: Связь с GitHub и отправка (remote/push)" }
+      ],
       "difficulty": "01",
+      "teamSize": "1",
       "features": [
-        {"label": "Specs", "sub": "TECHNICAL", "icon": "https://cdn-icons-png.flaticon.com/512/665/665049.png"},
-        {"label": "Performance", "sub": "FAST", "icon": "https://cdn-icons-png.flaticon.com/512/975/975515.png"},
-        {"label": "Essential", "sub": "UI/UX", "icon": "https://cdn-icons-png.flaticon.com/512/1260/1260206.png"},
-        {"label": "Nothing OS", "sub": "SYSTEM", "icon": "https://cdn-icons-png.flaticon.com/512/1828/1828304.png"}
+        {"label": "System", "sub": "GIT_VCS", "icon": "assets/icons/git.png"},
+        {"label": "Cloud", "sub": "GITHUB", "icon": "assets/icons/github.png"},
+        {"label": "Type", "sub": "SAVE_SYSTEM", "icon": "assets/icons/save.png"},
+        {"label": "Goal", "sub": "PORTFOLIO", "icon": "assets/icons/star.png"}
       ]
     },
     {

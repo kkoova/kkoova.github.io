@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>MISSION // GIT_PROTOCOL</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="nothing-os doc-page">
+    <div class="smart-dots-layer"></div>
+
+    <div class="doc-container">
+        <header>
+            <span class="type-body">UNIT_01 // VERSION_CONTROL</span>
+            <h1 class="matrix-text" style="color: var(--accent-yellow);">GIT_FUNDAMENTALS</h1>
+            <div class="progress-line" style="margin-bottom: 50px;"><div id="doc-progress" style="width: 0%; height: 100%; background: var(--accent-yellow);"></div></div>
+        </header>
+
+        <!-- ШАГ 1 -->
+        <div class="step-card active" id="g1">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_01 // IDENTIFICATION</div>
+            <h2 class="type-body">ПРЕДСТАВИТЬСЯ СИСТЕМЕ</h2>
+            <p class="type-body" style="color:#666;">Git должен знать, кто автор кода.</p>
+            <div class="cmd-block">
+                git config --global user.name "Имя Фамилия"<br>
+                git config --global user.email "your@email.com"
+            </div>
+            <button class="btn-main-white" onclick="markDone('g1')">ГОТОВО</button>
+        </div>
+
+        <!-- ШАГ 2 -->
+        <div class="step-card" id="g2">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_02 // INITIALIZATION</div>
+            <h2 class="type-body">СОЗДАТЬ ЛОКАЛЬНЫЙ РЕПОЗИТОРИЙ</h2>
+            <p class="type-body" style="color:#666;">Превращаем обычную папку в "умную".</p>
+            <div class="cmd-block">
+                mkdir IT_JOURNAL<br>
+                cd IT_JOURNAL<br>
+                git init
+            </div>
+            <button class="hint-btn" onclick="toggleHint('h2')">ЧТО ПРОИЗОШЛО?</button>
+            <div id="h2" class="hint-text">В папке появилась скрытая директория .git. Теперь система следит за каждым твоим символом.</div>
+            <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('g2')">ГОТОВО</button></div>
+        </div>
+
+        <!-- ШАГ 3 -->
+        <div class="step-card" id="g3">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_03 // SNAPSHOT</div>
+            <h2 class="type-body">СДЕЛАТЬ ПЕРВЫЙ СНИМОК (COMMIT)</h2>
+            <p class="type-body" style="color:#666;">Сохраняем состояние файлов.</p>
+            <div class="cmd-block">
+                touch README.md<br>
+                git add README.md<br>
+                git commit -m "feat: initial commit"
+            </div>
+            <button class="hint-btn" onclick="toggleHint('h3')">КАК ЭТО РАБОТАЕТ?</button>
+            <div id="h3" class="hint-text">ADD — это подготовка (выставили людей для фото). COMMIT — это щелчок затвора (сохранили момент навсегда).</div>
+            <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('g3')">ГОТОВО</button></div>
+        </div>
+
+        <!-- ШАГ 4 -->
+        <div class="step-card" id="g4">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_04 // CLOUD_SYNC</div>
+            <h2 class="type-body">ОТПРАВИТЬ В ОБЛАКО (GITHUB)</h2>
+            <p class="type-body" style="color:#666;">Твой код теперь доступен всему миру (и учителю).</p>
+            <div class="cmd-block">
+                git remote add origin [ССЫЛКА_ИЗ_GITHUB]<br>
+                git branch -M main<br>
+                git push -u origin main
+            </div>
+            <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('g4')">МИССИЯ ЗАВЕРШЕНА</button></div>
+        </div>
+
+        <footer style="text-align: center; margin-bottom: 100px;">
+            <div class="type-body" id="final-status">STATUS: IN_PROGRESS</div>
+        </footer>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -95,6 +95,34 @@ function closeReport() {
     modal.classList.remove('active');
 }
 
+function toggleHint(id) {
+    const h = document.getElementById(id);
+    h.style.display = h.style.display === 'block' ? 'none' : 'block';
+}
+
+function markDone(id) {
+    const card = document.getElementById(id);
+    card.classList.add('done');
+    card.classList.remove('active');
+    card.style.opacity = "0.3";
+    
+    const next = card.nextElementSibling;
+    if (next && next.classList.contains('step-card')) {
+        next.classList.add('active');
+        next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    const total = document.querySelectorAll('.step-card').length;
+    const done = document.querySelectorAll('.step-card.done').length;
+    const percent = (done / total) * 100;
+    document.getElementById('doc-progress').style.width = percent + '%';
+
+    if(percent === 100) {
+        document.getElementById('final-status').innerText = 'STATUS: REPOSITORY_ONLINE';
+        document.getElementById('final-status').style.color = '#FFFB05';
+    }
+}
+
 function drawWheel() {
     const canvas = document.getElementById('wheel');
     const ctx = canvas.getContext('2d');
