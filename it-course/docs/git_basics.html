@@ -17,21 +17,81 @@
 
         <!-- ШАГ 1 -->
         <div class="step-card active" id="g1">
-            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_01 // IDENTIFICATION</div>
-            <h2 class="type-body">ПРЕДСТАВИТЬСЯ СИСТЕМЕ</h2>
-            <p class="type-body" style="color:#666;">Git должен знать, кто автор кода.</p>
-            <div class="cmd-block">
-                git config --global user.name "Имя Фамилия"<br>
-                git config --global user.email "your@email.com"
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_01 // TERMINAL_IDENTITY</div>
+            <h2 class="type-body">СОЗДАНИЕ ПРОЕКСТА И УСТАНОВКА ЛИЧНОСТИ</h2>
+            <p class="type-body" style="color:#666;">Эту часть нельзя сделать только кнопками. Git должен знать автора.</p>
+            <div class="type-body" style="background:#111; padding:15px; border-radius:10px; margin:15px 0;">
+                0. Открывает VS Code<br>
+                1. Open Folder + создайте на рабочем столе папку с любым названием<br>
+                2. Создай файл index.html (new file) и попробуй туда вписать данный код (добавь <> для h1):<br>
+                <div class="cmd-block">
+                    h1 Привет, это твоя тестовая страница! /h1
+                </div>
+                3. Для проверки результата нажми по файлу index.html правой кнопкой мыши и выбери Open in Brouser<br><br>Посмотри что получилось<br>
+            </div>
+            <p class="type-body" style="color:#666;">Это просто небольшой код для написание веб-страничек. Подробнее мы разребем его позже.</p>
+            <div class="type-body" style="background:#111; padding:15px; border-radius:10px; margin:15px 0;">
+                Теперь время передать Git кто мы:<br>
+                1. Terminal -> New Terminal и вписываем:
+                <div class="cmd-block">
+                    git config --global user.name "Your Name"<br>
+                    git config --global user.email "mail@example.com"
+                </div>
             </div>
             <button class="btn-main-white" onclick="markDone('g1')">ГОТОВО</button>
         </div>
 
-        <!-- ШАГ 2 -->
         <div class="step-card" id="g2">
-            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_02 // INITIALIZATION</div>
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_02 // GUI_WORKFLOW</div>
+            <h2 class="type-body">ВИЗУАЛЬНЫЙ КОММИТ (VS CODE)</h2>
+            <p class="type-body" style="color:#666;">Открой папку проекта в VS Code. Используй вкладку "Source Control" (иконка ветвления).</p>
+            <div class="type-body" style="background:#111; padding:15px; border-radius:10px; margin:15px 0;">
+                1. Нажми кнопку "Initialize Repository"<br>
+                2. Файл у нас уже создан, и он должен появитсья во вкладке ниже: "Changes"<br>
+                3. Теперь напиши сообщение, что обозначает изменения, или что было сделанно<br>
+                4. Нажми "Commit" (Снизу появиться история репозитория)<br>
+                5. Изменим как то файл, и добавим новый + снова делаем коментарий и комит. Посмотри что получилось
+            </div>
+            <p class="type-body" style="color:#666;">Пока все наши изменения храняться на компьютере, то есть локально, пршло время перенести все в облако.</p>
+            <div class="type-body" style="background:#111; padding:15px; border-radius:10px; margin:15px 0;">
+                1. Нажми кнопку "Publish Branch" (войдите или создайте аккаунт на GitHub)<br>
+                2. Задай ему имя: "work_01_01" и выбери public (все могут видеть все файлы)<br>
+                3. Зайдите на страницу проекта, осмотритесь<br>
+            </div>
+            <button class="hint-btn" onclick="toggleHint('h2')">ГДЕ ЭТА КНОПКА?</button>
+            <div id="h2" class="hint-text">Слева в VS Code третья иконка сверху (выглядит как три точки, соединенные линиями). Это твой пульт управления гитом.</div>
+            <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('g2')">ГОТОВО</button></div>
+        </div>
+
+        <div class="step-card" id="g3">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_03 // WEB_EDITING</div>
+            <h2 class="type-body">РЕДАКТИРОВАНИЕ В ОБЛАКЕ</h2>
+            <p class="type-body" style="color:#666;">Иногда код нужно поправить быстро, прямо в браузере.</p>
+            <div class="type-body" style="line-height: 1.6;">
+                1. Зайди в свой репозиторий на GitHub.com<br>
+                2. Нажми на любой файл -> иконка "Карандаш"<br>
+                3. Измени текст и нажми "Commit changes" в углу.
+            </div>
+            <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('g3')">ГОТОВО</button></div>
+        </div>
+
+        <div class="step-card" id="g4">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_04 // START_TERMINAL</div>
+            <h2 class="type-body">СОЗДАТЬ ЛОКАЛЬНЫЙ РЕПОЗИТОРИЙ С ПОМОЩЬЮ ТЕРМИНАЛА</h2>
+            <p class="type-body" style="color:#666;">Превращаем обычную папку в "умную", без помощи интерфейса.</p>
+            <div class="cmd-block">
+                1. Откройте новый проект
+                2. Задайте ему корневую папку (Назовите ее например "WORK_01")
+            </div>
+            <button class="hint-btn" onclick="toggleHint('h2')">ЧТО МЫ ДЕЛАЕМ?</button>
+            <div id="h2" class="hint-text">Теперь пробуем работать с терминалом, запоминать данные команды не обязательно, но при проблеммах с интерфесом и иных ошибках комита, работа в терминале может спасти целый проект.</div>
+            <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('g2')">ГОТОВО</button></div>
+        </div>
+
+        <div class="step-card" id="g5">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_05 // INITIALIZATION_TERMINAL</div>
             <h2 class="type-body">СОЗДАТЬ ЛОКАЛЬНЫЙ РЕПОЗИТОРИЙ</h2>
-            <p class="type-body" style="color:#666;">Превращаем обычную папку в "умную".</p>
+            <p class="type-body" style="color:#666;">Превращаем обычную папку в "умную" - с записью истории.</p>
             <div class="cmd-block">
                 mkdir IT_JOURNAL<br>
                 cd IT_JOURNAL<br>
@@ -48,7 +108,7 @@
             <h2 class="type-body">СДЕЛАТЬ ПЕРВЫЙ СНИМОК (COMMIT)</h2>
             <p class="type-body" style="color:#666;">Сохраняем состояние файлов.</p>
             <div class="cmd-block">
-                touch README.md<br>
+                Создайте файл README.md<br>
                 git add README.md<br>
                 git commit -m "feat: initial commit"
             </div>
@@ -68,6 +128,20 @@
                 git push -u origin main
             </div>
             <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('g4')">МИССИЯ ЗАВЕРШЕНА</button></div>
+        </div>
+
+                <!-- ШАГ 4: САМОСТОЯТЕЛЬНЫЙ КВЕСТ -->
+        <div class="step-card" id="g4">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_04 // FINAL_QUEST</div>
+            <h2 class="type-body">МИССИЯ: ПОРТФОЛИО</h2>
+            <p class="type-body">Собери всё воедино:</p>
+            <div class="cmd-block" style="border-left-color: #444; color: #fff;">
+                1. Создай на GitHub репозиторий: "MY_PORTFOLIO"<br>
+                2. Добавь туда файл README.md любым способом<br>
+                3. Напиши в нем: "Студент ИТ-специальности [Имя]"<br>
+                4. Сделай так, чтобы локальная папка на ПК и репозиторий в облаке были синхронизированы (Push).
+            </div>
+            <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('g4')">ЗАВЕРШИТЬ КУРС ГИТА</button></div>
         </div>
 
         <footer style="text-align: center; margin-bottom: 100px;">

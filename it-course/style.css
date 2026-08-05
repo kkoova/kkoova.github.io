@@ -388,3 +388,24 @@ body, html {
 .step-card { background: rgba(255,255,255,0.02); border: 1px solid #222; padding: 30px; margin-bottom: 40px; }
 .step-card.active { border-color: var(--accent-yellow); }
 .hint-text { display: none; padding-top: 10px; color: #888; font-size: 0.8rem; border-top: 1px dashed #333; margin-top: 10px; }
+
+/* Специфичные стили для интерактивности */
+.step-card { 
+    background: rgba(255,255,255,0.02); 
+    border: 1px solid #222; 
+    padding: 30px; 
+    margin-bottom: 40px; 
+    transition: 0.3s;
+    position: relative;
+}
+.step-card.active { border-color: var(--accent-yellow); box-shadow: 0 0 20px rgba(255,251,5,0.1); }
+.step-number { font-family: 'NDot'; color: var(--accent-yellow); font-size: 0.8rem; margin-bottom: 10px; }
+
+.hint-btn { 
+    background: transparent; border: 1px dashed #444; color: #666; 
+    padding: 5px 10px; font-size: 0.7rem; cursor: pointer; margin-top: 10px; 
+}
+.hint-text { display: none; padding-top: 10px; color: #888; font-style: italic; font-size: 0.8rem; }
+
+.status-dot { width: 8px; height: 8px; background: #222; border-radius: 50%; display: inline-block; margin-right: 10px; }
+.step-card.done .status-dot { background: var(--accent-yellow); box-shadow: 0 0 10px var(--accent-yellow); }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>MISSION // CYBER_DETECTION</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="nothing-os doc-page">
+    <div class="smart-dots-layer"></div>
+
+    <div class="doc-container">
+        <header>
+            <span class="type-body">UNIT_02 // WEB_SECURITY</span>
+            <h1 class="matrix-text" style="color: var(--accent-yellow);">DIGITAL_DETECTIVE</h1>
+            <div class="progress-line" style="margin-bottom: 50px;"><div id="doc-progress" style="width: 0%; height: 100%; background: var(--accent-yellow);"></div></div>
+        </header>
+
+        <!-- ШАГ 1: LIVE CODING -->
+        <div class="step-card active" id="c1">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_01 // THE_X_RAY</div>
+            <h2 class="type-body">РЕНТГЕНОВСКОЕ ЗРЕНИЕ</h2>
+            <p class="type-body" style="color:#666;">Любой сайт — это просто набор текста. Мы можем видеть его насквозь.</p>
+            <div class="type-body" style="background:#111; padding:15px; border-radius:10px; margin:15px 0;">
+                1. Открой любую страницу (например, google.com)<br>
+                2. Нажми <span class="shortcut">F12</span> или <span class="shortcut">CTRL+SHIFT+I</span><br>
+                3. Выбери иконку стрелочки в левом верхнем углу панели (Inspector)<br>
+                4. Наведи на любой текст на сайте и кликни.
+            </div>
+            <button class="btn-main-white" onclick="markDone('c1')">ВИЖУ КОД</button>
+        </div>
+
+        <!-- ШАГ 2: LIVE CODING -->
+        <div class="step-card" id="c2">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_02 // REALITY_EDIT</div>
+            <h2 class="type-body">ИЗМЕНЕНИЕ РЕАЛЬНОСТИ</h2>
+            <p class="type-body" style="color:#666;">Ты можешь временно изменить любой сайт на своем экране.</p>
+            <div class="type-body" style="background:#111; padding:15px; border-radius:10px; margin:15px 0;">
+                1. Найди через инспектор заголовок на странице<br>
+                2. В окне кода нажми по тексту дважды<br>
+                3. Напиши свое имя и нажми Enter.<br>
+                <br>
+                <b>ФОКУС:</b> Измени баланс на своей карте в онлайн-банке (визуально!) или текст новости.
+            </div>
+            <button class="hint-btn" onclick="toggleHint('h2')">ЭТО НАВСЕГДА?</button>
+            <div id="h2" class="hint-text">Нет, изменения только в твоем браузере. После обновления страницы (F5) всё вернется обратно. Но это помогает понять, как хакеры делают фейковые скриншоты.</div>
+            <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('c2')">Я ХАКЕР</button></div>
+        </div>
+
+        <!-- ШАГ 3: САМОСТОЯТЕЛЬНАЯ -->
+        <div class="step-card" id="c3">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_03 // HIDDEN_DATA</div>
+            <h2 class="type-body">ЗАДАНИЕ 1: ПОИСК ФЛАГА</h2>
+            <p class="type-body">Программисты часто оставляют секреты в комментариях кода.</p>
+            <div class="type-body" style="background:#111; padding:15px; border-radius:10px; margin:15px 0;">
+                1. Открой страницу нашего курса (где колесо)<br>
+                2. Используй F12, чтобы найти в коде HTML комментарий вида <code>&lt;!-- FLAG_... --&gt;</code><br>
+                3. Скопируй найденный код.
+            </div>
+            <button class="btn-main-white" onclick="markDone('c3')">ФЛАГ НАЙДЕН</button>
+        </div>
+
+        <!-- ШАГ 4: САМОСТОЯТЕЛЬНАЯ -->
+        <div class="step-card" id="c4">
+            <div class="type-body yellow" style="margin-bottom:10px;">PHASE_04 // BYPASS_LOCK</div>
+            <h2 class="type-body">ЗАДАНИЕ 2: ВЗЛОМ КНОПКИ</h2>
+            <p class="type-body">Иногда кнопка "заблокирована" (серая), но это всего лишь одно свойство в коде.</p>
+            <div class="type-body" style="background:#111; padding:15px; border-radius:10px; margin:15px 0;">
+                1. Найди на странице "секретную" серую кнопку (преподаватель скажет где)<br>
+                2. Через инспектор найди в её коде слово <code>disabled</code><br>
+                3. Удали это слово прямо в коде и нажми Enter<br>
+                4. Кнопка стала активной? Жми на неё!
+            </div>
+            <div style="margin-top:20px;"><button class="btn-main-white" onclick="markDone('g4')">МИССИЯ ВЫПОЛНЕНА</button></div>
+        </div>
+
+        <footer style="text-align: center; margin-bottom: 100px;">
+            <div class="type-body" id="final-status">STATUS: SYSTEM_SCANNING...</div>
+        </footer>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>

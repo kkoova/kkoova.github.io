@@ -7,10 +7,10 @@
       "bgImage": "assets/img/git_bg.jpg",
       "docsUrl": "docs/git_basics.html",
       "steps": [
-        { "id": "g1", "type": "live", "text": "Авторизация: Настройка имени и почты (git config)" },
-        { "id": "g2", "type": "live", "text": "Инициализация: Создание локального склада (git init)" },
-        { "id": "g3", "type": "self", "text": "Первый снимок: Добавление файла и коммит (add/commit)" },
-        { "id": "g4", "type": "self", "text": "Облако: Связь с GitHub и отправка (remote/push)" }
+        { "id": "g1", "type": "live", "text": "BASE: Конфигурация через терминал (Identity)" },
+        { "id": "g2", "type": "live", "text": "GUI: Работа с коммитами в интерфейсе VS Code" },
+        { "id": "g3", "type": "self", "text": "WEB: Прямое редактирование файлов на GitHub" },
+        { "id": "g4", "type": "self", "text": "QUEST: Создание README-портфолио" }
       ],
       "difficulty": "01",
       "teamSize": "1",
@@ -23,46 +23,41 @@
     },
     {
       "id": "02",
-      "title": "CYBER_SEC",
-      "bgImage": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000",
-      "liveTask": "Разбор SQL Injection на практике.",
-      "selfTask": "Закрыть уязвимость в предоставленном коде.",
-      "teamSize": "6",
-      "difficulty": "03",
+      "title": "CYBER_DETECTION",
+      "tag": "#SECURITY • DEVTOOLS",
+      "bgImage": "assets/img/cyber_bg.jpg",
+      "docsUrl": "docs/cyber_security.html",
+      "steps": [
+        { "id": "c1", "type": "live", "text": "X-RAY: Инструмент 'Инспектор' (CTRL+SHIFT+C)" },
+        { "id": "c2", "type": "live", "text": "BYPASS: Отключение блокировок и изменение текста" },
+        { "id": "c3", "type": "self", "text": "FLAG_01: Поиск секретного ключа в комментариях HTML" },
+        { "id": "c4", "type": "self", "text": "FLAG_02: Взлом заблокированной кнопки через свойства" }
+      ],
+      "difficulty": "01",
+      "teamSize": "2",
       "features": [
-        {"label": "Security", "sub": "ENCRYPTED", "icon": "https://cdn-icons-png.flaticon.com/512/1162/1162501.png"},
-        {"label": "Nodes", "sub": "GLOBAL", "icon": "https://cdn-icons-png.flaticon.com/512/2821/2821637.png"},
-        {"label": "Firewall", "sub": "ACTIVE", "icon": "https://cdn-icons-png.flaticon.com/512/3132/3132641.png"},
-        {"label": "Logs", "sub": "STRICT", "icon": "https://cdn-icons-png.flaticon.com/512/2965/2965279.png"}
+        {"label": "Tool", "sub": "DEV_TOOLS", "icon": "assets/icons/search.png"},
+        {"label": "Skill", "sub": "DOM_HACKING", "icon": "assets/icons/eye.png"},
+        {"label": "Type", "sub": "CTF_BASICS", "icon": "assets/icons/lock.png"}
       ]
     },
     {
-      "id": "06",
-      "title": "CYBER_SEC",
-      "bgImage": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000",
-      "liveTask": "Разбор SQL Injection на практике.",
-      "selfTask": "Закрыть уязвимость в предоставленном коде.",
-      "teamSize": "6",
-      "difficulty": "03",
+      "id": "03",
+      "title": "PIXEL_FORGE",
+      "tag": "#DESIGN • ASSETS",
+      "bgImage": "assets/img/pixel_art_bg.jpg",
+      "docsUrl": "docs/pixel_forge.html",
+      "steps": [
+        { "id": "p1", "type": "live", "text": "GRID: Настройка сетки 16x16 и палитры" },
+        { "id": "p2", "type": "live", "text": "TILES: Рисование плитки стены и пола (Тайлы)" },
+        { "id": "p3", "type": "self", "text": "HERO: Создание персонажа (Вид сверху, 4 кадра)" },
+        { "id": "p4", "type": "self", "text": "EXPORT: Сохранение Spritesheet для Godot" }
+      ],
+      "difficulty": "01", "teamSize": "1",
       "features": [
-        {"label": "Security", "sub": "ENCRYPTED", "icon": "https://cdn-icons-png.flaticon.com/512/1162/1162501.png"},
-        {"label": "Nodes", "sub": "GLOBAL", "icon": "https://cdn-icons-png.flaticon.com/512/2821/2821637.png"},
-        {"label": "Firewall", "sub": "ACTIVE", "icon": "https://cdn-icons-png.flaticon.com/512/3132/3132641.png"},
-        {"label": "Logs", "sub": "STRICT", "icon": "https://cdn-icons-png.flaticon.com/512/2965/2965279.png"}
-      ]
-    },{
-      "id": "05",
-      "title": "CYBER_SEC",
-      "bgImage": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000",
-      "liveTask": "Разбор SQL Injection на практике.",
-      "selfTask": "Закрыть уязвимость в предоставленном коде.",
-      "teamSize": "6",
-      "difficulty": "03",
-      "features": [
-        {"label": "Security", "sub": "ENCRYPTED", "icon": "https://cdn-icons-png.flaticon.com/512/1162/1162501.png"},
-        {"label": "Nodes", "sub": "GLOBAL", "icon": "https://cdn-icons-png.flaticon.com/512/2821/2821637.png"},
-        {"label": "Firewall", "sub": "ACTIVE", "icon": "https://cdn-icons-png.flaticon.com/512/3132/3132641.png"},
-        {"label": "Logs", "sub": "STRICT", "icon": "https://cdn-icons-png.flaticon.com/512/2965/2965279.png"}
+        {"label": "Tool", "sub": "DEV_TOOLS", "icon": "assets/icons/search.png"},
+        {"label": "Skill", "sub": "DOM_HACKING", "icon": "assets/icons/eye.png"},
+        {"label": "Type", "sub": "CTF_BASICS", "icon": "assets/icons/lock.png"}
       ]
     },{
           "id": "04",
@@ -84,6 +79,82 @@
             {"label": "Rule", "sub": "NO_UNDO", "icon": "assets/icons/alert.png"},
             {"label": "Skill", "sub": "LERP", "icon": "assets/icons/gear.png"}
           ]
-        }
+    }, {
+        "id": "05",
+        "title": "GODOT_ENGINE",
+        "tag": "#GAMEDEV • LOGIC",
+        "bgImage": "assets/img/godot_bg.jpg",
+        "docsUrl": "docs/godot_labyrinth.html",
+        "steps": [
+          { "id": "g1", "type": "live", "text": "SCENE: Создание игрока (CharacterBody2D)" },
+          { "id": "g2", "type": "live", "text": "TILEMAP: Постройка лабиринта из плиток" },
+          { "id": "g3", "type": "self", "text": "CODE: Программирование движения (WASD)" },
+          { "id": "g4", "type": "self", "text": "WIN_COND: Сбор ключа и открытие двери" }
+        ],
+        "difficulty": "02", "teamSize": "2"
+      },{
+      "id": "06",
+      "title": "INSIDER_VIEW",
+      "tag": "#COMMUNITY • TEA",
+      "bgImage": "assets/img/tea_bg.jpg",
+      "docsUrl": null,
+      "steps": [
+        { "id": "i1", "type": "live", "text": "DIPLOMA: Разбор реальных дипломных работ" },
+        { "id": "i2", "type": "live", "text": "GUEST: Встреча со старшекурсником" },
+        { "id": "i3", "type": "live", "text": "Q&A: Ответы на все вопросы" }
+      ],
+      "difficulty": "00", "teamSize": "ALL",
+      "features": [
+        {"label": "Status", "sub": "NO_CODE", "icon": "assets/icons/cup.png"},
+        {"label": "Mood", "sub": "RELAX", "icon": "assets/icons/heart.png"}
+      ]
+    },{
+      "id": "07",
+      "title": "WEB_LAYOUT",
+      "tag": "#FRONTEND • CSS",
+      "bgImage": "assets/img/web_bg.jpg",
+      "docsUrl": "docs/web_layout.html",
+      "steps": [
+        { "id": "w1", "type": "live", "text": "HTML: Структура документа" },
+        { "id": "w2", "type": "live", "text": "CSS: Стили (Градиенты, сетка)" },
+        { "id": "w3", "type": "self", "text": "PAGE: Мини-визитка 'О себе'" }
+      ],
+      "difficulty": "01", "teamSize": "1",
+      "features": [
+        {"label": "Style", "sub": "GLASS", "icon": "assets/icons/web.png"}
+      ]
+    },{
+      "id": "08",
+      "title": "SYSTEM_RELOAD",
+      "tag": "#CINEMA • BREAK",
+      "bgImage": "assets/img/movie_bg.jpg",
+      "docsUrl": null,
+      "steps": [
+        { "id": "r1", "type": "live", "text": "MOVIE: Просмотр ИТ-документалистики" },
+        { "id": "r2", "type": "live", "text": "DISCUSS: Обсуждение будущего индустрии" }
+      ],
+      "difficulty": "00", "teamSize": "ALL",
+      "features": [
+        {"label": "Cinema", "sub": "POP-CORN", "icon": "assets/icons/movie.png"},
+        {"label": "Brain", "sub": "REFRESH", "icon": "assets/icons/bolt.png"}
+      ]
+    },{
+      "id": "09",
+      "title": "LIVE_WORK",
+      "tag": "#COMMUNITY • BREAK",
+      "bgImage": "assets/img/movie_bg.jpg",
+      "docsUrl": null,
+      "steps": [
+        { "id": "r1", "type": "live", "text": "DIPLOMA: Разбор реальных дипломных работ" },
+        { "id": "r2", "type": "live", "text": "Q&A: Ответы на все вопросы" }
+      ],
+      "difficulty": "00", "teamSize": "ALL",
+      "features": [
+        {"label": "Cinema", "sub": "POP-CORN", "icon": "assets/icons/movie.png"},
+        {"label": "Brain", "sub": "REFRESH", "icon": "assets/icons/bolt.png"}
+      ]
+    }
+
+
   ]
 }
