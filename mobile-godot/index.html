@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GODOT // MOBILE_COURSE // KKOOVA</title>
+    
+    <!-- Подключаем твое общее ядро стилей -->
+    <link rel="stylesheet" href="../it-course/style.css">
+    <!-- Подключаем специфику курса -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="state-student">
+
+    <!-- Слой 0-1: Фон и точки (из твоего it-course/style.css) -->
+    <div class="bg-layer"></div>
+    <div class="smart-dots-layer"></div>
+
+    <!-- Системный UI -->
+    <header class="system-ui">
+        <div class="top-left matrix-text" style="font-size: 1.2rem;">
+            SYSTEM // MOBILE_GODOT_v3
+        </div>
+        <div class="top-right">
+            <span class="type-body">KNOWLEDGE_LOAD //</span>
+            <div class="mini-bar"><div id="total-progress"></div></div>
+            <span class="type-body" id="progress-percent">0%</span>
+        </div>
+    </header>
+
+    <!-- КАРТА УЗЛОВ (Центральная часть) -->
+    <main class="node-graph">
+        <!-- Узел 1: Архитектура -->
+        <div class="node-wrapper" style="top: 40%; left: 25%;">
+            <div class="topic-node" onclick="openMission('m01_arch')">
+                <div class="node-hex">01</div>
+                <div class="node-label type-body">CORE_ARCHITECTURE</div>
+            </div>
+        </div>
+
+        <!-- Узел 2: Сигналы -->
+        <div class="node-wrapper" style="top: 30%; left: 50%;">
+            <div class="topic-node" onclick="openMission('m02_signals')">
+                <div class="node-hex">02</div>
+                <div class="node-label type-body">SIGNAL_INTERCEPT</div>
+            </div>
+        </div>
+
+        <!-- Узел 3: Физика -->
+        <div class="node-wrapper" style="top: 60%; left: 70%;">
+            <div class="topic-node" onclick="openMission('m03_physics')">
+                <div class="node-hex">03</div>
+                <div class="node-label type-body">PHYSICS_OVERRIDE</div>
+            </div>
+        </div>
+        
+        <!-- Линии связи (SVG для красоты) -->
+        <svg class="connections">
+            <line x1="25%" y1="40%" x2="50%" y2="30%" />
+            <line x1="50%" y1="30%" x2="70%" y2="60%" />
+        </svg>
+    </main>
+
+    <!-- ВЬЮПОРТ ДЛЯ GODOT (Модальное окно) -->
+    <div id="mission-overlay" class="mission-overlay">
+        <div class="viewport-container">
+            <div class="viewport-header">
+                <span id="mission-title" class="matrix-text" style="font-size: 1rem;">MISSION_IN_PROGRESS</span>
+                <button onclick="closeMission()" class="close-btn"> [ EXIT_TERMINAL ] </button>
+            </div>
+            <!-- Сюда грузится Godot -->
+            <iframe id="godot-frame" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <!-- Футер (Статус) -->
+    <footer class="system-ui">
+        <div class="bottom-left type-body">
+            ROLE // <span class="accent">STUDENT_DEVELOPER</span>
+        </div>
+        <div class="bottom-right type-body">
+            REF. №GODOT_2024_S3
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

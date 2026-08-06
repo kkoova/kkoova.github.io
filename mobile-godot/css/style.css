@@ -1,0 +1,196 @@
+@font-face {
+    font-family: 'NDot';
+    src: url('https://kkoova.github.io/it-course/font/Ndot55-Regular.otf') format('woff2');
+}
+
+/* Эмуляция NType82 */
+@font-face {
+    font-family: 'NType82';
+    src: url('https://kkoova.github.io/it-course/font/NType82-Regular.otf');
+}
+
+@font-face {
+    font-family: 'LatteraMonoLL';
+    src: url('https://kkoova.github.io/it-course/font/LetteraMonoLL-Regular.otf');
+}
+
+:root {
+    --bg-black: #000000;
+    --accent-yellow: #FFFB05;
+    --border-white: rgba(255, 255, 255, 1);
+}
+
+body, html {
+    margin: 0; padding: 0;
+    background: var(--bg-black);
+    color: #fff;
+    font-family: 'NDot', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.smart-dots-layer {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: difference; /* Та самая инверсия! */
+    background-image: radial-gradient(circle, #ffffff 1.2px, transparent 1.2px);
+    background-size: 80px 80px; /* Размер сетки */
+    opacity: 0.7;
+}
+
+/* Слой 2: Системный UI */
+.system-ui div[class^="top-"], .system-ui div[class^="bottom-"] {
+    position: fixed;
+}
+
+/* Сетка фона */
+.smart-dots-layer {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.3;
+}
+
+.system-header {
+    position: fixed; top: 30px; width: 100%; 
+    display: flex; justify-content: space-between; padding: 0 40px;
+    z-index: 100; font-family: 'NDot', sans-serif;
+}
+
+.mission-viewport {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw; height: 70vh;
+    border: 1px solid var(--accent-yellow);
+    background: #000;
+    display: none; /* Скрыт, пока не выберем миссию */
+    z-index: 200;
+    box-shadow: 0 0 50px rgba(255, 251, 5, 0.2);
+}
+
+.mission-viewport.active { display: block; }
+
+/* Узлы карты (Темы) */
+.node-map {
+    position: relative;
+    width: 100vw; height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+}
+
+.topic-node {
+    position: absolute;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.topic-node:hover { transform: scale(1.1); color: var(--accent-yellow); }
+
+/* Контейнер карты */
+.node-graph {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    z-index: 5;
+}
+
+/* Стили узла */
+.node-wrapper {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.topic-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.node-hex {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 251, 5, 0.05);
+    border: 1px solid var(--accent-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'NDot';
+    color: var(--accent-yellow);
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    transition: 0.3s;
+}
+
+.topic-node:hover .node-hex {
+    background: var(--accent-yellow);
+    color: #000;
+    box-shadow: 0 0 20px var(--accent-yellow);
+}
+
+.node-label {
+    margin-top: 10px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+}
+
+/* Линии связи */
+.connections {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.connections line {
+    stroke: var(--accent-yellow);
+    stroke-width: 1;
+    stroke-dasharray: 5;
+    opacity: 0.2;
+}
+
+/* Вьюпорт миссии */
+.mission-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 1000;
+    display: none; /* Скрыто */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.viewport-container {
+    width: 90vw;
+    height: 80vh;
+    border: 1px solid var(--accent-yellow);
+    background: #000;
+    display: flex;
+    flex-direction: column;
+}
+
+.viewport-header {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#godot-frame {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--system-red);
+    font-family: 'NDot';
+    cursor: pointer;
+}
