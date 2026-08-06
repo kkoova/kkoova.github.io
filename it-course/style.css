@@ -209,6 +209,7 @@ body, html {
 .logbook-overlay.active { opacity: 1; pointer-events: all; }
 
 .logbook-card {
+    border-radius: 30px;
     width: 400px; padding: 40px; border: 1px solid var(--accent-yellow);
     text-align: center; background: #000;
 }
@@ -333,8 +334,7 @@ body, html {
 .report-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(5px);
     z-index: 1000;
     display: none; /* Скрыто по умолчанию */
     justify-content: center;
@@ -349,6 +349,7 @@ body, html {
 
 /* Стили самого окна внутри оверлея */
 .report-overlay .submission-zone {
+    border-radius: 30px;
     width: 400px;
     padding: 40px;
     border: 1px solid var(--accent-yellow);
@@ -411,11 +412,12 @@ body, html {
 .step-card.done .status-dot { background: var(--accent-yellow); box-shadow: 0 0 10px var(--accent-yellow); }
 
 .logout-trigger {
+    text-decoration: none;
     background: none;
     border: none;
     color: #444; /* По умолчанию тусклая */
     font-family: 'NDot', monospace;
-    font-size: 10px;
+    font-size: 1 rem;
     cursor: pointer;
     margin-left: 15px;
     padding: 2px 5px;
@@ -424,7 +426,13 @@ body, html {
 }
 
 .logout-trigger:hover {
+    fill: var(--accent-yellow) !important;
     color: var(--accent-yellow);
     border: 1px solid var(--accent-yellow);
     border-radius: 4px;
+}
+
+.white {
+    fill: white;
+    color: white;
 }

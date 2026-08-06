@@ -19,11 +19,12 @@ const provider = new GithubAuthProvider();
 let config = { topics: [] };
 let isSpinning = false;
 let currentTopic = null;
+let rerollAvailable = true;
 let topicStatus = {};
 let history = JSON.parse(localStorage.getItem('it_course_history')) || [];
 
 const urlParams = new URLSearchParams(window.location.search);
-const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh1";
+const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh11";
 let isAdmin = false;
 
 async function init() {
@@ -190,19 +191,32 @@ window.submitWork = async () => {
     const user = auth.currentUser;
     const repo = document.getElementById('repoLink').value;
     if (!repo) return alert("REPO_REQUIRED");
+    if (!currentTopic) return alert("NO_TOPIC_SELECTED");
 
     try {
+        const q = query(
+            collection(db, "submissions"), 
+            where("githubUid", "==", user.uid), 
+            where("topicId", "==", currentTopic.id)
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            alert("ERROR: YOU_HAVE_ALREADY_SUBMITTED_REPORT_FOR_THIS_TOPIC");
+            return;
+        }
+
         await addDoc(collection(db, "submissions"), {
             studentName: user.displayName,
-            studentEmail: user.email,
+            githubUid: user.uid,
             repository: repo,
             topicId: currentTopic.id,
             topicTitle: currentTopic.title,
             timestamp: serverTimestamp()
         });
-        alert("DONE");
+        alert("TRANSMISSION_SUCCESSFUL");
         document.getElementById('report-modal').classList.remove('active');
-    } catch (e) { alert("SYNC_ERROR"); }
+        location.reload();
+    } catch (e) { alert("SYNC_ERROR: CHECK_CONSOLE"); }
 };
 
 window.unlockTopic = () => {
@@ -216,7 +230,8 @@ window.markTopicDone = async () => {
     if (!isAdmin) return;
     try {
         await updateDoc(doc(db, "topics", currentTopic.id), { done: true });
-        alert("LOCKED");
+        location.reload();
+
     } catch (e) { console.error(e); }
 };
 
@@ -271,7 +286,6 @@ window.openProfile = async () => {
     list.innerHTML = `<div class="type-body" style="color:#666; padding: 15px 0;">SEARCHING_LOGBOOK...</div>`;
     
     try {
-        // Делаем запрос в коллекцию submissions, где githubUid равен UID студента
         const q = query(collection(db, "submissions"), where("githubUid", "==", user.uid));
         const querySnapshot = await getDocs(q);
         
@@ -291,7 +305,7 @@ window.openProfile = async () => {
                 // Красивое отображение: Название темы и ссылка на Гитхаб
                 item.innerHTML = `
                     <span>#${data.topicId} // ${data.topicTitle.toUpperCase()}</span>
-                    <a href="${data.repository}" target="_blank" style="color: var(--accent-yellow); text-decoration: none; border: 1px solid var(--accent-yellow); padding: 4px 8px; border-radius: 4px;">[ REPO ]</a>
+                    <a href="${data.repository}" target="_blank" class="logout-trigger"">[ REPO ]</a>
                 `;
                 list.appendChild(item);
             });
@@ -321,6 +335,17 @@ if (profBtn) profBtn.onclick = window.openProfile;
 document.getElementById('spinBtn').onclick = window.spin;
 document.getElementById('github-auth-btn').onclick = window.loginViaGithub;
 document.getElementById('logout-btn').onclick = window.logout;
+
+document.getElementById('rerollBtn').onclick = () => {
+    if (!rerollAvailable) return;
+    
+    rerollAvailable = false;
+    document.getElementById('rerollBtn').innerText = "[ LOCKED_SYSTEM ]";
+    
+    // Возвращаемся к колесу и крутим снова
+    document.getElementById('app-container').className = 'view-wheel';
+    setTimeout(spin, 800); 
+};
 
 window.openReport = () => document.getElementById('report-modal').classList.add('active');
 window.closeReport = () => document.getElementById('report-modal').classList.remove('active');
