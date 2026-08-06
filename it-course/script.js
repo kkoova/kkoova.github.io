@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot, updateDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, updateDoc, addDoc, collection, serverTimestamp, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithPopup, GithubAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -23,7 +23,8 @@ let topicStatus = {};
 let history = JSON.parse(localStorage.getItem('it_course_history')) || [];
 
 const urlParams = new URLSearchParams(window.location.search);
-const isAdmin = urlParams.get('admin') === 'aaaa';
+const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh1";
+let isAdmin = false;
 
 async function init() {
     try {
@@ -43,13 +44,22 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         overlay.classList.remove('active');
         const roleEl = document.getElementById('user-role');
+        isAdmin = (user.uid === ADMIN_UID);
         if (isAdmin) {
             document.body.classList.add('state-admin');
-            roleEl.innerText = 'TEACHER_ADMIN';
+            roleEl.innerText = 'TEACHER_ADMIN // ROOT';
+            
             document.getElementById('student-tools').style.display = 'none';
+            if (document.getElementById('report-stud')) document.getElementById('report-stud').style.display = 'none';
+            document.getElementById('profile-btn').style.display = 'none';
         } else {
-            roleEl.innerText = user.displayName ? user.displayName.toUpperCase() : 'STUDENT';
-            document.getElementById('spinBtn').style.display = 'none';
+            document.body.classList.remove('state-admin');
+            roleEl.innerText = user.displayName ? user.displayName.toUpperCase() : 'DEV_STUDENT';
+            
+            if (document.getElementById('spinBtn')) document.getElementById('spinBtn').style.display = 'none';
+            if (document.getElementById('admin-btn')) document.getElementById('admin-btn').style.display = 'none';
+            if (document.getElementById('rerollBtn')) document.getElementById('rerollBtn').style.display = 'none';
+            if (document.getElementById('profile-btn')) document.getElementById('profile-btn').style.display = 'inline-block';
         }
         init();
     } else {
@@ -238,12 +248,75 @@ function animateParallax() {
 
 window.logout = () => {
     signOut(auth).then(() => {
-        // После выхода страница сама перезагрузится из-за onAuthStateChanged
         console.log("System logged out");
     }).catch((error) => {
         console.error("Logout error:", error);
     });
 };
+
+window.openProfile = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    // 1. Открываем модальное окно и заполняем данные из GitHub
+    document.getElementById('profile-modal').classList.add('active');
+    document.getElementById('prof-name').innerText = user.displayName ? user.displayName.toUpperCase() : "STUDENT_DEV";
+    document.getElementById('prof-email').innerText = user.email || "NO_EMAIL";
+    if (user.photoURL) {
+        document.getElementById('prof-avatar').src = user.photoURL;
+    }
+
+    // 2. Ищем в Firebase все работы, которые сдал именно этот студент
+    const list = document.getElementById('prof-list');
+    list.innerHTML = `<div class="type-body" style="color:#666; padding: 15px 0;">SEARCHING_LOGBOOK...</div>`;
+    
+    try {
+        // Делаем запрос в коллекцию submissions, где githubUid равен UID студента
+        const q = query(collection(db, "submissions"), where("githubUid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        
+        list.innerHTML = "";
+        let count = 0;
+
+        if (querySnapshot.empty) {
+            list.innerHTML = `<div class="type-body" style="color:#888; padding: 15px 0;">NO_MISSIONS_COMPLETED_YET</div>`;
+        } else {
+            querySnapshot.forEach((doc) => {
+                count++;
+                const data = doc.data();
+                const item = document.createElement('div');
+                item.className = "type-body";
+                item.style = "padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.15); display: flex; justify-content: space-between; align-items: center;";
+                
+                // Красивое отображение: Название темы и ссылка на Гитхаб
+                item.innerHTML = `
+                    <span>#${data.topicId} // ${data.topicTitle.toUpperCase()}</span>
+                    <a href="${data.repository}" target="_blank" style="color: var(--accent-yellow); text-decoration: none; border: 1px solid var(--accent-yellow); padding: 4px 8px; border-radius: 4px;">[ REPO ]</a>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // 3. Считаем процент прохождения курса (например, 3 работы из 10 = 30%)
+        document.getElementById('prof-count').innerText = count;
+        const totalTopics = config.topics ? config.topics.length : 10;
+        const percent = Math.min(100, Math.round((count / totalTopics) * 100)) || 0;
+        
+        document.getElementById('prof-percent').innerText = `${percent}%`;
+        document.getElementById('prof-bar').style.width = `${percent}%`;
+
+    } catch (e) {
+        console.error("Ошибка загрузки профиля:", e);
+        list.innerHTML = `<div class="type-body" style="color:#ff4444; padding: 15px 0;">ERROR_FETCHING_DATA</div>`;
+    }
+};
+
+window.closeProfile = () => {
+    document.getElementById('profile-modal').classList.remove('active');
+};
+
+const profBtn = document.getElementById('profile-btn');
+if (profBtn) profBtn.onclick = window.openProfile;
 
 document.getElementById('spinBtn').onclick = window.spin;
 document.getElementById('github-auth-btn').onclick = window.loginViaGithub;
