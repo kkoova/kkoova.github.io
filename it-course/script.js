@@ -3,6 +3,7 @@ let isSpinning = false;
 let rerollAvailable = true;
 let currentTopic = null;
 let history = JSON.parse(localStorage.getItem('it_course_history')) || [];
+let topicStatus = {};
 
 async function init() {
     try {
@@ -14,6 +15,39 @@ async function init() {
         setInterval(updateClock, 1000);
     } catch (e) { console.error("Ошибка загрузки JSON:", e); }
 }
+
+import { getAuth, signInWithPopup, GithubAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const provider = new GithubAuthProvider();
+const auth = getAuth();
+
+// Функция входа
+window.loginViaGithub = () => {
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            // Успешный вход
+            const user = result.user;
+            console.log("Logged in as:", user.displayName);
+        }).catch((error) => {
+            console.error("Auth error:", error);
+            alert("AUTH_FAILED: CHECK_CONNECTION");
+        });
+};
+
+// Назначаем на кнопку
+document.getElementById('github-auth-btn').onclick = loginViaGithub;
+
+// Следим за состоянием
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        document.getElementById('login-overlay').classList.remove('active');
+        // Приветствие в углу экрана (System UI)
+        document.getElementById('user-role').innerText = user.displayName.toUpperCase();
+        initApp();
+    } else {
+        document.getElementById('login-overlay').classList.add('active');
+    }
+});
 
 function updateSystemUI() {
     const now = new Date();
@@ -54,34 +88,31 @@ function unlockTopic() {
 }
 
 // 3. СДАЧА РАБОТЫ (LOGBOOK)
-function submitWork() {
-    const fio = document.getElementById('studentFIO').value;
+window.submitWork = async () => {
+    const user = auth.currentUser;
     const repo = document.getElementById('repoLink').value;
 
-    if (!fio || !repo) {
-        alert("ERROR: FILL_ALL_FIELDS");
-        return;
+    if (!repo) return alert("ERROR: REPO_LINK_REQUIRED");
+
+    try {
+        await addDoc(collection(db, "submissions"), {
+            studentName: user.displayName,   // Имя из GitHub
+            studentEmail: user.email,       // Почта из GitHub
+            githubUid: user.uid,            // Уникальный ID
+            photo: user.photoURL,           // Аватарка (можно потом вывести в админке)
+            repository: repo,
+            topicId: currentTopic.id,
+            topicTitle: currentTopic.title,
+            timestamp: serverTimestamp()     // Точное время сервера
+        });
+        
+        alert("TRANSMISSION_COMPLETE");
+        closeReport();
+    } catch (e) {
+        console.error(e);
+        alert("SYNC_ERROR");
     }
-
-    // Сохраняем в историю этого компьютера
-    const sessionData = {
-        topicId: currentTopic.id,
-        topicTitle: currentTopic.title,
-        students: fio,
-        repository: repo,
-        timestamp: new Date().toISOString()
-    };
-
-    let studentHistory = JSON.parse(localStorage.getItem('student_submissions')) || [];
-    studentHistory.push(sessionData);
-    localStorage.setItem('student_submissions', JSON.stringify(studentHistory));
-
-    alert("SUCCESS: DATA_SENT_TO_LOGBOOK");
-    closeReport();
-    
-    // Опционально: возвращаем на экран колеса
-    location.reload(); 
-}
+};
 
 // Открыть окно отчета
 function openReport() {
@@ -99,6 +130,21 @@ function toggleHint(id) {
     const h = document.getElementById(id);
     h.style.display = h.style.display === 'block' ? 'none' : 'block';
 }
+
+window.login = () => {
+    const email = document.getElementById('email').value;
+    const pass = document.getElementById('password').value;
+    signInWithEmailAndPassword(auth, email, pass).catch(err => alert(err.message));
+};
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        document.getElementById('login-overlay').classList.remove('active');
+        initApp(); // Запуск приложения только после логина
+    } else {
+        document.getElementById('login-overlay').classList.add('active');
+    }
+});
 
 function markDone(id) {
     const card = document.getElementById(id);
@@ -121,6 +167,16 @@ function markDone(id) {
         document.getElementById('final-status').innerText = 'STATUS: REPOSITORY_ONLINE';
         document.getElementById('final-status').style.color = '#FFFB05';
     }
+}
+
+function listenToTopics() {
+    // Слушаем всю коллекцию topics
+    onSnapshot(collection(db, "topics"), (snapshot) => {
+        snapshot.forEach((doc) => {
+            topicStatus[doc.id] = doc.data().done;
+        });
+        drawWheel(); // Перерисовываем колесо при каждом изменении в БД
+    });
 }
 
 function drawWheel() {
@@ -153,7 +209,7 @@ function drawWheel() {
             JSON.parse(localStorage.getItem('it_course_history')) || [] : 
             JSON.parse(localStorage.getItem('student_submissions')) || [];
 
-        const isDone = historyToCheck.some(h => h.id === t.id || h.topicId === t.id);
+        const isDone = topicStatus[t.id] === true;
         const angle = i * slice;
         ctx.save();
         ctx.translate(cx, cy);
