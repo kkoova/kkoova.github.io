@@ -409,3 +409,22 @@ body, html {
 
 .status-dot { width: 8px; height: 8px; background: #222; border-radius: 50%; display: inline-block; margin-right: 10px; }
 .step-card.done .status-dot { background: var(--accent-yellow); box-shadow: 0 0 10px var(--accent-yellow); }
+
+.logout-trigger {
+    background: none;
+    border: none;
+    color: #444; /* По умолчанию тусклая */
+    font-family: 'NDot', monospace;
+    font-size: 10px;
+    cursor: pointer;
+    margin-left: 15px;
+    padding: 2px 5px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.logout-trigger:hover {
+    color: var(--accent-yellow);
+    border: 1px solid var(--accent-yellow);
+    border-radius: 4px;
+}

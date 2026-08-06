@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, doc, onSnapshot, updateDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, signInWithPopup, GithubAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, signInWithPopup, GithubAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC9rNY8ooNVkqQx4e5VNO5DFxByg1sIjLg",
@@ -236,8 +236,18 @@ function animateParallax() {
     requestAnimationFrame(animateParallax);
 }
 
+window.logout = () => {
+    signOut(auth).then(() => {
+        // После выхода страница сама перезагрузится из-за onAuthStateChanged
+        console.log("System logged out");
+    }).catch((error) => {
+        console.error("Logout error:", error);
+    });
+};
+
 document.getElementById('spinBtn').onclick = window.spin;
 document.getElementById('github-auth-btn').onclick = window.loginViaGithub;
+document.getElementById('logout-btn').onclick = window.logout;
 
 window.openReport = () => document.getElementById('report-modal').classList.add('active');
 window.closeReport = () => document.getElementById('report-modal').classList.remove('active');
