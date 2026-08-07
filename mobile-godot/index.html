@@ -27,7 +27,6 @@
             <span class="type-body" id="progress-percent">0%</span>
         </div>
     </header>
-
     <!-- КАРТА УЗЛОВ (Центральная часть) -->
     <main class="node-graph">
         <!-- Узел 1: Архитектура -->
@@ -53,7 +52,13 @@
                 <div class="node-label type-body">PHYSICS_OVERRIDE</div>
             </div>
         </div>
-        
+        <div id="hover-preview" class="hover-preview">
+            <img id="preview-img" src="" alt="preview">
+            <div class="preview-info">
+                <div id="preview-title" class="matrix-text"></div>
+                <div id="preview-subtitle" class="type-body"></div>
+            </div>
+        </div>
         <!-- Линии связи (SVG для красоты) -->
         <svg class="connections">
             <line x1="25%" y1="40%" x2="50%" y2="30%" />
@@ -63,13 +68,28 @@
 
     <!-- ВЬЮПОРТ ДЛЯ GODOT (Модальное окно) -->
     <div id="mission-overlay" class="mission-overlay">
-        <div class="viewport-container">
-            <div class="viewport-header">
-                <span id="mission-title" class="matrix-text" style="font-size: 1rem;">MISSION_IN_PROGRESS</span>
-                <button onclick="closeMission()" class="close-btn"> [ EXIT_TERMINAL ] </button>
+        <div class="viewport-container full-layout">
+            <!-- Левая часть: Игра -->
+            <div class="godot-section">
+                <div class="viewport-header">
+                    <span id="mission-title" class="matrix-text"></span>
+                    <button onclick="closeMission()" class="close-btn">[ EXIT ]</button>
+                </div>
+                <iframe id="godot-frame" src=""></iframe>
             </div>
-            <!-- Сюда грузится Godot -->
-            <iframe id="godot-frame" src="" frameborder="0"></iframe>
+
+            <!-- Правая часть: Инструкция -->
+            <div class="info-section">
+                <div class="info-header">MISSION_STEPS</div>
+                <div id="steps-list" class="steps-list">
+                    <!-- Сюда вставим шаги из JSON -->
+                </div>
+                <div class="info-footer">
+                    <a id="tutorial-link" href="#" target="_blank" class="launch-btn" style="text-decoration:none; text-align:center;">
+                        READ_FULL_TUTORIAL
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
