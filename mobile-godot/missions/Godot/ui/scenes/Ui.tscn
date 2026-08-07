@@ -1,0 +1,189 @@
+[gd_scene load_steps=11 format=3 uid="uid://clclt6ayqo3yt"]
+
+[ext_resource type="Theme" uid="uid://bil1augjn61t7" path="res://assets/Ui.tres" id="1_rwbfc"]
+[ext_resource type="Script" uid="uid://pdefba4p5i4d" path="res://script/ui.gd" id="2_uqquc"]
+[ext_resource type="Texture2D" uid="uid://bclkjfplathhl" path="res://assets/icon-3.png" id="3_yhye5"]
+[ext_resource type="Texture2D" uid="uid://d2i3k3il3xnfa" path="res://assets/sprite.png" id="4_p1rf7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6l6n"]
+atlas = ExtResource("4_p1rf7")
+region = Rect2(33, 1, 31, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qui0h"]
+atlas = ExtResource("4_p1rf7")
+region = Rect2(33, 17, 31, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vrfts"]
+atlas = ExtResource("4_p1rf7")
+region = Rect2(29, 34, 35, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2n5f6"]
+atlas = ExtResource("4_p1rf7")
+region = Rect2(0, 48, 35, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_27c8x"]
+atlas = ExtResource("4_p1rf7")
+region = Rect2(35, 49, 29, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i1vam"]
+atlas = ExtResource("4_p1rf7")
+region = Rect2(3, 21, 26, 24)
+
+[node name="Control" type="Control" node_paths=PackedStringArray("hearts_container", "time_label", "Lv_label", "Name_label", "Hp_label", "Hov_label", "Bag_label", "Wg_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_rwbfc")
+script = ExtResource("2_uqquc")
+hearts_container = NodePath("VBoxContainer/UserHBoxContainer/VBoxContainer/HpFlowContainer")
+time_label = NodePath("VBoxContainer/Stats/TimeBoxContainer/TimeLabel")
+Lv_label = NodePath("VBoxContainer/LvHBoxContainer/LvLabel")
+Name_label = NodePath("VBoxContainer/UserHBoxContainer/VBoxContainer/NameLabel")
+Hp_label = NodePath("VBoxContainer/Stats/StatsPanelContainer/GridContainer/Hp/HpLabel")
+Hov_label = NodePath("VBoxContainer/Stats/StatsPanelContainer/GridContainer/Hov/HovLabel")
+Bag_label = NodePath("VBoxContainer/Stats/StatsPanelContainer/GridContainer/Bag/BagLabel")
+Wg_label = NodePath("VBoxContainer/Stats/StatsPanelContainer/GridContainer/Wg/WgLabel")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.4392157, 0.36078432, 0.33333334, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -86.5
+offset_top = -59.5
+offset_right = 86.5
+offset_bottom = 59.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UserHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/UserHBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+
+[node name="UserTextureRect" type="TextureRect" parent="VBoxContainer/UserHBoxContainer/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("3_yhye5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/UserHBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/UserHBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "You name"
+
+[node name="HpFlowContainer" type="HBoxContainer" parent="VBoxContainer/UserHBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LvHBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/LvHBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_g6l6n")
+stretch_mode = 2
+
+[node name="LvLabel" type="Label" parent="VBoxContainer/LvHBoxContainer"]
+layout_mode = 2
+text = "4"
+
+[node name="Stats" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="StatsPanelContainer" type="PanelContainer" parent="VBoxContainer/Stats"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/Stats/StatsPanelContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Hp" type="HBoxContainer" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer/Hp"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_qui0h")
+stretch_mode = 2
+
+[node name="HpLabel" type="Label" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer/Hp"]
+layout_mode = 2
+text = "20"
+
+[node name="Hov" type="HBoxContainer" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer/Hov"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_vrfts")
+stretch_mode = 2
+
+[node name="HovLabel" type="Label" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer/Hov"]
+layout_mode = 2
+text = "20"
+
+[node name="Bag" type="HBoxContainer" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer/Bag"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_2n5f6")
+stretch_mode = 2
+
+[node name="BagLabel" type="Label" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer/Bag"]
+layout_mode = 2
+text = "20"
+
+[node name="Wg" type="HBoxContainer" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer/Wg"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_27c8x")
+stretch_mode = 2
+
+[node name="WgLabel" type="Label" parent="VBoxContainer/Stats/StatsPanelContainer/GridContainer/Wg"]
+layout_mode = 2
+text = "20"
+
+[node name="TimeBoxContainer" type="HBoxContainer" parent="VBoxContainer/Stats"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Stats/TimeBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_i1vam")
+stretch_mode = 2
+
+[node name="TimeLabel" type="Label" parent="VBoxContainer/Stats/TimeBoxContainer"]
+layout_mode = 2
+text = "03:45"

@@ -1,0 +1,47 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
+[application]
+
+config/name="UI"
+run/main_scene="uid://cajfv4tudcr41"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+Global="*res://script/global.gd"
+
+[display]
+
+window/size/viewport_width=186
+window/size/viewport_height=132
+window/size/window_width_override=930
+window/size/window_height_override=660
+window/stretch/mode="canvas_items"
+window/stretch/scale_mode="integer"
+window/handheld/orientation=1
+
+[file_customization]
+
+folder_colors={
+"res://assets/": "green",
+"res://scenes/": "yellow",
+"res://script/": "purple"
+}
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

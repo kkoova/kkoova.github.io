@@ -1,0 +1,139 @@
+[gd_scene load_steps=9 format=3 uid="uid://cajfv4tudcr41"]
+
+[ext_resource type="Theme" uid="uid://bil1augjn61t7" path="res://assets/Ui.tres" id="1_jt1f1"]
+[ext_resource type="Texture2D" uid="uid://d2i3k3il3xnfa" path="res://assets/sprite.png" id="2_e3e02"]
+[ext_resource type="Script" uid="uid://bfrmfe7ih3bit" path="res://script/ui_info.gd" id="2_fgvn4"]
+[ext_resource type="PackedScene" uid="uid://clclt6ayqo3yt" path="res://scenes/Ui.tscn" id="3_fgvn4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fgvn4"]
+atlas = ExtResource("2_e3e02")
+region = Rect2(33, 17, 31, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6kxt"]
+atlas = ExtResource("2_e3e02")
+region = Rect2(29, 34, 35, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmexu"]
+atlas = ExtResource("2_e3e02")
+region = Rect2(0, 48, 35, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_di618"]
+atlas = ExtResource("2_e3e02")
+region = Rect2(35, 49, 29, 14)
+
+[node name="UiInfo" type="Control" node_paths=PackedStringArray("Hp", "Hov", "Bag", "Wg", "Name")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_jt1f1")
+script = ExtResource("2_fgvn4")
+Hp = NodePath("PanelContainer/Hp/HpTextEdit")
+Hov = NodePath("PanelContainer/Hov/HovTextEdit")
+Bag = NodePath("PanelContainer/Bag/BagTextEdit")
+Wg = NodePath("PanelContainer/Wg/WgTextEdit")
+Name = NodePath("PanelContainer/Name/NameTextEdit")
+NextScene = ExtResource("3_fgvn4")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.4392157, 0.36078432, 0.33333334, 1)
+
+[node name="PanelContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.5
+offset_top = -33.5
+offset_right = 34.5
+offset_bottom = 33.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Name"]
+layout_mode = 2
+text = "Name:"
+
+[node name="NameTextEdit" type="TextEdit" parent="PanelContainer/Name"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Hp" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Hp"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_fgvn4")
+stretch_mode = 2
+
+[node name="HpTextEdit" type="TextEdit" parent="PanelContainer/Hp"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Hov" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/Hov"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_x6kxt")
+stretch_mode = 2
+
+[node name="HovTextEdit" type="TextEdit" parent="PanelContainer/Hov"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bag" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/Bag"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_jmexu")
+stretch_mode = 2
+
+[node name="BagTextEdit" type="TextEdit" parent="PanelContainer/Bag"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Wg" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/Wg"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_di618")
+stretch_mode = 2
+
+[node name="WgTextEdit" type="TextEdit" parent="PanelContainer/Wg"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NextButton" type="Button" parent="PanelContainer"]
+layout_mode = 2
+text = "Next"
+
+[connection signal="pressed" from="PanelContainer/NextButton" to="." method="_on_next_button_pressed"]

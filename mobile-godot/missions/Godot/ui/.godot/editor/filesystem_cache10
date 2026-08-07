@@ -1,0 +1,17 @@
+78098b89c88a74ebe8c20117b8754620
+::res://::1786141228
+::res://assets/::1786139708
+ComicoroRu_0.ttf::FontFile::7054069430635828003::1786134294::1786134295::1::::<><><>0<>0<>27c0995c2eb2004c4f22bb949653e2f9<>res://.godot/imported/ComicoroRu_0.ttf-a4ffe206a1155ae61c2ab74494de4aff.fontdata::
+heart.png::CompressedTexture2D::3152347845171093048::1786137663::1786137664::1::::<><><>0<>0<>b6ede05afef37436712169ec502c682e<>res://.godot/imported/heart.png-9a2fa56e49d8a002fed7c28ce07513e0.ctex::
+icon-2.png::CompressedTexture2D::4812423222576302475::1786138157::1786138172::1::::<><><>0<>0<>acc4b846777a131ca1e4c9c3e13a68a8<>res://.godot/imported/icon-2.png-e0e879502da4b87d40f409f674b3b4ec.ctex::
+icon-3.png::CompressedTexture2D::2550130054625993805::1786138163::1786138172::1::::<><><>0<>0<>0a4750dfc075b791d25b363674e08c47<>res://.godot/imported/icon-3.png-b39d1708c9801c2069f5433e0ea80386.ctex::
+icon.png::CompressedTexture2D::1156289429856617147::1786133307::1786133307::1::::<><><>0<>0<>2e9e1eaececdb9e0b9b2bdfc35fcb40f<>res://.godot/imported/icon.png-b6a7fb2db36edd3d95dc42f1dc8c1c5d.ctex::
+sprite.png::CompressedTexture2D::9072595268625531318::1786135927::1786135927::1::::<><><>0<>0<>3fbef1834d152f87e20536795de1100c<>res://.godot/imported/sprite.png-326bf2a42cf01374c1682f27990021a3.ctex::
+Ui.tres::Theme::2972219290067315446::1786139708::0::1::::<><><>0<>0<><>::uid://d2i3k3il3xnfa::::res://assets/sprite.png<>uid://c7rbq02ls00qx::::res://assets/ComicoroRu_0.ttf
+::res://scenes/::1786141163
+Ui.tscn::PackedScene::5549750849253571491::1786141163::0::1::::<><><>0<>0<><>::uid://bil1augjn61t7::::res://assets/Ui.tres<>uid://pdefba4p5i4d::::res://script/ui.gd<>uid://bclkjfplathhl::::res://assets/icon-3.png<>uid://d2i3k3il3xnfa::::res://assets/sprite.png
+Ui_info.tscn::PackedScene::4791763407249830072::1786141110::0::1::::<><><>0<>0<><>::uid://bil1augjn61t7::::res://assets/Ui.tres<>uid://d2i3k3il3xnfa::::res://assets/sprite.png<>uid://bfrmfe7ih3bit::::res://script/ui_info.gd<>uid://clclt6ayqo3yt::::res://scenes/Ui.tscn
+::res://script/::1786141143
+global.gd::GDScript::8993841679301129269::1786141073::0::1::::<>Node<><>0<>0<><>::
+ui.gd::GDScript::1059277638635467261::1786141143::0::1::::<>Control<><>0<>0<><>::
+ui_info.gd::GDScript::2773197116486082807::1786141089::0::1::::<>Control<><>0<>0<><>::

@@ -1,0 +1,46 @@
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://bil1augjn61t7"]
+
+[ext_resource type="Texture2D" uid="uid://d2i3k3il3xnfa" path="res://assets/sprite.png" id="1_5cjrq"]
+[ext_resource type="FontFile" uid="uid://c7rbq02ls00qx" path="res://assets/ComicoroRu_0.ttf" id="2_wc5im"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wc5im"]
+atlas = ExtResource("1_5cjrq")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fa1pn"]
+texture = SubResource("AtlasTexture_wc5im")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+region_rect = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mc3e"]
+atlas = ExtResource("1_5cjrq")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2n5f6"]
+texture = SubResource("AtlasTexture_0mc3e")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+region_rect = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cjrq"]
+atlas = ExtResource("1_5cjrq")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wc5im"]
+texture = SubResource("AtlasTexture_5cjrq")
+texture_margin_left = 1.0
+texture_margin_top = 1.0
+texture_margin_right = 1.0
+texture_margin_bottom = 1.0
+
+[resource]
+default_font = ExtResource("2_wc5im")
+Button/styles/normal = SubResource("StyleBoxTexture_fa1pn")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_2n5f6")
+TextEdit/font_sizes/font_size = 10
+TextEdit/styles/normal = SubResource("StyleBoxTexture_wc5im")
