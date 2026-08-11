@@ -1,25 +1,3 @@
-@font-face {
-    font-family: 'NDot';
-    src: url('https://kkoova.github.io/it-course/font/Ndot55-Regular.otf') format('woff2');
-}
-
-/* Эмуляция NType82 */
-@font-face {
-    font-family: 'NType82';
-    src: url('https://kkoova.github.io/it-course/font/NType82-Regular.otf');
-}
-
-@font-face {
-    font-family: 'LatteraMonoLL';
-    src: url('https://kkoova.github.io/it-course/font/LetteraMonoLL-Regular.otf');
-}
-
-:root {
-    --bg-black: #000000;
-    --accent-yellow: #FFFB05;
-    --border-white: rgba(255, 255, 255, 1);
-}
-
 .briefing-panel {
     position: absolute;
     right: 50px;
@@ -60,38 +38,6 @@
     letter-spacing: 2px;
 }
 
-body, html {
-    margin: 0; padding: 0;
-    background: var(--bg-black);
-    color: #fff;
-    font-family: 'NDot', sans-serif;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.smart-dots-layer {
-    position: fixed; inset: 0; z-index: 1;
-    pointer-events: none;
-    mix-blend-mode: difference; /* Та самая инверсия! */
-    background-image: radial-gradient(circle, #ffffff 1.2px, transparent 1.2px);
-    background-size: 80px 80px; /* Размер сетки */
-    opacity: 0.7;
-}
-
-/* Слой 2: Системный UI */
-.system-ui div[class^="top-"], .system-ui div[class^="bottom-"] {
-    position: fixed;
-}
-
-/* Сетка фона */
-.smart-dots-layer {
-    position: fixed; inset: 0; z-index: 1;
-    pointer-events: none;
-    background-image: radial-gradient(circle, #ffffff 1px, transparent 1px);
-    background-size: 60px 60px;
-    opacity: 0.3;
-}
-
 .system-header {
     position: fixed; top: 30px; width: 100%; 
     display: flex; justify-content: space-between; padding: 0 40px;
@@ -120,26 +66,53 @@ body, html {
 }
 
 .topic-node {
-    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.03); /* Едва заметный фон */
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px; /* Фирменное закругление Nothing */
+    padding: 20px;
+    width: 140px;
     text-align: center;
-    transition: 0.3s;
 }
 
-.topic-node:hover { transform: scale(1.1); color: var(--accent-yellow); }
+.topic-node:hover {
+    background: rgba(255, 251, 5, 0.1); /* Твой желтый акцент */
+    border-color: var(--accent-yellow);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
 
-/* Контейнер карты */
+#app-container {
+    pointer-events: none; 
+    z-index: 10;
+}
+
 .node-graph {
     position: relative;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
     z-index: 5;
 }
 
-/* Стили узла */
+#nodes-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* чтобы клики проходили только по самим узлам */
+}
+
 .node-wrapper {
     position: absolute;
     transform: translate(-50%, -50%);
+    pointer-events: auto;
+    z-index: 10;
 }
 
 .topic-node {
@@ -151,55 +124,54 @@ body, html {
 }
 
 .node-hex {
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 251, 5, 0.05);
-    border: 1px solid var(--accent-yellow);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'NDot';
-    color: var(--accent-yellow);
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    transition: 0.3s;
+    font-family: 'NDot', sans-serif;
+    font-size: 1.4rem; /* Уменьшили шрифт */
+    color: #fff;
+    margin-bottom: 4px;
 }
 
 .topic-node:hover .node-hex {
-    background: var(--accent-yellow);
-    color: #000;
-    box-shadow: 0 0 20px var(--accent-yellow);
+    color: var(--accent-yellow);
 }
 
 .node-label {
-    margin-top: 10px;
-    letter-spacing: 2px;
-    opacity: 0.7;
+    font-size: 0.55rem; /* Совсем мелкий, системный текст */
+    letter-spacing: 0.1em;
+    opacity: 0.5;
 }
 
-/* Линии связи */
 .connections {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 2;
     pointer-events: none;
 }
 
+.connections path {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 6; /* Точечный пунктир */
+    stroke-linecap: round;
+    transition: stroke 0.5s, stroke-width 0.5s;
+}
+
+.line-active {
+    stroke: var(--accent-yellow) !important;
+    stroke-width: 1.5 !important;
+    opacity: 0.8 !important;
+    /*stroke-dasharray: none !important;*/
+    filter: drop-shadow(0 0 5px var(--accent-yellow));
+}
+
 .connections line {
-    stroke: var(--accent-yellow);
-    stroke-width: 2;
-    stroke-dasharray: 10;
-    opacity: 0.4;
-    animation: dash-flow 20s linear infinite;
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
 }
 
-@keyframes dash-flow {
-    from { stroke-dashoffset: 1000; }
-    to { stroke-dashoffset: 0; }
-}
-
-/* Вьюпорт миссии */
 .mission-overlay {
     position: fixed;
     inset: 0;
@@ -244,15 +216,24 @@ body, html {
 .hover-preview {
     position: fixed;
     pointer-events: none;
-    width: 250px;
-    background: #000;
+    width: 300px;
+    background: rgba(15, 15, 15, 0.9);
+    backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid var(--accent-yellow);
+    border-radius: 12px;
+    overflow: hidden;
     display: none;
-    z-index: 500;
-    box-shadow: 0 0 20px rgba(255, 251, 5, 0.4);
+    z-index: 10000; /* Самый высокий приоритет */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
 }
 
-.hover-preview img { width: 100%; height: 150px; object-fit: cover; opacity: 0.8; }
+.hover-preview img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 251, 5, 0.3);
+}
+
 .preview-info { padding: 10px; border-top: 1px solid var(--accent-yellow); }
 #preview-title { font-size: 0.9rem; color: var(--accent-yellow); }
 #preview-subtitle { font-size: 0.7rem; opacity: 0.6; }
@@ -319,6 +300,22 @@ body, html {
     box-shadow: 0 0 30px rgba(0,0,0,1);
 }
 
+.topic-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px; /* Чуть меньше закругление для маленьких карточек */
+    padding: 12px;
+    width: 110px; /* Уменьшили ширину */
+    text-align: center;
+}
+
+
 .hover-preview img {
     width: 100%;
     height: 160px;
@@ -330,3 +327,4 @@ body, html {
     padding: 12px;
     border-top: 1px solid var(--accent-yellow);
 }
+
