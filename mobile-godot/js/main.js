@@ -209,6 +209,5 @@ window.logout = () => {
     });
 };
 
-
 document.getElementById('github-auth-btn').onclick = window.loginViaGithub;
 document.getElementById('logout-btn').onclick = window.logout;

@@ -1,0 +1,308 @@
+{
+  "unit": "UNIT_01 // UI",
+  "title": "DIGITAL_UI_CARD",
+  "phases": [
+    { 
+      "id": "c1",
+      "label": "PHASE_01 // CREATE_PROJECT",
+      "header": "Подготовка проекта",
+      "items": [
+        { "type": "text", "val": "**Цель**: Ознакомиться с интерфейсом Godot 4, системой узлов (Nodes), контейнерами UI и базовым синтаксисом GDScript." },
+        { "type": "text", "val": "Для начала установим **GODOT**. С официального сайта или по пути..." },
+        { "type": "text", "val": "Настройки проекта:" },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "UI_FIO"],
+            ["RENDERER", "COMPATIBILITY"],
+            ["VIEWPORT", "186 x 132 px"],
+            ["WINDOW", "930 x 660 px"]
+        ]},
+        { "type": "tip", "val": "Режим Integer предотвращает мыло при масштабировании." },
+        { "type": "button", "text": "OFFICIAL_WEBSITE", "url": "https://godotengine.org/" }
+      ]
+    },
+    {
+      "id": "c2",
+      "label": "PHASE_02 // CREATE_UI",
+      "header": "Построение интерфейса",
+      "items": [
+        { "type": "text", "val": "В Godot для UI используются «зеленые» узлы (**Control**). Главное правило: **никогда не расставляй элементы вручную на глаз**, используй контейнеры." },
+        { "type": "tip", "val": "Для этого проекта почти у всех элементов мы будем ставить **Full Rect** - Полный прямоугольник, что бы интерфейс растягивался под задаваемые значения ( В верхней панели слева иконки якоря)" },
+        {
+          "type": "grid",
+          "items": [
+            "Создадим корневую сцену, назовем его **Main** (узел **Control**)",
+            "Добавим в **Main** узел **ColorRect**. Назовем его Background (Задайте цвет)",
+            "Добавим в **Main** узел **MarginContainer** - это отступы, зададим их (Theme Overrides -> Constants)",
+            "Внутри **MarginContainer** добавим **VBoxContainer**"
+          ]
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Main", "type": "Control", "level": 0 },
+            { "name": "Background", "type": "ColorRect", "level": 1 },
+            { "name": "MarginContainer", "type": "Margin", "level": 1  },
+            { "name": "VBoxContainer", "type": "VBox", "level": 2 }
+          ]
+        },
+        { "type": "tip", "val": "На данный момент готова основа, просто фон и контейнер, сейчас будем его наполнять" }      
+      ]
+    },
+    {
+      "id": "c3",
+      "label": "PHASE_03 // CONTENT",
+      "header": "Наполняем контентом",
+      "items": [
+        { "type": "text", "val": "Чтобы приложение выглядело хорошо, создадим общую тему" },
+        {
+          "type": "grid",
+          "items": [
+            "**Аватарка:** Добавим TextureRect в **VBoxContainer**. Назови **Avatar** (В поле Texture перетащим любую картинку, например стандартную icon.svg)",
+            "**Текст (Имя):** Добавим **Label** в **VBoxContainer**. Назовем **NameLabel**. Напишем там что нибудь",
+            "**Текст (Профессия):** Добавим ещё один Label. Назовем **JobLabel**",
+            "**Кнопки:** Добавим **HBoxContainer** и туда добавим две кнопки (DevButton & DesignButton)"
+          ]
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Main", "type": "Control", "level": 0 },
+            { "name": "Background", "type": "ColorRect", "level": 1 },
+            { "name": "MarginContainer", "type": "Margin", "level": 1  },
+            { "name": "VBoxContainer", "type": "VBox", "level": 2 },
+            { "name": "Avatar", "type": "Texture", "level": 3 },
+            { "name": "NameLabel", "type": "Lable", "level": 3 },
+            { "name": "JobLabel", "type": "Lable", "level": 3 },
+            { "name": "HBoxContainer", "type": "HBox", "level": 3 },
+            { "name": "DevButton", "type": "Button", "level": 4 },
+            { "name": "DesignButton", "type": "Button", "level": 4 }
+          ]
+        },
+        { "type": "tip", "val": "UI то готов. Только выглядит он так себе..." }      
+      ]
+    },
+    {
+      "id": "c4",
+      "label": "PHASE_04 // THEMES",
+      "header": "Стилизация",
+      "items": [
+        {
+          
+          "type": "grid",
+          "items": [
+            "Выберем корневой узел **Main** и в инспекторе найдем **Theme** ([Empty] -> New Theme)",
+            "Сразу заменим шрифт (На какой нибудь свой или предоставленый)",
+            "Там же можно настроить стиль кнопок... Но это уже сложнее. Скачаем пак ассетов. Во вкладке темы добавляем новый стиль, например для кнопок",
+            "Заменим **Normal** текстуру, создадим внутри **StyleBoxTexture** и выберем **AtlasTexture**, а уже внутри закинем текстуры"
+          ]
+        },
+        { "type": "tip", "val": "Отлично, тема есть, перейдем к програмированию)" },
+        { "type": "button", "text": "FREE_FONT", "url": "./assets/font/ComicoroRu_0.ttf" },
+        { "type": "button", "text": "FREE_ASSET", "url": "./assets/material/ASSET_PACK_01.rar" }  
+      ]
+    },
+    {
+      "id": "c5",
+      "label": "PHASE_05 // GDSCRIPT",
+      "header": "Программирование",
+      "items": [
+        { "type": "text", "val": "Пришло время вдохнуть жизнь. При нажатии на кнопки мы будем менять данные на карточке" },
+        {
+          "type": "grid",
+          "items": [
+            "Нажмем правой кнопкой на узел Main -> **Attach Script**",
+            "Сотрем всё лишнее. Напишем логику"
+          ]
+        },
+        { "type": "tip", "val": "Не забудем задать все в корневом элементе" },
+        {
+          "type": "code",
+          "title": "Main.gd",
+          "code": "extends Control \n\n# Задаем переменые (Имя: тип) \n@export var name_label: Label \n@export var job_label: Label \n@export var background: ColorRect \n@export var avatar: TextureRect \n\n# База данных наших состояний \nvar profiles = { \n\t'dev': { \n\t\t'name': 'Алексей Разработчик', \n\t\t'job': 'Godot Engine Expert', \n\t\t'color': Color('#2d3436') \n\t}, \n\t'design': { \n\t\t'name': 'Алекс Дизайнер', \n\t\t'job': 'UI/UX & Motion Design', \n\t\t'color': Color('#6c5ce7') \n\t} \n} \n\nfunc _ready(): \n\t# Установим начальное состояние \n\tupdate_ui('dev') \n\nfunc update_ui(profile_key: String): \n\tvar data = profiles[profile_key] \n\tname_label.text = data['name'] \n\tjob_label.text = data['job'] \n\t\n\t# Плавная смена цвета фона (Tween) \n\tvar tween = create_tween() \n\ttween.tween_property(background, 'color', data['color'], 0.4).set_trans(Tween.TRANS_SINE) \n\t\n\t# Небольшая анимация подпрыгивания аватарки \n\tvar bounce = create_tween() \n\tbounce.tween_property(avatar, 'scale', Vector2(1.1, 1.1), 0.1) \n\tbounce.tween_property(avatar, 'scale', Vector2(1.0, 1.0), 0.1)"
+        }
+      ]
+    },
+    {
+      "id": "c6",
+      "label": "PHASE_06 // SIGNAL",
+      "header": "Сигналы",
+      "items": [
+        { "type": "text", "val": "Теперь нужно, чтобы кнопки вызывали функцию **update_ui**" },
+        {
+          "type": "grid",
+          "items": [
+            "В дереве узлов выберем **DevButton** и перейдем во вкладку **Узел**",
+            "Выберем **pressed()** -> Выбираем Main и **Присоеденить**"
+          ]
+        },
+        {
+          "type": "code",
+          "title": "func _on_dev_button_pressed()",
+          "code": "update_ui('dev')"
+        },
+        { "type": "tip", "val": "Не забудем повторить все для **DesignButton**, но передадим **'design'**" }
+      ]
+    },
+    {
+      "id": "c7",
+      "label": "PHASE_07 // START",
+      "header": "Запуск и проверка",
+      "items": [
+        { "type": "text", "val": "Теперь нужно, чтобы кнопки вызывали функцию **update_ui**" },
+        {
+          "type": "grid",
+          "items": [
+            "Нажмем **F5** (или иконку Play вверху). Godot попросит выбрать главную сцену — выбирем Main.tscn",
+            "Тестируем! Кликаем по кнопкам + можем поменять информацию в **profiles**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c8",
+      "label": "PHASE_08 // NEW_NEW_NEW",
+      "header": "Усложнение и самостоятельная работа",
+      "items": [
+        { "type": "text", "val": "Теперь делаем это... что было в карточке урока. Данная сцена - карточка, что не изменяема, она выводит данные, что получит от пользователя, расчитывает количесво сердец и уровень" },
+        {
+          "type": "image",
+          "url": "./assets/img/l01-1.png",
+          "caption": "Новое окно с подсчетом сердец, уровня и времени" 
+        },
+        { "type": "text", "val": "Для начала немного уберемся, что бы не запутаться" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "res://", "type": "Корень проекта", "level": 0 },
+            { "name": "assets", "type": "Все иконки и текстуры сюда", "level": 1 },
+            { "name": "scenes", "type": "Тут все сцены .tscn", "level": 1 },
+            { "name": "les_01.tscn", "type": "Пробный UI", "level": 2 },
+            { "name": "Ui.tscn", "type": "Усложненая работа", "level": 2 },
+            { "name": "script", "type": "А сюда все скрипты", "level": 1 }
+          ]
+        },
+        { "type": "text", "val": "Ниже представлено дерево данной сцены, можете сделать его самостоятельно, может его можно в 2 раза сократить, или повторите это. Текстуры постарайтесь сделать сами, они все в том же архиве что был скачен" },
+        { "type": "tip", "val": "Не забудьте использовать **Тему**" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Main", "type": "Control", "level": 0 },
+            { "name": "Background", "type": "ColorRect", "level": 1 },
+            { "name": "VBoxContainer", "type": "VBox", "level": 1 },
+            { "name": "UserHBoxContainer", "type": "HBox", "level": 2 },
+            { "name": "PanelContainer", "type": "PanelContainer", "level": 3 },
+            { "name": "UserTextureRect", "type": "TextureRect", "level": 4 },
+            { "name": "VBoxContainer", "type": "VBox", "level": 3 },
+            { "name": "NameLabel", "type": "Label", "level": 4 },
+            { "name": "HpFlowContainer", "type": "HBox", "level": 4 },
+            { "name": "LvHBoxContainer", "type": "HBox", "level": 2 },
+            { "name": "LvTextureRect", "type": "TextureRect", "level": 3 },
+            { "name": "LvLabel", "type": "Label", "level": 3 },
+            { "name": "Stats", "type": "HBox", "level": 2 },
+            { "name": "StatsPanelContainer", "type": "PanelContainer", "level": 3 },
+            { "name": "StatsGridContainer", "type": "GridContainer", "level": 4 },
+            { "name": "Hp", "type": "HBox", "level": 5 },
+            { "name": "HpTextureRect", "type": "TextureRect", "level": 6 },
+            { "name": "HpLabel", "type": "Label", "level": 6 },
+            { "name": "Hov", "type": "HBox", "level": 5 },
+            { "name": "HovTextureRect", "type": "TextureRect", "level": 6 },
+            { "name": "HovLabel", "type": "Label", "level": 6 },
+            { "name": "Bag", "type": "HBox", "level": 5 },
+            { "name": "BagTextureRect", "type": "TextureRect", "level": 6 },
+            { "name": "BagLabel", "type": "Label", "level": 6 },
+            { "name": "Wg", "type": "HBox", "level": 5 },
+            { "name": "WgTextureRect", "type": "TextureRect", "level": 6 },
+            { "name": "WgLabel", "type": "Label", "level": 6 },
+            { "name": "TimeBoxContainer", "type": "HBox", "level": 3 },
+            { "name": "TimeTextureRect", "type": "TextureRect", "level": 4 },
+            { "name": "TimeLabel", "type": "Label", "level": 4 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c9",
+      "label": "PHASE_09 // NEW_NEW_NEW_2",
+      "header": "Сцена для ввода данных",
+      "items": [
+        { "type": "text", "val": "Теперь сцена с вводом данных, тут все по проще" },
+        {
+          "type": "image",
+          "url": "./assets/img/l01-2.png",
+          "caption": "Новое окно с вводом" 
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "UiInfo", "type": "Control", "level": 0 },
+            { "name": "Background", "type": "ColorRect", "level": 1 },
+            { "name": "VBoxContainer", "type": "VBox", "level": 1 },
+            { "name": "Name", "type": "HBox", "level": 2 },
+            { "name": "NameLabel", "type": "Label", "level": 3 },
+            { "name": "NameTextEdit", "type": "TextEdit", "level": 3 },
+            { "name": "Hp", "type": "HBox (По аналогии с Name)", "level": 2 },
+            { "name": "Hov", "type": "HBox (По аналогии с Name)", "level": 2 },
+            { "name": "Bag", "type": "HBox (По аналогии с Name)", "level": 2 },
+            { "name": "Wg", "type": "HBox (По аналогии с Name)", "level": 2 },
+            { "name": "NextButton", "type": "Button", "level": 2 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c10",
+      "label": "PHASE_10 // NEW_NEW_NEW_GLOBAL",
+      "header": "Глобальные переменые и код",
+      "items": [
+        { "type": "text", "val": "Для начала нам понадобиться глобальные переменые. Для этого:" },
+        {
+          "type": "grid",
+          "items": [
+            "Для начала создадим скрипт, что будет доступен для все сцен в проекте **global.gd**",
+            "Проект -> Настройки проекта -> **Глобальные**. Прикремляем скрипт, что мы создали"
+          ]
+        },
+        { "type": "text", "val": "Теперь надо наполнить этот скрипт, нам нужно обьявить переменные:" },
+        {
+          "type": "code",
+          "title": "global.gd",
+          "code": "extends Node \n\n# Обьявялем переменные \nvar hp \nvar hov \nvar bag \nvar wg \nvar name_user \n\n# Задаем значения переменным \nfunc set_info(_hp, _hov, _bag, _wg, _name): \n\thp = _hp \n\thov = _hov \n\tbag = _bag \n\twg = _wg \n\tname_user = _name"
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "label": "PHASE_11 // NEW_NEW_NEW_CODE",
+      "header": "Логика для сцены записи информации",
+      "items": [
+        { "type": "text", "val": "Теперь создаем скрипт для сцены с вводом данных, и добавляем для нее простой код для перехода на другую сцену и записи информации в глобальные переменные" },
+        {
+          "type": "code",
+          "title": "ui_info.gd",
+          "code": "extends Control \n\n# Сделайте со всеми нужными переменными \n@export var Hp: TextEdit\n\n# Тут прикрепим сцену с самой карточкой \n@export var NextScene: PackedScene \n\n# Не забудьте добавить соединения с кнопкой \nfunc _on_next_button_pressed() -> void: \n\tGlobal.set_info(Hp.text, Hov.text, Bag.text, Wg.text, Name.text) \n\t \n\t# Инициализация и добавление новой сцены в проект \n\tvar next_scene = NextScene.instantiate() \n\tget_tree().root.add_child(next_scene) \n\tget_tree().current_scene.queue_free() \n\tget_tree().current_scene = next_scene"
+        }
+      ]
+    },
+    {
+      "id": "c12",
+      "label": "PHASE_12 // NEW_NEW_NEW_CODE_2",
+      "header": "Логика для сцены вывода информации на карточку",
+      "items": [
+        { "type": "text", "val": "Теперь создаем скрипт для сцены с карточкой, так же подсчет времени, уровня и сердец" },
+        { "type": "text", "val": "Для начала - основа" },
+        {
+          "type": "code",
+          "title": "ui.gd",
+          "code": "extends Control \n\n# Добавьте что надо \n@export var hearts_container: HBoxContainer \n\n# Укажите ссылку на текстуру сердца \nvar heart_texture = preload('res://assets/heart.png') \n\n# Функция что будет запускаться при запуске сцены \nfunc _ready() -> void: \n\t# Вывод информации на карточку \n\tupdate_info() \n\t# Подсчет и вывод сердец \n\tupdate_hp_display() \n\t# Время \n\ttimer_timeout()"
+        },
+        { "type": "text", "val": "Теперь функция для обновления информации" },
+        { "type": "tip", "val": "Не забудьте крепить обьекты к коду! для @export" },
+        {
+          "type": "code",
+          "title": "ui.gd",
+          "code": "func update_info(): \n\t# Расчет уровня (может быть любой) \n\tif int(Global.hp) > 9 && int(Global.hov) > 5: \n\t\tLv_label.text = '5' \n\telse: \n\t\tLv_label.text = '1' \n\t \n\t# Добавление информаци в Label (Добавьте недостающие)  \n\tName_label.text = str(Global.name_user)"
+        }
+      ]
+    }
+  ]
+}

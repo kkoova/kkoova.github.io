@@ -59,5 +59,31 @@
             </div>
         </section>
     </main>
+
+    <div id="mission-overlay" class="mission-overlay">
+        <div class="viewport-container full-layout">
+            <!-- Левая часть: Игра -->
+            <div class="godot-section">
+                <div class="viewport-header">
+                    <span id="mission-title" class="matrix-text"></span>
+                    <button onclick="closeMission()" class="close-btn">[ EXIT ]</button>
+                </div>
+                <iframe id="godot-frame" src=""></iframe>
+            </div>
+
+            <!-- Правая часть: Инструкция -->
+            <div class="info-section">
+                <div class="info-header">MISSION_STEPS</div>
+                <div id="steps-list" class="steps-list">
+                    <!-- Сюда вставим шаги из JSON -->
+                </div>
+                <div class="info-footer">
+                    <a id="tutorial-link" href="#" target="_blank" class="launch-btn" style="text-decoration:none; text-align:center;">
+                        READ_FULL_TUTORIAL
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="module" src="js/main.js"></script>
 </html>

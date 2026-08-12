@@ -6,7 +6,7 @@
       "subtitle": "Базовое знакомство с Godot",
       "preview_img": "assets/previews/lv-1.png",
       "godot_path": "missions/m01_ui/index.html",
-      "tutorial_url": "assets/docs/01.md",
+      "tutorial_url": "assets/docs/01.html",
       "steps": [
         "Изучение стук",
         "Создание динамических сцен через скрипт (instantiate).",
@@ -24,45 +24,6 @@
         "Создание кастомных сигналов.",
         "Паттерн 'Шина событий' (Event Bus).",
         "Разница между Connect через UI и через код."
-      ]
-    },
-    {
-      "id": "m03_physics",
-      "title": "03 // PHYSICS_OVERRIDE",
-      "subtitle": "ФИЗИЧЕСКИЙ ДВИЖОК",
-      "preview_img": "assets/previews/arch.jpg",
-      "godot_path": "missions/m03_physics/index.html",
-      "tutorial_url": "https://github.com/",
-      "steps": [
-        "Работа с RigidBody2D и Kinematic (Character) Body.",
-        "Слои и маски коллизий (Collision Layers).",
-        "Обработка столкновений через RayCast2D."
-      ]
-    },
-    {
-      "id": "m03_physics",
-      "title": "03 // PHYSICS_OVERRIDE",
-      "subtitle": "ФИЗИЧЕСКИЙ ДВИЖОК",
-      "preview_img": "assets/previews/arch.jpg",
-      "godot_path": "missions/m03_physics/index.html",
-      "tutorial_url": "https://github.com/",
-      "steps": [
-        "Работа с RigidBody2D и Kinematic (Character) Body.",
-        "Слои и маски коллизий (Collision Layers).",
-        "Обработка столкновений через RayCast2D."
-      ]
-    },
-    {
-      "id": "m03_physics",
-      "title": "03 // PHYSICS_OVERRIDE",
-      "subtitle": "ФИЗИЧЕСКИЙ ДВИЖОК",
-      "preview_img": "assets/previews/arch.jpg",
-      "godot_path": "missions/m03_physics/index.html",
-      "tutorial_url": "https://github.com/",
-      "steps": [
-        "Работа с RigidBody2D и Kinematic (Character) Body.",
-        "Слои и маски коллизий (Collision Layers).",
-        "Обработка столкновений через RayCast2D."
       ]
     },
     {
