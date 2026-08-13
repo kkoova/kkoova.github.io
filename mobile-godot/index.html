@@ -74,15 +74,65 @@
             <!-- Правая часть: Инструкция -->
             <div class="info-section">
                 <div class="info-header">MISSION_STEPS</div>
-                <div id="steps-list" class="steps-list">
-                    <!-- Сюда вставим шаги из JSON -->
+                <div id="topic-workspace">
+                    <div class="workspace-header">
+                        <span class="type-body yellow">// MISSION_PROGRESS</span>
+                        <div class="progress-line"><div id="step-progress"></div></div>
+                    </div>
+
+                    <div id="steps-list" class="steps-container"></div>
                 </div>
                 <div class="info-footer">
-                    <a id="tutorial-link" href="#" target="_blank" class="launch-btn" style="text-decoration:none; text-align:center;">
-                        READ_FULL_TUTORIAL
-                    </a>
+                    <button class="logout-trigger white" onclick="openReport()">[ SUBMIT_REPORT ]</button>
+                    <button id="tutorial-link" class="logout-trigger" onclick="">[ READ_TUTORIAL ]</button>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="profile-modal" class="report-overlay">
+        <div class="submission-zone glass" style="width: 500px; text-align: left;">
+            <div class="modal-header">
+                <h3 class="type-body">// DEVELOPER_PROFILE</h3>
+                <button class="close-btn" onclick="closeProfile()">×</button>
+            </div>
+            
+            <div class="profile-header" style="display: flex; gap: 20px; align-items: center; margin-bottom: 25px;">
+                <img id="prof-avatar" src="" style="width: 80px; height: 80px; border-radius: 16px; border: 1px solid var(--accent-yellow); filter: grayscale(1); object-fit: cover;">
+                <div>
+                    <h2 id="prof-name" class="matrix-text" style="font-size: 1.8rem; margin: 0; color: var(--accent-yellow); line-height: 1.2;">USER</h2>
+                    <div id="prof-email" class="type-body" style="color: #888; margin-top: 5px;">EMAIL</div>
+                </div>
+            </div>
+            
+            <div class="progress-section" style="margin: 25px 0;">
+                <div class="type-body" style="margin-bottom: 8px; display: flex; justify-content: space-between;">
+                    <span>COURSE_PROGRESS //</span>
+                    <span id="prof-percent" style="color: var(--accent-yellow); font-weight: bold;">0%</span>
+                </div>
+                <div class="progress-line" style="height: 4px;"><div id="prof-bar" style="width: 0%; background: var(--accent-yellow); height: 100%; transition: width 0.5s ease;"></div></div>
+            </div>
+
+            <h4 class="type-body yellow" style="margin-top: 25px;">// COMPLETED_MISSIONS (<span id="prof-count">0</span>):</h4>
+            <div id="prof-list" style="max-height: 220px; overflow-y: auto; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <!-- Сюда JS будет динамически загружать сданные работы -->
+            </div>
+        </div>
+    </div>
+    <div id="report-modal" class="report-overlay">
+        <div class="submission-zone glass">
+            <div class="modal-header">
+                <h3 class="type-body">// SUBMIT_REPORT</h3>
+                <button class="close-btn" onclick="closeReport()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="label type-body">GITHUB_LINK</span>
+                    <input type="text" id="repoLink" class="git-input" placeholder="https://github.com/...">
+                </div>
+            </div>
+
+            <button class="logout-trigger white big full-width" onclick="submitWork()">SEND_TO_LOGBOOK</button>
         </div>
     </div>
     <script type="module" src="js/main.js"></script>

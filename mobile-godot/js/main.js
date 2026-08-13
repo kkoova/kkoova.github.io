@@ -16,9 +16,9 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GithubAuthProvider();
 
-const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh1";
+const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh11";
 let isAdmin = false;
-
+let currentTopic = null;
 let missionsData = [];
 
 async function init() {
@@ -174,32 +174,78 @@ function bindNodeEvents() {
     });
 }
 
-// 4. Открытие миссии (Модалка Godot + Шаги)
-function openMission(id) {
-    const data = missionsData.find(m => m.id === id);
-    if (!data) return;
-
-    document.getElementById('mission-title').innerText = data.title;
-    document.getElementById('godot-frame').src = data.godot_path;
-    document.getElementById('tutorial-link').href = data.tutorial_url;
-
-    const stepsCont = document.getElementById('steps-list');
-    stepsCont.innerHTML = (data.steps || []).map((step, index) => `
-        <div class="step-item">
-            <span class="accent">[0${index + 1}]</span> ${step}
-        </div>
-    `).join('');
-
-    document.getElementById('mission-overlay').style.display = 'flex';
-}
-
-// 5. Закрытие модалки
 function closeMission() {
     const overlay = document.getElementById('mission-overlay');
     const iframe = document.getElementById('godot-frame');
     overlay.style.display = 'none';
     iframe.src = ''; 
 }
+
+function openMission(id) {
+    const data = missionsData.find(m => m.id === id);
+    if (!data) return;
+    currentTopic = data;
+    console.log(currentTopic)
+
+    document.getElementById('mission-title').innerText = data.title;
+    document.getElementById('godot-frame').src = data.godot_path;
+
+    const stepsCont = document.getElementById('steps-list');
+    const tutorialLink = document.getElementById('tutorial-link');
+    
+    stepsCont.innerHTML = '';
+    data.steps.forEach(step => {
+        const div = document.createElement('div');
+        div.className = 'step-item type-body';
+        div.innerHTML = `<div class="checkbox-custom"></div><span>${step}</span>`;
+        div.onclick = () => {
+            div.classList.toggle('completed');
+            updateProgress();
+        };
+        stepsCont.appendChild(div);
+    });
+
+    document.getElementById('mission-overlay').style.display = 'flex';
+    
+}
+
+function updateProgress() {
+    const steps = document.querySelectorAll('.step-item');
+    const done = document.querySelectorAll('.step-item.completed');
+    const percent = (done.length / steps.length) * 100;
+    document.getElementById('step-progress').style.width = percent + '%';
+}
+
+window.submitWork = async () => {
+    const user = auth.currentUser;
+    const repo = document.getElementById('repoLink').value;
+    if (!repo) return alert("REPO_REQUIRED");
+    if (!currentTopic) return alert("NO_TOPIC_SELECTED");
+
+    try {
+        const q = query(
+            collection(db, "submissions-godot"), 
+            where("githubUid", "==", user.uid), 
+            where("topicId", "==", currentTopic.id)
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            alert("ERROR: YOU_HAVE_ALREADY_SUBMITTED_REPORT_FOR_THIS_TOPIC");
+            return;
+        }
+
+        await addDoc(collection(db, "submissions-godot"), {
+            studentName: user.displayName,
+            githubUid: user.uid,
+            repository: repo,
+            topicId: currentTopic.id,
+            timestamp: serverTimestamp()
+        });
+        alert("TRANSMISSION_SUCCESSFUL");
+        document.getElementById('report-modal').classList.remove('active');
+        location.reload();
+    } catch (e) { alert("SYNC_ERROR: CHECK_CONSOLE"); }
+};
 
 window.logout = () => {
     signOut(auth).then(() => {
@@ -209,5 +255,69 @@ window.logout = () => {
     });
 };
 
+window.openProfile = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    document.getElementById('profile-modal').classList.add('active');
+    document.getElementById('prof-name').innerText = user.displayName ? user.displayName.toUpperCase() : "STUDENT_DEV";
+    document.getElementById('prof-email').innerText = user.email || "NO_EMAIL";
+    if (user.photoURL) {
+        document.getElementById('prof-avatar').src = user.photoURL;
+    }
+
+    const list = document.getElementById('prof-list');
+    list.innerHTML = `<div class="type-body" style="color:#666; padding: 15px 0;">SEARCHING_LOGBOOK...</div>`;
+    
+    try {
+        const q = query(collection(db, "submissions-godot"), where("githubUid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        
+        list.innerHTML = "";
+        let count = 0;
+
+        if (querySnapshot.empty) {
+            list.innerHTML = `<div class="type-body" style="color:#888; padding: 15px 0;">NO_MISSIONS_COMPLETED_YET</div>`;
+        } else {
+            querySnapshot.forEach((doc) => {
+                count++;
+                const data = doc.data();
+                console.log(data)
+                const item = document.createElement('div');
+                item.className = "type-body";
+                item.style = "padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.15); display: flex; justify-content: space-between; align-items: center;";
+                
+                item.innerHTML = `
+                    <span>#${data.topicId}</span>
+                    <a href="${data.repository}" target="_blank" class="logout-trigger"">[ REPO ]</a>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        document.getElementById('prof-count').innerText = count;
+        const totalTopics = missionsData ? missionsData.length : 10;
+        const percent = Math.min(100, Math.round((count / totalTopics) * 100)) || 0;
+        
+        document.getElementById('prof-percent').innerText = `${percent}%`;
+        document.getElementById('prof-bar').style.width = `${percent}%`;
+
+    } catch (e) {
+        console.error("Ошибка загрузки профиля:", e);
+        list.innerHTML = `<div class="type-body" style="color:#ff4444; padding: 15px 0;">ERROR_FETCHING_DATA</div>`;
+    }
+};
+
+window.closeProfile = () => {
+    document.getElementById('profile-modal').classList.remove('active');
+};
+
+
+const profBtn = document.getElementById('profile-btn');
+if (profBtn) profBtn.onclick = window.openProfile;
+
 document.getElementById('github-auth-btn').onclick = window.loginViaGithub;
 document.getElementById('logout-btn').onclick = window.logout;
+
+window.openReport = () => document.getElementById('report-modal').classList.add('active');
+window.closeReport = () => document.getElementById('report-modal').classList.remove('active');

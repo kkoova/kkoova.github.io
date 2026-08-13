@@ -424,7 +424,7 @@ body, html {
     font-family: 'NDot', monospace;
     font-size: 1 rem;
     cursor: pointer;
-    margin-left: 15px;
+    /*margin-left: 15px;*/
     padding: 2px 5px;
     transition: all 0.3s ease;
     text-transform: uppercase;
@@ -435,6 +435,8 @@ body, html {
     color: var(--accent-yellow);
     border: 1px solid var(--accent-yellow);
     border-radius: 4px;
+    letter-spacing: 2px;
+    /*box-shadow: 0 0 15px var(--accent-yellow);*/
 }
 
 .white {

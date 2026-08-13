@@ -6,7 +6,7 @@
       "subtitle": "Базовое знакомство с Godot",
       "preview_img": "assets/previews/lv-1.png",
       "godot_path": "missions/m01_ui/index.html",
-      "tutorial_url": "assets/docs/01.html",
+      "tutorial_url": "01.json",
       "steps": [
         "Изучение стук",
         "Создание динамических сцен через скрипт (instantiate).",
@@ -19,7 +19,7 @@
       "subtitle": "СИСТЕМА СОБЫТИЙ",
       "preview_img": "assets/previews/lv-1-1.png",
       "godot_path": "missions/m02_signals/index.html",
-      "tutorial_url": "https://github.com/",
+      "tutorial_url": "02.json",
       "steps": [
         "Создание кастомных сигналов.",
         "Паттерн 'Шина событий' (Event Bus).",
@@ -32,7 +32,7 @@
       "subtitle": "ФИЗИЧЕСКИЙ ДВИЖОК",
       "preview_img": "assets/previews/arch.jpg",
       "godot_path": "missions/m03_physics/index.html",
-      "tutorial_url": "https://github.com/",
+      "tutorial_url": "03.json",
       "steps": [
         "Работа с RigidBody2D и Kinematic (Character) Body.",
         "Слои и маски коллизий (Collision Layers).",

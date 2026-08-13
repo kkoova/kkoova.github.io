@@ -109,13 +109,16 @@ function renderLesson(data) {
             else if (item.type === 'code') {
                 const codeId = 'code_' + Math.random().toString(36).substr(2, 9);
                 
+                // Применяем подсветку синтаксиса
+                const highlighted = highlightGDScript(item.code.trim());
+
                 html += `
                     <div class="code-container">
                         <div class="code-header">
                             <span class="code-title">${item.title || 'SCRIPT'}</span>
                             <button class="copy-btn" onclick="copyCode('${codeId}', this)">COPY</button>
                         </div>
-                        <pre id="${codeId}"><code>${item.code}</code></pre>
+                        <pre id="${codeId}"><code>${highlighted}</code></pre>
                     </div>`;
             }
             else if (item.type === 'image') {
@@ -131,6 +134,26 @@ function renderLesson(data) {
         card.innerHTML = html;
         container.appendChild(card);
     });
+}
+
+function highlightGDScript(code) {
+    if (!code) return "";
+
+    return code
+        // 1. Сначала строки (в кавычках) - зеленый Godot
+        .replace(/(['"].*?['"])/g, '<span class="code-string">$1</span>')
+        
+        // 2. Комментарии (все, что после #) - серый
+        .replace(/(#.*)/g, '<span class="code-comment">$1</span>')
+        
+        // 3. Функции (после func) - желтый акцент
+        .replace(/\b(func)\s+(\w+)/g, '<span class="code-keyword">$1</span> <span class="code-func">$2</span>')
+        
+        // 4. Ключевые слова (extends, var, if, и т.д.) - белый/жирный
+        .replace(/\b(extends|var|export|onready|preload|void|return|if|else|for|while|match)\b/g, '<span class="code-keyword">$1</span>')
+        
+        // 5. Аннотации (@export, @onready) - оранжевый/акцентный
+        .replace(/(@\w+)/g, '<span class="code-annotation">$1</span>');
 }
 
 function copyCode(elementId, btn) {

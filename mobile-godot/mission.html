@@ -5,7 +5,6 @@
     <title>MISSION // UI</title>
     <link rel="stylesheet" href="../../../../it-course/style.css">
     <script src="../../../../it-course/script.js"></script>
-
     <style>
 .text-accent {
     color: var(--accent-yellow);
@@ -231,6 +230,34 @@
     transform: rotate(-90deg); /* Поворачиваем стрелку */
 }
 
+.code-comment {
+    color: #555555; /* Очень тусклый серый для комментариев */
+    font-style: italic;
+}
+
+.code-keyword {
+    color: #ffffff; /* Белый для системных слов */
+    font-weight: bold;
+}
+
+.code-func {
+    color: var(--accent-yellow); /* Твой желтый для названий функций */
+}
+
+.code-string {
+    color: #4ed162; /* Зеленоватый для путей к файлам и строк (цвет Godot) */
+}
+
+.code-annotation {
+    color: #ff8b39; /* Мягкий оранжевый для @export */
+}
+
+/* Добавим моноширинный шрифт, если еще нет */
+.code-container pre code {
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    font-variant-ligatures: none;
+}
+
 /* Скрываем детей */
 .tree-node.collapsed + .tree-group {
     display: none;
@@ -312,9 +339,22 @@
 
     <script src="./js/renderer.js"></script>
     <script>
-        fetch('./assets/docs/tutorial_01.json')
-            .then(res => res.json())
-            .then(data => renderLesson(data));
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        const docName = urlParams.get('doc') || 'tutorial_01.json';
+
+        console.log("SYSTEM // Loading document:", docName);
+
+        fetch(`./assets/docs/${docName}`)
+            .then(res => {
+                if (!res.ok) throw new Error("Document not found");
+                return res.json();
+            })
+            .then(data => renderLesson(data))
+            .catch(err => {
+                document.getElementById('doc-content').innerHTML = 
+                    `<div class="type-body yellow">ERROR // DOCUMENT_NOT_FOUND: ${docName}</div>`;
+            });
     </script>
 </body>
 </html>
