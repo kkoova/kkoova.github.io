@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>MISSION // UI</title>
+    <link rel="stylesheet" href="../../../../it-course/style.css">
+    <script src="../../../../it-course/script.js"></script>
+</head>
+<body class="nothing-os doc-page">
+    <div class="smart-dots-layer"></div>
+    <div class="doc-container">
+        <header>
+            <span id="unit-label" class="type-body"></span>
+            <h1 id="unit-title" class="matrix-text" style="color: var(--accent-yellow);"></h1>
+        </header>
+
+        
+        <div id="doc-content"></div> 
+    </div>
+
+    <script src="./js/renderer.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        const docName = urlParams.get('doc') || 'tutorial_01.json';
+
+        console.log("SYSTEM // Loading document:", docName);
+
+        fetch(`./docs/${docName}`)
+            .then(res => {
+                if (!res.ok) throw new Error("Document not found");
+                return res.json();
+            })
+            .then(data => renderLesson(data))
+            .catch(err => {
+                document.getElementById('doc-content').innerHTML = 
+                    `<div class="type-body yellow">ERROR // DOCUMENT_NOT_FOUND: ${docName}</div>`;
+            });
+    </script>
+</body>
+</html>

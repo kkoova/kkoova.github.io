@@ -1,0 +1,32 @@
+[gd_resource type="TileSet" format=3 uid="uid://b24cvcb8uy13m"]
+
+[ext_resource type="Texture2D" uid="uid://cnmdrmc6m2sms" path="res://assets/sprite.png" id="1_6buih"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hqaa3"]
+texture = ExtResource("1_6buih")
+0:0/0 = 0
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0.08992958, -8, 8, -8, 8, 8, 0.26978874, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-6.4494104, 2.5797644, 2.2726498, 4.1767616, 1.0441895, 6.2651424, -5.7123356, 5.6509132)
+4:0/0 = 0
+0:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3, 5, 3, 5, 3, 6, -3, 6)
+3:2/0 = 0
+3:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3, 5, 3, 5, 3, 6, -3, 6)
+4:2/0 = 0
+4:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3, 5, 3, 5, 3, 6, -3, 6)
+1:1/size_in_atlas = Vector2i(2, 1)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.626172, 3.1939936, 2.2726498, 3.071148, 1.4127274, 6.8793716, -12.140464, 6.6547737)
+
+[resource]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_hqaa3")

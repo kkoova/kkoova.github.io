@@ -1,0 +1,245 @@
+{
+  "unit": "UNIT_02 // 2D_FOREST",
+  "title": "FOREST_EXPLORER",
+  "phases": [
+    { 
+      "id": "c1",
+      "label": "PHASE_01 // CREATE_PROJECT",
+      "header": "Подготовка проекта",
+      "items": [
+        { "type": "text", "val": "**Цель**: Создание мира, персонажа, настройка анимаций и взаимодействия" },
+        { "type": "text", "val": "Настройки создания проекта:" },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "02_FOREST_EXPLORER"],
+            ["RENDERER", "COMPATIBILITY"]
+        ]},
+        { "type": "tip", "val": "Проект -> Настройки проекта:" },
+        { "type": "text", "val": "Дисплей -> Окно:" },
+        { "type": "config", "data": [
+            ["Ширина x Высота окна просмотра", "226 x 132 px"],
+            ["Режим", "Exclusive Fullscreen"],
+            ["Преопределение ширины x высоты окна", "970 x 660 px"],
+            ["Режим & Режим масштабирования (Растягивание)", "vieport & integer"]
+        ]},
+        { "type": "text", "val": "*Рендеринг* -> Текстуры:" },
+        { "type": "config", "data": [
+            ["Фильтр текстур по умолчанию", "Nearest"]
+        ]}      
+    ]
+    },
+    {
+      "id": "c2",
+      "label": "PHASE_02 // ASSETS_RESOURCES",
+      "header": "Подготовка графики",
+      "items": [
+        { "type": "text", "val": "Сейчас мы переходим от интерфейсов к игровому миру. Нам понадобятся спрайты для игрока, тайлы стен и текстура света. Сразу приведем проект в нормальный вид" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "res://", "type": "root", "level": 0 },
+            { "name": "assets", "type": "", "level": 1 },
+            { "name": "scenes", "type": "", "level": 1 },
+            { "name": "script", "type": "", "level": 1 }          ]
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Теперь в папке **assets** создаем новый ресурс с типом *TileSet* и добавляем все файлы из архива",
+            "В поле настройки TileSet выбираем плюс и **Атлас**, там выбираем **sprite.png**",
+            "Godot атоматом поставит выделит все клетки, удалите две на палатке и сделаете новые, с shift (что бы она была двойная)",
+            "Добавим  **Physics Layers** - это слой колизии. И теперь через **Окрасить** - выбираем у кого будет колизия"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "label": "PHASE_03 // WORLD_BUILDING",
+      "header": "Создание уровня (TileMapLayer)",
+      "items": [
+        { "type": "text", "val": "**TileMapLayer** - штука для создания 2d карт. Это позволяет разделять пол, стены и декор по разным слоям." },
+        {
+          "type": "grid",
+          "items": [
+            "Создаем 2D сцену 'Forest'. Добавляем узел **TileMapLayer** (назовем его 'Ground')",
+            "Создадим в общей сумме 3 TileMapLayer ('Ground' & 'Plants' & 'Walls')",
+            "Им всем зададим **Tile Set** что мы создали",
+            "Заполним карту, отдельно рисуем пол, стены, различные обьекты"
+          ]
+        },
+        { "type": "text", "val": "Итог:" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Forest", "type": "Node2D", "level": 0 },
+            { "name": "Ground", "type": "TileMapLayer", "level": 1 },
+            { "name": "Plants", "type": "TileMapLayer", "level": 1 },
+            { "name": "Walls", "type": "TileMapLayer", "level": 1 }          
+          ]
+        }      
+      ]
+    },
+    {
+      "id": "c4",
+      "label": "PHASE_04 // INPUT_MAP",
+      "header": "Настройка управления для персонажа",
+      "items": [
+        { "type": "text", "val": "Прежде чем кодить, нужно объяснить Godot, на какие клавиши мы будем нажимать." },
+        { "type": "tip", "val": "Включим **Показать встроеные действия**" },
+        { "type": "config", "data": [
+            ["ui_up", "W"],
+            ["ui_down", "S"],
+            ["ui_left", "A"],
+            ["ui_right", "D"],
+            ["interact (Это действие мы создадим)", "E"]
+        ]},
+        { "type": "tip", "val": "Настройки находятся в: Проекст -> Настройки проекта -> Список действий." }
+      ]
+    },
+    {
+      "id": "c5",
+      "label": "PHASE_05 // PLAYER_STRUCTURE",
+      "header": "Сборка игрока",
+      "items": [
+        { "type": "text", "val": "Теперь игрок. Настроим колизию, анимацию и нажание **E**." },
+        {
+          "type": "grid",
+          "items": [
+            "Создадим новую сцену **player** сразу поменяем тип ноды на **CharacterBody2D**",
+            "Добавим игроку колизию, для этого **CollisionShape2D** и задаем **Shape**",
+            "Добавим камеру: **Camera2D**, сразу зададим ей **Zoom** - 2",
+            "И последнее - **AnimatedSprite2D**"
+          ]
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Player", "type": "CharacterBody2D", "level": 0 },
+            { "name": "CollisionShape2D", "type": "Хитбокс", "level": 1 },
+            { "name": "Camera2D", "type": "Слежение за игроком", "level": 1 },
+            { "name": "AnimatedSprite2D", "type": "Спрайт игрока", "level": 1 }
+          ]
+        },
+        { "type": "text", "val": "Настроим сразу анимацию, у нас будет 3 типа - idle, walk, sit" },
+        {
+          "type": "grid",
+          "items": [
+            "Прейдем в **Sprite Frame** что мы создали, сразу создадим 3 анимации",
+            "Для примера сделаем idle, сразу назначим ей **A+** - автовоспроезвидения",
+            "Добавим кадров из спрайта **Player.png**. 4 x 2",
+            "И последнее - настроим время так, что бы все смотрелось логично"
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l02-1.png",
+          "caption": "Итоговый вид и настройка времени" 
+        },
+        { "type": "text", "val": "Настройте остальные анимации (walk, sit)" }
+      ]
+    },
+    {
+      "id": "c6",
+      "label": "PHASE_06 // MOVEMENT_LOGIC",
+      "header": "Программирование движения",
+      "items": [
+        { "type": "text", "val": "Ниже - один из вариантов задать скорость и вектор движения игрока, можете сделать его самостоятельно." },
+        {
+          "type": "code",
+          "title": "Player.gd",
+          "code": "extends CharacterBody2D\nvar speed = 40\n@export var anim: AnimatedSprite2D\nfunc _physics_process(_delta):\n\tvar input = Vector2(Input.get_action_strength('ui_right') - Input.get_action_strength('ui_left'), Input.get_action_strength('ui_down') - Input.get_action_strength('ui_up'))\n\tvelocity = input.normalized() * speed\n\tmove_and_slide()"
+        },
+        { "type": "tip", "val": "Теперь добавим персонажа на карту и запустим, что у нас получилось" },
+        { "type": "text", "val": "Он двигается! Без анимаций, поворота но уже что то. Теперь добавим небольшие улучшения" },
+        {
+          "type": "code",
+          "title": "Player.gd",
+          "code": "# Пооворот спрайта в зависимости от направления персонажа\n\tif input.x > 0:\n\t\tanim.flip_h = true\n\telif input.x < 0:\n\t\tanim.flip_h = false\n\t# Переключение состояний анимации\n\tif input != Vector2.ZERO:\n\t\tanim.play('walk')\n\telse:\n\t\tanim.play('idle')"
+        },
+        { "type": "tip", "val": "Запустим еще раз, теперь проигрывается анимация!" }
+      ]
+    },
+    {
+      "id": "c7",
+      "label": "PHASE_07 // SIT_LOGIC",
+      "header": "Программирование функции сидеть",
+      "items": [
+        { "type": "text", "val": "Теперь добавим персонажу умение сидеть, не зря же мы добавляли кнопку E" },
+        {
+          "type": "code",
+          "title": "Player.gd",
+          "code": "# Флаг для sit\nvar is_sitting = false\n# Функция мониторит все, что нажал игрок\nfunc _unhandled_input(event: InputEvent) -> void:\n\tif event.is_action_pressed('interact'):\n\t\tif is_sitting:\n\t\t\tis_sitting = false\n\t\t\tanim.play('idle')\n\t\t\telse:\n\t\t\t\tis_sitting = true\n\t\t\t\tanim.play('sit')"
+        },
+        { "type": "text", "val": "И сразу ограничим ему движение, если игрок сидит" },
+        {
+          "type": "code",
+          "title": "func _physics_process(_delta):",
+          "code": "# Отмена расчета движения и тд\n\tif is_sitting:\n\t\tvelocity = Vector2.ZERO\n\t\tmove_and_slide()\n\t\treturn"
+        },
+        { "type": "tip", "val": "Запустим еще раз, нажмем Е, тестируем движения" }
+      ]
+    },
+    {
+      "id": "u2_6",
+      "label": "PHASE_06 // INTEGRATION_DATA",
+      "header": "Связь с уроком 1 (Глобальные данные)",
+      "items": [
+        { "type": "text", "val": "Давай докажем, что наше приложение — это единая система. Выведем над игроком имя, которое он ввел на первом уроке." },
+        {
+          "type": "code",
+          "title": "Player.gd (Дополнение)",
+          "code": "@onready var name_label = Label.new()\n\nfunc _ready():\n\t# Настраиваем Label программно\n\tname_label.text = Global.name_user\n\tname_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER\n\tname_label.position = Vector2(-50, -60) # Смещение над голову\n\tadd_child(name_label)"
+        },
+        { "type": "tip", "val": "Теперь, если запустить проект со сцены ввода (Урок 1), имя героя обновится автоматически!" }
+      ]
+    },
+    {
+      "id": "u2_7",
+      "label": "PHASE_07 // JUICE_AND_LIGHT",
+      "header": "Атмосфера (ВАУ-эффект)",
+      "items": [
+        { "type": "text", "val": "Сделаем подземелье по-настоящему мрачным." },
+        {
+          "type": "grid",
+          "items": [
+            "Добавь в сцену World узел **CanvasModulate**. Выбери темно-синий или черный цвет. Всё исчезло!",
+            "Перейди к PointLight2D у игрока. Назначь ему текстуру 'light_mask.png' (белый градиент)",
+            "Включи **Shadows (Тени)** в инспекторе света. Теперь стены будут отбрасывать реальные тени!"
+          ]
+        },
+        { "type": "image", "url": "./assets/img/l02_lighting.png", "caption": "Свет делает игру в 10 раз дороже на вид" },
+        { "type": "tip", "val": "Настройки находятся в: Проекст -> Настройки проекта -> Список действий." }
+      ]
+    },
+    {
+      "id": "u2_8",
+      "label": "PHASE_08 // INTERACTION",
+      "header": "Сбор предметов (Area2D)",
+      "items": [
+        { "type": "text", "val": "Создадим монету, которую можно подобрать." },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Coin", "type": "Area2D", "level": 0 },
+            { "name": "Sprite2D", "type": "Иконка монеты", "level": 1 },
+            { "name": "CollisionShape2D", "type": "Зона подбора", "level": 1 }
+          ]
+        },
+        {
+          "type": "code",
+          "title": "Coin.gd",
+          "code": "func _on_body_entered(body):\n\tif body.name == 'Player':\n\t\t# Тут можно прибавить Global.score += 1\n\t\tqueue_free() # Удаляем монетку"
+        }
+      ]
+    },
+    {
+      "id": "u2_9",
+      "label": "PHASE_09 // HOMEWORK",
+      "header": "Самостоятельная работа",
+      "items": [
+        { "type": "text", "val": "Задание: Добавь на уровень 'Зону выхода'. Если игрок наступает на нее — происходит переход на финальную сцену (как мы делали в Уроке 1 через `get_tree().change_scene_to_file`)." },
+        { "type": "tip", "val": "Используй `Area2D` и сигнал `body_entered` для смены сцены." }
+      ]
+    }
+  ]
+}

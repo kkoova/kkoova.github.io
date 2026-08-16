@@ -1,0 +1,14 @@
+78098b89c88a74ebe8c20117b8754620
+::res://::1786827866
+icon.svg::CompressedTexture2D::1764154546238856654::1786791486::1786791490::1::::<><><>0<>0<>25f5ce9b3bc65c6d7d3bef95a483c9c3<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+::res://assets/::1786792794
+ComicoroRu_0.ttf::FontFile::809615047906271543::1786791951::1786791951::1::::<><><>0<>0<>58aad1f9ae3a6d71359281b190a3372b<>res://.godot/imported/ComicoroRu_0.ttf-a4ffe206a1155ae61c2ab74494de4aff.fontdata::
+light.png::CompressedTexture2D::1187696081327922756::1786791951::1786791951::1::::<><><>0<>0<>d2d7189710747009267d18b16e871fa4<>res://.godot/imported/light.png-87539b10c4b4cebc046b6b91ffea6f69.ctex::
+new_tile_set.tres::TileSet::4341545460563819404::1786828220::0::1::::<><><>0<>0<><>::uid://cnmdrmc6m2sms::::res://assets/sprite.png
+player.png::CompressedTexture2D::2140676804212496942::1786791951::1786791951::1::::<><><>0<>0<>4b1cb365443cd8ca9c63f3b42bd9abd1<>res://.godot/imported/player.png-be2216fcaabb5c62aa2466cd9a5726a8.ctex::
+sprite.png::CompressedTexture2D::5710282011999450218::1786791951::1786791951::1::::<><><>0<>0<>261f60c8c316c43351cccc99d3fe4d49<>res://.godot/imported/sprite.png-326bf2a42cf01374c1682f27990021a3.ctex::
+::res://scenes/::1786795281
+forest.tscn::PackedScene::2322313587819948887::1786793378::0::1::::<><><>0<>0<><>::uid://b24cvcb8uy13m::::res://assets/new_tile_set.tres
+player.tscn::PackedScene::8090686145270000329::1786828220::0::1::::<><><>0<>0<><>::uid://5q7vte607ebm::::res://assets/player.png<>uid://d28gmt0110ffe::::res://scenes/player.gd
+::res://script/::1786791903
+player.gd::GDScript::9122872064454425130::1786828220::0::1::::<>CharacterBody2D<><>0<>0<><>::

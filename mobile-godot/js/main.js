@@ -205,6 +205,10 @@ function openMission(id) {
         stepsCont.appendChild(div);
     });
 
+    tutorialLink.onclick = () => {
+        window.location.href = `mission.html?doc=${data.tutorial_url}`;
+    };
+    
     document.getElementById('mission-overlay').style.display = 'flex';
     
 }

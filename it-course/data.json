@@ -91,7 +91,13 @@
           { "id": "g3", "type": "self", "text": "CODE: Программирование движения (WASD)" },
           { "id": "g4", "type": "self", "text": "WIN_COND: Сбор ключа и открытие двери" }
         ],
-        "difficulty": "02", "teamSize": "2"
+        "difficulty": "02", "teamSize": "2",
+        "features": [
+            {"label": "Env", "sub": "LINUX", "icon": "assets/icons/linux.png"},
+            {"label": "CLI", "sub": "BASH", "icon": "assets/icons/terminal.png"},
+            {"label": "Rule", "sub": "NO_UNDO", "icon": "assets/icons/alert.png"},
+            {"label": "Skill", "sub": "LERP", "icon": "assets/icons/gear.png"}
+          ]
       },{
       "id": "06",
       "title": "INSIDER_VIEW",
@@ -128,7 +134,7 @@
       "title": "SYSTEM_RELOAD",
       "tag": "#CINEMA • BREAK",
       "bgImage": "assets/img/movie_bg.jpg",
-      "docsUrl": null,
+      "docsUrl": "08.json",
       "steps": [
         { "id": "r1", "type": "live", "text": "MOVIE: Просмотр ИТ-документалистики" },
         { "id": "r2", "type": "live", "text": "DISCUSS: Обсуждение будущего индустрии" }

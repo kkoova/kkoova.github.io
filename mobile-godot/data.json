@@ -3,7 +3,7 @@
     {
       "id": "m01_ui",
       "title": "01 // UI",
-      "subtitle": "Базовое знакомство с Godot",
+      "subtitle": "Базовое знакомство с Godot и создание интерфейса",
       "preview_img": "assets/previews/lv-1.png",
       "godot_path": "missions/m01_ui/index.html",
       "tutorial_url": "01.json",
@@ -14,11 +14,11 @@
       ]
     },
     {
-      "id": "m02_signals",
-      "title": "02 // SIGNAL_INTERCEPT",
-      "subtitle": "СИСТЕМА СОБЫТИЙ",
-      "preview_img": "assets/previews/lv-1-1.png",
-      "godot_path": "missions/m02_signals/index.html",
+      "id": "m02_labirent",
+      "title": "02 // PLAYER_ITEM",
+      "subtitle": "Создание персонажа, анимаций и прелметов",
+      "preview_img": "assets/previews/lv-2.png",
+      "godot_path": "missions/m02_labirent/index.html",
       "tutorial_url": "02.json",
       "steps": [
         "Создание кастомных сигналов.",
