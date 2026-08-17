@@ -23,7 +23,7 @@
     <div class="system-ui">
         <div class="top-left type-body ">TIME // <span id="clock">00:00:00</span></div>
         <div class="top-right type-body">
-            KNOWLEDGE_LOAD // <div class="mini-bar"><div></div></div> 84%
+            <button class="logout-trigger white" onclick="openFeedReport()">[ FEEDBACK_REPORT ]</button>
         </div>
         <div class="bottom-left type-body">
             ROLE // <span id="user-role">STUDENT</span>
@@ -60,6 +60,23 @@
             </div>
 
             <button class="logout-trigger white full-width" onclick="submitWork()">SEND_TO_LOGBOOK</button>
+        </div>
+    </div>
+    <div id="feedback-modal" class="report-overlay">
+        <div class="submission-zone glass">
+            <div class="modal-header">
+                <h3 class="type-body">// FEEDBACK_REPORT</h3>
+                <button class="close-btn" onclick="closeFeedReport()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="label type-body">IDEA</span>
+                    <input type="text" id="feedLink" class="git-input" placeholder="Ваша идея для урока...">
+                </div>
+            </div>
+
+            <button class="logout-trigger white big full-width" onclick="submitFeedWork()">SEND_TO_LOGBOOK</button>
         </div>
     </div>
     <main id="app-container" class="view-wheel">

@@ -347,9 +347,36 @@ document.getElementById('rerollBtn').onclick = () => {
     setTimeout(spin, 800); 
 };
 
+window.submitFeedWork = async () => {
+    const user = auth.currentUser;
+    const feed = document.getElementById('feedLink').value;
+    if (!feed) return alert("FEED_REQUIRED");
+
+    try {
+        const q = query(
+            collection(db, "feedback-it"), 
+            where("githubUid", "==", user.uid)
+        );
+
+        await addDoc(collection(db, "feedback-it"), {
+            studentName: user.displayName,
+            githubUid: user.uid,
+            feedback: feed,
+            timestamp: serverTimestamp()
+        });
+        alert("TRANSMISSION_SUCCESSFUL");
+        document.getElementById('feedback-modal').classList.remove('active');
+        location.reload();
+    } catch (e) { alert("SYNC_ERROR: CHECK_CONSOLE"); }
+};
+
 window.openReport = () => document.getElementById('report-modal').classList.add('active');
 window.closeReport = () => document.getElementById('report-modal').classList.remove('active');
 window.startMission = () => {
     document.getElementById('topic-presentation').classList.add('hidden');
     document.getElementById('topic-workspace').classList.remove('hidden');
 };
+
+
+window.openFeedReport = () => document.getElementById('feedback-modal').classList.add('active');
+window.closeFeedReport = () => document.getElementById('feedback-modal').classList.remove('active');

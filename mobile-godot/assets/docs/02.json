@@ -49,7 +49,8 @@
             "Godot атоматом поставит выделит все клетки, удалите две на палатке и сделаете новые, с shift (что бы она была двойная)",
             "Добавим  **Physics Layers** - это слой колизии. И теперь через **Окрасить** - выбираем у кого будет колизия"
           ]
-        }
+        },
+        { "type": "button", "text": "FREE_ASSET", "url": "./assets/material/ASSET_PACK_02.rar" }  
       ]
     },
     {
@@ -180,65 +181,199 @@
       ]
     },
     {
-      "id": "u2_6",
-      "label": "PHASE_06 // INTEGRATION_DATA",
-      "header": "Связь с уроком 1 (Глобальные данные)",
+      "id": "c8",
+      "label": "PHASE_08 // CAMP",
+      "header": "Создание света и анимированного костра",
       "items": [
-        { "type": "text", "val": "Давай докажем, что наше приложение — это единая система. Выведем над игроком имя, которое он ввел на первом уроке." },
-        {
-          "type": "code",
-          "title": "Player.gd (Дополнение)",
-          "code": "@onready var name_label = Label.new()\n\nfunc _ready():\n\t# Настраиваем Label программно\n\tname_label.text = Global.name_user\n\tname_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER\n\tname_label.position = Vector2(-50, -60) # Смещение над голову\n\tadd_child(name_label)"
-        },
-        { "type": "tip", "val": "Теперь, если запустить проект со сцены ввода (Урок 1), имя героя обновится автоматически!" }
-      ]
-    },
-    {
-      "id": "u2_7",
-      "label": "PHASE_07 // JUICE_AND_LIGHT",
-      "header": "Атмосфера (ВАУ-эффект)",
-      "items": [
-        { "type": "text", "val": "Сделаем подземелье по-настоящему мрачным." },
+        { "type": "text", "val": "На нашу **карту** можно добавлять не только спрайты, а еще и целые **готовые сцены**, так мы и сделаем костер." },
         {
           "type": "grid",
           "items": [
-            "Добавь в сцену World узел **CanvasModulate**. Выбери темно-синий или черный цвет. Всё исчезло!",
-            "Перейди к PointLight2D у игрока. Назначь ему текстуру 'light_mask.png' (белый градиент)",
-            "Включи **Shadows (Тени)** в инспекторе света. Теперь стены будут отбрасывать реальные тени!"
+            "Создадим новую сцену **camp** и добавим **AnimatedSprite2D**",
+            "Для нашей анимации создадим новый Sprite Frames, только тут будет 1 состояние. Не забываем **автозапуск**"
           ]
         },
-        { "type": "image", "url": "./assets/img/l02_lighting.png", "caption": "Свет делает игру в 10 раз дороже на вид" },
-        { "type": "tip", "val": "Настройки находятся в: Проекст -> Настройки проекта -> Список действий." }
-      ]
-    },
-    {
-      "id": "u2_8",
-      "label": "PHASE_08 // INTERACTION",
-      "header": "Сбор предметов (Area2D)",
-      "items": [
-        { "type": "text", "val": "Создадим монету, которую можно подобрать." },
         {
           "type": "tree",
           "nodes": [
-            { "name": "Coin", "type": "Area2D", "level": 0 },
-            { "name": "Sprite2D", "type": "Иконка монеты", "level": 1 },
-            { "name": "CollisionShape2D", "type": "Зона подбора", "level": 1 }
+            { "name": "Camp", "type": "Node2D", "level": 0 },
+            { "name": "AnimatedSprite2D", "type": "AnimatedSprite2D", "level": 1 }
           ]
         },
         {
-          "type": "code",
-          "title": "Coin.gd",
-          "code": "func _on_body_entered(body):\n\tif body.name == 'Player':\n\t\t# Тут можно прибавить Global.score += 1\n\t\tqueue_free() # Удаляем монетку"
+          "type": "image",
+          "url": "./assets/img/l02-2.png",
+          "caption": "Настройка анимации костра" 
+        },
+        {
+          "type": "grid",
+          "items": [
+            "После того как мы настроили костер, время добавить его на нашу карту, переходим в **Plants** и добавляем колекцию сцен",
+            "В нее закидываем наш casp и добавляем его на карту, как обычные блоки"
+          ]
         }
       ]
     },
     {
-      "id": "u2_9",
-      "label": "PHASE_09 // HOMEWORK",
-      "header": "Самостоятельная работа",
+      "id": "c9",
+      "label": "PHASE_09 // MUSHROOMS",
+      "header": "Создание грибов для сбора и UI для его отображение",
       "items": [
-        { "type": "text", "val": "Задание: Добавь на уровень 'Зону выхода'. Если игрок наступает на нее — происходит переход на финальную сцену (как мы делали в Уроке 1 через `get_tree().change_scene_to_file`)." },
-        { "type": "tip", "val": "Используй `Area2D` и сигнал `body_entered` для смены сцены." }
+        { "type": "text", "val": "Сначала начнем с более сложного, **Сигналы**" },
+        { "type": "tip", "val": "Сигналы позволяют всем подключенным к нему объектам отслеживать события и реагировать на них. В общем, очень удобная вещь, особено в больших проектах!" },
+        {
+          "type": "grid",
+          "items": [
+            "Для начала создадим глобальный скрипт **global.gd** не забудьте его **настроить!**",
+            "Добавим сам сигнал, назовем его обширно, вдруг данный проект вы будете расширять"
+          ]
+        },
+        {
+          "type": "code",
+          "title": "global.gd",
+          "code": "extends Node \n\n# Сигнал передает имя предмета \nsignal item_collected(item_name: String)"
+        },
+        { "type": "text", "val": "Для чего мы вообще это делаем? Наша цель, создать обьект **Гриб**, а когда игрок подходит к нему - он **собирается** и отображается в UI" },
+        {
+          "type": "grid",
+          "items": [
+            "Создадим новую сцену **mushrooms** и добавим **Sprite2D** - сразу зададим ему текстуру",
+            "Задаем текстуру через **AtlasTexture**",
+            "Теперь сразу добавим **Area2D** а внутри него **CollisionShape2D** - это область, на которую будет заходить игрок и собирать гриб",
+            "Добавляем скрипт. Не забывайте все раскидывать по папкам"
+          ]
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Mushrooms", "type": "Node2D", "level": 0 },
+            { "name": "Sprite2D", "type": "Sprite2D", "level": 1 },
+            { "name": "Area2D", "type": "Area2D", "level": 1 },
+            { "name": "CollisionShape2D", "type": "CollisionShape2D", "level": 1 }
+          ]
+        },
+        { "type": "text", "val": "Для начала добавим сигнал от **Area2D**. Выбираем **body_entered** и добаляем его в скрипт. Вот что должно получиться:" },
+        {
+          "type": "code",
+          "title": "mushrooms.gd",
+          "code": "extends Node2D \n\n func _on_area_2d_body_entered(body: Node2D) -> void: \n\t pass # Replace with function body."
+        },
+        { "type": "text", "val": "И теперь уже наполняем код функционалом, вызываем наш сигнал" },
+        {
+          "type": "code",
+          "title": "mushrooms.gd",
+          "code": "extends Node2D \n\n @export var item_id: String = 'mushrooms' \n\n # Если в Area2D находиться любое body, вызывается данная функция \n func _on_area_2d_body_entered(body: Node2D) -> void: \n\t # Проверка body = Player \n\t if body.name == 'Player': \n\t\t # Вызов сигнала с именем предмета \n\t\t Global.item_collected.emit(item_id) \n\t\t # Удаление предмета \n\t\t queue_free()"
+        },
+        { "type": "text", "val": "Теперь добавим гриб, как мы сделали с костром и накидаем их по карте! Запустим игру и проверим, что бы при касании - грибы пропадали" },
+        { "type": "tip", "val": "Пока ничего не происходит, так что время сдеделать UI!" }
+      ]
+    },
+    {
+      "id": "c10",
+      "label": "PHASE_10 // UI",
+      "header": "Интерфейс для отображения количества грибов",
+      "items": [
+        { "type": "text", "val": "Для основы будем использовать **CanvasLayer** - Узел, используемый для независимой визуализации объектов в 2D-сцене. Так говорит документация, ну и я согласна с ней" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Ui", "type": "CanvasLayer", "level": 0 },
+            { "name": "MarginContainer", "type": "Отступы", "level": 1 },
+            { "name": "HBoxContainer", "type": "HBoxContainer", "level": 2 },
+            { "name": "TextureRect", "type": "TextureRect", "level": 3 },
+            { "name": "Label", "type": "Label", "level": 3 }
+          ]
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Создадим новую сцену **ui** и поменяем ее тип на **CanvasLayer**",
+            "Добавляем все по визуализации выше",
+            "Добавляем текстуру для **TextureRect**, шрифт для **Label**",
+            "Отступы для **MarginContainer** и все смещаем в лево-вверх"
+          ]
+        },
+        { "type": "text", "val": "И теперь код" },
+        {
+          "type": "code",
+          "title": "ui.gd",
+          "code": "extends CanvasLayer \n\n@export var label: Label \n\nvar item_count: int = 0 \n\n# Как инртерфес появился, он сразу подписывается на обновление сигнала item_collected \n# Что мы создали в global и обновляем грибами \nfunc _ready() -> void: \n\tGlobal.item_collected.connect(_on_item_collected) \n\n# Функция что вызывается при обновление сигнала item_collected \n# Тут вроде все понятно \nfunc _on_item_collected(item_name: String) -> void: \n\tif item_name == 'mushrooms': \n\t\titem_count += 1 \n\t\tlabel.text = str(item_count)"
+        },
+        { "type": "tip", "val": "Добавлением сцену ui на нашу карту и запускаем..." }
+      ]
+    },
+    {
+      "id": "c11",
+      "label": "PHASE_11 // KRASIVO",
+      "header": "Создаем красоту. Свет, тень, 3Д эффект",
+      "items": [
+        { "type": "text", "val": "Теперь добавим карте немного темноты, что бы у нас горел костер" },
+        {
+          "type": "grid",
+          "items": [
+            "В главной сцене создадим **CanvasModulate** - эта штука добавляет ко всем узлам (кроме UI) цвет. Зададим ей темно синий цвет, типо ночь",
+            "Теперь возвращаемся в **camp** добавим туда свет, а то очень темно уж. **PointLight2D** - и текстура ему - **light.png**",
+            "Теперь эффект 3Д. Включаем у **Plants**, **Walls** и **Player** -> Ordering -> Y Sort Enabled. Запустите.",
+            "Если ничего не изменилось, включите это и в корне - протестируйте. Попробуйте например зайти за палатку"
+          ]
+        },
+        { "type": "tip", "val": "И все! Все готово!" }
+      ]
+    },
+    {
+      "id": "с12",
+      "label": "PHASE_12 // SAMOSTOYATELNAYA_1 4",
+      "header": "Имя игрока",
+      "items": [
+        { "type": "text", "val": "А теперь так. Соеденим то что было в прошлом приложении и это" },
+        { "type": "text", "val": "Ваша задача сделать самостоятельно:" },
+        {
+          "type": "grid",
+          "items": [
+            "Сделать еще одну форму что запускается первая, с формой для ввода имени",
+            "Имя проверяется на количество символов (например больше 2)",
+            "После нажания кнопки **Начать игру** - игроку присваивается это имя",
+            "Можете сделать имя статичным, в UI или над игроком"
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l02-3.png",
+          "caption": "Имя над игроком" 
+        }
+      ]
+    },
+    {
+      "id": "с13",
+      "label": "PHASE_13 // SAMOSTOYATELNAYA_2 5",
+      "header": "Переход на другую сцену",
+      "items": [
+        { "type": "text", "val": "Ваша задача сделать самостоятельно:" },
+        {
+          "type": "grid",
+          "items": [
+            "Сделать область, на которую если игрок ступает - то переходит на другую сцену",
+            "Смотрите инициализацию новой сцены в 1 задании."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "с14",
+      "label": "PHASE_14 // GITHUB",
+      "header": "Загрузка на github",
+      "items": [
+        { "type": "text", "val": "Загрузка на гитхаб, не забудте кинуть ссылку на проект в [ SUBMIT_REPORT ]." },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "02_FOREST_EXPLORER"],
+            ["VISIBLE", "PUBLIC"]
+        ]},
+        {
+          "type": "code",
+          "title": "README.md",
+          "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот или путь к файлу в репозитории, например: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта. \n\n## Стек проекта \n* **Игровой движок / Платформа:** Например: Godot Engine 4.x \n* **Язык программирования:** Например: GDScript / C# \n* **Дополнительные инструменты:** Например: Git, Aseprite, Blender \n\n## Что было использовано в проекте \n* **Узлы (Nodes):** Например: Area2D, CanvasLayer, CharacterBody2D \n* **Паттерны / Подходы:** Например: Глобальный код (Global.gd), Сигналы (Signals) \n* **Ресурсы:** Например: Кастомные спрайты, UI-шрифты \n\n## Самостоятельные работы \n* **Имя игрока**: Да/Нет \n* **Переход на другую сцену**: Да/Нет"
+        },
+        { "type": "button", "text": "GIT_HELPER", "url": "Надо....то" }  
       ]
     }
   ]

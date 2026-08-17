@@ -316,6 +316,28 @@ window.closeProfile = () => {
     document.getElementById('profile-modal').classList.remove('active');
 };
 
+window.submitFeedWork = async () => {
+    const user = auth.currentUser;
+    const feed = document.getElementById('feedLink').value;
+    if (!feed) return alert("FEED_REQUIRED");
+
+    try {
+        const q = query(
+            collection(db, "feedback-godot"), 
+            where("githubUid", "==", user.uid)
+        );
+
+        await addDoc(collection(db, "feedback-godot"), {
+            studentName: user.displayName,
+            githubUid: user.uid,
+            feedback: feed,
+            timestamp: serverTimestamp()
+        });
+        alert("TRANSMISSION_SUCCESSFUL");
+        document.getElementById('feedback-modal').classList.remove('active');
+        location.reload();
+    } catch (e) { alert("SYNC_ERROR: CHECK_CONSOLE"); }
+};
 
 const profBtn = document.getElementById('profile-btn');
 if (profBtn) profBtn.onclick = window.openProfile;
@@ -325,3 +347,6 @@ document.getElementById('logout-btn').onclick = window.logout;
 
 window.openReport = () => document.getElementById('report-modal').classList.add('active');
 window.closeReport = () => document.getElementById('report-modal').classList.remove('active');
+
+window.openFeedReport = () => document.getElementById('feedback-modal').classList.add('active');
+window.closeFeedReport = () => document.getElementById('feedback-modal').classList.remove('active');
