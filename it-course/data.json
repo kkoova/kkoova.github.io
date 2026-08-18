@@ -5,9 +5,9 @@
       "title": "GIT_PROTOCOL",
       "tag": "#DEVOPS • VERSION_CONTROL",
       "bgImage": "assets/img/git_bg.jpg",
-      "docsUrl": "docs/git_basics.html",
+      "docsUrl": "git_basics.json",
       "steps": [
-        { "id": "g1", "type": "live", "text": "BASE: Конфигурация через терминал (Identity)" },
+        { "id": "g1", "type": "live", "text": "BASE: Конфигурация через терминал или Sign in (Identity)" },
         { "id": "g2", "type": "live", "text": "GUI: Работа с коммитами в интерфейсе VS Code" },
         { "id": "g3", "type": "self", "text": "WEB: Прямое редактирование файлов на GitHub" },
         { "id": "g4", "type": "self", "text": "QUEST: Создание README-портфолио" }
@@ -61,15 +61,15 @@
       ]
     },{
           "id": "04",
-          "title": "DEVOPS_CLI",
+          "title": "TERMINAL_PROTOCOLS",
           "tag": "#TERMINAL • BASH",
-          "bgImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1674733786441/115a2844-321d-40a5-ae33-b8def0c54ff9.jpeg",
-          "docsUrl": "./docs/devops_cli.html",
+          "bgImage": "",
+          "docsUrl": "terminal_protocols.json",
           "steps": [
-            { "id": "l1", "type": "live", "text": "Освоение навигации (pwd, ls, cd)" },
-            { "id": "l2", "type": "live", "text": "Работа с файлами (mkdir, touch)" },
-            { "id": "s1", "type": "self", "text": "Поиск скрытого файла (.hint.txt)" },
-            { "id": "s2", "type": "self", "text": "Перемещение и переименование (mv)" }
+            { "id": "l1", "type": "live", "text": "Базовая навигация: Как не потеряться" },
+            { "id": "l2", "type": "live", "text": "Создание и управление миром" },
+            { "id": "s1", "type": "self", "text": "FLAG_01: Самостоятельная работа №1: 'Лабиринт'" },
+            { "id": "s2", "type": "self", "text": "FLAG_02: Самостоятельная работа №2: 'Отчет системы'" }
           ],
           "difficulty": "02",
           "teamSize": "2",

@@ -170,6 +170,13 @@ function showTopic(topic) {
         feats.appendChild(node);
     });
 
+    console.log(topic.docsUrl)
+    const tutorialLink = document.getElementById('tutorial-link');
+
+    tutorialLink.onclick = () => {
+        window.location.href = `mission.html?doc=${topic.docsUrl}`;
+    };
+
     const workspace = document.getElementById('steps-list');
     workspace.innerHTML = '';
     topic.steps.forEach(step => {
@@ -183,7 +190,7 @@ function showTopic(topic) {
         workspace.appendChild(div);
     });
 
-    document.getElementById('externalDocs').href = topic.docsUrl;
+    //document.getElementById('externalDocs').href = topic.docsUrl;
     document.getElementById('app-container').className = 'view-result';
 }
 
