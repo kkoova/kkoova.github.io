@@ -63,17 +63,35 @@
       "label": "PHASE_04 // FUN_TOOLS_02",
       "header": "Повеселимся_02",
       "items": [
-        { "type": "grid", "items": [
-            "**cowsay [текст]** — Выводит текст в виде речи коровы.",
-            "**cmatrix** — Анимация 'Матрица'.",
-            "**neofetch** — Выводит информацию о системе в красивом виде."
-        ]},
-        { "type": "tip", "val": "Для установки этих пакетов используйте пакетный менеджер Chocolatey. (choco install cowsay cmatrix neofetch)" },
+        { "type": "tip", "val": "Для установки этих пакетов используйте пакетный менеджер scoop (Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser)" },
         {
           "type": "code",
-          "title": "cmd admin",
-          "code": "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
-        }
+          "title": "posershell",
+          "code": "irm get.scoop.sh | iex"
+        },
+        { "type": "tip", "val": "Отлично, мы установили scoop! Теперь мы можем устанавливать пакеты." },
+        {
+          "type": "code",
+          "title": "posershell",
+          "code": "scoop install cowsay figlet fastfetch eza bat fzf ripgrep tldr"
+        },
+        { "type": "text", "val": "Для начала пакет... Говорящая корова, если дословно. Ну так оно и есть." },
+        { "type": "grid", "items": [
+            "**cowsay [текст]** — Выводит текст в виде речи коровы.",
+            "**cowsay -f tux Привет от пингвина!** — Смена персонажа.",
+            "**cowsay -l** — Список всех доступных животных.",
+            "**cowsay -g [текст]** — У коровы изменились глаза 0.0"
+        ]},
+        { "type": "text", "val": "Теперь просто красивый текст!" },
+        { "type": "grid", "items": [
+            "**figlet [текст]** — Простой баннер.",
+            "**figlet -f slant [текст]** — Смена шрифта"
+        ]},
+        { "type": "text", "val": "Информация о системе!" },
+        { "type": "grid", "items": [
+            "**fastfetch** — Выводит информацию о системе в красивом виде.",
+            "**fastfetch --structure Structure** — Только логотип системы."
+        ]}
       ]
     },
     
@@ -83,6 +101,7 @@
       "header": "Самостоятельная работа №1: 'Лабиринт'",
       "items": [
         { "type": "text", "val": "Ваша задача — используя ТОЛЬКО терминал, воссоздать структуру папок на рабочем столе:" },
+        { "type": "text", "val": "**Поэтапно запишите (txt) ваши команды. [команда] - что делала, и так со всеми шагами.** Этот файл понадобится для сдачи работы." },
         { "type": "tree", "nodes": [
             { "name": "ROOT_LABYRINTH", "type": "папка", "level": 0 },
             { "name": "SECTOR_A", "type": "папка", "level": 1 },
@@ -102,7 +121,7 @@
         { "type": "grid", "items": [
             "Запустите команду **fastfetch** (или neofetch).",
             "Сделайте скриншот всего экрана с этим логотипом.",
-            "Запустите **cmatrix** и сделайте еще один скриншот.",
+            "Запустите **figlet** и напиши там свою группу.",
             "Запустите **cowsay**, написав там Ваше ФИО, и сделайте третий скриншот."
         ]}
       ]
@@ -114,11 +133,12 @@
       "items": [
         { "type": "text", "val": "Мы должны зафиксировать наш прогресс. Выполните загрузку по инструкции:" },
         { "type": "grid", "items": [
-            "В Вашем репозитории создайте папку **03_TERMINAL_MASTER**.",
+            "В Вашем репозитории создайте папку **04_TERMINAL_MASTER**.",
+            "В папке добавьте файл из задания с лабиринтом.",
             "Внутри создайте папку **screenshots**, куда загрузите все 3 скрина из заданий.",
-            "Создайте файл **README.md** внутри папки задания."
+            "Создайте файл **README.md** внутри папки **04_TERMINAL_MASTER**."
         ]},
-        { "type": "code", "title": "Пример оформления README.md", "code": "# ⌨️ ОТЧЕТ: МАСТЕР ТЕРМИНАЛА\n\n## 📝 ВЫПОЛНЕННЫЕ ШАГИ\n1. Освоена навигация в системе через CLI.\n2. Создана и очищена структура папок 'Лабиринт'.\n3. Установлены и протестированы утилиты визуализации.\n\n## 📸 СКРИНШОТЫ РАБОТЫ\n### Системная информация\n![Система](./screenshots/screen1.png)\n\n### Анимация Matrix\n![Матрица](./screenshots/screen2.png)\n\n### Сообщение от Cowsay\n![Корова](./screenshots/screen3.png)" }
+        { "type": "code", "title": "Пример оформления README.md", "code": "# ОТЧЕТ: TERMINAL_PROTOCOLS\n\n## ВЫПОЛНЕННЫЕ ШАГИ\n1. Освоена навигация в системе через команды.\n2. Создана и очищена структура папок 'Лабиринт'.\n3. Установлены и протестированы утилиты визуализации.\n\n ## ЛАБИРИНТ\n[Открыть текстовый файл](document.txt)\n\n## ОТЧЕТ СИСТЕМЫ\n### Системная информация\n![Fastfetch](./screenshots/screen1.png)\n\n### Красивый текст\n![Figlet](./screenshots/screen2.png)\n\n### Сообщение от Cowsay\n![Cowsay](./screenshots/screen3.png)" }
       ]
     }
   ]
