@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot, updateDoc, addDoc, collection, serverTimestamp, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, updateDoc, setDoc, addDoc, collection, serverTimestamp, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithPopup, GithubAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -16,44 +16,130 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GithubAuthProvider();
 
-const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh11";
+const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh1";
 let isAdmin = false;
 let currentTopic = null;
 let missionsData = [];
 
 async function init() {
     try {
-        const res = await fetch('data.json');
+        // Указываем путь от корня, чтобы работало и в папках
+        const res = await fetch('./data.json'); 
         const data = await res.json();
         missionsData = data.missions;
         
+        // Запускаем часы
         updateSystemUI();
         setInterval(updateSystemUI, 1000);
-        generateDynamicMap(missionsData);
-        //console.log(missionsData);
-    } catch (e) { console.error(e); }
+
+        // Если мы на странице с картой - генерируем её
+        const mapContainer = document.getElementById('doc-container');
+        if (mapContainer) {
+            generateDynamicMap(missionsData);
+        }
+    } catch (e) { 
+        console.error("SYSTEM // Init Error:", e); 
+    }
 }
+
 
 window.loginViaGithub = () => {
     signInWithPopup(auth, provider).catch(e => alert("AUTH_ERROR"));
 };
 
+window.triggerGlobalTimer = async (mins, goals) => {
+    try {
+        await setDoc(doc(db, "system", "timer"), {
+            startTime: Date.now(),
+            duration: mins * 60,
+            goals: goals,
+            isActive: true
+        });
+        console.log("SYSTEM // Timer Started");
+    } catch (e) { console.error(e); }
+};
+
+window.stopGlobalTimer = async () => {
+    await setDoc(doc(db, "system", "timer"), { isActive: false }, { merge: true });
+};
+
+onSnapshot(doc(db, "system", "timer"), (docSnap) => {
+    const overlay = document.getElementById('global-timer-overlay');
+    if (!overlay) return; // Если оверлея нет на странице, выходим
+
+    const display = document.getElementById('timer-display');
+    const list = document.getElementById('timer-goals-list');
+
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.isActive) {
+            overlay.classList.add('active');
+            if (list && data.goals) list.innerHTML = data.goals.map(g => `<li>${g}</li>`).join('');
+
+            if (window.timerInterval) clearInterval(window.timerInterval);
+            window.timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - data.startTime) / 1000);
+                const remaining = data.duration - elapsed;
+                if (remaining <= 0) {
+                    display.innerText = "00:00";
+                    clearInterval(window.timerInterval);
+                } else {
+                    const m = Math.floor(remaining / 60).toString().padStart(2, '0');
+                    const s = (remaining % 60).toString().padStart(2, '0');
+                    display.innerText = `${m}:${s}`;
+                }
+            }, 1000);
+        } else {
+            overlay.classList.remove('active');
+            if (window.timerInterval) clearInterval(window.timerInterval);
+        }
+    }
+});
+
+function updateTimerUI(data) {
+    const display = document.getElementById('timer-display');
+    const list = document.getElementById('timer-goals-list');
+    
+    // Заполняем цели
+    list.innerHTML = data.goals.map(g => `<li>${g}</li>`).join('');
+
+    if (window.timerInterval) clearInterval(window.timerInterval);
+
+    window.timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - data.startTime) / 1000);
+        const remaining = data.duration - elapsed;
+
+        if (remaining <= 0) {
+            display.innerText = "00:00";
+            display.style.color = "var(--accent-red)";
+            clearInterval(window.timerInterval);
+        } else {
+            const m = Math.floor(remaining / 60).toString().padStart(2, '0');
+            const s = (remaining % 60).toString().padStart(2, '0');
+            display.innerText = `${m}:${s}`;
+        }
+    }, 1000);
+}
+
 onAuthStateChanged(auth, (user) => {
     const overlay = document.getElementById('login-overlay');
     if (user) {
-        overlay.classList.remove('active');
+        if(overlay) overlay.classList.remove('active');
         const roleEl = document.getElementById('user-role');
+        
         isAdmin = (user.uid === ADMIN_UID);
+        localStorage.setItem('userRole', isAdmin ? 'TEACHER_ADMIN' : 'STUDENT');
+
         if (isAdmin) {
             document.body.classList.add('state-admin');
-            roleEl.innerText = 'TEACHER_ADMIN // ROOT';
+            if(roleEl) roleEl.innerText = 'TEACHER_ADMIN // ROOT';
         } else {
             document.body.classList.remove('state-admin');
-            roleEl.innerText = user.displayName ? user.displayName.toUpperCase() : 'DEV_STUDENT';
+            if(roleEl) roleEl.innerText = user.displayName ? user.displayName.toUpperCase() : 'DEV_STUDENT';
         }
-        init();
+        init(); // Запуск данных только после проверки юзера
     } else {
-        overlay.classList.add('active');
+        if(overlay) overlay.classList.add('active');
     }
 });
 

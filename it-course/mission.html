@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="https://kkoova.github.io/mobile-godot/css/style.css">
 </head>
 <body class="nothing-os doc-page">
+    <div id="global-timer-overlay" class="timer-overlay">
+        <div class="timer-content">
+            <div class="timer-header matrix-text">CRITICAL_TIME_LIMIT</div>
+            <div id="timer-display" class="timer-digits">00:00</div>
+            
+            <div class="timer-goals">
+                <div class="goals-label type-body">CURRENT_OBJECTIVES:</div>
+                <ul id="timer-goals-list" class="type-body">
+                    <!-- Сюда попадут цели из Firebase -->
+                </ul>
+            </div>
+            
+            <!-- Кнопка закрытия видна ТОЛЬКО админу, чтобы он мог отменить -->
+            <button id="admin-stop-timer" class="admin-only logout-trigger red" onclick="stopGlobalTimer()">[ ABORT_TIMER ]</button>
+        </div>
+    </div>
     <div class="smart-dots-layer"></div>
     <div class="doc-container">
         <header>

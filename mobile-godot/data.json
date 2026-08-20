@@ -27,11 +27,11 @@
       ]
     },
     {
-      "id": "m03_physics",
-      "title": "03 // PHYSICS_OVERRIDE",
-      "subtitle": "ФИЗИЧЕСКИЙ ДВИЖОК",
+      "id": "m03_inventory",
+      "title": "03 // INVENTORY_RESOURCES",
+      "subtitle": "Система инвентаря и ресурсов",
       "preview_img": "assets/previews/arch.jpg",
-      "godot_path": "missions/m03_physics/index.html",
+      "godot_path": "missions/m03_inventory/index.html",
       "tutorial_url": "03.json",
       "steps": [
         "Работа с RigidBody2D и Kinematic (Character) Body.",

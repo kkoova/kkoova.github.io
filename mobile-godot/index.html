@@ -59,7 +59,6 @@
             </div>
         </section>
     </main>
-
     <div id="mission-overlay" class="mission-overlay">
         <div class="viewport-container full-layout">
             <!-- Левая часть: Игра -->
@@ -150,6 +149,22 @@
             </div>
 
             <button class="logout-trigger white big full-width" onclick="submitFeedWork()">SEND_TO_LOGBOOK</button>
+        </div>
+    </div>
+    <div id="global-timer-overlay" class="timer-overlay">
+        <div class="timer-content">
+            <div class="timer-header matrix-text">CRITICAL_TIME_LIMIT</div>
+            <div id="timer-display" class="timer-digits">00:00</div>
+            
+            <div class="timer-goals">
+                <div class="goals-label type-body">CURRENT_OBJECTIVES:</div>
+                <ul id="timer-goals-list" class="type-body">
+                    <!-- Сюда попадут цели из Firebase -->
+                </ul>
+            </div>
+            
+            <!-- Кнопка закрытия видна ТОЛЬКО админу, чтобы он мог отменить -->
+            <button id="admin-stop-timer" class="admin-only logout-trigger red" onclick="stopGlobalTimer()">[ ABORT_TIMER ]</button>
         </div>
     </div>
     <script type="module" src="js/main.js"></script>

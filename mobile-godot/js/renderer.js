@@ -51,6 +51,19 @@ function renderLesson(data) {
             else if (item.type === 'instruction') {
                 html += `<div class="instruction-block">${formatText(item.val)}</div>`;
             }
+            else if (item.type === 'timer') {
+                const isAdmin = localStorage.getItem('userRole') === 'TEACHER_ADMIN';
+                
+                html += `
+                    <div class="timer-trigger-box">
+                        <div class="type-body yellow">SESSION_TIMER // ${item.minutes} MIN</div>
+                        ${isAdmin ? `
+                            <button class="logout-trigger white" onclick="triggerGlobalTimer(${item.minutes}, ${JSON.stringify(item.goals).replace(/"/g, '&quot;')})">
+                                [ START_GLOBAL_COUNTDOWN ]
+                            </button>
+                        ` : `<p class="type-body" style="opacity:0.5">Ожидание команды преподавателя...</p>`}
+                    </div>`;
+            }
             else if (item.type === 'grid') {
                 let gridHtml = `<div class="steps-grid">`;
                 item.items.forEach((text, i) => {
@@ -176,3 +189,6 @@ function copyCode(elementId, btn) {
 function toggleTreeNode(element) {
     element.classList.toggle('collapsed');
 }
+
+window.renderLesson = renderLesson;
+window.formatText = formatText;

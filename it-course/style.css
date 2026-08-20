@@ -85,6 +85,57 @@ body, html {
     will-change: transform; /* Подсказка браузеру для оптимизации */
 }
 
+.timer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
+    z-index: 100000;
+    display: none; /* Скрыт */
+    justify-content: center;
+    align-items: center;
+}
+
+.timer-overlay.active { display: flex; }
+
+.timer-content {
+    text-align: center;
+    width: 80%;
+}
+
+.timer-digits {
+    font-family: 'NDot', sans-serif;
+    font-size: 15vw;
+    color: var(--accent-yellow);
+    line-height: 1;
+    margin: 20px 0;
+}
+
+.timer-goals {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-accent);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.goals-label { opacity: 0.5; margin-bottom: 15px; font-size: 0.8rem; }
+
+#timer-goals-list { list-style: none; padding: 0; }
+#timer-goals-list li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+#timer-goals-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-yellow);
+}
+
 .screen { position: absolute; transition: 0.8s; }
 
 .view-wheel .wheel-screen { opacity: 1; transform: scale(1); }

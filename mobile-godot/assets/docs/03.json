@@ -1,0 +1,157 @@
+{
+  "unit": "UNIT_03 // DATA_STRUCTURES",
+  "title": "INVENTORY_RESOURCES",
+  "phases": [
+    { 
+      "id": "c1",
+      "label": "PHASE_01 // CREATE_PROJECT",
+      "header": "Подготовка проекта",
+      "items": [
+        { "type": "text", "val": "**Цель**: Создание системы инвентаря и ресурсов" },
+        { "type": "text", "val": "Настройки создания проекта (Скопируйте 02 работу и переименуйте):" },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "03_INVENTORY_RESOURCES"],
+            ["COPY_FROM", "COPY_02_PROJECT"]
+        ]}     
+    ]
+    },
+    {
+      "id": "c2",
+      "label": "PHASE_02 // RESOURCES",
+      "header": "Создание архитектуры предметов",
+      "items": [
+        { "type": "text", "val": "**Цель**: Перейти от хардкода к системе ресурсов. Мы создадим шаблон предмета, который можно переиспользовать." },
+        { "type": "text", "val": "В папке **script** создайте новый скрипт `item_data.gd`. Это будет наш кастомный ресурс." },
+        {
+          "type": "code",
+          "title": "item_data.gd",
+          "code": "extends Resource\n\n# Это название нашего ресурса\nclass_name ItemData\n\n@export var name: String = ''\n@export var icon: Texture2D\n@export var is_tool: bool = false\n@export var damage: int = 0"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Создадим папку **resources** для хранения всех ресурсов.",
+            "Теперь в ней создаем два ресурса: **axe** (Топор), **wood** (Дерево) и **mushroom** (Гриб)."
+          ]
+        },
+        { "type": "tip", "val": "Теперь в инспекторе файлов (FileSystem) можно нажать правую кнопку -> Создать -> Ресурс -> ItemData." },
+        { "type": "text", "val": "Не забудьте заполнить поля для каждого ресурса." },
+        { "type": "button", "text": "FREE_ASSET", "url": "./assets/material/sprite_2.png" }
+      ]
+    },
+    {
+      "id": "c2",
+      "label": "PHASE_02 // INVENTORY_LOGIC",
+      "header": "Менеджер инвентаря (Backend)",
+      "items": [
+        { "type": "text", "val": "Инвентарь должен быть отделен от визуализации. Создадим массив в `global.gd`, который будет хранить наши ресурсы." },
+        {
+          "type": "code",
+          "title": "global.gd (Обновление)",
+          "code": "# Сигнал уведомления об обновлении инвентаря (удаляем старый сигнал)\nsignal inventory_updated\nvar inventory: Array[ItemData] = []\n\nfunc add_item(item: ItemData):\n\t# Добавляем предмет в инвентарь\n\tinventory.append(item)\n\t# Оповещаем UI об изменениях\n\tinventory_updated.emit()"
+        },
+        { "type": "tip", "val": "Использование типизированных массивов `Array[ItemData]` предотвращает ошибки и ускоряет работу кода." }
+      ]
+    },
+    {
+      "id": "c3",
+      "label": "PHASE_03 // UI_GRID",
+      "header": "Визуализация инвентаря",
+      "items": [
+        { "type": "text", "val": "Создадим сетку слотов **inventory.tscn**. Каждый слот — это отдельная сцена с фоном и иконкой." },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Inventory", "type": "CanvasLayer", "level": 0 },
+            { "name": "MarginContainer", "type": "MarginContainer", "level": 1 },
+            { "name": "GridContainer", "type": "Сетка (Columns: 4)", "level": 2 }
+          ]
+        },
+        {
+          "type": "code",
+          "title": "inventory.gd",
+          "code": "extends CanvasLayer\n\n@export var grid: GridContainer\n\nfunc _ready():\n\tGlobal.inventory_updated.connect(refresh_ui)\n\trefresh_ui()\n\nfunc refresh_ui():\n\t# Очистка старых слотов\n\tfor child in grid.get_children(): child.queue_free()\n\t\n\t# Создание новых на основе данных из Global\n\tfor item in Global.inventory:\n\t\tvar slot = TextureRect.new()\n\t\tslot.texture = item.icon\n\t\tgrid.add_child(slot)"
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "label": "PHASE_03 // UI_GRID",
+      "header": "Редактирование прошлого кода грибов",
+      "items": [
+        {
+          "type": "code",
+          "title": "mushroom.gd",
+          "code": "extends Node2D\n\n@export var item_resources: ItemData\n\n# Если в Area2D находиться любое body, вызывается данная функция\nfunc _on_area_2d_body_entered(body: Node2D) -> void:\n\t# Проверка body = Player\n\tif body.name == 'Player':\n\t\t# Вызов add_item с ресурсом ItemData\n\t\tGlobal.add_item(item_resources)\n\t\t# Удаление предмета\n\t\tqueue_free()"
+        },
+        { "type": "text", "val": "Отлично! Теперь количество грибов будет отображаться в инвентаре. Уже немного иначе как было до" }
+      ]
+    },
+    {
+      "id": "c4",
+      "label": "PHASE_04 // TOOLS",
+      "header": "Система инструментов (Экипировка)",
+      "items": [
+        { "type": "text", "val": "Инструмент должен отображаться в руках игрока. Добавим в сцену Player узел `Sprite2D` под названием `Hand`." },
+        { "type": "tip", "val": "Только надо еще добавить действие на, например - левую кнопку мыши **use_tool**" },
+        {
+          "type": "code",
+          "title": "Player.gd (Дополнение)",
+          "code": "@export var hand: Sprite2D\n\nfunc _unhandled_input(event):\n\tif event.is_action_pressed('use_tool'):\n\t\tif Global.inventory.size() > 0:\n\t\t\tvar item = Global.inventory[0]\n\t\t\tif item.is_tool:\n\t\t\t\thand.texture = item.icon"
+        }
+      ]
+    },
+    {
+      "id": "c4",
+      "label": "PHASE_04 // TOOLS",
+      "header": "А все, сами давайте",
+      "items": [
+        {
+          "type": "grid",
+          "items": [
+            "Реализуйте возможность убрать топор из рук игрока, повторно нажав на кнопку **use_tool**.",
+            "Реализуйте поворот спрайта игрока, в зависимости от направления движения."
+          ]
+        },
+        {
+        "type": "timer",
+        "minutes": 15,
+        "goals": [
+            "Реализуйте возможность убрать топор из рук игрока, повторно нажав на кнопку use_tool",
+            "Реализуйте поворот спрайта игрока, в зависимости от направления движения."
+        ]
+        }
+      ]
+    },
+    {
+      "id": "c5",
+      "label": "PHASE_05 // INTERACTION",
+      "header": "Взаимодействие с миром (Tree & Axe)",
+      "items": [
+        { "type": "text", "val": "Создадим дерево, которое можно срубить только топором. Используем сигналы и проверку типа предмета." },
+        {
+          "type": "code",
+          "title": "tree_object.gd",
+          "code": "func _on_area_entered(area):\n\t# Предположим, у игрока есть зона поражения инструмента\n\tvar current_tool = PlayerData.equipped_tool \n\tif current_tool and current_tool.name == 'Axe':\n\t\tspawn_wood()\n\t\tqueue_free()"
+        }
+      ]
+    },
+    {
+      "id": "c6",
+      "label": "PHASE_06 // SAMOSTOYATELNAYA_1",
+      "header": "Система стаканья (Stacking)",
+      "items": [
+        { "type": "text", "val": "Ваша задача: изменить `ItemData` и логику инвентаря так, чтобы одинаковые предметы (например, дерево) не занимали новый слот, а увеличивали счетчик `amount` в существующем." },
+        { "type": "tip", "val": "Добавьте `var amount: int` в ресурс и проверку `if inventory.has(new_item)` при добавлении." }
+      ]
+    },
+    {
+      "id": "c7",
+      "label": "PHASE_07 // SAMOSTOYATELNAYA_2",
+      "header": "Выбрасывание предметов (Drop)",
+      "items": [
+        { "type": "text", "val": "Реализуйте возможность выбросить предмет из инвентаря обратно в мир. При клике на слот в UI предмет должен удаляться из массива `Global.inventory` и спавниться как `Area2D` рядом с игроком." }
+      ]
+    }
+  ]
+}
