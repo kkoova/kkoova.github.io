@@ -1,0 +1,6 @@
+res://assets/world_tile_set.tres::2c5e886fb51334b4720bd4efca8fbb78::1786741578::res://.godot/exported/133200997/export-0dcc2980150cee1ecb64edf7331ad5d8-world_tile_set.res
+res://scenes/object/Camp.tscn::84269a5e57e11fa93ea6a2596740adff::1786741133::res://.godot/exported/133200997/export-62affcf7ea538017a35e7d102c994209-Camp.scn
+res://scenes/object/Mushrooms.tscn::585572362523b87c836b8efb2c0fa13b::1786742113::res://.godot/exported/133200997/export-f4937c41b1c499e236d8564d498a599a-Mushrooms.scn
+res://scenes/object/World.tscn::5a97f8080f39fa1124a666da9a8a3b90::1786742105::res://.godot/exported/133200997/export-1b89a00259dc9e837b6053edf8ea3d17-World.scn
+res://scenes/player/Player.tscn::58ad4e695e17780cc08cbdf966fd8bb2::1786741100::res://.godot/exported/133200997/export-a4e9bb150591131ae307f440fab940ce-Player.scn
+res://scenes/ui/Ui.tscn::52a6318b8cdf3b3d7b5afb7a05034851::1786742032::res://.godot/exported/133200997/export-2dd2d4c246ae34aefa1646f4e116ab9b-Ui.scn

@@ -1,0 +1,39 @@
+[gd_resource type="TileSet" format=3 uid="uid://b5nism541eovc"]
+
+[ext_resource type="Texture2D" uid="uid://cnmdrmc6m2sms" path="res://assets/sprite.png" id="1_hljw0"]
+[ext_resource type="PackedScene" uid="uid://bxives2kea6iq" path="res://scenes/object/Camp.tscn" id="2_qx5i5"]
+[ext_resource type="PackedScene" uid="uid://bq1w0qc00ngn6" path="res://scenes/object/Mushrooms.tscn" id="3_pc570"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_77kmw"]
+texture = ExtResource("1_hljw0")
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-0.26978874, -8, 8, -8, 8, 8, -0.08992958, 8)
+0:0/0 = 0
+1:1/size_in_atlas = Vector2i(2, 1)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10.521736, 4.3166103, 9.442585, 4.4964695, 10.881454, 6.6547737, -12.140464, 6.6547737)
+0:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/animation_separation = Vector2i(3, 0)
+2:2/0 = 0
+3:2/animation_separation = Vector2i(3, 0)
+3:2/0 = 0
+3:1/animation_columns = 2
+3:1/animation_separation = Vector2i(2, 0)
+3:1/0 = 0
+3:0/0 = 0
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:0/0 = 0
+4:2/animation_separation = Vector2i(3, 0)
+4:2/0 = 0
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_qx5i5"]
+scenes/1/scene = ExtResource("2_qx5i5")
+scenes/2/scene = ExtResource("3_pc570")
+
+[resource]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_77kmw")
+sources/3 = SubResource("TileSetScenesCollectionSource_qx5i5")

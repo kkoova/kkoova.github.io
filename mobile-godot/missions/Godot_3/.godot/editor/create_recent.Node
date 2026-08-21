@@ -1,0 +1,14 @@
+Sprite2D
+MarginContainer
+CanvasLayer
+TextureRect
+GridContainer
+PanelContainer
+Label
+HBoxContainer
+CollisionShape2D
+Area2D
+PointLight2D
+CanvasModulate
+AnimatedSprite2D
+CharacterBody2D

@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://x8bgtmhmveo4"]
+
+[ext_resource type="Texture2D" uid="uid://cnmdrmc6m2sms" path="res://assets/sprite.png" id="1_epw6u"]
+[ext_resource type="Script" uid="uid://iuaajc6cdth4" path="res://script/ui.gd" id="1_umya6"]
+[ext_resource type="FontFile" uid="uid://lsgihh8w4j00" path="res://assets/ComicoroRu_0.ttf" id="2_mm6ox"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wo4mn"]
+atlas = ExtResource("1_epw6u")
+region = Rect2(49, 18, 30, 12)
+
+[node name="Count" type="CanvasLayer" unique_id=1223676689 node_paths=PackedStringArray("label")]
+script = ExtResource("1_umya6")
+label = NodePath("MarginContainer/HBoxContainer/Label")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=702163246]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=539248427]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=1400361323]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = SubResource("AtlasTexture_wo4mn")
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1242814222]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.44313726)
+theme_override_fonts/font = ExtResource("2_mm6ox")
+text = "0"
+
+[node name="Label" type="Label" parent="MarginContainer" unique_id=172648927]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 0.40784314)
+theme_override_constants/line_spacing = -3
+theme_override_constants/paragraph_spacing = 0
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("2_mm6ox")
+theme_override_font_sizes/font_size = 16
+text = "Нажмите \"e\" что бы сесть
+Подойдите к грибу что бы его собрать"
+horizontal_alignment = 2
