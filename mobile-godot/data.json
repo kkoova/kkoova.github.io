@@ -38,6 +38,19 @@
         "Слои и маски коллизий (Collision Layers).",
         "Обработка столкновений через RayCast2D."
       ]
+    },
+    {
+      "id": "m04_networking",
+      "title": "04 // NETWORKING",
+      "subtitle": "Мультиплеер и синхронизация объектов",
+      "preview_img": "assets/previews/arch.jpg",
+      "godot_path": "missions/m04_networking/index.html",
+      "tutorial_url": "04.json",
+      "steps": [
+        "Работа с RigidBody2D и Kinematic (Character) Body.",
+        "Слои и маски коллизий (Collision Layers).",
+        "Обработка столкновений через RayCast2D."
+      ]
     }
   ]
 }

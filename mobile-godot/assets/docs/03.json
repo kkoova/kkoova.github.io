@@ -40,9 +40,9 @@
       ]
     },
     {
-      "id": "c2",
-      "label": "PHASE_02 // INVENTORY_LOGIC",
-      "header": "Менеджер инвентаря (Backend)",
+      "id": "c3",
+      "label": "PHASE_03 // INVENTORY_LOGIC",
+      "header": "Менеджер инвентаря",
       "items": [
         { "type": "text", "val": "Инвентарь должен быть отделен от визуализации. Создадим массив в `global.gd`, который будет хранить наши ресурсы." },
         {
@@ -54,8 +54,8 @@
       ]
     },
     {
-      "id": "c3",
-      "label": "PHASE_03 // UI_GRID",
+      "id": "c4",
+      "label": "PHASE_04 // UI_GRID",
       "header": "Визуализация инвентаря",
       "items": [
         { "type": "text", "val": "Создадим сетку слотов **inventory.tscn**. Каждый слот — это отдельная сцена с фоном и иконкой." },
@@ -75,8 +75,8 @@
       ]
     },
     {
-      "id": "c3",
-      "label": "PHASE_03 // UI_GRID",
+      "id": "c5",
+      "label": "PHASE_05 // EDIT_MUSHROOM",
       "header": "Редактирование прошлого кода грибов",
       "items": [
         {
@@ -88,8 +88,8 @@
       ]
     },
     {
-      "id": "c4",
-      "label": "PHASE_04 // TOOLS",
+      "id": "c6",
+      "label": "PHASE_06 // TOOLS",
       "header": "Система инструментов (Экипировка)",
       "items": [
         { "type": "text", "val": "Инструмент должен отображаться в руках игрока. Добавим в сцену Player узел `Sprite2D` под названием `Hand`." },
@@ -102,8 +102,8 @@
       ]
     },
     {
-      "id": "c4",
-      "label": "PHASE_04 // TOOLS",
+      "id": "c7",
+      "label": "PHASE_07 // TOOLS_EXTRA",
       "header": "А все, сами давайте",
       "items": [
         {
@@ -124,21 +124,46 @@
       ]
     },
     {
-      "id": "c5",
-      "label": "PHASE_05 // INTERACTION",
+      "id": "c8",
+      "label": "PHASE_08 // INTERACTION",
       "header": "Взаимодействие с миром (Tree & Axe)",
       "items": [
         { "type": "text", "val": "Создадим дерево, которое можно срубить только топором. Используем сигналы и проверку типа предмета." },
+        { "type": "text", "val": "Создаем сцену **tree** и наполняем её данными:" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "tree", "type": "Node2D", "level": 0 },
+            { "name": "Sprite2D", "type": "Sprite2D", "level": 1 },
+            { "name": "Area2D", "type": "Area2D", "level": 1 },
+            { "name": "CollisionShape2D", "type": "CollisionShape2D", "level": 2 }
+          ]
+        },
+        { "type": "text", "val": "Только для начала надо немного добавить кода в игрока, что бы при 'Взятии топора', он записывался как текущий инструмент:" },
         {
           "type": "code",
-          "title": "tree_object.gd",
-          "code": "func _on_area_entered(area):\n\t# Предположим, у игрока есть зона поражения инструмента\n\tvar current_tool = PlayerData.equipped_tool \n\tif current_tool and current_tool.name == 'Axe':\n\t\tspawn_wood()\n\t\tqueue_free()"
-        }
+          "title": "Player.gd (Дополнение)",
+          "code": "var equipped_tool: ItemData\n# Пишем, что при нажаии ЛКМ - присваиваем equipped_tool, текущий инструмент"
+        },
+        {
+          "type": "code",
+          "title": "tree.gd",
+          "code": "extends Node2D\n\n@export var item_resources: ItemData\n\nfunc _on_area_2d_body_entered(body: Node2D) -> void:\n\tif body.name == 'Player':\n\t\tif body.equipped_tool:\n\t\t\tif body.equipped_tool.name == 'axe':\n\t\t\t\tspawn_wood()\n\t\t\t\tqueue_free()\n\nfunc spawn_wood():\n\tGlobal.add_item(item_resources)"
+        },
+        { "type": "text", "val": "И да, не забудем добавить пару таких деревьев на карту. После - проверяем!" }
+      ]
+    },
+        {
+      "id": "c9",
+      "label": "PHASE_09 // SAMOSTOYATELNAYA_1",
+      "header": "Удаление предметов",
+      "items": [
+        { "type": "text", "val": "Реализуйте возможность удалить предмет из инвентаря. При 'Q' предмет должен удаляться из массива `Global.inventory`." }
       ]
     },
     {
-      "id": "c6",
-      "label": "PHASE_06 // SAMOSTOYATELNAYA_1",
+      "id": "c10",
+      "label": "PHASE_10 // SAMOSTOYATELNAYA_10",
       "header": "Система стаканья (Stacking)",
       "items": [
         { "type": "text", "val": "Ваша задача: изменить `ItemData` и логику инвентаря так, чтобы одинаковые предметы (например, дерево) не занимали новый слот, а увеличивали счетчик `amount` в существующем." },
@@ -146,11 +171,20 @@
       ]
     },
     {
-      "id": "c7",
-      "label": "PHASE_07 // SAMOSTOYATELNAYA_2",
-      "header": "Выбрасывание предметов (Drop)",
+      "id": "с11",
+      "label": "PHASE_11 // GITHUB",
+      "header": "Загрузка на github",
       "items": [
-        { "type": "text", "val": "Реализуйте возможность выбросить предмет из инвентаря обратно в мир. При клике на слот в UI предмет должен удаляться из массива `Global.inventory` и спавниться как `Area2D` рядом с игроком." }
+        { "type": "text", "val": "Загрузка на гитхаб, не забудте кинуть ссылку на проект в [ SUBMIT_REPORT ]." },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "03_INVENTORY_RESOURCES"],
+            ["VISIBLE", "PUBLIC"]
+        ]},
+        {
+          "type": "code",
+          "title": "README.md",
+          "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот или путь к файлу в репозитории, например: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта. \n\n## Стек проекта \n* **Игровой движок / Платформа:** Например: Godot Engine 4.x \n* **Язык программирования:** Например: GDScript / C# \n* **Дополнительные инструменты:** Например: Git, Aseprite, Blender \n\n## Что было использовано в проекте \n* **Узлы (Nodes):** Например: Area2D, CanvasLayer, CharacterBody2D \n* **Паттерны / Подходы:** Например: Глобальный код (Global.gd), Сигналы (Signals) \n* **Ресурсы:** Например: Кастомные спрайты, UI-шрифты \n\n## Самостоятельные работы \n* **Удаление предметов**: Да/Нет \n* **Система стаканья**: Да/Нет"
+        }
       ]
     }
   ]

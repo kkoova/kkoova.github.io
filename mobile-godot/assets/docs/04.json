@@ -1,0 +1,192 @@
+{
+  "unit": "UNIT_04 // NETWORKING",
+  "title": "MULTIPLAYER_FOREST",
+  "phases": [
+    { 
+      "id": "m0",
+      "label": "PHASE_0 // CREATE_PROJECT",
+      "header": "Подготовка проекта",
+      "items": [
+        { "type": "text", "val": "Настройки создания проекта (Скопируйте 03 работу и переименуйте):" },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "04_MULTIPLAYER_FOREST"],
+            ["COPY_FROM", "COPY_03_PROJECT"]
+        ]}     
+    ]
+    },
+    {
+      "id": "m1",
+      "label": "PHASE_01 // NETWORK_UI",
+      "header": "Интерфейс подключения",
+      "items": [
+        { "type": "text", "val": "**Цель**: Создать систему связи между компьютерами в локальной сети колледжа. Один студент становится Хостом (сервером), остальные — Клиентами." },
+        { "type": "text", "val": "В главной сцене (Forest) создадим временное меню для подключения." },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Host", "type": "UI_Layer", "level": 0 },
+            { "name": "MainMenu", "type": "VBoxContainer", "level": 1 },
+            { "name": "HostBtn", "type": "Button (Текст: Host)", "level": 2 },
+            { "name": "JoinBtn", "type": "Button (Текст: Join)", "level": 2 },
+            { "name": "IPInput", "type": "LineEdit (Placeholder: 127.0.0.1)", "level": 2 }
+          ]
+        },
+        { "type": "tip", "val": "Чтобы узнать свой IP в сети колледжа, нажми Win+R, введи `cmd`, затем напиши `ipconfig`. Ищи строку 'IPv4-адрес'." }
+      ]
+    },
+    {
+      "id": "m4",
+      "label": "PHASE_04 // MINI_WORK_1",
+      "header": "Самостоятельная работа №1 (Тема)",
+      "items": [
+        { "type": "text", "val": "Сейчас вид интерфейса как то так себе... создайте для него тему. Для кнопок, лейблов и других элементов." },
+        {
+            "type": "timer",
+            "minutes": 15,
+            "goals": [
+                "Создайте тему для интерфейса (Theme).",
+                "Отредактируйте шрифты, цвета и размеры кнопок, лейблов и других элементов."
+            ]
+        }
+      ]
+    },
+    {
+      "id": "m2",
+      "label": "PHASE_02 // CONNECTION_LOGIC",
+      "header": "Программирование сети (Backend)",
+      "items": [
+        { "type": "text", "val": "Нам нужно создать объект `ENetMultiplayerPeer`, который откроет порт для общения." },
+        {
+          "type": "code",
+          "title": "World.gd",
+          "code": "extends Node2D\n\nvar peer = ENetMultiplayerPeer.new()\n@export var player_scene: PackedScene\n\nfunc _on_host_btn_pressed():\n\tpeer.create_server(7000) # Открываем порт 7000\n\tmultiplayer.multiplayer_peer = peer\n\tadd_player(multiplayer.get_unique_id()) # Добавляем себя\n\t$CanvasLayer/MainMenu.hide()\n\nfunc _on_join_btn_pressed():\n\tvar ip = $CanvasLayer/MainMenu/IPInput.text\n\tpeer.create_client(ip, 7000) # Подключаемся к хосту\n\tmultiplayer.multiplayer_peer = peer\n\t$CanvasLayer/MainMenu.hide()"
+        }
+      ]
+    },
+    {
+      "id": "m3",
+      "label": "PHASE_03 // PLAYER_AUTHORITY",
+      "header": "Авторитет игрока",
+      "items": [
+        { "type": "text", "val": "Критический момент: если в сцене два игрока, скрипт `_physics_process` будет работать для ОБОИХ на ВАШЕМ экране. Нужно запретить управление чужими персонажами." },
+        {
+          "type": "code",
+          "title": "Player.gd",
+          "code": "func _physics_process(delta):\n\t# Если этот узел не принадлежит мне — ничего не делаем\n\tif not is_multiplayer_authority(): return\n\t\n\t# ... далее твой код движения из Урока 2 ...\n\tmove_and_slide()"
+        },
+        { "type": "tip", "val": "Метод `is_multiplayer_authority()` проверяет, является ли текущая копия игры «хозяином» этого узла." }
+      ]
+    },
+    {
+      "id": "m4",
+      "label": "PHASE_04 // MINI_WORK_1",
+      "header": "Самостоятельная работа №1 (Камера)",
+      "items": [
+        { "type": "text", "val": "Сейчас, если зайти в игру вдвоем, камеры будут конфликтовать. Нужно сделать так, чтобы камера включалась только у владельца персонажа." },
+        {
+            "type": "timer",
+            "minutes": 10,
+            "goals": [
+                "В скрипте Player.gd в функции _ready() проверьте авторитет.",
+                "Если это НЕ ваш игрок, выключите его Camera2D: `$Camera2D.enabled = false`.",
+                "Проверьте, что теперь каждый видит мир от своего лица."
+            ]
+        }
+      ]
+    },
+    {
+      "id": "m5",
+      "label": "PHASE_05 // SPAWNER_SYNC",
+      "header": "Синхронизация появления (MultiplayerSpawner)",
+      "items": [
+        { "type": "text", "val": "Чтобы новые игроки появлялись у всех автоматически, добавим узел **MultiplayerSpawner** в сцену Forest." },
+        {
+          "type": "grid",
+          "items": [
+            "В инспекторе Spawner установите **Spawn Path** на корень сцены Forest.",
+            "В список **Auto Spawn List** добавьте вашу сцену `Player.tscn`.",
+            "Теперь при вызове `add_child(player)` на сервере, Godot сам создаст копии у всех клиентов."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m6",
+      "label": "PHASE_06 // POSITION_SYNC",
+      "header": "Синхронизация движения (MultiplayerSynchronizer)",
+      "items": [
+        { "type": "text", "val": "Чтобы персонажи не «телепортировались», а двигались плавно, используем **MultiplayerSynchronizer**." },
+        {
+          "type": "grid",
+          "items": [
+            "Добавьте в сцену Player узел **MultiplayerSynchronizer**.",
+            "В инспекторе создайте новый **Replication Config**.",
+            "Добавьте свойства: `position` и `AnimatedSprite2D:animation`.",
+            "Установите частоту обновления (например, 30 FPS или 'On Change')."
+          ]
+        },
+        { "type": "tip", "val": "Теперь позиция игрока будет автоматически пересылаться по сети без единой строчки кода!" }
+      ]
+    },
+    {
+      "id": "m7",
+      "label": "PHASE_07 // RPC_NAME",
+      "header": "Передача имени (RPC)",
+      "items": [
+        { "type": "text", "val": "Имя из Урока 1 хранится локально. Чтобы другие увидели ваше имя, его нужно передать через **RPC (Remote Procedure Call)**." },
+        {
+          "type": "code",
+          "title": "Player.gd",
+          "code": "# Функция вызывается на всех клиентах\n@rpc(\"any_peer\", \"call_local\")\nfunc set_nick(new_name):\n\t$NameLabel.text = new_name\n\nfunc _ready():\n\tif is_multiplayer_authority():\n\t\tset_nick.rpc(Global.name_user) # Рассылаем всем свое имя"
+        }
+      ]
+    },
+    {
+      "id": "m8",
+      "label": "PHASE_08 // MINI_WORK_2",
+      "header": "Самостоятельная работа №2 (Анимация)",
+      "items": [
+        { "type": "text", "val": "Сейчас поворот персонажа (`flip_h`) может не синхронизироваться." },
+        {
+            "type": "timer",
+            "minutes": 15,
+            "goals": [
+                "Добавьте свойство `flip_h` вашего AnimatedSprite2D в MultiplayerSynchronizer.",
+                "Проверьте в игре: видит ли ваш сосед, когда вы поворачиваетесь влево?",
+                "Попробуйте добавить в синхронизатор свойство `is_sitting` из прошлого урока."
+            ]
+        }
+      ]
+    },
+    {
+      "id": "m9",
+      "label": "PHASE_09 // SYNC_ITEMS",
+      "header": "Синхронизация грибов (Server Authority)",
+      "items": [
+        { "type": "text", "val": "Самое важное в мультиплеере: сбор предметов. Если клиент коснулся гриба, он должен попросить сервер его удалить." },
+        {
+          "type": "code",
+          "title": "Mushroom.gd",
+          "code": "func _on_body_entered(body):\n\tif not multiplayer.is_server(): return # Только сервер может удалять объекты\n\t\n\tif body.is_in_group('players'):\n\t\t# Сообщаем игроку, что он поднял гриб (через RPC)\n\t\t# И удаляем объект для всех\n\t\tqueue_free()"
+        },
+        { "type": "tip", "val": "Если объект удаляется на сервере, MultiplayerSpawner автоматически удалит его у всех клиентов." }
+      ]
+    },
+    {
+      "id": "m10",
+      "label": "PHASE_10 // FINAL_CHALLENGE",
+      "header": "Глобальная самостоятельная работа",
+      "items": [
+        { "type": "text", "val": "Ваша задача — довести проект до состояния мини-выживалки в сети." },
+        {
+          "type": "grid",
+          "items": [
+            "**Задача 1**: Реализуйте 'Список игроков'. В углу экрана должен выводиться список имен всех, кто сейчас в лесу.",
+            "**Задача 2**: Синхронизируйте костер. Если Хост нажимает 'Е' рядом с костром, он загорается у всех игроков (используйте RPC на включение света)."
+          ]
+        },
+        { "type": "text", "val": "В отчете на GitHub обязательно приложите скриншот, где видно сразу два окна запущенной игры (или фото двух мониторов)." }
+      ]
+    }
+  ]
+}

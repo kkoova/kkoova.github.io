@@ -33,7 +33,7 @@ async function init() {
         setInterval(updateSystemUI, 1000);
 
         // Если мы на странице с картой - генерируем её
-        const mapContainer = document.getElementById('doc-container');
+        const mapContainer = document.getElementById('app-container');
         if (mapContainer) {
             generateDynamicMap(missionsData);
         }
