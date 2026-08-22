@@ -1,0 +1,14 @@
+Label
+ColorRect
+VBoxContainer
+LineEdit
+Button
+HBoxContainer
+CanvasLayer
+CollisionShape2D
+Area2D
+Sprite2D
+TextureRect
+MarginContainer
+GridContainer
+PanelContainer

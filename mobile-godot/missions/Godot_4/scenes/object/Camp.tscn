@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bxives2kea6iq"]
+
+[ext_resource type="Texture2D" uid="uid://dx7mwofvwsu2w" path="res://assets/sprite.png" id="1_8v3ee"]
+[ext_resource type="Texture2D" uid="uid://bnj4583runql8" path="res://assets/light.png" id="2_uj71l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfbfs"]
+atlas = ExtResource("1_8v3ee")
+region = Rect2(32, 36, 16, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5nam"]
+atlas = ExtResource("1_8v3ee")
+region = Rect2(48, 36, 16, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nsjlq"]
+atlas = ExtResource("1_8v3ee")
+region = Rect2(64, 36, 16, 12)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wo4mn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfbfs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c5nam")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nsjlq")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wo4mn"]
+radius = 1.0
+
+[node name="Camp" type="Node2D" unique_id=1870165790]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2143309604]
+sprite_frames = SubResource("SpriteFrames_wo4mn")
+autoplay = "default"
+frame_progress = 0.029122783
+
+[node name="Area2D" type="Area2D" parent="." unique_id=20069423]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1146239474]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_wo4mn")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1607699790]
+texture_filter = 1
+color = Color(1, 0.78039217, 0.24705882, 1)
+blend_mode = 2
+shadow_enabled = true
+shadow_color = Color(0, 0, 0.21960784, 0.7058824)
+texture = ExtResource("2_uj71l")
