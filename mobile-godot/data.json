@@ -30,7 +30,7 @@
       "id": "m03_inventory",
       "title": "03 // INVENTORY_RESOURCES",
       "subtitle": "Система инвентаря и ресурсов",
-      "preview_img": "assets/previews/arch.jpg",
+      "preview_img": "assets/previews/lv-3.png",
       "godot_path": "missions/m03_inventory/index.html",
       "tutorial_url": "03.json",
       "steps": [
@@ -43,9 +43,22 @@
       "id": "m04_networking",
       "title": "04 // NETWORKING",
       "subtitle": "Мультиплеер и синхронизация объектов",
-      "preview_img": "assets/previews/arch.jpg",
+      "preview_img": "assets/previews/lv-4.png",
       "godot_path": "missions/m04_networking/index.html",
       "tutorial_url": "04.json",
+      "steps": [
+        "Работа с RigidBody2D и Kinematic (Character) Body.",
+        "Слои и маски коллизий (Collision Layers).",
+        "Обработка столкновений через RayCast2D."
+      ]
+    },
+    {
+      "id": "m05_???",
+      "title": "05 // ???",
+      "subtitle": "???",
+      "preview_img": "assets/previews/lv-5.png",
+      "godot_path": "missions/m05_???.index.html",
+      "tutorial_url": "05.json",
       "steps": [
         "Работа с RigidBody2D и Kinematic (Character) Body.",
         "Слои и маски коллизий (Collision Layers).",

@@ -1,7 +1,0 @@
-res://scenes/ui/host.tscn
-res://resources/axe.tres
-res://resources/mushroom.tres
-res://resources/wood.tres
-res://assets/world_tile_set.tres
-res://script/host.gd
-res://scenes/object/World.tscn

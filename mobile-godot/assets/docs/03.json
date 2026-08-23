@@ -153,17 +153,88 @@
         { "type": "text", "val": "И да, не забудем добавить пару таких деревьев на карту. После - проверяем!" }
       ]
     },
-        {
+    {
       "id": "c9",
-      "label": "PHASE_09 // SAMOSTOYATELNAYA_1",
-      "header": "Удаление предметов",
+      "label": "PHASE_09 // SELECTION_SYSTEM",
+      "header": "Выбор предметов (Колесико мыши)",
       "items": [
-        { "type": "text", "val": "Реализуйте возможность удалить предмет из инвентаря. При 'Q' предмет должен удаляться из массива `Global.inventory`." }
+        { "type": "text", "val": "Чтобы игрок мог переключаться между топором, грибами и деревом, нам нужно ввести понятие 'активного слота'. Мы будем менять индекс и обновлять предмет в руке." },
+        { "type": "tip", "val": "Настройте действия **next_item** (Wheel Down) и **prev_item** (Wheel Up) в настройках ввода." },
+        {
+          "type": "code",
+          "title": "global.gd (Обновление)",
+          "code": "var active_slot_index: int = 0"
+        },
+        {
+          "type": "code",
+          "title": "Player.gd (Логика выбора)",
+          "code": "func _unhandled_input(event):\n\tif event.is_action_pressed('next_item'):\n\t\tchange_selection(1)\n\tif event.is_action_pressed('prev_item'):\n\t\tchange_selection(-1)\n\nfunc change_selection(direction: int):\n\tif Global.inventory.size() == 0: return\n\t\n\t# Алгоритм зацикливания индекса\n\tGlobal.active_slot_index = (Global.active_slot_index + direction) % Global.inventory.size()\n\tif Global.active_slot_index < 0: Global.active_slot_index = Global.inventory.size() - 1\n\t\n\tupdate_hand_visual()"
+        },
+        {
+          "type": "code",
+          "title": "Player.gd (Обновление визуала)",
+          "code": "func update_hand_visual():\n\tvar item = Global.inventory[Global.active_slot_index]\n\tif item:\n\t\thand.texture = item.icon\n\t\tequipped_tool = item if item.is_tool else null\n\telse:\n\t\thand.texture = null\n\t\tequipped_tool = null"
+        },
+        { "type": "tip", "val": "И удалим if event.is_action_pressed('use_tool'):, он больше не нужен" }
       ]
     },
     {
       "id": "c10",
-      "label": "PHASE_10 // SAMOSTOYATELNAYA_10",
+      "label": "PHASE_10 // UI_HIGHLIGHT",
+      "header": "Визуальный отклик в UI",
+      "items": [
+        { "type": "text", "val": "Игрок должен видеть в инвентаре, какой слот сейчас выбран. Добавим рамку выделения." },
+        { "type": "tip", "val": "В сцене **inventory.tscn** добавим более красивую рамку для выбранного слота. Нам надо заменить **TextureRect** на **Button** не забываем настроить для него стиль. Это **focus** и **Normal**" },
+        {
+          "type": "grid",
+          "items": [
+            "Меняем логику в refresh_ui на создание button вместо TextureRect.",
+            "icon, icon_alignment, custom_minimum_size",
+            "Подпишите UI на изменение индекса из игрока (через новый сигнал в Global) **update_selection_visual**.",
+            "В функции **update_selection_visual** меняем стиль кнопки в зависимости от того, выбран ли слот."
+          ]
+        },
+        {
+          "type": "code",
+          "title": "update_selection_visual.gd",
+          "code": "func update_selection_visual():\n\tvar slots = grid.get_children()\n\tfor i in range(slots.size()):\n\t\tif i == Global.active_slot_index:\n\t\t\tslots[i].grab_focus()\n\t\telse:\n\t\t\tslots[i].release_focus()"
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "label": "PHASE_11 // DROP_LOGIC",
+      "header": "Выбрасывание предметов (Клавиша Q)",
+      "items": [
+        { "type": "text", "val": "Выбрасывание предмета состоит из трех шагов: удаление из массива, обновление UI и создание (спавн) объекта в мире." },
+        { "type": "tip", "val": "Для спавна нам понадобится сцена 'выброшенного предмета'. Можно использовать ту же сцену гриба, но сделать её универсальной." },
+        { "type": "text", "val": "Создаем сцену **item**, с таким деревом, а код возьмем из гриба." },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Item", "type": "Node2D", "level": 0 },
+            { "name": "Sprite2D", "type": "Sprite2D", "level": 1 },
+            { "name": "Area2D", "type": "Area2D", "level": 1 },
+            { "name": "CollisionShape2D", "type": "CollisionShape2D", "level": 2 }
+          ]
+        },
+        {
+          "type": "code",
+          "title": "item.gd",
+          "code": "@export var sprite: Sprite2D\n\nfunc _ready() -> void:\n\tsprite.texture = item_resources.icon"
+        },
+        { "type": "text", "val": "Добавим действие для выбрасывания предметов. Q **drop_item** и при нажатии - drop_item" },
+        {
+          "type": "code",
+          "title": "Player.gd (Функция Drop)",
+          "code": "@export var item_world_scene: PackedScene\n\nfunc drop_item():\n\tif Global.inventory.size() > 0:\n\t\tvar item_to_drop = Global.inventory[Global.active_slot_index]\n\t\tGlobal.inventory.remove_at(Global.active_slot_index)\n\t\t\n\t\t# Спавним предмет в мире\n\t\tspawn_dropped_item(item_to_drop)\n\t\t\n\t\t# Корректируем индекс и обновляем всё\n\t\tGlobal.active_slot_index = clamp(Global.active_slot_index, 0, Global.inventory.size() - 1)\n\t\tGlobal.inventory_updated.emit()\n\t\tupdate_hand_visual()\n\nfunc spawn_dropped_item(item_to_drop: ItemData):\n\tvar new_item = item_world_scene.instantiate()\n\t\n\tnew_item.item_resources = item_to_drop\n\t\n\tvar random_offset = Vector2(randf_range(-15, 15), randf_range(-15, 15))\n\tnew_item.position = self.position + random_offset\n\t\n\tget_tree().current_scene.add_child(new_item)"
+        },
+        { "type": "text", "val": "В методе `spawn_dropped_item` мы инстанцируем сцену предмета и передаем ей ресурс `item_to_drop`, чтобы упавший предмет 'знал', чем он является." }
+      ]
+    },
+    {
+      "id": "c12",
+      "label": "PHASE_12 // SAMOSTOYATELNAYA_1",
       "header": "Система стаканья (Stacking)",
       "items": [
         { "type": "text", "val": "Ваша задача: изменить `ItemData` и логику инвентаря так, чтобы одинаковые предметы (например, дерево) не занимали новый слот, а увеличивали счетчик `amount` в существующем." },
@@ -171,8 +242,16 @@
       ]
     },
     {
-      "id": "с11",
-      "label": "PHASE_11 // GITHUB",
+      "id": "c13",
+      "label": "PHASE_13 // SAMOSTOYATELNAYA_2",
+      "header": "Ограничение инвентаря (Inventory Limit)",
+      "items": [
+        { "type": "text", "val": "Ваша задача ограничить количество предметов в инвентаре, при полном заполнении, предмет не подбирается." },
+        { "type": "tip", "val": "Как вариант: Добавьте `@export var max_inventory_size: int = 10` в `global.gd` и проверку `if inventory.size() < max_inventory_size` при добавлении." }]
+    },
+    {
+      "id": "с14",
+      "label": "PHASE_14 // GITHUB",
       "header": "Загрузка на github",
       "items": [
         { "type": "text", "val": "Загрузка на гитхаб, не забудте кинуть ссылку на проект в [ SUBMIT_REPORT ]." },
@@ -183,7 +262,7 @@
         {
           "type": "code",
           "title": "README.md",
-          "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот или путь к файлу в репозитории, например: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта. \n\n## Стек проекта \n* **Игровой движок / Платформа:** Например: Godot Engine 4.x \n* **Язык программирования:** Например: GDScript / C# \n* **Дополнительные инструменты:** Например: Git, Aseprite, Blender \n\n## Что было использовано в проекте \n* **Узлы (Nodes):** Например: Area2D, CanvasLayer, CharacterBody2D \n* **Паттерны / Подходы:** Например: Глобальный код (Global.gd), Сигналы (Signals) \n* **Ресурсы:** Например: Кастомные спрайты, UI-шрифты \n\n## Самостоятельные работы \n* **Удаление предметов**: Да/Нет \n* **Система стаканья**: Да/Нет"
+          "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот или путь к файлу в репозитории, например: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта. \n\n## Стек проекта \n* **Игровой движок / Платформа:** Например: Godot Engine 4.x \n* **Язык программирования:** Например: GDScript / C# \n* **Дополнительные инструменты:** Например: Git, Aseprite, Blender \n\n## Что было использовано в проекте \n* **Узлы (Nodes):** Например: Area2D, CanvasLayer, CharacterBody2D \n* **Паттерны / Подходы:** Например: Глобальный код (Global.gd), Сигналы (Signals) \n* **Ресурсы:** Например: Кастомные спрайты, UI-шрифты \n\n## Самостоятельные работы \n* **Система стаканья**: Да/Нет \n* **Ограничение инвентаря**: Да/Нет"
         }
       ]
     }
