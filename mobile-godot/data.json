@@ -53,12 +53,51 @@
       ]
     },
     {
-      "id": "m05_???",
-      "title": "05 // ???",
-      "subtitle": "???",
+      "id": "m05_networking_extended",
+      "title": "05 // NETWORKING_EXTENDED",
+      "subtitle": "Самостоятельная работа. Доработка проекта с мультиплеером и синхронизацией объектов",
       "preview_img": "assets/previews/lv-5.png",
-      "godot_path": "missions/m05_???.index.html",
+      "godot_path": "missions/m05_networking_extended/index.html",
       "tutorial_url": "05.json",
+      "steps": [
+        "Работа с RigidBody2D и Kinematic (Character) Body.",
+        "Слои и маски коллизий (Collision Layers).",
+        "Обработка столкновений через RayCast2D."
+      ]
+    },
+    {
+      "id": "m06_???",
+      "title": "06 // ???",
+      "subtitle": "Предложите свою тему для разработки",
+      "preview_img": "assets/previews/lv-6.png",
+      "godot_path": "missions/m06_???.index.html",
+      "tutorial_url": "06.json",
+      "steps": [
+        "Работа с RigidBody2D и Kinematic (Character) Body.",
+        "Слои и маски коллизий (Collision Layers).",
+        "Обработка столкновений через RayCast2D."
+      ]
+    },
+    {
+      "id": "m07_???",
+      "title": "07 // ???",
+      "subtitle": "Предложите свою тему для разработки",
+      "preview_img": "assets/previews/lv-6.png",
+      "godot_path": "missions/m07_???.index.html",
+      "tutorial_url": "07.json",
+      "steps": [
+        "Работа с RigidBody2D и Kinematic (Character) Body.",
+        "Слои и маски коллизий (Collision Layers).",
+        "Обработка столкновений через RayCast2D."
+      ]
+    },
+    {
+      "id": "m08_???",
+      "title": "08 // ???",
+      "subtitle": "Предложите свою тему для разработки",
+      "preview_img": "assets/previews/lv-6.png",
+      "godot_path": "missions/m08_???.index.html",
+      "tutorial_url": "08.json",
       "steps": [
         "Работа с RigidBody2D и Kinematic (Character) Body.",
         "Слои и маски коллизий (Collision Layers).",
