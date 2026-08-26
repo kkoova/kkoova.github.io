@@ -99,7 +99,7 @@
         {"label": "Method", "sub": "OCR_LOGIC", "icon": "assets/icons/draw.png"},
         {"label": "Target", "sub": "IDENTITY", "icon": "assets/icons/security.png"}
       ]
-    }, 
+    },
     {
         "id": "10",
         "title": "GODOT_ENGINE",
@@ -180,8 +180,26 @@
         {"label": "Cinema", "sub": "POP-CORN", "icon": "assets/icons/movie.png"},
         {"label": "Brain", "sub": "REFRESH", "icon": "assets/icons/bolt.png"}
       ]
+    },
+    {
+      "id": "11",
+      "title": "PACKET_HUNTER",
+      "tag": "#AI • NEURAL_NETS",
+      "bgImage": "assets/img/ai_bg.jpg",
+      "docsUrl": "packet_hunter.json",
+      "steps": [
+        { "id": "a1", "type": "live", "text": "DATASET: Сбор образцов цифровых подписей" },
+        { "id": "a2", "type": "live", "text": "TRAINING: Настройка нейронных слоев и весов" },
+        { "id": "a3", "type": "self", "text": "TESTING: Проверка нейросети на 'подделку'" },
+        { "id": "a4", "type": "self", "text": "REPORT: Анализ точности (Accuracy) модели" }
+      ],
+      "difficulty": "02",
+      "teamSize": "2",
+      "features": [
+        {"label": "Engine", "sub": "TENSORFLOW", "icon": "assets/icons/brain.png"},
+        {"label": "Method", "sub": "OCR_LOGIC", "icon": "assets/icons/draw.png"},
+        {"label": "Target", "sub": "IDENTITY", "icon": "assets/icons/security.png"}
+      ]
     }
-
-
   ]
 }

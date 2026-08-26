@@ -24,7 +24,7 @@ let topicStatus = {};
 let history = JSON.parse(localStorage.getItem('it_course_history')) || [];
 
 const urlParams = new URLSearchParams(window.location.search);
-const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh11";
+const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh1";
 let isAdmin = false;
 
 async function init() {
