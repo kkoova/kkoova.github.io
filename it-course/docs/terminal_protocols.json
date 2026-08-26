@@ -1,5 +1,5 @@
 {
-  "unit": "UNIT_03 // TERMINAL_PROTOCOLS",
+  "unit": "UNIT_04 // TERMINAL_PROTOCOLS",
   "title": "TERMINAL_PROTOCOLS",
   "phases": [
     {
@@ -73,7 +73,7 @@
         {
           "type": "code",
           "title": "posershell",
-          "code": "scoop install cowsay figlet fastfetch eza bat fzf ripgrep tldr"
+          "code": "scoop install cowsay figlet fastfetch"
         },
         { "type": "text", "val": "Для начала пакет... Говорящая корова, если дословно. Ну так оно и есть." },
         { "type": "grid", "items": [
@@ -101,13 +101,13 @@
       "header": "Самостоятельная работа №1: 'Лабиринт'",
       "items": [
         { "type": "text", "val": "Ваша задача — используя ТОЛЬКО терминал, воссоздать структуру папок на рабочем столе:" },
-        { "type": "text", "val": "**Поэтапно запишите (txt) ваши команды. [команда] - что делала, и так со всеми шагами.** Этот файл понадобится для сдачи работы." },
+        { "type": "text", "val": "**Поэтапно запишите (txt) ваши команды. [команда] - что делали, и так со всеми шагами.** Этот файл понадобится для сдачи работы." },
         { "type": "tree", "nodes": [
             { "name": "ROOT_LABYRINTH", "type": "папка", "level": 0 },
             { "name": "SECTOR_A", "type": "папка", "level": 1 },
-            { "name": "secret.txt", "type": "файл", "level": 2 },
+            { "name": "secret.txt", "type": "файл с вашей фамилией на английском", "level": 2 },
             { "name": "SECTOR_B", "type": "папка", "level": 1 },
-            { "name": "history_log.txt", "type": "файл", "level": 2 }
+            { "name": "history_log.txt", "type": "файл с вашей группой на английском", "level": 2 }
         ]},
         { "type": "text", "val": "После создания структуры, зайдите в папку SECTOR_A и удалите файл secret.txt." }
       ]
@@ -119,10 +119,10 @@
       "items": [
         { "type": "text", "val": "Выполните следующие действия:" },
         { "type": "grid", "items": [
-            "Запустите команду **fastfetch** (или neofetch).",
+            "Запустите команду **fastfetch**.",
             "Сделайте скриншот всего экрана с этим логотипом.",
             "Запустите **figlet** и напиши там свою группу.",
-            "Запустите **cowsay**, написав там Ваше ФИО, и сделайте третий скриншот."
+            "Запустите **cowsay**, с другим животным, написав там Ваше ФИО, и сделайте третий скриншот."
         ]}
       ]
     },
@@ -138,7 +138,17 @@
             "Внутри создайте папку **screenshots**, куда загрузите все 3 скрина из заданий.",
             "Создайте файл **README.md** внутри папки **04_TERMINAL_MASTER**."
         ]},
-        { "type": "code", "title": "Пример оформления README.md", "code": "# ОТЧЕТ: TERMINAL_PROTOCOLS\n\n## ВЫПОЛНЕННЫЕ ШАГИ\n1. Освоена навигация в системе через команды.\n2. Создана и очищена структура папок 'Лабиринт'.\n3. Установлены и протестированы утилиты визуализации.\n\n ## ЛАБИРИНТ\n[Открыть текстовый файл](document.txt)\n\n## ОТЧЕТ СИСТЕМЫ\n### Системная информация\n![Fastfetch](./screenshots/screen1.png)\n\n### Красивый текст\n![Figlet](./screenshots/screen2.png)\n\n### Сообщение от Cowsay\n![Cowsay](./screenshots/screen3.png)" }
+        { "type": "tree", "nodes": [
+            { "name": "IT_PROJECTS", "type": "папка", "level": 0 },
+            { "name": "04_TERMINAL_MASTER", "type": "папка", "level": 1 },
+            { "name": "labirint.txt", "type": "файл кодом команд", "level": 2 },
+            { "name": "screenshots", "type": "папка", "level": 2 },
+            { "name": "image-1.png", "type": "Картинка из терминала", "level": 3 },
+            { "name": "image-2.png", "type": "Картинка из терминала", "level": 3 },
+            { "name": "image-3.png", "type": "Картинка из терминала", "level": 3 },
+            { "name": "README.md", "type": "файл с вашим описанием работы", "level": 2 }
+        ]},
+        { "type": "code", "title": "Пример оформления README.md", "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n## ВЫПОЛНЕННЫЕ ШАГИ\n1. Освоена навигация в системе через команды.\n2. Создана и очищена структура папок 'Лабиринт'.\n3. Установлены и протестированы утилиты визуализации.\n\n ## ЛАБИРИНТ\n[Открыть текстовый файл](document.txt)\n\n## ОТЧЕТ СИСТЕМЫ\n### Системная информация\n![Fastfetch](./screenshots/screen1.png)\n\n### Красивый текст\n![Figlet](./screenshots/screen2.png)\n\n### Сообщение от Cowsay\n![Cowsay](./screenshots/screen3.png)" }
       ]
     }
   ]

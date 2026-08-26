@@ -79,8 +79,29 @@
             {"label": "Rule", "sub": "NO_UNDO", "icon": "assets/icons/alert.png"},
             {"label": "Skill", "sub": "LERP", "icon": "assets/icons/gear.png"}
           ]
-    }, {
-        "id": "05",
+    },
+    {
+      "id": "05",
+      "title": "AI_SIGNATURE",
+      "tag": "#AI • NEURAL_NETS",
+      "bgImage": "assets/img/ai_bg.jpg",
+      "docsUrl": "ai_signature.json",
+      "steps": [
+        { "id": "a1", "type": "live", "text": "DATASET: Сбор образцов цифровых подписей" },
+        { "id": "a2", "type": "live", "text": "TRAINING: Настройка нейронных слоев и весов" },
+        { "id": "a3", "type": "self", "text": "TESTING: Проверка нейросети на 'подделку'" },
+        { "id": "a4", "type": "self", "text": "REPORT: Анализ точности (Accuracy) модели" }
+      ],
+      "difficulty": "02",
+      "teamSize": "2",
+      "features": [
+        {"label": "Engine", "sub": "TENSORFLOW", "icon": "assets/icons/brain.png"},
+        {"label": "Method", "sub": "OCR_LOGIC", "icon": "assets/icons/draw.png"},
+        {"label": "Target", "sub": "IDENTITY", "icon": "assets/icons/security.png"}
+      ]
+    }, 
+    {
+        "id": "10",
         "title": "GODOT_ENGINE",
         "tag": "#GAMEDEV • LOGIC",
         "bgImage": "assets/img/godot_bg.jpg",

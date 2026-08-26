@@ -5,4 +5,3 @@
 - [Мобильная разработка](https://kkoova.github.io/mobile)
 - [Федеральный проект "Код будущего"](https://kkoova.github.io/cod-budushego/)
 - [Введение в специальность](https://kkoova.github.io/it-course/)
-
