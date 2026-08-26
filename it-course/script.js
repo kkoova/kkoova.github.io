@@ -128,15 +128,40 @@ function drawWheel() {
 window.spin = () => {
     if (isSpinning || !isAdmin) return;
 
+    // 1. Получаем список всех еще не выполненных тем
     const availableTopics = config.topics.filter(t => !topicStatus[t.id]);
+    
     if (availableTopics.length === 0) return alert("ALL_COMPLETED");
 
     isSpinning = true;
-    const targetTopic = availableTopics[Math.floor(Math.random() * availableTopics.length)];
+
+    // --- ЛОГИКА ПЕРВОГО ЗАПУСКА ---
+    let targetTopic;
+
+    // Проверяем, есть ли хоть одна выполненная тема в базе (done: true)
+    const completedCount = Object.values(topicStatus).filter(status => status === true).length;
+
+    if (completedCount === 0) {
+        // Если ничего еще не пройдено — принудительно находим тему 01
+        targetTopic = config.topics.find(t => t.id === "01");
+        
+        // На случай, если Вы случайно удалили ID 01 из JSON
+        if (!targetTopic) {
+            targetTopic = availableTopics[Math.floor(Math.random() * availableTopics.length)];
+        }
+    } else {
+        // Если база не пуста — выбираем случайную тему из доступных
+        targetTopic = availableTopics[Math.floor(Math.random() * availableTopics.length)];
+    }
+    // ------------------------------
+
+    // Находим индекс цели в общем списке для расчета анимации
     const targetIndex = config.topics.findIndex(t => t.id === targetTopic.id);
     
     const sliceDeg = 360 / config.topics.length;
     const targetCenter = (targetIndex * sliceDeg) + (sliceDeg / 2);
+    
+    // 2160 - это 6 полных оборотов
     const finalDeg = 2160 + (360 - targetCenter + 270) % 360;
 
     const wheel = document.getElementById('wheel');

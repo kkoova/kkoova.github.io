@@ -20,6 +20,11 @@
     --border-white: rgba(255, 255, 255, 1);
 }
 
+#app-container {
+    pointer-events: none;
+    z-index: 10;
+}
+
 body, html {
     margin: 0; padding: 0;
     background: var(--bg-black);
@@ -142,7 +147,7 @@ body, html {
 .view-wheel .product-screen { opacity: 0; transform: scale(1.1); pointer-events: none; }
 
 .view-result .wheel-screen { opacity: 0; transform: scale(0.9); filter: blur(20px); pointer-events: none; }
-.view-result .product-screen { opacity: 1; transform: scale(1); }
+.view-result .product-screen { pointer-events: all; opacity: 1; transform: scale(1); }
 
 .wheel-box {
     position: relative;
@@ -297,6 +302,7 @@ body, html {
 }
 
 .student-input-zone {
+    pointer-events: all;
     margin-top: 20px;
     display: flex;
     gap: 10px;
