@@ -101,41 +101,6 @@
       ]
     },
     {
-        "id": "10",
-        "title": "GODOT_ENGINE",
-        "tag": "#GAMEDEV • LOGIC",
-        "bgImage": "assets/img/godot_bg.jpg",
-        "docsUrl": "docs/godot_labyrinth.html",
-        "steps": [
-          { "id": "g1", "type": "live", "text": "SCENE: Создание игрока (CharacterBody2D)" },
-          { "id": "g2", "type": "live", "text": "TILEMAP: Постройка лабиринта из плиток" },
-          { "id": "g3", "type": "self", "text": "CODE: Программирование движения (WASD)" },
-          { "id": "g4", "type": "self", "text": "WIN_COND: Сбор ключа и открытие двери" }
-        ],
-        "difficulty": "02", "teamSize": "2",
-        "features": [
-            {"label": "Env", "sub": "LINUX", "icon": "assets/icons/linux.png"},
-            {"label": "CLI", "sub": "BASH", "icon": "assets/icons/terminal.png"},
-            {"label": "Rule", "sub": "NO_UNDO", "icon": "assets/icons/alert.png"},
-            {"label": "Skill", "sub": "LERP", "icon": "assets/icons/gear.png"}
-          ]
-      },{
-      "id": "06",
-      "title": "INSIDER_VIEW",
-      "tag": "#COMMUNITY • TEA",
-      "bgImage": "assets/img/tea_bg.jpg",
-      "docsUrl": null,
-      "steps": [
-        { "id": "i1", "type": "live", "text": "DIPLOMA: Разбор реальных дипломных работ" },
-        { "id": "i2", "type": "live", "text": "GUEST: Встреча со старшекурсником" },
-        { "id": "i3", "type": "live", "text": "Q&A: Ответы на все вопросы" }
-      ],
-      "difficulty": "00", "teamSize": "ALL",
-      "features": [
-        {"label": "Status", "sub": "NO_CODE", "icon": "assets/icons/cup.png"},
-        {"label": "Mood", "sub": "RELAX", "icon": "assets/icons/heart.png"}
-      ]
-    },{
       "id": "07",
       "title": "WEB_LAYOUT",
       "tag": "#FRONTEND • CSS",
@@ -165,22 +130,27 @@
         {"label": "Cinema", "sub": "POP-CORN", "icon": "assets/icons/movie.png"},
         {"label": "Brain", "sub": "REFRESH", "icon": "assets/icons/bolt.png"}
       ]
-    },{
-      "id": "09",
-      "title": "LIVE_WORK",
-      "tag": "#COMMUNITY • BREAK",
-      "bgImage": "assets/img/movie_bg.jpg",
-      "docsUrl": null,
-      "steps": [
-        { "id": "r1", "type": "live", "text": "DIPLOMA: Разбор реальных дипломных работ" },
-        { "id": "r2", "type": "live", "text": "Q&A: Ответы на все вопросы" }
-      ],
-      "difficulty": "00", "teamSize": "ALL",
-      "features": [
-        {"label": "Cinema", "sub": "POP-CORN", "icon": "assets/icons/movie.png"},
-        {"label": "Brain", "sub": "REFRESH", "icon": "assets/icons/bolt.png"}
-      ]
     },
+    {
+        "id": "09",
+        "title": "TETRIS_ENGINE",
+        "tag": "#GAMEDEV • LOGIC",
+        "bgImage": "assets/img/godot_bg.jpg",
+        "docsUrl": "tetris.html",
+        "steps": [
+          { "id": "g1", "type": "live", "text": "SCENE: Создание игрока (CharacterBody2D)" },
+          { "id": "g2", "type": "live", "text": "TILEMAP: Постройка лабиринта из плиток" },
+          { "id": "g3", "type": "self", "text": "CODE: Программирование движения (WASD)" },
+          { "id": "g4", "type": "self", "text": "WIN_COND: Сбор ключа и открытие двери" }
+        ],
+        "difficulty": "02", "teamSize": "2",
+        "features": [
+            {"label": "Env", "sub": "LINUX", "icon": "assets/icons/linux.png"},
+            {"label": "CLI", "sub": "BASH", "icon": "assets/icons/terminal.png"},
+            {"label": "Rule", "sub": "NO_UNDO", "icon": "assets/icons/alert.png"},
+            {"label": "Skill", "sub": "LERP", "icon": "assets/icons/gear.png"}
+          ]
+      },
     {
       "id": "11",
       "title": "PACKET_HUNTER",
