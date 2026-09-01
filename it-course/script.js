@@ -178,10 +178,7 @@ function showTopic(topic) {
     document.getElementById('productBg').style.backgroundImage = `url(${topic.bgImage})`;
     document.getElementById('topicTitle').innerText = topic.title;
     document.getElementById('topicTag').innerText = "ID // " + topic.id;
-    document.getElementById('liveTask').innerText = topic.liveTask;
-    document.getElementById('selfTask').innerText = topic.selfTask;
-    document.getElementById('teamSize').innerText = topic.teamSize;
-    document.getElementById('difficulty').innerText = topic.difficulty;
+
 
     const feats = document.getElementById('features-container');
     feats.innerHTML = '';

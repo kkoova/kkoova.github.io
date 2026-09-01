@@ -15,10 +15,10 @@
       "difficulty": "01",
       "teamSize": "1",
       "features": [
-        {"label": "System", "sub": "GIT_VCS", "icon": "assets/icons/git.png"},
-        {"label": "Cloud", "sub": "GITHUB", "icon": "assets/icons/github.png"},
-        {"label": "Type", "sub": "SAVE_SYSTEM", "icon": "assets/icons/save.png"},
-        {"label": "Goal", "sub": "PORTFOLIO", "icon": "assets/icons/star.png"}
+        {"label": "System", "sub": "GIT_VCS", "icon": "https://www.svgrepo.com/show/486224/system-settings-backup.svg"},
+        {"label": "Cloud", "sub": "GITHUB", "icon": "https://www.svgrepo.com/show/532034/cloud-arrow-down.svg"},
+        {"label": "Type", "sub": "SAVE_SYSTEM", "icon": "https://www.svgrepo.com/show/521318/type-16.svg"},
+        {"label": "Goal", "sub": "PORTFOLIO", "icon": "https://www.svgrepo.com/show/480956/goal-1.svg"}
       ]
     },
     {
