@@ -11,13 +11,22 @@
         { "type": "text", "val": "Для начала установим **GODOT**. С официального сайта или по пути..." },
         { "type": "text", "val": "Настройки проекта:" },
         { "type": "config", "data": [
-            ["PROJECT_NAME", "UI_FIO"],
-            ["RENDERER", "COMPATIBILITY"],
-            ["VIEWPORT", "186 x 132 px"],
-            ["WINDOW", "930 x 660 px"]
+            ["PROJECT_NAME", "01_DIGITAL_UI_CARD"],
+            ["RENDERER", "COMPATIBILITY"]
         ]},
-        { "type": "tip", "val": "Режим Integer предотвращает мыло при масштабировании." },
-        { "type": "button", "text": "OFFICIAL_WEBSITE", "url": "https://godotengine.org/" }
+        { "type": "tip", "val": "Проект -> Настройки проекта:" },
+        { "type": "text", "val": "Дисплей -> Окно:" },
+        { "type": "config", "data": [
+            ["Ширина x Высота окна просмотра", "226 x 132 px"],
+            ["Режим", "Exclusive Fullscreen"],
+            ["Преопределение ширины x высоты окна", "970 x 660 px"],
+            ["Режим & Режим масштабирования (Растягивание)", "vieport & integer"]
+        ]},
+        { "type": "text", "val": "*Рендеринг* -> Текстуры:" },
+        { "type": "config", "data": [
+            ["Фильтр текстур по умолчанию", "Nearest"]
+        ]},
+        { "type": "button", "text": "OFFICIAL_WEBSITE_GODOT", "url": "https://godotengine.org/" }
       ]
     },
     {
@@ -301,6 +310,23 @@
           "type": "code",
           "title": "ui.gd",
           "code": "func update_info(): \n\t# Расчет уровня (может быть любой) \n\tif int(Global.hp) > 9 && int(Global.hov) > 5: \n\t\tLv_label.text = '5' \n\telse: \n\t\tLv_label.text = '1' \n\t \n\t# Добавление информаци в Label (Добавьте недостающие)  \n\tName_label.text = str(Global.name_user)"
+        }
+      ]
+    },
+    {
+      "id": "с14",
+      "label": "PHASE_14 // GITHUB",
+      "header": "Загрузка на github",
+      "items": [
+        { "type": "text", "val": "Загрузка на гитхаб, не забудте кинуть ссылку на проект в [ SUBMIT_REPORT ]." },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "01_DIGITAL_UI_CARD"],
+            ["VISIBLE", "PUBLIC"]
+        ]},
+        {
+          "type": "code",
+          "title": "README.md",
+          "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот или путь к файлу в репозитории, например: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта. \n\n## Стек проекта \n* **Игровой движок / Платформа:** Например: Godot Engine 4.x \n* **Язык программирования:** Например: GDScript / C# \n* **Дополнительные инструменты:** Например: Git, Aseprite, Blender \n\n## Что было использовано в проекте \n* **Узлы (Nodes):** Например: Area2D, CanvasLayer, CharacterBody2D \n* **Паттерны / Подходы:** Например: Глобальный код (Global.gd), Сигналы (Signals) \n* **Ресурсы:** Например: Кастомные спрайты, UI-шрифты \n\n## Самостоятельные работы \n* **Имя игрока**: Да/Нет \n* **Переход на другую сцену**: Да/Нет"
         }
       ]
     }
