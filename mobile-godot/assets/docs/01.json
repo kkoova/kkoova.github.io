@@ -305,12 +305,24 @@
           "code": "extends Control \n\n# Добавьте что надо \n@export var hearts_container: HBoxContainer \n\n# Укажите ссылку на текстуру сердца \nvar heart_texture = preload('res://assets/heart.png') \n\n# Функция что будет запускаться при запуске сцены \nfunc _ready() -> void: \n\t# Вывод информации на карточку \n\tupdate_info() \n\t# Подсчет и вывод сердец \n\tupdate_hp_display() \n\t# Время \n\ttimer_timeout()"
         },
         { "type": "text", "val": "Теперь функция для обновления информации" },
-        { "type": "tip", "val": "Не забудьте крепить обьекты к коду! для @export" },
         {
           "type": "code",
           "title": "ui.gd",
           "code": "func update_info(): \n\t# Расчет уровня (может быть любой) \n\tif int(Global.hp) > 9 && int(Global.hov) > 5: \n\t\tLv_label.text = '5' \n\telse: \n\t\tLv_label.text = '1' \n\t \n\t# Добавление информаци в Label (Добавьте недостающие)  \n\tName_label.text = str(Global.name_user)"
-        }
+        },
+        { "type": "text", "val": "Теперь функция для создания сердец" },
+        {
+          "type": "code",
+          "title": "ui.gd",
+          "code": "func update_hearts(hp_value: int):\n\t# Отчищаем контейнер - на всякий случай\n\tfor child in hearts_container.get_children():\n\t\tchild.queue_free()\n\t# Считаем количество сердец\n\tvar count = floor(hp_value / 2)\n\t# Создание текстур в виде сердца\n\tfor i in range(count):\n\t\tvar rect = TextureRect.new()\n\t\trect.texture = heart_icon\n\t\trect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE\n\t\trect.custom_minimum_size = Vector2(32, 32)\n\t\thearts_container.add_child(rect)"
+        },
+        { "type": "text", "val": "И настройка времени" },
+        {
+          "type": "code",
+          "title": "ui.gd",
+          "code": "func update_time():\n\tvar t = Time.get_time_dict_from_system()\n\ttime_label.text = '%02d:%02d' % [t.hour, t.minute]\n\n# Сигнал от Timer\nfunc _on_timer_timeout():\n\tupdate_time()"
+        },
+        { "type": "tip", "val": "Не забудьте крепить обьекты к коду! для @export" }
       ]
     },
     {
@@ -326,7 +338,7 @@
         {
           "type": "code",
           "title": "README.md",
-          "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот или путь к файлу в репозитории, например: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта. \n\n## Стек проекта \n* **Игровой движок / Платформа:** Например: Godot Engine 4.x \n* **Язык программирования:** Например: GDScript / C# \n* **Дополнительные инструменты:** Например: Git, Aseprite, Blender \n\n## Что было использовано в проекте \n* **Узлы (Nodes):** Например: Area2D, CanvasLayer, CharacterBody2D \n* **Паттерны / Подходы:** Например: Глобальный код (Global.gd), Сигналы (Signals) \n* **Ресурсы:** Например: Кастомные спрайты, UI-шрифты"
+          "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот или путь к файлу в репозитории, например: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта. \n\n## Что было использовано в проекте \n* **Узлы (Nodes):** Например: Area2D, CanvasLayer, CharacterBody2D \n* **Паттерны / Подходы:** Например: Глобальный код (Global.gd), Сигналы (Signals) \n* **Ресурсы:** Например: Кастомные спрайты, UI-шрифты"
         }
       ]
     }
