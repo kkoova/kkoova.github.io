@@ -66,16 +66,16 @@
       ]
     },
     {
-      "id": "m06_???",
-      "title": "06 // ???",
-      "subtitle": "Предложите свою тему для разработки",
-      "preview_img": "assets/previews/lv-6.png",
-      "godot_path": "missions/m06_???.index.html",
+      "id": "m06_tetris_core",
+      "title": "06 // TETTRIS_CORE",
+      "subtitle": "Создание тетриса, подсчета очков и уровней",
+      "preview_img": "assets/previews/lv-tet6.png",
+      "godot_path": "missions/m06_tetris/index.html",
       "tutorial_url": "06.json",
       "steps": [
-        "Работа с RigidBody2D и Kinematic (Character) Body.",
-        "Слои и маски коллизий (Collision Layers).",
-        "Обработка столкновений через RayCast2D."
+        "Работа с ресурсами и их рандом",
+        "Таймер и как он работает",
+        "Обработка позиции блока в TileMapLayer"
       ]
     },
     {

@@ -1,0 +1,181 @@
+{
+  "unit": "UNIT_06 // TETRIS_CORE",
+  "title": "TETRIS_CORE",
+  "phases": [
+    { 
+      "id": "t0",
+      "label": "PHASE_0 // PROJECT_SETUP",
+      "header": "Подготовка проекта",
+      "items": [
+        { "type": "text", "val": "**Цель**: Создать Тетрис. Все как надо, удаление линий, подсчет очков и повышение скорости в зависимости от уровня" },
+        { "type": "text", "val": "Создайте новый проект или очистите прошлый. Тетрис требует точности, поэтому настроим сцену строго под формат 10*20." },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "06_TETRIS_CORE"],
+            ["RENDERER", "Nearest"],
+            ["WINDOW_SIZE", "320 x 160 px"],
+            ["Режим", "Exclusive Fullscreen"]
+        ]},
+        { "type": "tip", "val": "В этом проекте мы будем использовать **TileMapLayer** для отрисовки блоков и **Vector2i** для всех расчетов в сетке." }
+      ]
+    },
+    {
+      "id": "t1",
+      "label": "PHASE_01 // DATA_STRUCTURE",
+      "header": "Архитектура фигур (Resources)",
+      "items": [
+        { "type": "text", "val": "Тетрис - это набор из 7 фигур. Мы создадим ресурс для каждой фигуры. Каждая фигура - это набор координат относительно центра." },
+        {
+          "type": "code",
+          "title": "tetromino_data.gd",
+          "code": "extends Resource\nclass_name TetrominoData\n\n@export var name: String\n@export var cells: Array[Vector2i] # Координаты блоков, например [(0,0), (1,0), (0,1), (1,1)] для куба\n@export var atlas_coords: Vector2i # Позиция плитки в вашем TileSet"
+        },
+        { "type": "grid", "items": [
+            "Создайте папку `resources/tetrominoes/`.",
+            "Создайте 7 ресурсов (I, O, T, S, Z, J, L) на базе `TetrominoData`.",
+            "Настройте координаты `cells` для каждой фигуры."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "t2",
+      "label": "PHASE_02 // GRID_LOGIC",
+      "header": "Игровое поле и коллизии",
+      "items": [
+        { "type": "text", "val": "Создадим сцену **Board.tscn**. В ней будет логика падения фигур. Главная функция здесь — `is_valid_move`." },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Board", "type": "Node2D", "level": 0 },
+            { "name": "TileMapLayer", "type": "Поле (10x20)", "level": 1 },
+            { "name": "Timer", "type": "Скорость падения", "level": 1 }
+          ]
+        },
+        {
+          "type": "code",
+          "title": "board.gd (Коллизии)",
+          "code": "func is_valid_move(piece_cells: Array[Vector2i], offset: Vector2i) -> bool:\n\tfor cell in piece_cells:\n\t\tvar new_pos = cell + offset\n\t\t# 1. Проверка границ поля\n\t\tif new_pos.x < 0 or new_pos.x >= 10 or new_pos.y >= 20:\n\t\t\treturn false\n\t\t# 2. Проверка столкновения с уже лежащими блоками\n\t\tif tile_map.get_cell_source_id(new_pos) != -1:\n\t\t\treturn false\n\treturn true"
+        }
+      ]
+    },
+    {
+      "id": "t3",
+      "label": "PHASE_03 // MINI_WORK_1",
+      "header": "Самостоятельная работа: Гравитация",
+      "items": [
+        { "type": "text", "val": "Реализуйте падение текущей фигуры вниз по таймеру." },
+        {
+            "type": "timer",
+            "minutes": 15,
+            "goals": [
+                "Если `is_valid_move` вниз возвращает `true` — сдвигаем фигуру.",
+                "Если `false` — «запекаем» фигуру в TileMapLayer через `set_cell` и спавним новую."
+            ]
+        }
+      ]
+    },
+    {
+      "id": "t4",
+      "label": "PHASE_04 // ROOM_LOBBY",
+      "header": "Сетевые комнаты (Rooms)",
+      "items": [
+        { "type": "text", "val": "В соревновательном тетрисе нам нужно лобби. Игроки подключаются и ждут команды 'СТАРТ'." },
+        {
+          "type": "code",
+          "title": "network_manager.gd",
+          "code": "extends Node\n\nsignal game_started\n\n@rpc('authority', 'call_local')\nfunc start_game():\n\tgame_started.emit()\n\tprint('БИТВА НАЧАЛАСЬ!')\n\nfunc _on_start_button_pressed():\n\tif multiplayer.is_server():\n\t\tstart_game.rpc() # Запускаем тетрис у всех одновременно"
+        },
+        { "type": "tip", "val": "Важно синхронизировать время начала, чтобы у всех игроков фигуры падали в одном ритме." }
+      ]
+    },
+    {
+      "id": "t5",
+      "label": "PHASE_05 // OPPONENT_VIEW",
+      "header": "Синхронизация прогресса (Превью)",
+      "items": [
+        { "type": "text", "val": "Чтобы видеть поле соперника, мы будем передавать по сети количество очков и текущую заполненность поля." },
+        {
+          "type": "code",
+          "title": "board.gd (Sync)",
+          "code": "@rpc('any_peer', 'unreliable')\nfunc sync_opponent_data(score: int, lines: int):\n\t# Обновляем маленькое превью-окошко соперника\n\tOpponentUI.update_info(score, lines)\n\nfunc _on_lines_cleared(count):\n\tsync_opponent_data.rpc(total_score, total_lines)"
+        }
+      ]
+    },
+    {
+      "id": "t6",
+      "label": "PHASE_06 // MINI_WORK_2",
+      "header": "Самостоятельная работа: Поворот",
+      "items": [
+        { "type": "text", "val": "Реализуйте поворот фигуры на 90 градусов (клавиша Up или Space)." },
+        {
+            "type": "timer",
+            "minutes": 15,
+            "goals": [
+                "Используйте формулу поворота координат: `new_x = -y`, `new_y = x`.",
+                "Не забудьте проверить `is_valid_move` после поворота, чтобы фигура не застряла в стене."
+            ]
+        }
+      ]
+    },
+    {
+      "id": "t7",
+      "label": "PHASE_07 // GARBAGE_MECHANIC",
+      "header": "Механика атак (Garbage Lines)",
+      "items": [
+        { "type": "text", "val": "Это то, что делает Тетрис соревновательным! Если вы стерли 2 линии сразу — отправьте одну 'битую' линию сопернику." },
+        {
+          "type": "code",
+          "title": "combat_logic.gd",
+          "code": "@rpc('any_peer', 'call_remote')\nfunc receive_garbage(count: int):\n\t# Сдвигаем всё поле игрока вверх на 'count' линий\n\t# И снизу добавляем линии с одной случайной дыркой\n\tfor i in range(count):\n\t\tgrid.add_garbage_row()"
+        },
+        { "type": "tip", "val": "Используйте `rpc_id(opponent_id, ...)` чтобы атаковать конкретного игрока." }
+      ]
+    },
+    {
+      "id": "t8",
+      "label": "PHASE_08 // WIN_CONDITION",
+      "header": "Условие победы и поражения",
+      "items": [
+        { "type": "text", "val": "Когда новые блоки не могут появиться (Game Over), игрок сообщает об этом серверу." },
+        {
+          "type": "code",
+          "title": "game_manager.gd",
+          "code": "@rpc('any_peer', 'call_local')\nfunc player_lost(id: int):\n\tprint('Игрок ', id, ' выбыл из битвы!')\n\tcheck_winner()"
+        }
+      ]
+    },
+    {
+      "id": "t9",
+      "label": "PHASE_09 // GLOBAL_TASK",
+      "header": "Самостоятельная работа",
+      "items": [
+        { "type": "text", "val": "Добавьте визуальные эффекты для победы и поражения." },
+        {
+          "type": "grid",
+          "items": [
+            "**Ghost Piece**: Сделайте полупрозрачную тень фигуры, показывающую, куда она упадет.",
+            "**Speed Up**: Каждую минуту увеличивайте скорость падения блоков на 10%.",
+            "**Combo**: Добавьте множитель очков за последовательное стирание линий."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "с10",
+      "label": "PHASE_10 // GITHUB",
+      "header": "Загрузка на github",
+      "items": [
+        { "type": "text", "val": "Загрузите проект. README должен содержать описание алгоритма `is_valid_move` и работы системы RPC." },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "05_NET_TETRIS"],
+            ["VISIBLE", "PUBLIC"]
+        ]},
+        {
+          "type": "code",
+          "title": "README.md",
+          "code": "# 05_NET_TETRIS\n\n> **Автор:** ФИО\n\n## Реализовано\n* Алгоритм проверки коллизий в сетке\n* Ресурсная система фигур TetrominoData\n* Сетевое лобби с синхронным стартом\n* Механика атаки соперника (Garbage Lines)\n* [ ] Тень фигуры (Ghost Piece)"
+        }
+      ]
+    }
+  ]
+}
