@@ -168,4 +168,12 @@
         </div>
     </div>
     <script type="module" src="js/main.js"></script>
+    <script>
+        function closeMission() {
+            const overlay = document.getElementById('mission-overlay');
+            const iframe = document.getElementById('godot-frame');
+            overlay.style.display = 'none';
+            iframe.src = ''; 
+        }
+    </script>
 </html>

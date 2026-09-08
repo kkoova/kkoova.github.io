@@ -169,26 +169,5 @@ function highlightGDScript(code) {
         .replace(/(@\w+)/g, '<span class="code-annotation">$1</span>');
 }
 
-function copyCode(elementId, btn) {
-    const codeText = document.getElementById(elementId).innerText;
-    
-    navigator.clipboard.writeText(codeText).then(() => {
-        const originalText = btn.innerText;
-        btn.innerText = "COPIED!";
-        btn.style.borderColor = "#4ed162";
-        btn.style.color = "#4ed162";
-        
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.borderColor = "";
-            btn.style.color = "";
-        }, 2000);
-    });
-}
-
-function toggleTreeNode(element) {
-    element.classList.toggle('collapsed');
-}
-
 window.renderLesson = renderLesson;
 window.formatText = formatText;

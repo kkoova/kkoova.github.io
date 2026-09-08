@@ -260,13 +260,6 @@ function bindNodeEvents() {
     });
 }
 
-function closeMission() {
-    const overlay = document.getElementById('mission-overlay');
-    const iframe = document.getElementById('godot-frame');
-    overlay.style.display = 'none';
-    iframe.src = ''; 
-}
-
 function openMission(id) {
     const data = missionsData.find(m => m.id === id);
     if (!data) return;

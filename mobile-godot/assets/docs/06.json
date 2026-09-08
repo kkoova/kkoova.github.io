@@ -27,14 +27,52 @@
         {
           "type": "code",
           "title": "tetromino_data.gd",
-          "code": "extends Resource\nclass_name TetrominoData\n\n@export var name: String\n@export var cells: Array[Vector2i] # Координаты блоков, например [(0,0), (1,0), (0,1), (1,1)] для куба\n@export var atlas_coords: Vector2i # Позиция плитки в вашем TileSet"
+          "code": "extends Resource\nclass_name TetrominoData\n\n@export var cells: Array[Vector2i]\n@export var atlas_coords: Vector2i"
         },
         { "type": "grid", "items": [
             "Создайте папку `resources/tetrominoes/`.",
-            "Создайте 7 ресурсов (I, O, T, S, Z, J, L) на базе `TetrominoData`.",
-            "Настройте координаты `cells` для каждой фигуры."
+            "Создайте 7 ресурсов (I, O, T, S, Z, J, L) на базе `TetrominoData`."
           ]
+        },
+        { "type": "tip", "val": "Заполняем **cells** для отрисовки блоков такими значениями. **Это положение блоков фигуры**" },
+        { "type": "grid", "items": [
+            "I: [(0,0), (1,0), (2,0), (3,0)]",
+            "O: [(0,0), (1,0), (0,1), (1,1)]",
+            "T: [(1,0), (0,1), (1,1), (2,1)]",
+            "S: [(1,0), (2,0), (0,1), (1,1)]",
+            "Z: [(0,0), (1,0), (1,1), (2,1)]",
+            "J: [(0,0), (0,1), (1,1), (2,1)]",
+            "L: [(2,0), (0,1), (1,1), (2,1)]",
+            "**atlas_coords** пока оставляем без изменений"
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l06-1.png",
+          "caption": "Настройка cells в S" 
         }
+      ]
+    },
+    {
+      "id": "t2",
+      "label": "PHASE_02 // TEXTURE_BLOCK",
+      "header": "Текстура для блоков",
+      "items": [
+        { "type": "text", "val": "Скачаем текстуру в папку **assets**. Сразу из прошлых работ можем добавить шрифт и sprite.png" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "res://", "type": "Root", "level": 0 },
+            { "name": "TileMapLayer", "type": "Поле (10x20)", "level": 1 },
+            { "name": "Timer", "type": "Скорость падения", "level": 1 }
+          ]
+        },
+        {
+          "type": "code",
+          "title": "board.gd (Коллизии)",
+          "code": "func is_valid_move(piece_cells: Array[Vector2i], offset: Vector2i) -> bool:\n\tfor cell in piece_cells:\n\t\tvar new_pos = cell + offset\n\t\t# 1. Проверка границ поля\n\t\tif new_pos.x < 0 or new_pos.x >= 10 or new_pos.y >= 20:\n\t\t\treturn false\n\t\t# 2. Проверка столкновения с уже лежащими блоками\n\t\tif tile_map.get_cell_source_id(new_pos) != -1:\n\t\t\treturn false\n\treturn true"
+        },
+        { "type": "button", "text": "FREE_ASSET_BLOCK", "url": "./assets/material/cube.png" }  
       ]
     },
     {
