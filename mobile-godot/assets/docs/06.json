@@ -89,7 +89,7 @@
     {
       "id": "t3",
       "label": "PHASE_03 // GRID_LOGIC",
-      "header": "Игровое поле и коллизии",
+      "header": "Игровое поле",
       "items": [
         { "type": "text", "val": "Создадим сцену **Board.tscn**" },
         {
@@ -123,11 +123,17 @@
       ]
     },
     {
-      "id": "t4",
-      "label": "PHASE_04 // ROOM_LOBBY",
-      "header": "Сетевые комнаты (Rooms)",
+      "id": "t5",
+      "label": "PHASE_05 // TIMER",
+      "header": "Таймер и движение блоков",
       "items": [
-        { "type": "text", "val": "В соревновательном тетрисе нам нужно лобби. Игроки подключаются и ждут команды 'СТАРТ'." },
+        { "type": "text", "val": "Подключим таймер и сделаем функцию для движение блоков вниз" },
+        { "type": "grid", "items": [
+            "Создает сигнал timeout от таймера",
+            "И уже в нем пишем **move_piece(Vector2i(0, 1))**"
+          ]
+        },
+        { "type": "text", "val": "А теперь сама функция **move_piece**" },
         {
           "type": "code",
           "title": "network_manager.gd",
