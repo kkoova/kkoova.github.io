@@ -12,7 +12,7 @@
         { "type": "config", "data": [
             ["PROJECT_NAME", "06_TETRIS_CORE"],
             ["RENDERER", "Nearest"],
-            ["WINDOW_SIZE", "320 x 160 px"],
+            ["WINDOW_SIZE", "160 x 320 px"],
             ["Режим", "Exclusive Fullscreen"]
         ]},
         { "type": "tip", "val": "В этом проекте мы будем использовать **TileMapLayer** для отрисовки блоков и **Vector2i** для всех расчетов в сетке." }
@@ -58,58 +58,68 @@
       "label": "PHASE_02 // TEXTURE_BLOCK",
       "header": "Текстура для блоков",
       "items": [
-        { "type": "text", "val": "Скачаем текстуру в папку **assets**. Сразу из прошлых работ можем добавить шрифт и sprite.png" },
+        { "type": "text", "val": "Скачаем текстуру в папку **assets**. Сразу из прошлых работ добавляем шрифт и sprite.png" },
+        { "type": "tip", "val": "Примерный вид проекта, ссылка на скачивание **sprite.png** ниже:" },
         {
           "type": "tree",
           "nodes": [
             { "name": "res://", "type": "Root", "level": 0 },
-            { "name": "TileMapLayer", "type": "Поле (10x20)", "level": 1 },
-            { "name": "Timer", "type": "Скорость падения", "level": 1 }
+            { "name": "assets", "type": "Текстуры", "level": 1 },
+            { "name": "resources", "type": "Ресурсы", "level": 1 },
+            { "name": "tetrominoes", "type": "7 фигур", "level": 2 },
+            { "name": "scenes", "type": "Сцены", "level": 1 },
+            { "name": "script", "type": "Скрипиы", "level": 1 }
           ]
         },
-        {
-          "type": "code",
-          "title": "board.gd (Коллизии)",
-          "code": "func is_valid_move(piece_cells: Array[Vector2i], offset: Vector2i) -> bool:\n\tfor cell in piece_cells:\n\t\tvar new_pos = cell + offset\n\t\t# 1. Проверка границ поля\n\t\tif new_pos.x < 0 or new_pos.x >= 10 or new_pos.y >= 20:\n\t\t\treturn false\n\t\t# 2. Проверка столкновения с уже лежащими блоками\n\t\tif tile_map.get_cell_source_id(new_pos) != -1:\n\t\t\treturn false\n\treturn true"
+        { "type": "text", "val": "И уже после задаем значение **atlas_coords** - во всех 7 фигурах, это номер текстуры" },
+        { "type": "grid", "items": [
+            "I: (0,0)",
+            "O: (3,0)",
+            "T: (5,0)",
+            "S: (4,0)",
+            "Z: (6,0)",
+            "J: (1,0)",
+            "L: (2,0)",
+            "Вы можете поменять порядок и тд, главное что бы значения были от (0,0) - (6,0)"
+          ]
         },
         { "type": "button", "text": "FREE_ASSET_BLOCK", "url": "./assets/material/cube.png" }  
       ]
     },
     {
-      "id": "t2",
-      "label": "PHASE_02 // GRID_LOGIC",
+      "id": "t3",
+      "label": "PHASE_03 // GRID_LOGIC",
       "header": "Игровое поле и коллизии",
       "items": [
-        { "type": "text", "val": "Создадим сцену **Board.tscn**. В ней будет логика падения фигур. Главная функция здесь — `is_valid_move`." },
+        { "type": "text", "val": "Создадим сцену **Board.tscn**" },
         {
           "type": "tree",
           "nodes": [
             { "name": "Board", "type": "Node2D", "level": 0 },
-            { "name": "TileMapLayer", "type": "Поле (10x20)", "level": 1 },
-            { "name": "Timer", "type": "Скорость падения", "level": 1 }
+            { "name": "TetrisTileMapLayer", "type": "TileMapLayer", "level": 1 },
+            { "name": "Timer", "type": "Timer", "level": 1 }
           ]
         },
+        { "type": "text", "val": "Уже после, в **TileMapLayer** создаем новый **Tileset**, и добавляем наш **cube.png**" },
         {
-          "type": "code",
-          "title": "board.gd (Коллизии)",
-          "code": "func is_valid_move(piece_cells: Array[Vector2i], offset: Vector2i) -> bool:\n\tfor cell in piece_cells:\n\t\tvar new_pos = cell + offset\n\t\t# 1. Проверка границ поля\n\t\tif new_pos.x < 0 or new_pos.x >= 10 or new_pos.y >= 20:\n\t\t\treturn false\n\t\t# 2. Проверка столкновения с уже лежащими блоками\n\t\tif tile_map.get_cell_source_id(new_pos) != -1:\n\t\t\treturn false\n\treturn true"
+          "type": "image",
+          "url": "./assets/img/l06-2.png",
+          "caption": "Вид Tileset" 
         }
       ]
     },
     {
-      "id": "t3",
-      "label": "PHASE_03 // MINI_WORK_1",
-      "header": "Самостоятельная работа: Гравитация",
+      "id": "t4",
+      "label": "PHASE_04 // SPAWN_BLOCK",
+      "header": "Создание блоков и положение на поле",
       "items": [
-        { "type": "text", "val": "Реализуйте падение текущей фигуры вниз по таймеру." },
+        { "type": "text", "val": "Вставим данный код, не забудем прицепить все переменные:" },
         {
-            "type": "timer",
-            "minutes": 15,
-            "goals": [
-                "Если `is_valid_move` вниз возвращает `true` — сдвигаем фигуру.",
-                "Если `false` — «запекаем» фигуру в TileMapLayer через `set_cell` и спавним новую."
-            ]
-        }
+          "type": "code",
+          "title": "board.gd",
+          "code": "extends Node2D\n\n@export var shapes: Array[TetrominoData]\n@export var tile_map: TileMapLayer\n@export var timer: Timer\n\nvar current_cells: Array[Vector2i]\nvar current_pos: Vector2i\nvar atlas_pos: Vector2i\n\nfunc _ready():\n\tspawn_piece()\n\nfunc spawn_piece():\n\tvar data = shapes.pick_random()\n\tif not data:\n\t\treturn\n\tcurrent_cells = data.cells\n\tatlas_pos = data.atlas_coords\n\tcurrent_pos = Vector2i(3, 0)\n\tif not is_valid_move(current_cells, current_pos):\n\t\tgame_over()\n\t\treturn\n\tdraw_piece()\n\nfunc is_valid_move(cells: Array[Vector2i], pos: Vector2i) -> bool:\n\tfor cell in cells:\n\t\tvar target = cell + pos\n\t\tif target.x < 0 or target.x >= 10 or target.y >= 20:\n\t\t\treturn false\n\t\tif tile_map.get_cell_source_id(target) != -1:\n\t\t\treturn false\n\treturn true\n\nfunc draw_piece():\n\tfor cell in current_cells:\n\t\ttile_map.set_cell(current_pos + cell, 0, atlas_pos)\n\nfunc game_over():\n\tprint('ИГРА ОКОНЧЕНА')\n\tget_tree().paused = true"
+        },
+        { "type": "text", "val": "А теперь запустим. Как итог - открытая сцена и 1 любой блок на карте" }
       ]
     },
     {
