@@ -129,29 +129,122 @@
       "items": [
         { "type": "text", "val": "Подключим таймер и сделаем функцию для движение блоков вниз" },
         { "type": "grid", "items": [
-            "Создает сигнал timeout от таймера",
+            "Создает сигнал timeout от таймера + Включаем автостарт + ставим 0.5",
             "И уже в нем пишем **move_piece(Vector2i(0, 1))**"
           ]
         },
         { "type": "text", "val": "А теперь сама функция **move_piece**" },
         {
           "type": "code",
-          "title": "network_manager.gd",
-          "code": "extends Node\n\nsignal game_started\n\n@rpc('authority', 'call_local')\nfunc start_game():\n\tgame_started.emit()\n\tprint('БИТВА НАЧАЛАСЬ!')\n\nfunc _on_start_button_pressed():\n\tif multiplayer.is_server():\n\t\tstart_game.rpc() # Запускаем тетрис у всех одновременно"
+          "title": "board.gd",
+          "code": "func move_piece(direction: Vector2i):\n\tclear_piece()\n\tif is_valid_move(current_cells, current_pos + direction):\n\t\tcurrent_pos += direction\n\t\tdraw_piece()\n\telse:\n\t\tdraw_piece()\n\t\tif direction == Vector2i(0, 1):\n\t\t\tlock_piece()\n\nfunc lock_piece():\n\tcheck_lines()\n\tspawn_piece()\n\nfunc clear_piece():\n\tfor cell in current_cells:\n\t\ttile_map.set_cell(current_pos + cell, -1)\n\nfunc check_lines():\n\tfor y in range(19, -1, -1):\n\t\tvar is_full = true\n\t\tfor x in range(10):\n\t\t\tif tile_map.get_cell_source_id(Vector2i(x, y)) == -1:\n\t\t\t\tis_full = false\n\t\t\t\tbreak\n\t\tif is_full:\n\t\t\tdelete_line(y)\n\t\t\tcheck_lines()\n\t\t\tbreak\n\nfunc delete_line(y: int):\n\tfor row in range(y, 0, -1):\n\t\tfor x in range(10):\n\t\t\tvar above_atlas = tile_map.get_cell_atlas_coords(Vector2i(x, row - 1))\n\t\t\tvar source_id = tile_map.get_cell_source_id(Vector2i(x, row - 1))\n\t\t\ttile_map.set_cell(Vector2i(x, row), source_id, above_atlas)"
         },
-        { "type": "tip", "val": "Важно синхронизировать время начала, чтобы у всех игроков фигуры падали в одном ритме." }
+        { "type": "tip", "val": "Проверяем! теперь блоки должны падать!" }
       ]
     },
     {
-      "id": "t5",
-      "label": "PHASE_05 // OPPONENT_VIEW",
-      "header": "Синхронизация прогресса (Превью)",
+      "id": "t6",
+      "label": "PHASE_06 // WASD",
+      "header": "Управление блоком, вправо влево вниз",
       "items": [
-        { "type": "text", "val": "Чтобы видеть поле соперника, мы будем передавать по сети количество очков и текущую заполненность поля." },
+        { "type": "text", "val": "Нам понадобиться **5 кнопок**." },
+        { "type": "grid", "items": [
+            "left: A",
+            "right: D",
+            "soft_drop: S",
+            "rotate: R",
+            "hard_drop: Enter"
+          ]
+        },
+        { "type": "text", "val": "Как мы их добавили, напишем функционал пока **трем** из них." },
         {
           "type": "code",
-          "title": "board.gd (Sync)",
-          "code": "@rpc('any_peer', 'unreliable')\nfunc sync_opponent_data(score: int, lines: int):\n\t# Обновляем маленькое превью-окошко соперника\n\tOpponentUI.update_info(score, lines)\n\nfunc _on_lines_cleared(count):\n\tsync_opponent_data.rpc(total_score, total_lines)"
+          "title": "board.gd",
+          "code": "func _unhandled_input(event):\n\tif event.is_action_pressed('left'): move_piece(Vector2i(-1, 0))\n\tif event.is_action_pressed('right'): move_piece(Vector2i(1, 0))\n\tif event.is_action_pressed('soft_drop'): move_piece(Vector2i(0, 1))"
+        }
+      ]
+    },
+    {
+      "id": "t7",
+      "label": "PHASE_07 // GRID_LOGIC",
+      "header": "Игровое поле - оформление",
+      "items": [
+        { "type": "text", "val": "Нам нужно создать видимые границы, для этого... **Прямо в Board** создаем:" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "UICanvasLayer", "type": "CanvasLayer", "level": 0 },
+            { "name": "UIPanelContainer", "type": "PanelContainer", "level": 1 }
+          ]
+        },
+        { "type": "text", "val": "Создаем тему и настраиваем в ней границы PanelContainer, итог - на скриншоте ниже" },
+        {
+          "type": "image",
+          "url": "./assets/img/l06-3.png",
+          "caption": "Дерево сцены и сам PanelContainer" 
+        },
+        { "type": "text", "val": "Но все равно, при запуске окно будет растянуто, для этого меняем немного настройки проекта:" },
+        {
+          "type": "image",
+          "url": "./assets/img/l06-0.png",
+          "caption": "Настройки проекта" 
+        }
+      ]
+    },
+    {
+      "id": "t8",
+      "label": "PHASE_08 // WASD_2",
+      "header": "Управление блоком, поворот и сброс",
+      "items": [
+        { "type": "text", "val": "Теперь нам нужно разработать функцию **поворота и сброса**. Для начала добавим сами действия по кнопкам" },
+        {
+          "type": "code",
+          "title": "func _unhandled_input(event):",
+          "code": "if event.is_action_pressed('rotate'): rotate_piece()\nif event.is_action_pressed('hard_drop'): hard_drop()"
+        },
+        { "type": "text", "val": "И теперь - **rotate_piece и hard_drop**" },
+        {
+          "type": "code",
+          "title": "board.gd",
+          "code": "func rotate_piece():\n\tclear_piece()\n\t\n\tvar new_cells: Array[Vector2i] = []\n\n\tfor cell in current_cells:\n\t\tvar rotated_x = -cell.y\n\t\tvar rotated_y = cell.x\n\t\tnew_cells.append(Vector2i(rotated_x, rotated_y))\n\t\n\tif is_valid_move(new_cells, current_pos):\n\t\tcurrent_cells = new_cells\n\t\n\tdraw_piece()\n\nfunc hard_drop():\n\tclear_piece()\n\twhile is_valid_move(current_cells, current_pos + Vector2i(0, 1)):\n\t\tcurrent_pos += Vector2i(0, 1)\n\t\n\tdraw_piece()\n\tlock_piece()"
+        }
+      ]
+    },
+    {
+      "id": "t9",
+      "label": "PHASE_09 // WASD_2",
+      "header": "Подсчет очков. Интерфейс",
+      "items": [
+        { "type": "text", "val": "Уровни - чем больше, тем быстрее таймер и очки - даются за закрытые линий" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "UICanvasLayer", "type": "CanvasLayer", "level": 0 },
+            { "name": "UIPanelContainer", "type": "PanelContainer", "level": 1 },
+            { "name": "ScoreMarginContainer", "type": "MarginContainer", "level": 2 },
+            { "name": "ScoreHBoxContainer", "type": "HBoxContainer", "level": 3 },
+            { "name": "LevelLabel", "type": "Label", "level": 4 },
+            { "name": "ScoreLabel", "type": "Label", "level": 4 }
+          ]
+        },
+        { "type": "text", "val": "Добавляем новые переменные. **Не забываем их привязать**" },
+        {
+          "type": "code",
+          "title": "board.gd",
+          "code": "@export var score_label: Label\n@export var level_label: Label\n\nvar score: int = 0\nvar level: int = 1\nvar lines_cleared_total: int = 0\nvar line_points = [0, 100, 300, 500, 800]"
+        },
+        { "type": "text", "val": "Теперь редактируем check_lines:" },
+        { "type": "grid", "items": [
+            "В самое начало добавляем: **var lines_this_turn = 0**",
+            "После, в if is_full, после delete_line - lines_this_turn +=",
+            "И в самый конец: if lines_this_turn > 0: update_score(lines_this_turn)",
+            "Ниже, код самого update_score"
+          ]
+        },
+        {
+          "type": "code",
+          "title": "board.gd",
+          "code": "func update_score(lines: int):\n\tscore += line_points[lines] * level\n\tlines_cleared_total += lines\n\t\n\tlevel = (lines_cleared_total / 10) + 1\n\n\ttimer.wait_time = max(0.05, 0.5 * pow(0.8, level - 1))\n\t\n\tscore_label.text = 'Очки: ' + str(score)\n\tlevel_label.text = 'Уровень: ' + str(level)"
         }
       ]
     },
