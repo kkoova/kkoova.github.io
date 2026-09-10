@@ -222,7 +222,7 @@
             { "name": "UICanvasLayer", "type": "CanvasLayer", "level": 0 },
             { "name": "UIPanelContainer", "type": "PanelContainer", "level": 1 },
             { "name": "ScoreMarginContainer", "type": "MarginContainer", "level": 2 },
-            { "name": "ScoreHBoxContainer", "type": "HBoxContainer", "level": 3 },
+            { "name": "ScoreVBoxContainer", "type": "VBoxContainer", "level": 3 },
             { "name": "LevelLabel", "type": "Label", "level": 4 },
             { "name": "ScoreLabel", "type": "Label", "level": 4 }
           ]
@@ -236,7 +236,7 @@
         { "type": "text", "val": "Теперь редактируем check_lines:" },
         { "type": "grid", "items": [
             "В самое начало добавляем: **var lines_this_turn = 0**",
-            "После, в if is_full, после delete_line - lines_this_turn +=",
+            "После, в if is_full, после delete_line - lines_this_turn += 1",
             "И в самый конец: if lines_this_turn > 0: update_score(lines_this_turn)",
             "Ниже, код самого update_score"
           ]
@@ -249,78 +249,47 @@
       ]
     },
     {
-      "id": "t6",
-      "label": "PHASE_06 // MINI_WORK_2",
-      "header": "Самостоятельная работа: Поворот",
+      "id": "t10",
+      "label": "PHASE_010 // MINI_WORK",
+      "header": "Самостоятельная работа: Оформление",
       "items": [
-        { "type": "text", "val": "Реализуйте поворот фигуры на 90 градусов (клавиша Up или Space)." },
-        {
-            "type": "timer",
-            "minutes": 15,
-            "goals": [
-                "Используйте формулу поворота координат: `new_x = -y`, `new_y = x`.",
-                "Не забудьте проверить `is_valid_move` после поворота, чтобы фигура не застряла в стене."
-            ]
-        }
-      ]
-    },
-    {
-      "id": "t7",
-      "label": "PHASE_07 // GARBAGE_MECHANIC",
-      "header": "Механика атак (Garbage Lines)",
-      "items": [
-        { "type": "text", "val": "Это то, что делает Тетрис соревновательным! Если вы стерли 2 линии сразу — отправьте одну 'битую' линию сопернику." },
-        {
-          "type": "code",
-          "title": "combat_logic.gd",
-          "code": "@rpc('any_peer', 'call_remote')\nfunc receive_garbage(count: int):\n\t# Сдвигаем всё поле игрока вверх на 'count' линий\n\t# И снизу добавляем линии с одной случайной дыркой\n\tfor i in range(count):\n\t\tgrid.add_garbage_row()"
-        },
-        { "type": "tip", "val": "Используйте `rpc_id(opponent_id, ...)` чтобы атаковать конкретного игрока." }
-      ]
-    },
-    {
-      "id": "t8",
-      "label": "PHASE_08 // WIN_CONDITION",
-      "header": "Условие победы и поражения",
-      "items": [
-        { "type": "text", "val": "Когда новые блоки не могут появиться (Game Over), игрок сообщает об этом серверу." },
-        {
-          "type": "code",
-          "title": "game_manager.gd",
-          "code": "@rpc('any_peer', 'call_local')\nfunc player_lost(id: int):\n\tprint('Игрок ', id, ' выбыл из битвы!')\n\tcheck_winner()"
-        }
-      ]
-    },
-    {
-      "id": "t9",
-      "label": "PHASE_09 // GLOBAL_TASK",
-      "header": "Самостоятельная работа",
-      "items": [
-        { "type": "text", "val": "Добавьте визуальные эффекты для победы и поражения." },
-        {
-          "type": "grid",
-          "items": [
-            "**Ghost Piece**: Сделайте полупрозрачную тень фигуры, показывающую, куда она упадет.",
-            "**Speed Up**: Каждую минуту увеличивайте скорость падения блоков на 10%.",
-            "**Combo**: Добавьте множитель очков за последовательное стирание линий."
+        { "type": "text", "val": "Создать главное меню игры и паузы" },
+        { "type": "grid", "items": [
+            "Создать сцену с названием и с кнопками **Начать игру** и **Выйти**",
+            "По кнопке **Начать игру** - сцена с тетрисом",
+            "По кнопке **Выход** - закрыть приложение",
+            "По кнопке **Esc** во время игры - экран паузы + кнопка продолжить"
           ]
         }
       ]
     },
     {
-      "id": "с10",
-      "label": "PHASE_10 // GITHUB",
+      "id": "t11",
+      "label": "PHASE_011 // MINI_WORK_2",
+      "header": "Самостоятельная работа: Пауза и конец игры",
+      "items": [
+        { "type": "text", "val": "Создать меню паузы и меню по окончанию игры" },
+        { "type": "grid", "items": [
+            "По кнопке **Esc** во время игры - экран паузы + кнопка продолжить",
+            "При срабатывании функции **game_over** - экран с окончанием игры + кнопка рестарта"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "с12",
+      "label": "PHASE_12 // GITHUB",
       "header": "Загрузка на github",
       "items": [
-        { "type": "text", "val": "Загрузите проект. README должен содержать описание алгоритма `is_valid_move` и работы системы RPC." },
+        { "type": "text", "val": "Загрузите проект." },
         { "type": "config", "data": [
-            ["PROJECT_NAME", "05_NET_TETRIS"],
+            ["PROJECT_NAME", "06_TETRIS_CORE"],
             ["VISIBLE", "PUBLIC"]
         ]},
         {
           "type": "code",
           "title": "README.md",
-          "code": "# 05_NET_TETRIS\n\n> **Автор:** ФИО\n\n## Реализовано\n* Алгоритм проверки коллизий в сетке\n* Ресурсная система фигур TetrominoData\n* Сетевое лобби с синхронным стартом\n* Механика атаки соперника (Garbage Lines)\n* [ ] Тень фигуры (Ghost Piece)"
+          "code": "# 06_TETRIS_CORE\n\n"
         }
       ]
     }
