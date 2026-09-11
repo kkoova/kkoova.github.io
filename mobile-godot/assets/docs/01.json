@@ -302,7 +302,7 @@
         {
           "type": "code",
           "title": "ui.gd",
-          "code": "extends Control \n\n# Добавьте что надо \n@export var hearts_container: HBoxContainer \n\n# Укажите ссылку на текстуру сердца \nvar heart_texture = preload('res://assets/heart.png') \n\n# Функция что будет запускаться при запуске сцены \nfunc _ready() -> void: \n\t# Вывод информации на карточку \n\tupdate_info() \n\t# Подсчет и вывод сердец \n\tupdate_hp_display() \n\t# Время \n\ttimer_timeout()"
+          "code": "extends Control \n\n# Добавьте что надо \n@export var hearts_container: HBoxContainer \n\n# Укажите ссылку на текстуру сердца \nvar heart_icon = preload('res://assets/heart.png') \n\n# Функция что будет запускаться при запуске сцены \nfunc _ready() -> void: \n\t# Вывод информации на карточку \n\tupdate_info() \n\t# Подсчет и вывод сердец \n\tupdate_hearts(int(Global.hp)) \n\t# Время \n\tupdate_time()"
         },
         { "type": "text", "val": "Теперь функция для обновления информации" },
         {
@@ -320,7 +320,7 @@
         {
           "type": "code",
           "title": "ui.gd",
-          "code": "func update_time():\n\tvar t = Time.get_time_dict_from_system()\n\ttime_label.text = '%02d:%02d' % [t.hour, t.minute]\n\n# Сигнал от Timer\nfunc _on_timer_timeout():\n\tupdate_time()"
+          "code": "func update_time():\n\tvar t = Time.get_time_dict_from_system()\n\ttime_label.text = '%02d:%02d' % [t.minute, t.seconds]\n\n# Сигнал от Timer\nfunc _on_timer_timeout():\n\tupdate_time()"
         },
         { "type": "tip", "val": "Не забудьте крепить обьекты к коду! для @export" }
       ]
@@ -338,7 +338,7 @@
         {
           "type": "code",
           "title": "README.md",
-          "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот или путь к файлу в репозитории, например: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта. \n\n## Что было использовано в проекте \n* **Узлы (Nodes):** Например: Area2D, CanvasLayer, CharacterBody2D \n* **Паттерны / Подходы:** Например: Глобальный код (Global.gd), Сигналы (Signals) \n* **Ресурсы:** Например: Кастомные спрайты, UI-шрифты"
+          "code": "# 01_DIGITAL_UI_CARD \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот первой карточки](assets/image/1.png)\n\n![Скриншот второй карточки](assets/image/2.png)\n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта."
         }
       ]
     }
