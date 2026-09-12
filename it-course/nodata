@@ -1,0 +1,36 @@
+{
+      "id": "08",
+      "title": "SYSTEM_RELOAD",
+      "tag": "#CINEMA • BREAK",
+      "bgImage": "assets/img/movie_bg.jpg",
+      "docsUrl": "08.json",
+      "steps": [
+        { "id": "r1", "type": "live", "text": "MOVIE: Просмотр ИТ-документалистики" },
+        { "id": "r2", "type": "live", "text": "DISCUSS: Обсуждение будущего индустрии" }
+      ],
+      "difficulty": "00", "teamSize": "ALL",
+      "features": [
+        {"label": "Cinema", "sub": "POP-CORN", "icon": "assets/icons/movie.png"},
+        {"label": "Brain", "sub": "REFRESH", "icon": "assets/icons/bolt.png"}
+      ]
+    },
+    {
+      "id": "02",
+      "title": "CYBER_DETECTION",
+      "tag": "#SECURITY • DEVTOOLS",
+      "bgImage": "assets/img/cyber_bg.jpg",
+      "docsUrl": "docs/cyber_security.html",
+      "steps": [
+        { "id": "c1", "type": "live", "text": "X-RAY: Инструмент 'Инспектор' (CTRL+SHIFT+C)" },
+        { "id": "c2", "type": "live", "text": "BYPASS: Отключение блокировок и изменение текста" },
+        { "id": "c3", "type": "self", "text": "FLAG_01: Поиск секретного ключа в комментариях HTML" },
+        { "id": "c4", "type": "self", "text": "FLAG_02: Взлом заблокированной кнопки через свойства" }
+      ],
+      "difficulty": "01",
+      "teamSize": "2",
+      "features": [
+        {"label": "Tool", "sub": "DEV_TOOLS", "icon": "assets/icons/search.png"},
+        {"label": "Skill", "sub": "DOM_HACKING", "icon": "assets/icons/eye.png"},
+        {"label": "Type", "sub": "CTF_BASICS", "icon": "assets/icons/lock.png"}
+      ]
+    },
