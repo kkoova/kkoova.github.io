@@ -1,0 +1,111 @@
+{
+  "unit": "UNIT_07 // WEB_LAYOUT",
+  "title": "FRONTEND: ВИЗИТНАЯ КАРТОЧКА",
+  "phases": [
+    {
+      "id": "w1",
+      "label": "PHASE_01 // WORKSPACE_SETUP",
+      "header": "Подготовка рабочего места",
+      "items": [
+        { "type": "text", "val": "Сегодня мы создадим Вашу личную цифровую визитку. Мы будем использовать HTML (скелет страницы) и CSS (одежда и стиль)." },
+        { "type": "grid", "items": [
+            "Откройте **VS Code**.",
+            "Создайте новую папку на Рабочем столе (например, `WEB_CARD`) и откройте ее в редакторе (File -> Open Folder).",
+            "В левой панели создайте два файла: **index.html** и **style.css**.",
+            "Скачайте любую свою фотографию (или картинку) и положите в эту же папку. Назовите ее **avatar.jpg**."
+        ]},
+        { "type": "text", "val": "Готово, но пока мы ничего нет... нажимаем на **index.html** правой кнопкой мыши и выбираем **Open in integrated Browser**" }
+      ]
+    },
+    {
+      "id": "w2",
+      "label": "PHASE_02 // HTML_SKELETON",
+      "header": "Структура документа (HTML)",
+      "items": [
+        { "type": "text", "val": "Откройте файл `index.html`. В VS Code есть встроенная магия (Emmet). Введите символ восклицательного знака `!` и нажмите **TAB** или **Enter**. Редактор сам напишет базовый код!" },
+        { "type": "text", "val": "Теперь свяжем наш HTML со стилями и добавим контент внутрь тега `<body>`." },
+        { "type": "grid", "items": [
+            "Заменим **title** - на Моя Визитка.",
+            "Добавим ниже: **link rel='stylesheet' href='style.css'**",
+            "А после, уже в **body** - код ниже",
+            "Не забудем везде добавить '<   >'"
+        ]},
+        {
+          "type": "code",
+          "title": "index.html",
+          "code": "div class='glass-card'\n\timg src='avatar.jpg' alt='Мое фото' class='avatar'\n\th1Имя Фамилия/h1\n\tpСтудент группы.../p\n/div"
+        }
+      ]
+    },
+    {
+      "id": "w3",
+      "label": "PHASE_03 // CSS_MAGIC",
+      "header": "Наводим красоту (CSS)",
+      "items": [
+        { "type": "text", "val": "Пока сайт выглядит скучно. Откройте `style.css`. Сначала мы сделаем красивый градиентный фон на весь экран и поставим карточку ровно по центру." },
+        {
+          "type": "code",
+          "title": "style.css (Часть 1: Фон и центровка)",
+          "code": "body {\n    margin: 0;\n    height: 100vh; /* Высота на весь экран */\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    background: linear-gradient(45deg, #1f1c2c, #928dab); \n    font-family: 'Segoe UI', sans-serif;\n    color: white;\n}"
+        },
+        { "type": "text", "val": "Теперь добавим эффект «матового стекла» (Glassmorphism) для нашей карточки и сделаем аватарку круглой." },
+        {
+          "type": "code",
+          "title": "style.css (Часть 2: Эффект стекла)",
+          "code": ".glass-card {\n    background: rgba(255, 255, 255, 0.1); \n    backdrop-filter: blur(10px); \n    padding: 40px;\n    border-radius: 20px;\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    text-align: center;\n    box-shadow: 0 15px 25px rgba(0,0,0,0.5);\n}\n\n.avatar {\n    width: 120px;\n    height: 120px;\n    border-radius: 50%; /* Делает фото круглым */\n    object-fit: cover;\n    border: 3px solid #FFFB05;\n}"
+        },
+        { "type": "text", "val": "Сохраните файлы (CTRL+S) и посмотрите в браузер. Разница колоссальная!" },
+        { "type": "image", "url": "./assets/image/l07-1.png", "caption": "Итог после подключение css." }
+      ]
+    },
+    {
+      "id": "w4",
+      "label": "PHASE_04 // SELF_WORK_01",
+      "header": "Самостоятельная работа №1: Кастомизация",
+      "items": [
+        { "type": "text", "val": "Ваша задача - сделать карточку УНИКАЛЬНОЙ." },
+        { "type": "grid", "items": [
+            "Измените текст на Ваше реальное ФИО и напишите **новые** 2-3 строчки о своих хобби. (через h3)",
+            "Зайдите на сайт **gradients.app**, сгенерируйте свои цвета фона и замените строку `background: linear-gradient(...)` в Вашем CSS.",
+            "Поменяйте цвет обводки аватарки (border) с желтого на любой другой.",
+            "Поменяйте цвет тени от карточки на любой другой"
+        ]},
+        { "type": "button", "text": "GRADIENT_GENERATOR", "url": "https://gradients.app/ru/new" },
+        { "type": "image", "url": "./assets/image/l07-2.png", "caption": "Пример выполнение самостоятельной 1" }
+      ]
+    },
+    {
+      "id": "w5",
+      "label": "PHASE_05 // SELF_WORK_02",
+      "header": "Самостоятельная работа №2: Кнопки-ссылки",
+      "items": [
+        { "type": "text", "val": "Добавим интерактивность. Создайте под текстом кнопки для перехода на Ваши соцсети, GitHub или сайт." },
+        { "type": "grid", "items": [
+            "В HTML добавьте тег ссылки: **`a href=\"https://github.com/ВАШ_НИК\" class=\"btn\"Мой GitHub/a`**.",
+            "В CSS самостоятельно напишите класс `.btn`.",
+            "Сделайте так, чтобы кнопка имела фон, отступы (padding), закругленные углы (border-radius) и убрано подчеркивание текста (text-decoration: none).",
+            "Добавте класс **.btn:hover** - что будет с кнопкой при наведении. Добавте туда стили. (например: `.btn:hover { background: white; color: black; }`)"
+        ]},
+        { "type": "image", "url": "./assets/image/l07-3.png", "caption": "Пример выполнение самостоятельной 2" }
+      ]
+    },
+    {
+      "id": "w6",
+      "label": "PHASE_06 // GITHUB_REPORT",
+      "header": "Загрузка проекта на GitHub",
+      "items": [
+        { "type": "text", "val": "Ваша визитка готова. Отправим исходный код в наш цифровой дневник." },
+        { "type": "tree", "nodes": [
+            { "name": "IT_PROJECTS", "type": "папка", "level": 0 },
+            { "name": "07_WEB_LAYOUT", "type": "папка", "level": 1 },
+            { "name": "index.html", "type": "код структуры", "level": 2 },
+            { "name": "style.css", "type": "код стилей", "level": 2 },
+            { "name": "avatar.jpg", "type": "ваше фото", "level": 2 },
+            { "name": "screenshot.png", "type": "скриншот готовой визитки", "level": 2 },
+            { "name": "README.md", "type": "отчет", "level": 2 }
+        ]},
+        { "type": "code", "title": "Пример README.md", "code": "# 07_WEB_LAYOUT\n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор:** Фамилия Имя\n\n## ОПИСАНИЕ\nОпишите что вы сделалаи\n\n## РЕЗУЛЬТАТ\n![Скриншот визитки](./screenshot.png)\n\n## САМОСТОЯТЕЛЬНЫЕ РАБОТЫ\n* Кастомизация: да/нет\n* Кнопки-ссылки: да/нет" }
+      ]
+    }
+  ]
+}

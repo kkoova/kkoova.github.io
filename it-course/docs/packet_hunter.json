@@ -1,6 +1,6 @@
 {
-  "unit": "UNIT_11 // NETWORK_INFRA",
-  "title": "WEB_RECONNAISSANCE",
+  "unit": "UNIT_11 // PACKET_HUNTER",
+  "title": "PACKET_HUNTER",
   "phases": [
     {
       "id": "n1",

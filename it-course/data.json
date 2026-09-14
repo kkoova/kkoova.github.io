@@ -85,7 +85,7 @@
       "title": "WEB_LAYOUT",
       "tag": "#FRONTEND • CSS",
       "bgImage": "assets/img/web_bg.jpg",
-      "docsUrl": "docs/web_layout.html",
+      "docsUrl": "web_layout.json",
       "steps": [
         { "id": "w1", "type": "live", "text": "HTML: Структура документа" },
         { "id": "w2", "type": "live", "text": "CSS: Стили (Градиенты, сетка)" },
@@ -98,22 +98,22 @@
     },
     {
         "id": "09",
-        "title": "TETRIS_ENGINE",
+        "title": "TETRIS_CORE",
         "tag": "#GAMEDEV • LOGIC",
         "bgImage": "assets/img/godot_bg.jpg",
-        "docsUrl": "tetris.html",
+        "docsUrl": "tetris_core.json",
         "steps": [
-          { "id": "g1", "type": "live", "text": "SCENE: Создание игрока (CharacterBody2D)" },
+          { "id": "g1", "type": "live", "text": "SCENE: Создание игрока карты тетриса" },
           { "id": "g2", "type": "live", "text": "TILEMAP: Постройка лабиринта из плиток" },
-          { "id": "g3", "type": "self", "text": "CODE: Программирование движения (WASD)" },
-          { "id": "g4", "type": "self", "text": "WIN_COND: Сбор ключа и открытие двери" }
+          { "id": "g3", "type": "self", "text": "CODE: Программирование движения" },
+          { "id": "g4", "type": "self", "text": "SCORE: Настройка счета" }
         ],
         "difficulty": "02", "teamSize": "2",
         "features": [
-            {"label": "Env", "sub": "LINUX", "icon": "assets/icons/linux.png"},
-            {"label": "CLI", "sub": "BASH", "icon": "assets/icons/terminal.png"},
-            {"label": "Rule", "sub": "NO_UNDO", "icon": "assets/icons/alert.png"},
-            {"label": "Skill", "sub": "LERP", "icon": "assets/icons/gear.png"}
+            {"label": "Env", "sub": "SCENE", "icon": "assets/icons/linux.png"},
+            {"label": "CLI", "sub": "TILEMAP", "icon": "assets/icons/terminal.png"},
+            {"label": "Rule", "sub": "CODE", "icon": "assets/icons/alert.png"},
+            {"label": "Skill", "sub": "SCORE", "icon": "assets/icons/gear.png"}
           ]
       },
     {
