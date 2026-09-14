@@ -251,7 +251,19 @@
     },
     {
       "id": "t10",
-      "label": "PHASE_10 // GITHUB_REPORT",
+      "label": "PHASE_10 // GAME",
+      "header": "Тестирование игры",
+      "items": [
+        {
+          "type": "image",
+          "url": "/it-course/assets/image/l09-1.png",
+          "caption": "apk файл tetris" 
+        }
+      ]
+    },
+    {
+      "id": "t11",
+      "label": "PHASE_11 // GITHUB_REPORT",
       "header": "Требования к оформлению на GitHub",
       "items": [
         { "type": "text", "val": "Все созданные ассеты — это Ваша интеллектуальная собственность и часть Вашего портфолио. Сохраним их в репозиторий." },
