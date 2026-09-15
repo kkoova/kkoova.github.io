@@ -17,9 +17,7 @@
         { "type": "text", "val": "Дисплей -> Окно:" },
         { "type": "config", "data": [
             ["Ширина x Высота окна просмотра", "226 x 132 px"],
-            ["Режим", "Exclusive Fullscreen"],
-            ["Преопределение ширины x высоты окна", "970 x 660 px"],
-            ["Режим & Режим масштабирования (Растягивание)", "vieport & integer"]
+            ["Режим", "Exclusive Fullscreen"]
         ]},
         { "type": "text", "val": "*Рендеринг* -> Текстуры:" },
         { "type": "config", "data": [
@@ -148,7 +146,7 @@
         {
           "type": "code",
           "title": "Player.gd",
-          "code": "extends CharacterBody2D\nvar speed = 40\n@export var anim: AnimatedSprite2D\nfunc _physics_process(_delta):\n\tvar input = Vector2(Input.get_action_strength('ui_right') - Input.get_action_strength('ui_left'), Input.get_action_strength('ui_down') - Input.get_action_strength('ui_up'))\n\tvelocity = input.normalized() * speed\n\tmove_and_slide()"
+          "code": "extends CharacterBody2D\nvar speed = 40\n@export var anim: AnimatedSprite2D\nfunc _physics_process(_delta):\n\tvar input = Vector2(Input.get_action_strength('ui_right') - Input.get_action_strength('ui_left'), Input.get_action_strength('ui_down') - Input.get_action_strength('ui_up'))\n\tvelocity = input.normalized() * speed\n\t# Сюда код ниже\n\tmove_and_slide()"
         },
         { "type": "tip", "val": "Теперь добавим персонажа на карту и запустим, что у нас получилось" },
         { "type": "text", "val": "Он двигается! Без анимаций, поворота но уже что то. Теперь добавим небольшие улучшения" },
@@ -169,7 +167,7 @@
         {
           "type": "code",
           "title": "Player.gd",
-          "code": "# Флаг для sit\nvar is_sitting = false\n# Функция мониторит все, что нажал игрок\nfunc _unhandled_input(event: InputEvent) -> void:\n\tif event.is_action_pressed('interact'):\n\t\tif is_sitting:\n\t\t\tis_sitting = false\n\t\t\tanim.play('idle')\n\t\t\telse:\n\t\t\t\tis_sitting = true\n\t\t\t\tanim.play('sit')"
+          "code": "# Флаг для sit\nvar is_sitting = false\n# Функция мониторит все, что нажал игрок\nfunc _unhandled_input(event: InputEvent) -> void:\n\tif event.is_action_pressed('interact'):\n\t\tif is_sitting:\n\t\t\tis_sitting = false\n\t\t\tanim.play('idle')\n\t\telse:\n\t\t\tis_sitting = true\n\t\t\tanim.play('sit')"
         },
         { "type": "text", "val": "И сразу ограничим ему движение, если игрок сидит" },
         {
