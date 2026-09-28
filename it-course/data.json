@@ -104,7 +104,6 @@
         "docsUrl": "tetris_core.json",
         "steps": [
           { "id": "g1", "type": "live", "text": "SCENE: Создание игрока карты тетриса" },
-          { "id": "g2", "type": "live", "text": "TILEMAP: Постройка лабиринта из плиток" },
           { "id": "g3", "type": "self", "text": "CODE: Программирование движения" },
           { "id": "g4", "type": "self", "text": "SCORE: Настройка счета" }
         ],
@@ -114,6 +113,26 @@
             {"label": "CLI", "sub": "TILEMAP", "icon": "assets/icons/terminal.png"},
             {"label": "Rule", "sub": "CODE", "icon": "assets/icons/alert.png"},
             {"label": "Skill", "sub": "SCORE", "icon": "assets/icons/gear.png"}
+          ]
+      },
+      {
+        "id": "10",
+        "title": "MAZE_CORE",
+        "tag": "#GAMEDEV • LOGIC",
+        "bgImage": "assets/img/godot_bg.jpg",
+        "docsUrl": "maze_core.json",
+        "steps": [
+          { "id": "g1", "type": "live", "text": "PLAYER: Создание игрока" },
+          { "id": "g2", "type": "live", "text": "ENEMY: Создание врага" },
+          { "id": "g3", "type": "self", "text": "CODE: Программирование движения" },
+          { "id": "g4", "type": "self", "text": "MAZE: Создание карты лабиринта" }
+        ],
+        "difficulty": "02", "teamSize": "2",
+        "features": [
+            {"label": "GOgoGO", "sub": "SCENE", "icon": "assets/icons/linux.png"},
+            {"label": "Run", "sub": "TILEMAP", "icon": "assets/icons/terminal.png"},
+            {"label": "Code", "sub": "CODE", "icon": "assets/icons/alert.png"},
+            {"label": "Score", "sub": "SCORE", "icon": "assets/icons/gear.png"}
           ]
       },
     {

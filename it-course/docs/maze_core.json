@@ -1,0 +1,264 @@
+{
+  "unit": "10 // MAZE_CORE",
+  "title": "MAZE_CORE",
+  "phases": [
+    { 
+      "id": "t0",
+      "label": "PHASE_0 // PROJECT_SETUP",
+      "header": "Подготовка проекта",
+      "items": [
+        { "type": "text", "val": "**Цель**: Создать лабиринт. Игрока, что может бегать, врага, что бегает за ним и саму карту лабиринта" },
+        { "type": "text", "val": "Создайте новый проект в GODOT. И сразу зайдем в настройки проекта" },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "10_MAZE_CORE"],
+            ["RENDERER", "Nearest"],
+            ["WINDOW_SIZE", "224 x 112 px"],
+            ["Режим", "Exclusive Fullscreen"]
+        ]}
+      ]
+    },
+    {
+      "id": "t1",
+      "label": "PHASE_01 // DATA_STRUCTURE",
+      "header": "Создание карты",
+      "items": [
+        { "type": "text", "val": "Для начала создадим шаблон нашей карты." },
+        { "type": "grid", "items": [
+            "В **Создать корневой узел** - выбираем **2D-сцену**",
+            "И сразу в ней создаем три обьекта **TileMapLayer**"
+          ]
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Node2D", "type": "Node2D", "level": 0 },
+            { "name": "Ground", "type": "TileMapLayer", "level": 1 },
+            { "name": "Decor", "type": "TileMapLayer", "level": 1 },
+            { "name": "Walls", "type": "TileMapLayer", "level": 1 }
+          ]
+        },
+        { "type": "text", "val": "Теперь нам нужны ваши текстуры из работы 03_PIXEL_FORGE" },
+        { "type": "grid", "items": [
+            "Перекиньте все созданые вами текстуры в проект **(где res://)**",
+            "И там же создайте **TILESET** (Правой кнопкой мыши -> создать -> ресурс)",
+            "В новом окошке нажимаем на **+** и выбираем **Атлас**",
+            "Так добаьте все ваши текстуры (не считая игрока и врага)"
+          ]
+        },
+        { "type": "tip", "val": "Теперь нам нужно настроить стены, что бы игрок не мог проходить сквозь них, для этого:" },
+        { "type": "grid", "items": [
+            "В свойствах **tileset** - **Physics Layers** - добавляем",
+            "И уже там, где наши текстуры, выбираем текстуру стен и добавляем ей коллизию",
+            "Окрасить -> Физический слой 0 -> Тыкаем на нашу текстуру",
+            "Если она окрасилась в голубой - все верно"
+          ]
+        },
+        { "type": "tip", "val": "И последнее - во всех **TileMapLayer** на карте задаем свойство **Tile Set**, и теперь можно рисовать!" },
+        {
+          "type": "image",
+          "url": "./assets/image/l10-1.png",
+          "caption": "Итог - построеный лабиринт (можно выходить и за края экрана)" 
+        }
+      ]
+    },
+    {
+      "id": "t2",
+      "label": "PHASE_02 // PLAYER",
+      "header": "Создание игрока",
+      "items": [
+        { "type": "text", "val": "Создадим новую сцену: **Player** с типом: **CharacterBody2D**" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Player", "type": "CharacterBody2D", "level": 0 },
+            { "name": "Camera2D", "type": "Camera2D", "level": 1 },
+            { "name": "CollisionShape2D", "type": "CollisionShape2D", "level": 1 },
+            { "name": "AnimatedSprite2D", "type": "AnimatedSprite2D", "level": 1 }
+          ]
+        },
+        { "type": "grid", "items": [
+            "В свойствах камеры зададим **Zoom** на 2",
+            "В **CollisionShape2D** - Shape, и выбираем круг. Это область при которой игрок врезается в обьекты (стены)",
+            "В **AnimatedSprite2D** - Sprite Frames - Создаем новый и переходим туда",
+            "Настраиваем аниманию как на скриншоте ниже:"
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/image/l10-2.png",
+          "caption": "Анимация" 
+        },
+        { "type": "text", "val": "А после сам код. Правой кнопкой мыши по корню **Player** и **Прикрепить скрипт**" },
+        {
+          "type": "code",
+          "title": "player.gd",
+          "code": "extends CharacterBody2D\nvar speed = 70\n@onready var anim = $AnimatedSprite2D\nfunc _physics_process(_delta):\n\tvar input = Vector2(Input.get_action_strength('ui_right') - Input.get_action_strength('ui_left'), Input.get_action_strength('ui_down') - Input.get_action_strength('ui_up'))\n\tif input.x < 0:\n\t\tanim.flip_h = true\n\telif input.x > 0:\n\t\tanim.flip_h = false\n\tif input != Vector2.ZERO:\n\t\tanim.play('walk')\n\telse:\n\t\tanim.play('idle')\n\tvelocity = input.normalized() * speed\n\tmove_and_slide()"
+        },
+        { "type": "text", "val": "Теперь закинем игрока на карту и запускаем" }
+      ]
+    },
+    {
+      "id": "t3",
+      "label": "PHASE_03 // EXIT",
+      "header": "Выход и экраны победы/проигрыша",
+      "items": [
+        { "type": "text", "val": "Создадим сцену **Exit**" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Exit", "type": "Area2D", "level": 0 },
+            { "name": "CollisionShape2D", "type": "CollisionShape2D", "level": 1 },
+            { "name": "Sprite2D", "type": "Sprite2D", "level": 1 }
+          ]
+        },
+        { "type": "text", "val": "Сразу создадним еще 2 сцены - win и lose" },
+        { "type": "text", "val": "В спрайт выберите любую вашу текстуру, что подошла бы для выхода (сундук, ключ и т.д.). Добавим код ниже и закинем сразу выход на карту" },
+        {
+          "type": "code",
+          "title": "player.gd",
+          "code": "extends Area2D\n\n@onready var game_over_scene = preload('res://win.tscn')\n\nfunc _on_body_entered(body):\n\tif body.name == 'Player':\n\t\tget_tree().paused = true\n\t\tvar game_over = game_over_scene.instantiate()\n\t\tget_tree().root.add_child(game_over)"
+        },
+        { "type": "text", "val": "И последнее - добавим сигнал. Теперь как игрок подходит к выходу, игра замирает" }
+      ]
+    },
+    {
+      "id": "t4",
+      "label": "PHASE_04 // WIN_LOSE",
+      "header": "Сцены с текстом",
+      "items": [
+        { "type": "text", "val": "Теперь настроим саму сцену **win** и **lose** (Корень - **CanvasLayer**)" },
+        {
+          "type": "image",
+          "url": "./assets/image/l10-3.png",
+          "caption": "Итог - построеный лабиринт (можно выходить и за края экрана)" 
+        },
+        { "type": "text", "val": "Так же сделайте и с **lose**, теперь запустите игру еще раз и при соприкосновением с выходом - должен появится данный экран" }
+      ]
+    },
+    {
+      "id": "t5",
+      "label": "PHASE_05 // ENEMY",
+      "header": "Враг",
+      "items": [
+        { "type": "text", "val": "Все тоже самое, как и с игроком но с небольшими доработками. Создайте стену **Enemy**:" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Enemy", "type": "CharacterBody2D", "level": 0 },
+            { "name": "AnimatedSprite2D", "type": "AnimatedSprite2D", "level": 1 },
+            { "name": "CollisionShape2D", "type": "CollisionShape2D", "level": 1 },
+            { "name": "Area2D", "type": "Area2D", "level": 1 },
+            { "name": "CollisionShape2D", "type": "CollisionShape2D", "level": 2 }
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/image/l10-4.png",
+          "caption": "Итог - врага" 
+        },
+        { "type": "grid", "items": [
+            "Добавляем код ниже, сохраняем",
+            "Не забудем добавить сигнал к **Area2D**"
+          ]
+        },
+        {
+          "type": "code",
+          "title": "enemy.gd",
+          "code": "extends CharacterBody2D\n\n@onready var player = get_parent().get_node('Player')\n@onready var anim = $AnimatedSprite2D\n@onready var game_over_scene = preload('res://lose.tscn')\n\t\nfunc _physics_process(_delta):\n\tif not player:\n\t\treturn\n\n\tvar dir = (player.position - position).normalized()\n\tvelocity = dir * 50\n\tmove_and_slide()\n\t\n\tif velocity.x < 0:\n\t\tanim.flip_h = true\n\telif velocity.x > 0:\n\t\tanim.flip_h = false\n\nfunc _on_body_entered(body):\n\tif body.name == 'Player':\n\t\tget_tree().paused = true\n\t\tvar game_over = game_over_scene.instantiate()\n\t\tget_tree().root.add_child(game_over)"
+        },
+        { "type": "tip", "val": "Закидываем врага на карту и готово!" }
+      ]
+    },
+    {
+      "id": "t6",
+      "label": "PHASE_06 // COIN",
+      "header": "Создадим предметы что мы можем поднимать, для этого...",
+      "items": [
+        { "type": "text", "val": "Сначала создадим данную сцену: **coin_score**, а как сделаем, закинем ее на карту" },
+        {
+          "type": "image",
+          "url": "./assets/image/l10-5.png",
+          "caption": "Итог - сцена с подсчетом" 
+        },
+        {
+          "type": "code",
+          "title": "coin_score.gd",
+          "code": "extends CanvasLayer\n\n@onready var coin_label = $Label\nvar coin = 0\n\nfunc coin_plus():\n\tcoin = coin + 1\n\tcoin_label.text = str(coin)"
+        },
+        { "type": "text", "val": "Снова создаем сцену **coin** - например" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Coin", "type": "Node2D", "level": 0 },
+            { "name": "Sprite2D", "type": "Sprite2D", "level": 1 },
+            { "name": "Area2D", "type": "Area2D", "level": 1 },
+            { "name": "CollisionShape2D", "type": "CollisionShape2D", "level": 2 }
+          ]
+        },
+        { "type": "grid", "items": [
+            "Добавляем код ниже, сохраняем",
+            "Не забудем добавить сигнал к **Area2D**"
+          ]
+        },
+        {
+          "type": "code",
+          "title": "coin.gd",
+          "code": "extends Node2D\n\n@onready var coin_score = get_parent().get_node('CoinScore')\n\nfunc _on_body_entered(body):\n\tif body.name == 'Player':\n\t\tcoin_score.coin_plus()\n\t\tqueue_free()"
+        },
+        { "type": "tip", "val": "Раскидываем пару монет на сцену и готово!" }
+      ]
+    },
+    {
+      "id": "t7",
+      "label": "PHASE_07 // EXPORT",
+      "header": "Попробуем экспортировать проект",
+      "items": [
+        { "type": "text", "val": "Проект -> Экспорт -> Добавляем например Android" },
+        { "type": "grid", "items": [
+            "Только если мы ходим играть в игру на телефоне, надо добавить пару кнопок",
+            "Переходим в **CoinScore** и добавляем 4 обьекта **TouchScreenButton**",
+            "Задаем им текстуры (ниже по кнопке их можно скачать)",
+            "И задаем **Action**"
+          ]
+        },
+        { "type": "button", "text": "FREE_ASSET", "url": "../mobile-godot/assets/material/buttons.png" },
+        {
+          "type": "image",
+          "url": "./assets/image/l10-6.png",
+          "caption": "Кнопки для мобилки" 
+        }
+      ]
+    },
+    {
+      "id": "t8",
+      "label": "PHASE_08 // GAME",
+      "header": "Тестирование игры",
+      "items": [
+        {
+          "type": "image",
+          "url": "/it-course/assets/image/l10-7.png",
+          "caption": "apk файл maze" 
+        }
+      ]
+    },
+    {
+      "id": "t09",
+      "label": "PHASE_09 // GITHUB_REPORT",
+      "header": "Требования к оформлению на GitHub",
+      "items": [
+        { "type": "text", "val": "Все созданные ассеты — это Ваша интеллектуальная собственность и часть Вашего портфолио. Сохраним их в репозиторий." },
+        { "type": "tree", "nodes": [
+            { "name": "IT_PROJECTS", "type": "папка", "level": 0 },
+            { "name": "10_MAZE_CORE", "type": "папка", "level": 1 },
+            { "name": "Весь проект GODOT", "type": "переместите проект", "level": 2 },
+            { "name": "images", "type": "папка", "level": 2 },
+            { "name": "maze1.png", "type": "картинка сцены лабиринта", "level": 3 },
+            { "name": "maze2.png", "type": "картинка сцены выгрыша", "level": 3 },
+            { "name": "README.md", "type": "отчет", "level": 2 }
+        ]},
+        { "type": "code", "title": "Пример оформления README.md", "code": "# 10_MAZE_CORE\n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Студент:** Фамилия Имя\n\n## ОПИСАНИЕ\nНапишите описание вашей работы \n\n## СОЗДАННЫЕ СЦЕНЫ\n![Сцена с лабиринтом](/image/tetris1.png)\n![Скриншот сцены выгрыша](/assets/tetris2.png)" },
+        { "type": "text", "val": "Запушьте файлы в GitHub и вставьте ссылку на этот отчет в кнопку [ SUBMIT_REPORT ]." }
+      ]
+    }
+  ]
+}
