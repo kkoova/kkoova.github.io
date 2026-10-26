@@ -97,7 +97,7 @@
         {
           "type": "code",
           "title": "Player.gd (Дополнение)",
-          "code": "@export var hand: Sprite2D\n\nfunc _unhandled_input(event):\n\tif event.is_action_pressed('use_tool'):\n\t\tif Global.inventory.size() > 0:\n\t\t\tvar item = Global.inventory[0]\n\t\t\tif item.is_tool:\n\t\t\t\thand.texture = item.icon"
+          "code": "@export var hand: Sprite2D\n@export var item_resources: ItemData # Сюда закиньте топор, это будет 1 предмет\n\nfunc _ready() -> void:\n\tGlobal.add_item(item_resources)\n\nfunc _unhandled_input(event):\n\tif event.is_action_pressed('use_tool'):\n\t\tif Global.inventory.size() > 0:\n\t\t\tvar item = Global.inventory[0]\n\t\t\tif item.is_tool:\n\t\t\t\thand.texture = item.icon"
         }
       ]
     },
