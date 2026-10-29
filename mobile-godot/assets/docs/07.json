@@ -105,7 +105,7 @@
         {
           "type": "code",
           "title": "scripts/global.gd",
-          "code": "extends Node\n\nvar coins: int = 0\nvar coins_per_click: int = 1\nvar purchased_upgrades: Array[String] = []\n\nfunc add_coins(amount: int) -> void:\n\tcoins += amount\n\tif coins > 999: coins = 0\n\nfunc can_afford(price: int) -> bool:\n\treturn coins >= price\n\nfunc spend_coins(price: int) -> bool:\n\tif not can_afford(price):\n\t\treturn false\n\tcoins -= price\n\treturn true"
+          "code": "extends Node\n\nvar coins: int = 0\nvar coins_per_click: int = 1\nvar auto_coin = false\nvar purchased_upgrades: Array[String] = []\n\nfunc add_coins(amount: int) -> void:\n\tcoins += amount\n\tif coins > 999: coins = 0\n\nfunc can_afford(price: int) -> bool:\n\treturn coins >= price\n\nfunc spend_coins(price: int) -> bool:\n\tif not can_afford(price):\n\t\treturn false\n\tcoins -= price\n\treturn true"
         }
       ]
     },
@@ -230,13 +230,14 @@
           "items": [
             "Выберите **ClickButton**, откройте вкладку Node → Signals.",
             "Подключите сигнал `pressed()` к скрипту главной сцены.",
-            "Прикрепите `scripts/main.gd` к корневому узлу Main."
+            "Прикрепите `scripts/main.gd` к корневому узлу Main.",
+            "Создайте сигнал для **AnimatedSprite2D** = **animation_finished()**"
           ]
         },
         {
           "type": "code",
           "title": "scripts/main.gd",
-          "code": "extends Control\n\n@export var coins_label: Label\n@export var anim: AnimatedSprite2D\n\nfunc _ready() -> void:\n\tupdate_ui()\n\nfunc _on_click_button_pressed() -> void:\n\tGlobal.add_coins(Global.coins_per_click)\n\tanim.play('happy')\n\tupdate_ui()\n\nfunc update_ui() -> void:\n\tcoins_label.text = str(Global.coins)"
+          "code": "extends Control\n\n@export var coins_label: Label\n@export var anim: AnimatedSprite2D\n\nfunc _ready() -> void:\n\tupdate_ui()\n\nfunc _on_click_button_pressed() -> void:\n\tGlobal.add_coins(Global.coins_per_click)\n\tanim.play('happy')\n\tupdate_ui()\n\nfunc update_ui() -> void:\n\tcoins_label.text = str(Global.coins)\n\nfunc _on_animated_sprite_2d_animation_finished() -> void:\n\tanim.play('idle')"
         },
         {
           "type": "grid",
@@ -301,50 +302,49 @@
           "caption": "Интерфейс Shop"
         },
         {
+          "type": "text",
+          "val": "Сделаем переход на другую сцену по кнопке магазина в **main**. **Не забудте добавить сигнал!**"
+        },
+        {
           "type": "code",
           "title": "scripts/main.gd",
-          "code": "func _on_coin_timer_timeout() -> void:\n\tif Global.coins_per_second <= 0:\n\t\treturn\n\tGlobal.add_coins(Global.coins_per_second)\n\tupdate_ui()"
+          "code": "func _on_shop_button_pressed() -> void:\n\tget_tree().change_scene_to_file('res://scenes/shop.tscn')"
         },
         {
           "type": "text",
-          "val": "Для чистого поведения выключите `Autostart`: таймер должен начинать работу после покупки автоматического дохода. В `Global` можно добавить функцию `enable_auto_income()`, которая увеличивает `coins_per_second`, а затем вызвать `CoinTimer.start()`."
+          "val": "И выход из магазина на главный экран."
         },
         {
-          "type": "tip",
-          "val": "Не создавайте цикл `while` для начисления дохода. `Timer` работает асинхронно и не блокирует интерфейс."
+          "type": "code",
+          "title": "scripts/shop.gd",
+          "code": "func _on_down_button_pressed() -> void:\n\tget_tree().change_scene_to_file('res://scenes/main.tscn')"
         }
       ]
     },
     {
-      "id": "t6",
-      "label": "PHASE_06 // TIMER_INCOME",
+      "id": "t7",
+      "label": "PHASE_07 // TIMER_INCOME",
       "header": "Автоматический доход через Timer",
       "items": [
         {
           "type": "text",
-          "val": "В исходном проекте есть автоматическое начисление монет по таймеру. Реализуем его через узел `Timer`, который срабатывает раз в секунду."
+          "val": "Создадим улучшение, при покупке которого - раз в секунду нам капает определенное количествол монет, без нажатия на саму кнопку."
         },
         {
           "type": "grid",
           "items": [
-            "В `main.tscn` добавьте `Timer` с именем `CoinTimer` как дочерний узел корневого Main.",
-            "Установите `Wait Time = 1.0`, включите `Autostart` только для проверки или запускайте таймер после покупки улучшения.",
-            "Подключите сигнал `timeout()` к `main.gd`.",
-            "Добавьте обработчик ниже."
+            "В **main.tscn** добавьте **Timer**",
+            "Задайте таймеру сигнал **TimeOut**."
           ]
         },
         {
           "type": "code",
-          "title": "scripts/main.gd — добавьте обработчик",
-          "code": "func _on_coin_timer_timeout() -> void:\n\tif Global.coins_per_second <= 0:\n\t\treturn\n\tGlobal.add_coins(Global.coins_per_second)\n\tupdate_ui()"
+          "title": "scripts/main.gd",
+          "code": "func _on_timer_timeout() -> void:\n\tGlobal.coins += Global.coins_per_click\n\tupdate_ui()\n\tshow_floating_text()"
         },
         {
           "type": "text",
-          "val": "Для чистого поведения выключите `Autostart`: таймер должен начинать работу после покупки автоматического дохода. В `Global` можно добавить функцию `enable_auto_income()`, которая увеличивает `coins_per_second`, а затем вызвать `CoinTimer.start()`."
-        },
-        {
-          "type": "tip",
-          "val": "Не создавайте цикл `while` для начисления дохода. `Timer` работает асинхронно и не блокирует интерфейс."
+          "val": "Затем нам нужно активировать таймер после покупки улучшения за 150 золота"
         }
       ]
     },
