@@ -40,8 +40,21 @@
       ]
     },
     {
-      "id": "m04_networking",
-      "title": "04 // NETWORKING",
+      "id": "m04_cliker",
+      "title": "04 // COTO_CLICKER",
+      "subtitle": "Создание игрушки - кликера для телефона",
+      "preview_img": "assets/previews/lv-7.png",
+      "godot_path": "missions/m07_clicker/index.html",
+      "tutorial_url": "07.json",
+      "steps": [
+        "Работа с RigidBody2D и Kinematic (Character) Body.",
+        "Слои и маски коллизий (Collision Layers).",
+        "Обработка столкновений через RayCast2D."
+      ]
+    },
+    {
+      "id": "m05_networking",
+      "title": "05 // NETWORKING",
       "subtitle": "Мультиплеер и синхронизация объектов",
       "preview_img": "assets/previews/lv-4.png",
       "godot_path": "missions/m04_networking/index.html",
@@ -53,8 +66,8 @@
       ]
     },
     {
-      "id": "m05_networking_extended",
-      "title": "05 // NETWORKING_EXTENDED",
+      "id": "m06_networking_extended",
+      "title": "06 // NETWORKING_EXTENDED",
       "subtitle": "Самостоятельная работа. Доработка проекта с мультиплеером и синхронизацией объектов",
       "preview_img": "assets/previews/lv-5.png",
       "godot_path": "missions/m05_networking_extended/index.html",
@@ -66,8 +79,8 @@
       ]
     },
     {
-      "id": "m06_tetris_core",
-      "title": "06 // TETTRIS_CORE",
+      "id": "m07_tetris_core",
+      "title": "07 // TETTRIS_CORE",
       "subtitle": "Создание тетриса, подсчета очков и уровней",
       "preview_img": "assets/previews/lv-tet6.png",
       "godot_path": "missions/m06_tetris/index.html",
@@ -79,12 +92,12 @@
       ]
     },
     {
-      "id": "m07_???",
-      "title": "07 // ???",
+      "id": "m08_???",
+      "title": "08 // ???",
       "subtitle": "Предложите свою тему для разработки",
       "preview_img": "assets/previews/lv-6.png",
-      "godot_path": "missions/m07_???.index.html",
-      "tutorial_url": "07.json",
+      "godot_path": "missions/m08_???.index.html",
+      "tutorial_url": "08.json",
       "steps": [
         "Работа с RigidBody2D и Kinematic (Character) Body.",
         "Слои и маски коллизий (Collision Layers).",
@@ -92,8 +105,8 @@
       ]
     },
     {
-      "id": "m08_???",
-      "title": "08 // ???",
+      "id": "m09_???",
+      "title": "09 // ???",
       "subtitle": "Предложите свою тему для разработки",
       "preview_img": "assets/previews/lv-6.png",
       "godot_path": "missions/m08_???.index.html",

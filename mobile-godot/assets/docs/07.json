@@ -1,0 +1,692 @@
+{
+  "unit": "UNIT_06 // COTO_CLICKER",
+  "title": "COTO_CLICKER",
+  "phases": [
+    {
+      "id": "t0",
+      "label": "PHASE_0 // PROJECT_SETUP",
+      "header": "Подготовка проекта",
+      "items": [
+        {
+          "type": "text",
+          "val": "**Цель лабораторной работы:** с нуля создать мобильный кото-кликер. Игрок нажимает на кота, получает монеты, покупает улучшения и автоматический доход, сохраняет прогресс."
+        },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "04_COTO_CLICKER"],
+            ["RENDERER", "Nearest"],
+            ["WINDOW_SIZE", "120 x 213 px"],
+            ["Режим", "Maximazed"],
+            ["Соотношение", "keep"],
+            ["Ориентация", "Portait"]
+        ]
+        }
+      ]
+    },
+    {
+      "id": "t1",
+      "label": "PHASE_01 // PROJECT_STRUCTURE",
+      "header": "Структура проекта и сцены",
+      "items": [
+        {
+          "type": "text",
+          "val": "Перед разработкой создайте данные папки."
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            {
+              "name": "res://",
+              "type": "Корень проекта",
+              "level": 0
+            },
+            {
+              "name": "scenes/",
+              "type": "Сцены",
+              "level": 1
+            },
+            {
+              "name": "main.tscn",
+              "type": "Главный экран",
+              "level": 2
+            },
+            {
+              "name": "scripts/",
+              "type": "GDScript",
+              "level": 1
+            },
+            {
+              "name": "main.gd",
+              "type": "Логика кликов и интерфейса",
+              "level": 2
+            },
+            {
+              "name": "assets/",
+              "type": "Изображения, звук, тема",
+              "level": 1
+            },
+            {
+              "name": "README.md",
+              "type": "Описание проекта для GitHub",
+              "level": 1
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "items": [
+            "В FileSystem создайте папки `scenes`, `scripts`, `assets`.",
+            "Создайте сцену `main.tscn` с корневым узлом `Control` и сохраните её в `scenes/`.",
+            "Создайте скрипты с соответствующими именами в папке `scripts/`.",
+            "Не переименовывайте узлы после того, как пропишете к ним пути в скрипте, без последующего исправления путей."
+          ]
+        },
+        {
+          "type": "tip",
+          "val": "Названия узлов в этом руководстве приведены точно. Если вы выбрали другие имена, измените пути в коде так, чтобы они совпадали с деревом сцены."
+        }
+      ]
+    },
+    {
+      "id": "t2",
+      "label": "PHASE_02 // GLOBAL_STATE",
+      "header": "Общее состояние игры",
+      "items": [
+        {
+          "type": "text",
+          "val": "Баланс монет должен сохраняться при переходе между главным экраном и магазином. Для этого создадим глобальный узел `Global`. Он хранит количество монет, силу клика, доход в секунду и купленные улучшения."
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Создайте скрипт `scripts/global.gd`.",
+            "Откройте Project → Project Settings → Globals."
+          ]
+        },
+        {
+          "type": "code",
+          "title": "scripts/global.gd",
+          "code": "extends Node\n\nvar coins: int = 0\nvar coins_per_click: int = 1\nvar purchased_upgrades: Array[String] = []\n\nfunc add_coins(amount: int) -> void:\n\tcoins += amount\n\tif coins > 999: coins = 0\n\nfunc can_afford(price: int) -> bool:\n\treturn coins >= price\n\nfunc spend_coins(price: int) -> bool:\n\tif not can_afford(price):\n\t\treturn false\n\tcoins -= price\n\treturn true"
+        }
+      ]
+    },
+    {
+      "id": "t3",
+      "label": "PHASE_03 // MAIN_UI",
+      "header": "Создание главного экрана",
+      "items": [
+        {
+          "type": "text",
+          "val": "Соберём вертикальный интерфейс. Для мобильного приложения используйте контейнеры: они помогают расположить элементы при изменении размера экрана."
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            {
+              "name": "Main",
+              "type": "Control",
+              "level": 0
+            },
+            {
+              "name": "Background",
+              "type": "TileMapLayer",
+              "level": 1
+            },
+            {
+              "name": "MarginContainer",
+              "type": "MarginContainer",
+              "level": 1
+            },
+            {
+              "name": "VBoxContainer",
+              "type": "VBoxContainer",
+              "level": 2
+            },
+            {
+              "name": "CoinsControl",
+              "type": "Control",
+              "level": 4
+            },
+            {
+              "name": "CoinAndLevelTextureRect",
+              "type": "TextureRect",
+              "level": 5
+            },
+            {
+              "name": "LevelHBoxContainer",
+              "type": "HBoxContainer",
+              "level": 5
+            },
+            {
+              "name": "CoinsLabel",
+              "type": "Label",
+              "level": 5
+            },
+            {
+              "name": "CatPanel",
+              "type": "PanelContainer",
+              "level": 4
+            },
+            {
+              "name": "CatAnimatedSprite2D",
+              "type": "AnimatedSprite2D",
+              "level": 5
+            },
+            {
+              "name": "ClickButton",
+              "type": "Button",
+              "level": 4
+            },
+            {
+              "name": "ShopButton",
+              "type": "Button",
+              "level": 3
+            },
+            {
+              "name": "PauseButton",
+              "type": "Button",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "items": [
+            "В Main создайте новую тему, сразу сохраните ее в папку Assets (правый клик по теме - сохранить как)",
+            "Установите у LevelHBoxContainer: size(29,9) и Position(9,7)",
+            "Установите у LevelHBoxContainer: Layout Mod: Anchors, Anchors: По центру",
+            "Background сделайте с помощью плиток, как Вы создавали лабиринт в прошлой лабе (все ассеты снизу)",
+            "Для создания иных стилей, например для кнопок магазина и тд, создайте новый тип в теме (любой). Переменуйте, например **ShopButton** и В настройках: Базовый тип - Button ",
+            "После настройки новой темы для определеной кнопки, найдите кнопку, что хотите изменить: Theme -> Type Variation -> Выберите новый созданый тип"
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l07-1.png",
+          "caption": "Вид main интерфейса"
+        },
+        {
+          "type": "tip",
+          "val": "Пчелы, лягушка - были сделаны отдельными сценами с анимациями. Кот - две созданые анимации:"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l07-2.png",
+          "caption": "Анимация персонажа (можете выбрать любую)"
+        },
+        { "type": "button", "text": "FREE_ASSET", "url": "./assets/material/ASSET_PACK_04.zip" }  
+      ]
+    },
+    {
+      "id": "t4",
+      "label": "PHASE_04 // CLICK_LOGIC",
+      "header": "Механика клика и обновление интерфейса",
+      "items": [
+        {
+          "type": "text",
+          "val": "Теперь нужно реализовать кнопку, что будет добавлять монеты. Состояние хранится в `Global`, а функция `update_ui()` отображает актуальные значения на экране."
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Выберите **ClickButton**, откройте вкладку Node → Signals.",
+            "Подключите сигнал `pressed()` к скрипту главной сцены.",
+            "Прикрепите `scripts/main.gd` к корневому узлу Main."
+          ]
+        },
+        {
+          "type": "code",
+          "title": "scripts/main.gd",
+          "code": "extends Control\n\n@export var coins_label: Label\n@export var anim: AnimatedSprite2D\n\nfunc _ready() -> void:\n\tupdate_ui()\n\nfunc _on_click_button_pressed() -> void:\n\tGlobal.add_coins(Global.coins_per_click)\n\tanim.play('happy')\n\tupdate_ui()\n\nfunc update_ui() -> void:\n\tcoins_label.text = str(Global.coins)"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Запустите сцену F6 или проект F5.",
+            "Нажмите на кнопку кота несколько раз, теперь там должно быть новое число и иная анимация кота"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "t5",
+      "label": "PHASE_05 // FLOATING_TEXT",
+      "header": "Всплывающий текст за клик",
+      "items": [
+        {
+          "type": "text",
+          "val": "Добавим короткий визуальный отклик: рядом с кнопкой появляется `+1`, `+2` и т. п., затем текст плавно исчезает."
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Создайте сцену `scenes/float_text.tscn` с корневым узлом `Label` и сохраните её.",
+            "Задайте текст по умолчанию `+1`.",
+            "Прикрепите `scripts/float_text.gd`.",
+            "Вернитесь к `main.gd` и добавьте preload сцены и вызов функции после клика."
+          ]
+        },
+        {
+          "type": "code",
+          "title": "scripts/float_text.gd",
+          "code": "extends Label\n\nfunc _ready() -> void:\n\tvar tween = create_tween()\n\ttween.tween_property(self, 'position:y', position.y - 4, 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)\n\ttween.parallel().tween_property(self, 'modulate:a', 0.0, 0.5)\n\ttween.finished.connect(queue_free)"
+        },
+        {
+          "type": "code",
+          "title": "Добавьте в scripts/main.gd",
+          "code": "const FLOAT_TEXT_SCENE: PackedScene = preload(\"res://scenes/float_text.tscn\")\n\nfunc show_floating_text() -> void:\n\tvar text_instance = FLOAT_TEXT_SCENE.instantiate()\n\ttext_instance.text = '+' + str(Global.coins_per_click)\n\tadd_child(text_instance)\n\tvar random_x = randi_range(20, 100)\n\tvar random_y = randi_range(80, 150)\n\text_instance.position = Vector2(random_x, random_y)"
+        },
+        {
+          "type": "text",
+          "val": "Внутри **_on_click_button_pressed()** после `update_ui()` вызовите `show_floating_text()`. Теперь - по нажатию кнопки, должны вылетать числа"
+        }
+      ]
+    },
+    {
+      "id": "t6",
+      "label": "PHASE_06 // SHOP",
+      "header": "Страница магазина",
+      "items": [
+        {
+          "type": "grid",
+          "items": [
+            "Создайте новую сцену - **Shop**",
+            "Самостоятельно создайте интерфейс, представленный ниже",
+            "Подсказка: для получения иконки, в кнопке покупки, давайте значение **icon**",
+            "Подскахка: текст находиться в **PanelContainer** но с индивидуальной вариацией темы."
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l07-3.png",
+          "caption": "Интерфейс Shop"
+        },
+        {
+          "type": "code",
+          "title": "scripts/main.gd",
+          "code": "func _on_coin_timer_timeout() -> void:\n\tif Global.coins_per_second <= 0:\n\t\treturn\n\tGlobal.add_coins(Global.coins_per_second)\n\tupdate_ui()"
+        },
+        {
+          "type": "text",
+          "val": "Для чистого поведения выключите `Autostart`: таймер должен начинать работу после покупки автоматического дохода. В `Global` можно добавить функцию `enable_auto_income()`, которая увеличивает `coins_per_second`, а затем вызвать `CoinTimer.start()`."
+        },
+        {
+          "type": "tip",
+          "val": "Не создавайте цикл `while` для начисления дохода. `Timer` работает асинхронно и не блокирует интерфейс."
+        }
+      ]
+    },
+    {
+      "id": "t6",
+      "label": "PHASE_06 // TIMER_INCOME",
+      "header": "Автоматический доход через Timer",
+      "items": [
+        {
+          "type": "text",
+          "val": "В исходном проекте есть автоматическое начисление монет по таймеру. Реализуем его через узел `Timer`, который срабатывает раз в секунду."
+        },
+        {
+          "type": "grid",
+          "items": [
+            "В `main.tscn` добавьте `Timer` с именем `CoinTimer` как дочерний узел корневого Main.",
+            "Установите `Wait Time = 1.0`, включите `Autostart` только для проверки или запускайте таймер после покупки улучшения.",
+            "Подключите сигнал `timeout()` к `main.gd`.",
+            "Добавьте обработчик ниже."
+          ]
+        },
+        {
+          "type": "code",
+          "title": "scripts/main.gd — добавьте обработчик",
+          "code": "func _on_coin_timer_timeout() -> void:\n\tif Global.coins_per_second <= 0:\n\t\treturn\n\tGlobal.add_coins(Global.coins_per_second)\n\tupdate_ui()"
+        },
+        {
+          "type": "text",
+          "val": "Для чистого поведения выключите `Autostart`: таймер должен начинать работу после покупки автоматического дохода. В `Global` можно добавить функцию `enable_auto_income()`, которая увеличивает `coins_per_second`, а затем вызвать `CoinTimer.start()`."
+        },
+        {
+          "type": "tip",
+          "val": "Не создавайте цикл `while` для начисления дохода. `Timer` работает асинхронно и не блокирует интерфейс."
+        }
+      ]
+    },
+    {
+      "id": "t7",
+      "label": "PHASE_07 // SHOP_SCENE",
+      "header": "Магазин улучшений",
+      "items": [
+        {
+          "type": "text",
+          "val": "Магазин — отдельная сцена, в которой игрок тратит монеты на улучшение силы клика или автоматический доход. Переход между сценами не сбрасывает `Global`, потому что он подключён через Autoload."
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            {
+              "name": "Shop (Control)",
+              "type": "Корень магазина",
+              "level": 0
+            },
+            {
+              "name": "MarginContainer",
+              "type": "Отступы",
+              "level": 1
+            },
+            {
+              "name": "VBoxContainer",
+              "type": "Вертикальный контейнер",
+              "level": 2
+            },
+            {
+              "name": "CoinsLabel (Label)",
+              "type": "Баланс",
+              "level": 3
+            },
+            {
+              "name": "ClickUpgradeButton (Button)",
+              "type": "Улучшение клика",
+              "level": 3
+            },
+            {
+              "name": "AutoUpgradeButton (Button)",
+              "type": "Автоматический доход",
+              "level": 3
+            },
+            {
+              "name": "BackButton (Button)",
+              "type": "Назад",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Создайте дерево узлов для `shop.tscn`.",
+            "Прикрепите `scripts/shop.gd` к корню Shop.",
+            "Подключите `pressed()` каждой кнопки к обработчику с соответствующим именем.",
+            "На главной сцене подключите ShopButton к функции перехода в магазин."
+          ]
+        },
+        {
+          "type": "code",
+          "title": "scripts/shop.gd",
+          "code": "extends Control\n\n@onready var coins_label: Label = $MarginContainer/VBoxContainer/CoinsLabel\n@onready var click_button: Button = $MarginContainer/VBoxContainer/ClickUpgradeButton\n@onready var auto_button: Button = $MarginContainer/VBoxContainer/AutoUpgradeButton\n\nconst CLICK_PRICE := 25\nconst AUTO_PRICE := 100\n\nfunc _ready() -> void:\n\tupdate_ui()\n\nfunc update_ui() -> void:\n\tcoins_label.text = \"Монеты: \" + str(Global.coins)\n\tclick_button.text = \"Усилить клик (+1) — \" + str(CLICK_PRICE)\n\tauto_button.text = \"Доход +1/сек — \" + str(AUTO_PRICE)\n\nfunc _on_click_upgrade_button_pressed() -> void:\n\tif Global.spend_coins(CLICK_PRICE):\n\t\tGlobal.coins_per_click += 1\n\t\tupdate_ui()\n\nfunc _on_auto_upgrade_button_pressed() -> void:\n\tif Global.spend_coins(AUTO_PRICE):\n\t\tGlobal.coins_per_second += 1\n\t\tupdate_ui()\n\nfunc _on_back_button_pressed() -> void:\n\tget_tree().change_scene_to_file(\"res://scenes/main.tscn\")"
+        },
+        {
+          "type": "text",
+          "val": "В `main.gd` добавьте обработчик кнопки магазина:"
+        },
+        {
+          "type": "code",
+          "title": "scripts/main.gd — переход в магазин",
+          "code": "func _on_shop_button_pressed() -> void:\n\tget_tree().change_scene_to_file(\"res://scenes/shop.tscn\")"
+        },
+        {
+          "type": "tip",
+          "val": "Проверьте три случая: покупка при достаточном балансе, попытка купить при нехватке монет и повторная покупка. В текущей версии улучшения можно покупать многократно; это ожидаемое поведение."
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l06-5.png",
+          "caption": "ЗАГЛУШКА ДЛЯ СКРИНШОТА: магазин с балансом, двумя улучшениями и кнопкой Назад."
+        }
+      ]
+    },
+    {
+      "id": "t8",
+      "label": "PHASE_08 // SAVE_LOAD",
+      "header": "Сохранение и загрузка прогресса",
+      "items": [
+        {
+          "type": "text",
+          "val": "Сохраним игровые значения в JSON-файл в пользовательской папке. Путь `user://` предназначен для пользовательских данных и не зависит от того, где лежит проект."
+        },
+        {
+          "type": "code",
+          "title": "Добавьте в scripts/global.gd",
+          "code": "func save_game() -> void:\n\tvar data := {\n\t\t\"coins\": coins,\n\t\t\"coins_per_click\": coins_per_click,\n\t\t\"coins_per_second\": coins_per_second,\n\t\t\"purchased_upgrades\": purchased_upgrades\n\t}\n\tvar file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)\n\tif file == null:\n\t\tpush_error(\"Не удалось открыть файл сохранения для записи\")\n\t\treturn\n\tfile.store_string(JSON.stringify(data))\n\nfunc load_game() -> void:\n\tif not FileAccess.file_exists(SAVE_PATH):\n\t\treturn\n\tvar file := FileAccess.open(SAVE_PATH, FileAccess.READ)\n\tif file == null:\n\t\treturn\n\tvar parsed: Variant = JSON.parse_string(file.get_as_text())\n\tif typeof(parsed) != TYPE_DICTIONARY:\n\t\tpush_warning(\"Файл сохранения имеет неверный формат\")\n\t\treturn\n\tcoins = int(parsed.get(\"coins\", 0))\n\tcoins_per_click = int(parsed.get(\"coins_per_click\", 1))\n\tcoins_per_second = int(parsed.get(\"coins_per_second\", 0))\n\tvar raw_upgrades: Variant = parsed.get(\"purchased_upgrades\", [])\n\tpurchased_upgrades.clear()\n\tfor upgrade in raw_upgrades:\n\t\tpurchased_upgrades.append(str(upgrade))"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Добавьте на главный экран кнопку `Сохранить` и подключите её к `Global.save_game()`.",
+            "В `main.gd` в функции `_ready()` вызовите `Global.load_game()` до `update_ui()`.",
+            "После загрузки, если `Global.coins_per_second > 0`, запустите `CoinTimer`.",
+            "Проверьте: заработайте монеты, сохраните игру, остановите проект и запустите снова.",
+            "Проверьте, что баланс и улучшения восстановились."
+          ]
+        },
+        {
+          "type": "tip",
+          "val": "Если `load_game()` вызывается после `update_ui()`, экран покажет старые значения до следующего обновления. Сначала загрузите данные, затем обновите интерфейс."
+        }
+      ]
+    },
+    {
+      "id": "t9",
+      "label": "PHASE_09 // MENU_FLOW",
+      "header": "Меню и навигация",
+      "items": [
+        {
+          "type": "text",
+          "val": "Добавим стартовый экран с кнопками «Новая игра», «Продолжить» и «Выход». В этой версии «Продолжить» загружает сохранение, если оно существует."
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            {
+              "name": "Menu (Control)",
+              "type": "Корень меню",
+              "level": 0
+            },
+            {
+              "name": "CenterContainer",
+              "type": "Центрирование",
+              "level": 1
+            },
+            {
+              "name": "VBoxContainer",
+              "type": "Вертикальная компоновка",
+              "level": 2
+            },
+            {
+              "name": "TitleLabel (Label)",
+              "type": "Название игры",
+              "level": 3
+            },
+            {
+              "name": "NewGameButton (Button)",
+              "type": "Новая игра",
+              "level": 3
+            },
+            {
+              "name": "ContinueButton (Button)",
+              "type": "Продолжить",
+              "level": 3
+            },
+            {
+              "name": "QuitButton (Button)",
+              "type": "Выход",
+              "level": 3
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "title": "scripts/menu.gd",
+          "code": "extends Control\n\nfunc _on_new_game_button_pressed() -> void:\n\tGlobal.coins = 0\n\tGlobal.coins_per_click = 1\n\tGlobal.coins_per_second = 0\n\tGlobal.purchased_upgrades.clear()\n\tget_tree().change_scene_to_file(\"res://scenes/main.tscn\")\n\nfunc _on_continue_button_pressed() -> void:\n\tGlobal.load_game()\n\tget_tree().change_scene_to_file(\"res://scenes/main.tscn\")\n\nfunc _on_quit_button_pressed() -> void:\n\tget_tree().quit()"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Подключите `scripts/menu.gd` к Menu.",
+            "Создайте три кнопки и подключите их сигналы.",
+            "В Project → Project Settings → Application → Run установите `res://scenes/menu.tscn` как Main Scene.",
+            "Убедитесь, что кнопка «Новая игра» сбрасывает прогресс, а «Продолжить» загружает сохранение."
+          ]
+        },
+        {
+          "type": "tip",
+          "val": "Если в меню нет сохранения, кнопка «Продолжить» должна быть выключена. Это можно добавить как небольшое улучшение после основной реализации."
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l06-6.png",
+          "caption": "ЗАГЛУШКА ДЛЯ СКРИНШОТА: стартовое меню кото-кликера."
+        }
+      ]
+    },
+    {
+      "id": "t10",
+      "label": "PHASE_10 // POLISH_TEST",
+      "header": "Проверка и завершение основной версии",
+      "items": [
+        {
+          "type": "text",
+          "val": "Перед самостоятельными заданиями убедитесь, что основная версия работает. Не переходите к дополнительным функциям, пока не исправлены ошибки в базовом сценарии."
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Клик по коту увеличивает баланс на текущую силу клика.",
+            "Баланс обновляется на главном экране и в магазине.",
+            "Покупка улучшения списывает стоимость только при достаточном балансе.",
+            "Автоматический доход начисляется раз в секунду после покупки.",
+            "Кнопки перехода между сценами работают.",
+            "Сохранение и загрузка восстанавливают все основные значения.",
+            "Кнопка «Новая игра» сбрасывает текущий прогресс.",
+            "В Output нет ошибок при запуске и переключении сцен."
+          ]
+        },
+        {
+          "type": "text",
+          "val": "**Проверка сохранения:** после покупки улучшения сохраните игру, перезапустите приложение и проверьте, что сила клика и автоматический доход не сбросились."
+        },
+        {
+          "type": "tip",
+          "val": "В исходном репозитории есть анимация кота, звук клика, всплывающий текст, магазин, глобальное состояние и сохранение. Ваша базовая версия уже повторяет ключевую структуру, даже если пока использует временные изображения."
+        }
+      ]
+    },
+    {
+      "id": "t11",
+      "label": "PHASE_11 // MINI_WORK_1",
+      "header": "Самостоятельная работа №1: анимация и звук",
+      "items": [
+        {
+          "type": "text",
+          "val": "**Задача:** заменить временную кнопку на изображение кота с анимацией и добавить звуковой отклик при нажатии."
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Добавьте `AnimatedSprite2D` или используйте `TextureButton` с подходящими текстурами.",
+            "Для `AnimatedSprite2D` создайте ресурс `SpriteFrames` и минимум две анимации: `idle` и `happy`.",
+            "При клике запускайте `happy`, а после завершения возвращайтесь к `idle`.",
+            "Добавьте `AudioStreamPlayer` и подключите короткий звук клика.",
+            "Сделайте небольшое изменение `pitch_scale` при каждом клике в диапазоне примерно 0.9–1.1.",
+            "Сохраните и проверьте работу на портретном экране."
+          ]
+        },
+        {
+          "type": "text",
+          "val": "**Критерии приёмки:** кот отображается; анимация запускается при клике и возвращается в idle; звук воспроизводится; начисление монет не ломается; интерфейс остаётся читаемым."
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l06-7.png",
+          "caption": "ЗАГЛУШКА ДЛЯ СКРИНШОТА: инспектор SpriteFrames с анимациями idle и happy."
+        }
+      ]
+    },
+    {
+      "id": "t12",
+      "label": "PHASE_12 // MINI_WORK_2",
+      "header": "Самостоятельная работа №2: уровни улучшений и баланс",
+      "items": [
+        {
+          "type": "text",
+          "val": "**Задача:** расширить магазин так, чтобы улучшения имели разные цены и эффект, а купленные одноразовые улучшения нельзя было купить повторно."
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Добавьте улучшение «Золотая лапка»: цена 250 монет, увеличивает силу клика на 5.",
+            "Добавьте улучшение «Автокормушка»: цена 400 монет, увеличивает автоматический доход на 3 монеты в секунду.",
+            "Каждому улучшению задайте уникальный строковый ID, например `golden_paw` и `auto_feeder`.",
+            "Перед покупкой проверьте баланс и наличие ID в `Global.purchased_upgrades`.",
+            "После успешной покупки списывайте монеты, применяйте эффект, записывайте ID и обновляйте UI.",
+            "Восстановите состояние кнопок магазина после загрузки сохранения."
+          ]
+        },
+        {
+          "type": "text",
+          "val": "**Критерии приёмки:** улучшение нельзя купить без средств; одноразовое улучшение не покупается повторно; эффекты корректно складываются; купленные ID сохраняются и загружаются; интерфейс показывает актуальный баланс."
+        },
+        {
+          "type": "tip",
+          "val": "Не храните в массиве улучшений NodePath кнопки. Храните стабильные строковые идентификаторы улучшений — они не зависят от расположения узлов в сцене."
+        }
+      ]
+    },
+    {
+      "id": "t13",
+      "label": "PHASE_13 // GITHUB",
+      "header": "Загрузка проекта на GitHub",
+      "items": [
+        {
+          "type": "text",
+          "val": "Перед отправкой проверьте, что проект открывается из чистой копии и в репозитории есть исходники, необходимые для запуска. Не загружайте кэш редактора `.godot/`."
+        },
+        {
+          "type": "config",
+          "data": [
+            [
+              "REPOSITORY_NAME",
+              "06_COTO_CLICKER"
+            ],
+            [
+              "VISIBILITY",
+              "PUBLIC (если преподаватель не указал иное)"
+            ],
+            [
+              "BRANCH",
+              "main"
+            ],
+            [
+              "REQUIRED_FILES",
+              "project.godot, scenes/, scripts/, assets/, README.md, .gitignore"
+            ]
+          ]
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Создайте новый репозиторий GitHub с названием `06_COTO_CLICKER`.",
+            "В корне проекта создайте или проверьте `.gitignore`. Добавьте строку `.godot/`.",
+            "Не удаляйте `project.godot`, сцены, скрипты, исходные изображения и звуки, которые используются проектом.",
+            "Откройте терминал в папке проекта и выполните команды ниже. Если Git уже инициализирован, не повторяйте `git init`.",
+            "После отправки откройте репозиторий в браузере и проверьте, что файлы появились."
+          ]
+        },
+        {
+          "type": "code",
+          "title": "Команды Git",
+          "code": "git init\ngit add .\ngit commit -m \"Create coto clicker prototype\"\ngit branch -M main\ngit remote add origin https://github.com/ВАШ_ЛОГИН/06_COTO_CLICKER.git\ngit push -u origin main"
+        },
+        {
+          "type": "text",
+          "val": "Если команда `git remote add origin` сообщает, что `origin` уже существует, проверьте `git remote -v` и при необходимости используйте `git remote set-url origin https://github.com/ВАШ_ЛОГИН/06_COTO_CLICKER.git`. Не публикуйте токены, пароли и личные ключи в репозитории."
+        },
+        {
+          "type": "code",
+          "title": "README.md",
+          "code": "# 06_COTO_CLICKER\n\n> Автор: Фамилия Имя Отчество\n> Группа: ___\n> Дата: ДД.ММ.ГГГГ\n\n## Описание\nМобильный кликер на Godot: игрок получает монеты за нажатия, покупает улучшения и автоматический доход. Реализованы сохранение и загрузка прогресса.\n\n## Управление\n- Нажатие на кота — получить монеты.\n- Магазин — приобрести улучшения.\n- Сохранить — записать прогресс.\n\n## Реализованные функции\n- [ ] Клик и обновление баланса\n- [ ] Магазин улучшений\n- [ ] Автоматический доход\n- [ ] Сохранение и загрузка\n- [ ] Анимация кота и звук\n- [ ] Дополнительные улучшения\n\n## Скриншоты\nДобавьте скриншоты главного экрана и магазина в папку `screenshots/`.\n\n## Ссылка на репозиторий\nВставьте ссылку на GitHub."
+        },
+        {
+          "type": "text",
+          "val": "**Что отправить преподавателю:** ссылку на публичный репозиторий, скриншот главного экрана, скриншот магазина и короткое описание двух самостоятельных работ."
+        }
+      ]
+    }
+  ]
+}
