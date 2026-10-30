@@ -47,9 +47,9 @@
       "godot_path": "missions/m07_clicker/index.html",
       "tutorial_url": "07.json",
       "steps": [
-        "Работа с RigidBody2D и Kinematic (Character) Body.",
-        "Слои и маски коллизий (Collision Layers).",
-        "Обработка столкновений через RayCast2D."
+        "Работа с темами и состояниями",
+        "Новые сигналы и локальное сохранение игры",
+        "Экспорт на телефон"
       ]
     },
     {
