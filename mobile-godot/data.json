@@ -60,9 +60,9 @@
       "godot_path": "missions/m04_networking/index.html",
       "tutorial_url": "04.json",
       "steps": [
-        "Работа с RigidBody2D и Kinematic (Character) Body.",
-        "Слои и маски коллизий (Collision Layers).",
-        "Обработка столкновений через RayCast2D."
+        "Работа с мультиплеером",
+        "Хост и подключение к друг другу",
+        "Работа с синхронизацией"
       ]
     },
     {
@@ -73,9 +73,12 @@
       "godot_path": "missions/m05_networking_extended/index.html",
       "tutorial_url": "05.json",
       "steps": [
-        "Работа с RigidBody2D и Kinematic (Character) Body.",
-        "Слои и маски коллизий (Collision Layers).",
-        "Обработка столкновений через RayCast2D."
+        "Доработка мультиплеера",
+        "Доработка мультиплеера",
+        "Доработка мультиплеера",
+        "Доработка мультиплеера",
+        "Доработка мультиплеера",
+        "Доработка мультиплеера"
       ]
     },
     {
