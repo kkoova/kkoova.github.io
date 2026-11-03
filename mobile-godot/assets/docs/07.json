@@ -200,9 +200,43 @@
           ]
         },
         {
+          "type": "text",
+          "val": "Подробнее по созданию индивидуальных стилей ниже: (Задавайте таким кнопкам **Custom Minimum Size**)"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l07-8.png",
+          "caption": "Создайте новый любой стиль. Не обязательно кнопку"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l07-9.png",
+          "caption": "Как то его переименуйте"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l07-10.png",
+          "caption": "Задайте базовый тип - кнопка"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l07-11.png",
+          "caption": "Настройте стили именно для этой кнопки "
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l07-13.png",
+          "caption": "Например - как должна выглядеть кнопка ShopButton (слева - normal, справа - hover и pressed)"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l07-12.png",
+          "caption": "Задайте кнопке новый индивидуальный стиль "
+        },
+        {
           "type": "image",
           "url": "./assets/img/l07-1.png",
-          "caption": "Вид main интерфейса"
+          "caption": "Вид main интерфейса, как в итоге должно получиться"
         },
         {
           "type": "tip",
@@ -349,7 +383,7 @@
         {
           "type": "code",
           "title": "scripts/main.gd",
-          "code": "func _ready() -> void:\n\tupdate_ui()\n\tif Global.auto_coin:\n\t\ttimer_coin.start()\n\nfunc _on_timer_timeout() -> void:\n\tGlobal.coins += Global.coins_per_click\n\tupdate_ui()\n\tshow_floating_text()"
+          "code": "@export var timer_coin: Timer\n\nfunc _ready() -> void:\n\tupdate_ui()\n\tif Global.auto_coin:\n\t\ttimer_coin.start()\n\nfunc _on_timer_timeout() -> void:\n\tGlobal.coins += Global.coins_per_click\n\tupdate_ui()\n\tshow_floating_text()"
         },
         {
           "type": "text",
