@@ -11,64 +11,12 @@
           "type": "text",
           "val": "**Цель проекта:** Игрок перемещается по небольшой локации, забрасывает удочку в воду, ждёт поклёвку, проходит мини-игру и получает рыбу. В проекте будут данные рыб, редкость улова, игровое время и интерфейс."
         },
-        {
-          "type": "config",
-          "data": [
-            [
-              "PROJECT_NAME",
-              "Fishing"
-            ],
-            [
-              "ENGINE",
-              "Godot 4.7"
-            ],
-            [
-              "LANGUAGE",
-              "GDScript"
-            ],
-            [
-              "RENDERER",
-              "GL Compatibility"
-            ],
-            [
-              "VIEWPORT",
-              "480 × 270 px"
-            ],
-            [
-              "WINDOW_MODE",
-              "Maximized"
-            ],
-            [
-              "STRETCH_MODE",
-              "canvas_items"
-            ],
-            [
-              "STRETCH_ASPECT",
-              "expand"
-            ],
-            [
-              "INPUT_INTERACT",
-              "E"
-            ],
-            [
-              "INPUT_MOVEMENT",
-              "WASD / стрелки"
-            ]
-          ]
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Создайте новый проект с именем `Fishing`.",
-            "Выберите рендерер **GL Compatibility**. Он соответствует настройке исходного проекта.",
-            "В Project Settings → Display → Window задайте viewport 480 × 270.",
-            "Установите Stretch Mode = `canvas_items`, Aspect = `expand`.",
-            "Сохраните проект и запустите пустую сцену клавишей F6 после её создания."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "В руководстве используется Godot 4.7 и TileMapLayer. В Godot 4.3+ отдельные слои карты создаются узлами TileMapLayer, а не старым общим TileMap."
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "06_FISHING"],
+            ["RENDERER", "Nearest"],
+            ["WINDOW_SIZE", "480 x 270 px"],
+            ["Режим", "Maximazed"]
+        ]
         }
       ]
     },
@@ -90,702 +38,108 @@
               "level": 0
             },
             {
-              "name": "assets/",
+              "name": "assets",
               "type": "Графика, звук и шрифты",
               "level": 1
             },
             {
-              "name": "characters/",
-              "type": "Спрайты персонажа",
+              "name": "Сюда поместите папки из архива ASSET_PACK_08.zip",
+              "type": "FREE_ASSET",
               "level": 2
             },
             {
-              "name": "environment/",
-              "type": "Тайлсеты и окружение",
-              "level": 2
-            },
-            {
-              "name": "fish/",
-              "type": "Иконки рыб",
-              "level": 2
-            },
-            {
-              "name": "ui/",
-              "type": "Графика интерфейса",
-              "level": 2
-            },
-            {
-              "name": "audio/",
-              "type": "Звуковые эффекты",
-              "level": 2
-            },
-            {
-              "name": "resources/",
+              "name": "resources",
               "type": "Ресурсы данных игры",
               "level": 1
             },
             {
-              "name": "fish/",
+              "name": "fish",
               "type": "Файлы .tres с описанием рыб",
               "level": 2
             },
             {
-              "name": "scenes/",
+              "name": "scenes",
               "type": "Сцены игры",
               "level": 1
             },
             {
-              "name": "world/",
+              "name": "world",
               "type": "Главная игровая локация",
               "level": 2
             },
             {
-              "name": "player/",
+              "name": "player",
               "type": "Персонаж и его визуальные компоненты",
               "level": 2
             },
             {
-              "name": "fishing/",
+              "name": "fishing",
               "type": "Поплавок и мини-игра",
               "level": 2
             },
             {
-              "name": "ui/",
+              "name": "ui",
               "type": "Интерфейс",
               "level": 2
             },
             {
-              "name": "script/",
+              "name": "script",
               "type": "GDScript",
               "level": 1
             },
             {
-              "name": "core/",
+              "name": "core",
               "type": "Общие системы и данные",
               "level": 2
             },
             {
-              "name": "entities/player/",
+              "name": "player",
               "type": "Логика игрока и состояния",
               "level": 2
             },
             {
-              "name": "state_machine/",
-              "type": "Конечный автомат",
+              "name": "state_machine",
+              "type": "Управление состояниями - основа",
               "level": 2
             },
             {
-              "name": "systems/",
+              "name": "systems",
               "type": "Игровые системы",
               "level": 2
             },
             {
-              "name": "ui/",
+              "name": "ui",
               "type": "Логика интерфейса",
               "level": 2
-            },
-            {
-              "name": "project.godot",
-              "type": "Настройки проекта",
-              "level": 1
             }
           ]
         },
+        { "type": "button", "text": "FREE_ASSET", "url": "./assets/material/ASSET_PACK_08.zip" },
         {
           "type": "grid",
           "items": [
             "Создайте все перечисленные папки в FileSystem.",
-            "Создайте сцену `scenes/world/world.tscn` с корневым узлом `Node2D` и именем `World`.",
-            "Сохраните сцену и назначьте её главной: Project → Project Settings → Application → Run → Main Scene.",
-            "Добавьте в `World` дочерний `Node2D` с именем `Map`.",
-            "Запустите проект. Ожидаемый результат — пустое окно без ошибок."
+            "Создайте сцену **scenes/world/world.tscn** с корневым узлом **Node2D** и именем **World**.",
+            "Добавьте в `World` дочерний `Node2D` с именем **Map**.",
+            "Добавьте в Map три дочерних узла **TileMapLayer**"
           ]
         },
-        {
-          "type": "tip",
-          "val": "В исходной ветке используется папка `script/resourse/` для класса ItemData. В этом учебном варианте данные хранятся в `resources/`, а скрипты — в `script/`. Не смешивайте эти два назначения."
-        }
-      ]
-    },
-    {
-      "id": "t2",
-      "label": "PHASE_02 // INPUT_MAP",
-      "header": "Настройка управления",
-      "items": [
         {
           "type": "text",
-          "val": "Сначала создайте действия ввода. Это позволит менять клавиши без переписывания логики персонажа."
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Откройте Project → Project Settings → Input Map.",
-            "Добавьте действие `move_up` и назначьте W и Up.",
-            "Добавьте `move_down` и назначьте S и Down.",
-            "Добавьте `move_left` и назначьте A и Left.",
-            "Добавьте `move_right` и назначьте D и Right.",
-            "Добавьте `interact` и назначьте E.",
-            "Добавьте `ui_accept` не требуется создавать вручную: это стандартное действие Godot, используемое мини-игрой."
-          ]
-        },
-        {
-          "type": "code",
-          "filename": "script/core/game_input_event.gd",
-          "val": "class_name GameInputEvent\nextends RefCounted\n\nstatic func movement_input() -> Vector2:\n    var direction := Input.get_vector(\n        \"move_left\",\n        \"move_right\",\n        \"move_up\",\n        \"move_down\"\n    )\n    return direction\n\nstatic func is_movement_input() -> bool:\n    return movement_input() != Vector2.ZERO\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Сохраните скрипт `game_input_event.gd` по указанному пути.",
-            "Класс `GameInputEvent` будет вызываться из состояний игрока как статический вспомогательный класс.",
-            "Проверьте, что все четыре действия движения существуют в Input Map."
-          ]
-        },
-        {
-          "type": "result",
-          "val": "**Проверка:** на этом этапе игровой персонаж ещё не создан. В проекте должны быть настроены действия движения и взаимодействия, а скрипт `GameInputEvent` должен сохраняться без ошибок."
-        }
-      ]
-    },
-    {
-      "id": "t3",
-      "label": "PHASE_03 // WORLD_TILEMAP",
-      "header": "Создание игровой карты и воды",
-      "items": [
-        {
-          "type": "text",
-          "val": "Игрок будет определять возможность рыбалки по пользовательскому свойству тайла `is_water`. Поэтому слой воды должен быть отдельным TileMapLayer."
+          "val": "Как итог - такая стуктура сцены:"
         },
         {
           "type": "tree",
           "nodes": [
             {
               "name": "World",
-              "type": "Node2D",
+              "type": "Control",
               "level": 0
             },
             {
               "name": "Map",
-              "type": "Node2D — контейнер слоёв карты",
+              "type": "Control",
               "level": 1
-            },
-            {
-              "name": "Ground",
-              "type": "TileMapLayer — земля",
-              "level": 2
-            },
-            {
-              "name": "Water",
-              "type": "TileMapLayer — вода",
-              "level": 2
-            },
-            {
-              "name": "Decorations",
-              "type": "TileMapLayer — декор",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Откройте `world.tscn` и добавьте в `Map` три узла TileMapLayer: `Ground`, `Water`, `Decorations`.",
-            "Создайте TileSet для каждого слоя или используйте общий TileSet, если наборы тайлов совместимы.",
-            "В TileSet откройте нужный водный тайл и добавьте Custom Data Layer с именем `is_water` и типом Boolean.",
-            "Установите значение `true` для водных тайлов.",
-            "Для земли и декора свойство `is_water` должно отсутствовать или иметь значение `false`.",
-            "Нарисуйте небольшой тестовый участок берега, чтобы рядом с игроком была вода."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "Проверка воды будет выполняться по координате перед персонажем. Если водный тайл не имеет Custom Data `is_water = true`, заброс не начнётся."
-        }
-      ]
-    },
-    {
-      "id": "t4",
-      "label": "PHASE_04 // PLAYER_SCENE",
-      "header": "Сцена игрока",
-      "items": [
-        {
-          "type": "text",
-          "val": "Создайте отдельную сцену игрока. Корневой узел — CharacterBody2D: он предоставляет скорость и встроенную обработку столкновений."
-        },
-        {
-          "type": "tree",
-          "nodes": [
-            {
-              "name": "Player",
-              "type": "CharacterBody2D",
-              "level": 0
-            },
-            {
-              "name": "CollisionShape2D",
-              "type": "Форма столкновения",
-              "level": 1
-            },
-            {
-              "name": "AnimatedSprite2D",
-              "type": "Анимации персонажа",
-              "level": 1
-            },
-            {
-              "name": "ItemSpawnPoint",
-              "type": "Sprite2D — отображение пойманной рыбы",
-              "level": 1
-            },
-            {
-              "name": "StateMachine",
-              "type": "Node — конечный автомат",
-              "level": 1
-            },
-            {
-              "name": "Camera2D",
-              "type": "Камера игрока",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Создайте `scenes/player/player.tscn` с корневым CharacterBody2D и именем `Player`.",
-            "Добавьте CollisionShape2D. Для временной проверки используйте CircleShape2D с радиусом 5.",
-            "Добавьте AnimatedSprite2D. Создайте SpriteFrames и добавьте временные анимации `idle_front`, `idle_back`, `idle_left`, `idle_right`, `walk_front`, `walk_back`, `walk_left`, `walk_right`.",
-            "Добавьте Sprite2D с именем `ItemSpawnPoint`; выключите Visible.",
-            "Добавьте Camera2D и включите Enabled.",
-            "Сохраните сцену."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "Если готового пиксельного персонажа пока нет, используйте временный цветной квадрат или один спрайт. Анимации можно наполнить кадрами позже, но названия должны совпадать с теми, что используются в коде."
-        }
-      ]
-    },
-    {
-      "id": "t5",
-      "label": "PHASE_05 // PLAYER_CONTROLLER",
-      "header": "Контроллер игрока и проверка воды",
-      "items": [
-        {
-          "type": "text",
-          "val": "Контроллер хранит направление персонажа, ссылку на контейнер слоёв карты, активный поплавок и последний пойманный предмет."
-        },
-        {
-          "type": "code",
-          "filename": "script/entities/player/player.gd",
-          "val": "class_name Player\nextends CharacterBody2D\n\n@export var item_spawn_sprite: Sprite2D\n@export var interaction_distance: float = 16.0\n@export var tilemap_container: Node2D\n@export var bobber_scene: PackedScene\n\nvar player_direction: Vector2 = Vector2.DOWN\nvar last_caught_item: ItemData\nvar active_bobber: Node2D\n\n\nfunc get_target_position() -> Vector2:\n    var direction := player_direction\n    if direction == Vector2.ZERO:\n        direction = Vector2.DOWN\n    return global_position + direction * interaction_distance\n\n\nfunc check_tilemap_at(target_position: Vector2) -> bool:\n    if tilemap_container == null:\n        return false\n\n    for layer in tilemap_container.get_children():\n        if layer is not TileMapLayer:\n            continue\n\n        var local_position := layer.to_local(target_position)\n        var cell := layer.local_to_map(local_position)\n        var tile_data := layer.get_cell_tile_data(cell)\n\n        if tile_data != null:\n            if bool(tile_data.get_custom_data(\"is_water\")):\n                return true\n\n    return false\n\n\nfunc spawn_bobber(position_on_map: Vector2) -> void:\n    remove_bobber()\n\n    if bobber_scene == null:\n        push_error(\"Player: bobber_scene is not assigned.\")\n        return\n\n    active_bobber = bobber_scene.instantiate()\n    get_tree().current_scene.add_child(active_bobber)\n    active_bobber.global_position = position_on_map\n\n\nfunc remove_bobber() -> void:\n    if is_instance_valid(active_bobber):\n        active_bobber.queue_free()\n    active_bobber = null\n\n\nfunc show_caught_item(texture: Texture2D) -> void:\n    if item_spawn_sprite == null:\n        return\n\n    item_spawn_sprite.texture = texture\n    item_spawn_sprite.visible = true\n    await get_tree().create_timer(2.0).timeout\n    item_spawn_sprite.visible = false\n    item_spawn_sprite.texture = null\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Прикрепите скрипт к корневому узлу Player.",
-            "В Inspector назначьте `ItemSpawnPoint` в поле `item_spawn_sprite`.",
-            "Позже назначьте контейнер `Map` в `tilemap_container` и сцену поплавка в `bobber_scene`.",
-            "Проверьте, что узел `Water` является TileMapLayer и находится внутри `Map`."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "В отличие от упрощённой проверки одного слоя, метод проходит по всем дочерним TileMapLayer. Если в конкретном слое найден тайл, но он не водный, метод продолжает проверку остальных слоёв."
-        }
-      ]
-    },
-    {
-      "id": "t6",
-      "label": "PHASE_06 // STATE_MACHINE_CORE",
-      "header": "Основа конечного автомата состояний",
-      "items": [
-        {
-          "type": "text",
-          "val": "Игрок не должен одновременно выполнять логику ходьбы, ожидания поклёвки и мини-игры. Для этого используется конечный автомат: в каждый момент активно одно состояние."
-        },
-        {
-          "type": "code",
-          "filename": "script/state_machine/node_state.gd",
-          "val": "class_name NodeState\nextends Node\n\nsignal transition(state_name: String)\n\n\nfunc _on_process(_delta: float) -> void:\n    pass\n\n\nfunc _on_physics_process(_delta: float) -> void:\n    pass\n\n\nfunc _on_next_transitions() -> void:\n    pass\n\n\nfunc _on_enter() -> void:\n    pass\n\n\nfunc _on_exit() -> void:\n    pass\n"
-        },
-        {
-          "type": "code",
-          "filename": "script/state_machine/node_state_machine.gd",
-          "val": "class_name NodeStateMachine\nextends Node\n\n@export var initial_node_state: NodeState\n\nvar node_states: Dictionary = {}\nvar current_node_state: NodeState\n\n\nfunc _ready() -> void:\n    for child in get_children():\n        if child is NodeState:\n            var key := child.name.to_lower()\n            node_states[key] = child\n            child.transition.connect(transition_to)\n\n    if initial_node_state == null:\n        push_error(\"NodeStateMachine: Initial state is not assigned.\")\n        return\n\n    if not node_states.has(initial_node_state.name.to_lower()):\n        push_error(\"NodeStateMachine: Initial state is not a child.\")\n        return\n\n    _change_state(initial_node_state)\n\n\nfunc _process(delta: float) -> void:\n    if is_instance_valid(current_node_state):\n        current_node_state._on_process(delta)\n\n\nfunc _physics_process(delta: float) -> void:\n    if not is_instance_valid(current_node_state):\n        return\n\n    current_node_state._on_physics_process(delta)\n    current_node_state._on_next_transitions()\n\n\nfunc transition_to(state_name: String) -> void:\n    var key := state_name.to_lower()\n\n    if not node_states.has(key):\n        push_warning(\"Unknown state: \" + state_name)\n        return\n\n    var next_state: NodeState = node_states[key]\n    if next_state == current_node_state:\n        return\n\n    _change_state(next_state)\n\n\nfunc _change_state(next_state: NodeState) -> void:\n    if is_instance_valid(current_node_state):\n        current_node_state._on_exit()\n\n    current_node_state = next_state\n    current_node_state._on_enter()\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Создайте оба скрипта в `script/state_machine/`.",
-            "Добавьте Node с именем `StateMachine` внутрь Player.",
-            "Прикрепите к нему `node_state_machine.gd`.",
-            "Состояния будут дочерними узлами StateMachine. Каждое состояние должно наследоваться от NodeState.",
-            "В Inspector поле `initial_node_state` будет назначено на состояние Idle после его создания."
-          ]
-        },
-        {
-          "type": "result",
-          "val": "**Результат:** готова инфраструктура состояний. Пока она не выполняет перемещение — конкретное поведение будет добавлено в следующих фазах."
-        }
-      ]
-    },
-    {
-      "id": "t7",
-      "label": "PHASE_07 // IDLE_AND_WALK",
-      "header": "Состояния ожидания и перемещения",
-      "items": [
-        {
-          "type": "text",
-          "val": "Создайте два состояния: Idle отвечает за отсутствие движения и запуск взаимодействия, Walk — за движение и анимацию."
-        },
-        {
-          "type": "code",
-          "filename": "script/entities/player/idle_state.gd",
-          "val": "extends NodeState\n\n@export var player: Player\n@export var animated_sprite: AnimatedSprite2D\n\n\nfunc _on_physics_process(_delta: float) -> void:\n    var direction := GameInputEvent.movement_input()\n\n    if player.player_direction == Vector2.UP:\n        animated_sprite.play(\"idle_back\")\n    elif player.player_direction == Vector2.DOWN:\n        animated_sprite.play(\"idle_front\")\n    elif player.player_direction == Vector2.LEFT:\n        animated_sprite.play(\"idle_left\")\n    elif player.player_direction == Vector2.RIGHT:\n        animated_sprite.play(\"idle_right\")\n\n\nfunc _on_next_transitions() -> void:\n    if Input.is_action_just_pressed(\"interact\"):\n        transition.emit(\"FishingStart\")\n    elif GameInputEvent.is_movement_input():\n        transition.emit(\"Walk\")\n\n\nfunc _on_enter() -> void:\n    player.velocity = Vector2.ZERO\n    player.remove_bobber()\n\n\nfunc _on_exit() -> void:\n    animated_sprite.stop()\n"
-        },
-        {
-          "type": "code",
-          "filename": "script/entities/player/walk_state.gd",
-          "val": "extends NodeState\n\n@export var player: Player\n@export var animated_sprite: AnimatedSprite2D\n@export var speed: float = 50.0\n\n\nfunc _on_physics_process(_delta: float) -> void:\n    var direction := GameInputEvent.movement_input()\n\n    if direction == Vector2.ZERO:\n        return\n\n    var facing := direction\n    if absf(direction.x) > absf(direction.y):\n        facing = Vector2.LEFT if direction.x < 0.0 else Vector2.RIGHT\n    else:\n        facing = Vector2.UP if direction.y < 0.0 else Vector2.DOWN\n\n    player.player_direction = facing\n    player.velocity = direction * speed\n    player.move_and_slide()\n\n    if facing == Vector2.UP:\n        animated_sprite.play(\"walk_back\")\n    elif facing == Vector2.DOWN:\n        animated_sprite.play(\"walk_front\")\n    elif facing == Vector2.LEFT:\n        animated_sprite.play(\"walk_left\")\n    else:\n        animated_sprite.play(\"walk_right\")\n\n\nfunc _on_next_transitions() -> void:\n    if not GameInputEvent.is_movement_input():\n        transition.emit(\"Idle\")\n\n\nfunc _on_exit() -> void:\n    animated_sprite.stop()\n"
-        },
-        {
-          "type": "tree",
-          "nodes": [
-            {
-              "name": "StateMachine",
-              "type": "NodeStateMachine",
-              "level": 0
-            },
-            {
-              "name": "Idle",
-              "type": "NodeState",
-              "level": 1
-            },
-            {
-              "name": "Walk",
-              "type": "NodeState",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Добавьте дочерние узлы Idle и Walk в StateMachine.",
-            "Прикрепите к ним соответствующие скрипты.",
-            "В каждом состоянии назначьте `player` на корневой Player, `animated_sprite` — на AnimatedSprite2D.",
-            "Назначьте Idle в `initial_node_state`.",
-            "Запустите игру и проверьте движение в четырёх направлениях."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "Для диагонального движения Input.get_vector нормализует вектор. Направление анимации в этом примере выбирается по фактическому вектору; при необходимости можно добавить отдельный выбор доминирующей оси."
-        }
-      ]
-    },
-    {
-      "id": "t8",
-      "label": "PHASE_08 // FISHING_START",
-      "header": "Начало рыбалки и поплавок",
-      "items": [
-        {
-          "type": "text",
-          "val": "При нажатии E состояние FishingStart вычисляет точку перед игроком, проверяет наличие воды и создаёт поплавок. Если впереди нет воды, игрок возвращается в Idle."
-        },
-        {
-          "type": "code",
-          "filename": "script/entities/player/fishing_start_state.gd",
-          "val": "extends NodeState\n\n@export var player: Player\n@export var animated_sprite: AnimatedSprite2D\n\n\nfunc _on_enter() -> void:\n    player.velocity = Vector2.ZERO\n\n    var target_position := player.get_target_position()\n    if not player.check_tilemap_at(target_position):\n        transition.emit(\"Idle\")\n        return\n\n    if player.player_direction == Vector2.UP:\n        animated_sprite.play(\"fishing_start_back\")\n    elif player.player_direction == Vector2.LEFT:\n        animated_sprite.play(\"fishing_start_side\")\n        animated_sprite.flip_h = false\n    elif player.player_direction == Vector2.RIGHT:\n        animated_sprite.play(\"fishing_start_side\")\n        animated_sprite.flip_h = true\n    else:\n        animated_sprite.play(\"fishing_start_front\")\n\n    await animated_sprite.animation_finished\n    player.spawn_bobber(target_position)\n    transition.emit(\"FishingWait\")\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Создайте сцену `scenes/fishing/bobber.tscn` с корневым Sprite2D и именем `Bobber`.",
-            "Назначьте текстуру поплавка. Временно можно использовать небольшой цветной спрайт.",
-            "В сцене Player назначьте `bobber.tscn` в поле `bobber_scene`.",
-            "Добавьте узел FishingStart в StateMachine и прикрепите скрипт.",
-            "Назначьте `player` и `animated_sprite` в Inspector.",
-            "Добавьте в SpriteFrames анимации `fishing_start_front`, `fishing_start_back`, `fishing_start_side`. Если анимаций пока нет, временно замените их вызовы на существующую idle-анимацию."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "`await animated_sprite.animation_finished` ждёт завершения текущей анимации. Если выбранная анимация зациклена, переход к FishingWait не произойдёт. Анимации начала заброса должны быть одноразовыми."
-        }
-      ]
-    },
-    {
-      "id": "t9",
-      "label": "PHASE_09 // FISHING_WAIT",
-      "header": "Ожидание поклёвки",
-      "items": [
-        {
-          "type": "text",
-          "val": "После заброса игрок не двигается. Таймер выбирает случайное время ожидания. Когда оно заканчивается, появляется визуальный сигнал поклёвки. Нажатие E или левой кнопки мыши запускает мини-игру."
-        },
-        {
-          "type": "code",
-          "filename": "script/entities/player/fishing_wait_state.gd",
-          "val": "extends NodeState\n\n@export var player: Player\n@export var animated_sprite: AnimatedSprite2D\n@export var min_wait_time: float = 2.0\n@export var max_wait_time: float = 6.0\n\nvar wait_timer: float = 0.0\nvar is_biting: bool = false\n\n\nfunc _on_enter() -> void:\n    wait_timer = randf_range(min_wait_time, max_wait_time)\n    is_biting = false\n    player.velocity = Vector2.ZERO\n\n    if player.player_direction == Vector2.UP:\n        animated_sprite.play(\"fishing_idle_back\")\n    elif player.player_direction == Vector2.LEFT:\n        animated_sprite.play(\"fishing_idle_side\")\n        animated_sprite.flip_h = false\n    elif player.player_direction == Vector2.RIGHT:\n        animated_sprite.play(\"fishing_idle_side\")\n        animated_sprite.flip_h = true\n    else:\n        animated_sprite.play(\"fishing_idle_front\")\n\n\nfunc _on_physics_process(delta: float) -> void:\n    if is_biting:\n        return\n\n    wait_timer -= delta\n    if wait_timer <= 0.0:\n        is_biting = true\n        # Визуальный сигнал поклёвки будет добавлен через PlayerVisuals.\n\n\nfunc _on_next_transitions() -> void:\n    if is_biting:\n        if Input.is_action_just_pressed(\"interact\")         or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):\n            transition.emit(\"FishingGame\")\n    elif Input.is_action_just_pressed(\"interact\"):\n        transition.emit(\"Idle\")\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Добавьте FishingWait в StateMachine.",
-            "Назначьте ссылки `player` и `animated_sprite`.",
-            "Добавьте idle-анимации рыбалки: `fishing_idle_front`, `fishing_idle_back`, `fishing_idle_side`.",
-            "Проверьте, что после заброса персонаж остаётся на месте.",
-            "Проверьте, что до поклёвки E отменяет ожидание, а после поклёвки E запускает FishingGame."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "В учебной версии поклёвка пока отображается только логическим флагом. На следующем этапе можно добавить `PlayerVisuals` с восклицательным знаком или анимацией поплавка."
-        }
-      ]
-    },
-    {
-      "id": "t10",
-      "label": "PHASE_10 // ITEM_RESOURCE",
-      "header": "Данные рыб через Resource",
-      "items": [
-        {
-          "type": "text",
-          "val": "Каждая рыба будет отдельным ресурсом `.tres`. Такой подход позволяет добавлять новые виды рыб через Inspector, не изменяя алгоритм рыбалки."
-        },
-        {
-          "type": "code",
-          "filename": "script/core/item_data.gd",
-          "val": "class_name ItemData\nextends Resource\n\n@export_group(\"General\")\n@export var item_name: String = \"Unknown fish\"\n@export var icon: Texture2D\n\n@export_group(\"Fishing\")\n@export_range(0.1, 100.0, 0.1) var drop_weight: float = 10.0\n@export var allowed_time_periods: Array[String] = []\n@export_range(20.0, 400.0, 1.0) var fish_speed: float = 150.0\n@export_range(1, 10, 1) var difficulty: int = 3\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Создайте скрипт `script/core/item_data.gd`.",
-            "Создайте ресурс через FileSystem → правый клик → New Resource → ItemData.",
-            "Сохраните его в `resources/fish/` с именем `common_fish.tres`.",
-            "Заполните item_name, icon, drop_weight, allowed_time_periods, fish_speed и difficulty.",
-            "Создайте ещё минимум два ресурса: `rare_fish.tres` и `night_fish.tres`.",
-            "Для проверки назначьте разные веса: например 70, 20 и 10. Это не проценты напрямую, а относительные веса выбора."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "В исходном проекте скорость и сложность вычисляются из drop_weight. В учебной версии это отдельные экспортируемые поля: так балансировка понятнее и не связывает редкость с поведением рыбы."
-        }
-      ]
-    },
-    {
-      "id": "t11",
-      "label": "PHASE_11 // FISH_DATABASE",
-      "header": "Загрузка рыб и взвешенный выбор",
-      "items": [
-        {
-          "type": "text",
-          "val": "GameFishingDatabase загружает все `.tres` из `resources/fish/`, фильтрует доступных рыб по времени и выбирает одну с учётом drop_weight."
-        },
-        {
-          "type": "code",
-          "filename": "script/core/game_fishing_database_manager.gd",
-          "val": "extends Node\nclass_name GameFishingDatabase\n\nvar all_items: Array[ItemData] = []\n\n\nfunc _ready() -> void:\n    load_all_resources()\n\n\nfunc load_all_resources() -> void:\n    all_items.clear()\n\n    var directory := DirAccess.open(\"res://resources/fish/\")\n    if directory == null:\n        push_error(\"Fish database directory was not found.\")\n        return\n\n    directory.list_dir_begin()\n    var file_name := directory.get_next()\n\n    while file_name != \"\":\n        if not directory.current_is_dir() and file_name.ends_with(\".tres\"):\n            var item_data := load(\"res://resources/fish/\" + file_name) as ItemData\n            if item_data != null:\n                all_items.append(item_data)\n        file_name = directory.get_next()\n\n    directory.list_dir_end()\n    print(\"Loaded fish resources: \", all_items.size())\n\n\nfunc get_random_catch(current_period: String) -> ItemData:\n    var available: Array[ItemData] = []\n    var total_weight := 0.0\n\n    for item_data in all_items:\n        if (item_data.allowed_time_periods.is_empty()\\n        or current_period in item_data.allowed_time_periods):\n            if item_data.drop_weight > 0.0:\n                available.append(item_data)\n                total_weight += item_data.drop_weight\n\n    if available.is_empty() or total_weight <= 0.0:\n        return null\n\n    var roll := randf_range(0.0, total_weight)\n    var accumulated := 0.0\n\n    for item_data in available:\n        accumulated += item_data.drop_weight\n        if roll <= accumulated:\n            return item_data\n\n    return available.back()\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Создайте скрипт по указанному пути.",
-            "Добавьте в `World` узел Node с именем `GameFishingDatabase` и прикрепите скрипт.",
-            "Не создавайте второй экземпляр базы данных в других сценах: она должна быть одна на игровую сессию.",
-            "Проверьте Output после запуска: должно появиться количество загруженных ресурсов.",
-            "Если количество равно нулю, проверьте расширение файлов, папку и класс ресурса."
-          ]
-        },
-        {
-          "type": "result",
-          "val": "**Результат:** данные рыб отделены от игровой логики. Добавление нового вида рыбы теперь не требует изменения скрипта базы."
-        }
-      ]
-    },
-    {
-      "id": "t12",
-      "label": "PHASE_12 // GAME_TIME",
-      "header": "Игровое время и периоды суток",
-      "items": [
-        {
-          "type": "text",
-          "val": "Система времени работает как Autoload. Она хранит текущий игровой день, час и минуту, а также отправляет сигналы при изменении времени. Для рыбалки используются периоды `day`, `evening`, `night`."
-        },
-        {
-          "type": "code",
-          "filename": "script/core/game_day_night_cycle_manager.gd",
-          "val": "extends Node\n\nsignal time_changed(day: int, hour: int, minute: int)\nsignal hour_changed(hour: int)\nsignal day_changed(day: int)\n\nconst MINUTES_PER_DAY := 24 * 60\n@export var real_seconds_per_game_minute: float = 1.0\n\nvar day: int = 1\nvar hour: int = 8\nvar minute: int = 0\nvar time_accumulator: float = 0.0\n\n\nfunc _process(delta: float) -> void:\n    if real_seconds_per_game_minute <= 0.0:\n        return\n\n    time_accumulator += delta\n    while time_accumulator >= real_seconds_per_game_minute:\n        time_accumulator -= real_seconds_per_game_minute\n        _advance_minute()\n\n\nfunc _advance_minute() -> void:\n    minute += 1\n\n    if minute >= 60:\n        minute = 0\n        hour += 1\n        hour_changed.emit(hour)\n\n    if hour >= 24:\n        hour = 0\n        day += 1\n        day_changed.emit(day)\n\n    time_changed.emit(day, hour, minute)\n\n\nfunc get_period() -> String:\n    if hour >= 6 and hour < 16:\n        return \"day\"\n    elif hour >= 16 and hour < 22:\n        return \"evening\"\n    return \"night\"\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Создайте скрипт `game_day_night_cycle_manager.gd`.",
-            "Откройте Project → Project Settings → Globals (Autoload).",
-            "Добавьте скрипт как Autoload с именем `DayAndNightCycleManager`.",
-            "Убедитесь, что Autoload включён.",
-            "Для быстрой проверки временно задайте `real_seconds_per_game_minute = 0.2`, затем верните комфортное значение."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "В исходном репозитории используется более сложная модель времени с сигналом полного цикла и отдельными сигналами минут, часов и дней. Здесь оставлена компактная реализация с тем же назначением. Позже можно добавить паузу времени во время мини-игры."
-        }
-      ]
-    },
-    {
-      "id": "t13",
-      "label": "PHASE_13 // FISHING_MINIGAME",
-      "header": "Сцена и логика мини-игры",
-      "items": [
-        {
-          "type": "text",
-          "val": "Мини-игра состоит из вертикальной зоны, управляемой зелёной полосы, значка рыбы и шкалы прогресса. Удерживание кнопки поднимает полосу, гравитация опускает её. Если рыба находится внутри полосы, прогресс растёт; иначе уменьшается."
-        },
-        {
-          "type": "tree",
-          "nodes": [
-            {
-              "name": "FishingMinigame",
-              "type": "CanvasLayer",
-              "level": 0
-            },
-            {
-              "name": "CenterContainer",
-              "type": "CenterContainer",
-              "level": 1
-            },
-            {
-              "name": "WaterArea",
-              "type": "Panel",
-              "level": 2
-            },
-            {
-              "name": "GreenBar",
-              "type": "ColorRect",
-              "level": 3
-            },
-            {
-              "name": "FishIcon",
-              "type": "TextureRect",
-              "level": 3
-            },
-            {
-              "name": "ProgressBar",
-              "type": "TextureProgressBar",
-              "level": 2
-            }
-          ]
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Создайте `scenes/fishing/fishing_minigame.tscn` с корневым CanvasLayer.",
-            "Добавьте Panel с именем WaterArea. Задайте размер примерно 100 × 180.",
-            "Внутрь WaterArea добавьте ColorRect `GreenBar`, размером примерно 30 × 50.",
-            "Добавьте TextureRect `FishIcon`, размером 16 × 16.",
-            "Добавьте TextureProgressBar `ProgressBar` под WaterArea. Установите Min = 0, Max = 100.",
-            "Для всех элементов настройте anchors и offsets так, чтобы они оставались внутри игрового окна."
-          ]
-        },
-        {
-          "type": "code",
-          "filename": "script/ui/fishing_minigame.gd",
-          "val": "extends CanvasLayer\n\nsignal minigame_finished(success: bool)\n\n@export var water_area: Control\n@export var green_bar: ColorRect\n@export var fish_icon: TextureRect\n@export var progress_bar: TextureProgressBar\n\nvar fish_data: ItemData\nvar green_bar_velocity := 0.0\nvar fish_target_y := 0.0\nvar fish_timer := 0.0\nvar progress := 0.3\nvar is_active := false\n\n@export var gravity := 800.0\n@export var lift_force := 1500.0\n@export var max_velocity := 400.0\n@export var progress_speed := 0.2\n@export var edge_padding := 7.0\n\n\nfunc setup(data: ItemData) -> void:\n    fish_data = data\n    progress = 0.3\n\n\nfunc _ready() -> void:\n    await get_tree().process_frame\n    if fish_data == null:\n        push_error(\"FishingMinigame: fish data was not assigned.\")\n        queue_free()\n        return\n\n    var bar_height := clampf(60.0 - fish_data.difficulty * 4.0, 25.0, 60.0)\n    green_bar.size.y = bar_height\n    green_bar.position.y = (water_area.size.y - green_bar.size.y) / 2.0\n    fish_icon.position.y = water_area.size.y / 2.0\n\n    progress_bar.min_value = 0\n    progress_bar.max_value = 100\n    progress_bar.value = progress * 100.0\n\n    is_active = true\n    _pick_new_fish_target()\n\n\nfunc _process(delta: float) -> void:\n    if not is_active:\n        return\n\n    _update_green_bar(delta)\n    _update_fish(delta)\n    _update_progress(delta)\n\n\nfunc _update_green_bar(delta: float) -> void:\n    green_bar_velocity += gravity * delta\n\n    if (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)\\n    or Input.is_action_pressed(\"ui_accept\")):\n        green_bar_velocity -= lift_force * delta\n\n    green_bar_velocity = clampf(\n        green_bar_velocity,\n        -max_velocity,\n        max_velocity\n    )\n\n    green_bar.position.y += green_bar_velocity * delta\n\n    var max_y := water_area.size.y - green_bar.size.y - edge_padding\n    if green_bar.position.y < edge_padding:\n        green_bar.position.y = edge_padding\n        green_bar_velocity = 0.0\n    elif green_bar.position.y > max_y:\n        green_bar.position.y = max_y\n        green_bar_velocity = 0.0\n\n\nfunc _update_fish(delta: float) -> void:\n    var speed := fish_data.fish_speed\n    fish_icon.position.y = move_toward(\n        fish_icon.position.y,\n        fish_target_y,\n        speed * delta\n    )\n\n    fish_timer -= delta\n    if fish_timer <= 0.0:\n        _pick_new_fish_target()\n\n\nfunc _pick_new_fish_target() -> void:\n    var max_y := water_area.size.y - fish_icon.size.y - edge_padding\n    fish_target_y = randf_range(edge_padding, max_y)\n    fish_timer = randf_range(0.5, 1.5)\n\n\nfunc _update_progress(delta: float) -> void:\n    var fish_center := fish_icon.position.y + fish_icon.size.y / 2.0\n    var green_top := green_bar.position.y\n    var green_bottom := green_top + green_bar.size.y\n\n    if fish_center >= green_top and fish_center <= green_bottom:\n        progress += progress_speed * delta\n    else:\n        progress -= progress_speed * 1.2 * delta\n\n    progress = clampf(progress, 0.0, 1.0)\n    progress_bar.value = progress * 100.0\n\n    if progress >= 1.0:\n        _finish(true)\n    elif progress <= 0.0:\n        _finish(false)\n\n\nfunc _finish(success: bool) -> void:\n    if not is_active:\n        return\n\n    is_active = false\n    minigame_finished.emit(success)\n    queue_free()\n"
-        },
-        {
-          "type": "tip",
-          "val": "В Inspector перетащите ссылки на WaterArea, GreenBar, FishIcon и ProgressBar. Размеры элементов должны быть заданы до вызова setup. Если полоса или рыба выходят за пределы зоны, проверьте anchors и фактический размер Control."
-        }
-      ]
-    },
-    {
-      "id": "t14",
-      "label": "PHASE_14 // FISHING_GAME_STATE",
-      "header": "Связь мини-игры с состояниями игрока",
-      "items": [
-        {
-          "type": "text",
-          "val": "Состояние FishingGame получает случайную рыбу из базы данных, создаёт мини-игру и ждёт сигнал `minigame_finished`. При успехе сохраняет пойманную рыбу и переходит в FishingCatch. При неудаче удаляет поплавок и возвращается в Idle."
-        },
-        {
-          "type": "code",
-          "filename": "script/entities/player/fishing_game_state.gd",
-          "val": "extends NodeState\n\n@export var player: Player\n@export var minigame_scene: PackedScene\n@export var fish_database: GameFishingDatabase\n\n\nfunc _on_enter() -> void:\n    var current_period := DayAndNightCycleManager.get_period()\n    var caught_item := fish_database.get_random_catch(current_period)\n\n    if caught_item == null:\n        player.remove_bobber()\n        transition.emit(\"Idle\")\n        return\n\n    var minigame := minigame_scene.instantiate()\n    player.get_tree().root.add_child(minigame)\n    minigame.setup(caught_item)\n    minigame.minigame_finished.connect(\n        _on_minigame_finished.bind(caught_item),\n        CONNECT_ONE_SHOT\n    )\n\n\nfunc _on_minigame_finished(success: bool, caught_item: ItemData) -> void:\n    if success:\n        player.last_caught_item = caught_item\n        transition.emit(\"FishingCatch\")\n    else:\n        player.remove_bobber()\n        transition.emit(\"Idle\")\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Добавьте FishingGame как дочерний узел StateMachine.",
-            "Назначьте `player`, `minigame_scene` и `fish_database` в Inspector.",
-            "Убедитесь, что `fish_database` указывает на единственный узел GameFishingDatabase в World.",
-            "В Player добавьте ссылки на FishingGame и проверьте, что мини-игра создаётся поверх игрового окна.",
-            "Проверьте оба исхода мини-игры: успешный и неуспешный."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "В этом примере сигнал подключается с CONNECT_ONE_SHOT, чтобы обработчик не оставался подключённым после завершения конкретного раунда."
-        }
-      ]
-    },
-    {
-      "id": "t15",
-      "label": "PHASE_15 // FISHING_CATCH",
-      "header": "Завершение рыбалки и отображение улова",
-      "items": [
-        {
-          "type": "text",
-          "val": "После успешной мини-игры игрок показывает пойманную рыбу, затем возвращается в Idle. Сам предмет хранится в `player.last_caught_item`. В дальнейшем его можно добавить в инвентарь."
-        },
-        {
-          "type": "code",
-          "filename": "script/entities/player/fishing_catch_state.gd",
-          "val": "extends NodeState\n\n@export var player: Player\n@export var animated_sprite: AnimatedSprite2D\n\n\nfunc _on_enter() -> void:\n    player.velocity = Vector2.ZERO\n    player.remove_bobber()\n\n    var caught_fish := player.last_caught_item\n    if caught_fish == null:\n        transition.emit(\"Idle\")\n        return\n\n    if player.player_direction == Vector2.UP:\n        animated_sprite.play(\"fishing_end_back\")\n    elif player.player_direction == Vector2.LEFT:\n        animated_sprite.play(\"fishing_end_side\")\n        animated_sprite.flip_h = false\n    elif player.player_direction == Vector2.RIGHT:\n        animated_sprite.play(\"fishing_end_side\")\n        animated_sprite.flip_h = true\n    else:\n        animated_sprite.play(\"fishing_end_front\")\n\n    await get_tree().create_timer(1.0).timeout\n    player.show_caught_item(caught_fish.icon)\n    await get_tree().create_timer(2.0).timeout\n    transition.emit(\"Idle\")\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Добавьте FishingCatch в StateMachine и назначьте Player и AnimatedSprite2D.",
-            "Добавьте анимации `fishing_end_front`, `fishing_end_back`, `fishing_end_side`.",
-            "Убедитесь, что ItemSpawnPoint расположен над персонажем и не перекрывает его спрайт.",
-            "Проверьте полный цикл: заброс → ожидание → поклёвка → мини-игра → показ рыбы → Idle."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "Для учебной версии улов пока только отображается. Система инвентаря и коллекции рыб может быть отдельным следующим расширением, но базовый игровой цикл уже должен работать."
-        }
-      ]
-    },
-    {
-      "id": "t16",
-      "label": "PHASE_16 // WORLD_INTEGRATION",
-      "header": "Сборка главной сцены",
-      "items": [
-        {
-          "type": "text",
-          "val": "Теперь соберите все созданные компоненты в World. Ссылки, которые раньше оставались пустыми в Inspector, назначаются на этом этапе."
-        },
-        {
-          "type": "tree",
-          "nodes": [
-            {
-              "name": "World",
-              "type": "Node2D",
-              "level": 0
-            },
-            {
-              "name": "Map",
-              "type": "Node2D",
-              "level": 1
-            },
-            {
-              "name": "Ground",
-              "type": "TileMapLayer",
-              "level": 2
             },
             {
               "name": "Water",
@@ -793,205 +147,53 @@
               "level": 2
             },
             {
-              "name": "Decorations",
+              "name": "Grass",
               "type": "TileMapLayer",
               "level": 2
             },
             {
-              "name": "Player",
-              "type": "Player instance",
-              "level": 1
-            },
-            {
-              "name": "GameFishingDatabase",
-              "type": "Node с базой рыб",
-              "level": 1
-            }
-          ]
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Откройте `world.tscn`.",
-            "Добавьте экземпляр `player.tscn` как дочерний узел World.",
-            "Установите позицию игрока на суше рядом с водой.",
-            "Перетащите `Map` в поле `tilemap_container` у Player.",
-            "Назначьте сцену Bobber в поле `bobber_scene`.",
-            "Добавьте GameFishingDatabase и убедитесь, что он загружает ресурсы.",
-            "В Player → StateMachine назначьте ссылки во всех состояниях.",
-            "В World установите порядок слоёв так, чтобы вода и декорации отображались корректно относительно игрока."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "Порядок отрисовки зависит от Y-sort и порядка CanvasItem. Для простой тестовой карты сначала оставьте фиксированный порядок слоёв; сортировку по Y добавьте после того, как проверите столкновения и заброс."
-        }
-      ]
-    },
-    {
-      "id": "t17",
-      "label": "PHASE_17 // TIME_UI",
-      "header": "Панель игрового времени",
-      "items": [
-        {
-          "type": "text",
-          "val": "Добавьте UI, который показывает день и время. Он подписывается на сигнал `time_changed` Autoload-системы и обновляет текст."
-        },
-        {
-          "type": "tree",
-          "nodes": [
-            {
-              "name": "TimePanel",
-              "type": "PanelContainer",
-              "level": 0
-            },
-            {
-              "name": "MarginContainer",
-              "type": "MarginContainer",
-              "level": 1
-            },
-            {
-              "name": "TimeLabel",
-              "type": "Label",
+              "name": "Details",
+              "type": "TileMapLayer",
               "level": 2
             }
           ]
-        },
-        {
-          "type": "code",
-          "filename": "script/ui/time_panel.gd",
-          "val": "extends PanelContainer\n\n@export var time_label: Label\n\n\nfunc _ready() -> void:\n    DayAndNightCycleManager.time_changed.connect(_on_time_changed)\n    _update_time(\n        DayAndNightCycleManager.day,\n        DayAndNightCycleManager.hour,\n        DayAndNightCycleManager.minute\n    )\n\n\nfunc _on_time_changed(day: int, hour: int, minute: int) -> void:\n    _update_time(day, hour, minute)\n\n\nfunc _update_time(day: int, hour: int, minute: int) -> void:\n    time_label.text = \"Day %02d  %02d:%02d\" % [day, hour, minute]\n"
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Создайте `scenes/ui/time_panel.tscn` с указанным деревом.",
-            "Добавьте скрипт `time_panel.gd` на TimePanel.",
-            "Назначьте TimeLabel в поле `time_label`.",
-            "Добавьте TimePanel в World как CanvasLayer или разместите его внутри отдельного CanvasLayer.",
-            "Проверьте, что часы меняются и переходят через 23:59 на следующий день."
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "Если панель не отображается, проверьте anchors, offsets и порядок CanvasLayer. UI не должен быть дочерним элементом Camera2D."
         }
       ]
     },
     {
-      "id": "t18",
-      "label": "PHASE_18 // VISUAL_FEEDBACK",
-      "header": "Визуальная обратная связь и звук",
-      "items": [
+    "id": "t2",
+    "label": "PHASE_02 // CREATE_MAP",
+    "header": "Создание местостей для простого создания карты",
+    "items": [
+        {
+          "type": "grid",
+          "items": [
+            "Для начала создадим новый **TileSet** в папке: **assets/environment/**.",
+            "В нем добавим три основные спрайта: **hills.png**, **forest.png** и **water.png**.",
+            "В новом TileSet, в инспекторе, расскройте и создате **Terrain Sets**",
+            "Создайте новый Terrains с именем **Grass**"
+          ]
+        },
         {
           "type": "text",
-          "val": "На этом этапе добавьте визуальные сигналы, которые помогают игроку понимать состояние системы. Сначала используйте простые формы, затем замените их финальными ассетами."
+          "val": "Уже в Наборе тайтлов, выберите -> Ократить -> Выбрать редактор свойств -> Местности и приведите атлас **Hills** к такому состоянию:."
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l08-1.png",
+          "caption": "Пример настройки атласа для местности Hills"
         },
         {
           "type": "grid",
           "items": [
-            "Добавьте сигнал поклёвки: Label или Sprite2D с именем `BiteFeedback`, который появляется при `is_biting = true`.",
-            "Скрывайте сигнал при входе в FishingWait и при выходе из этого состояния.",
-            "Добавьте короткий звук заброса и звук поклёвки через AudioStreamPlayer2D или AudioStreamPlayer.",
-            "Добавьте короткий звук успешного улова и отдельный звук неудачи мини-игры.",
-            "Проверьте громкость и отсутствие повторного запуска одного звука каждый кадр."
+            "Теперь создадим анимацию для воды. Выберите самый первый тайтл. Выделение -> Анимация -> Задайте столбцы 4 и ниже, во Frames добавьте 4 карда",
+            "В нем добавим три основные спрайта: **hills.png**, **forest.png** и **water.png**.",
+            "В новом TileSet, в инспекторе, расскройте и создате **Terrain Sets**",
+            "Создайте новый Terrains с именем **Grass**"
           ]
-        },
-        {
-          "type": "tip",
-          "val": "Визуальные эффекты не должны управлять логикой рыбалки. Сигнал поклёвки только сообщает о событии; переход состояния остаётся ответственностью StateMachine."
         }
-      ]
-    },
-    {
-      "id": "t19",
-      "label": "PHASE_19 // DEBUG_AND_TESTING",
-      "header": "Отладка и тестирование",
-      "items": [
-        {
-          "type": "text",
-          "val": "Проведите тестирование по сценариям. Проверяйте не только успешный улов, но и отмену действий, отсутствие подходящей рыбы и ошибки в настройке сцены."
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Запуск: World открывается без ошибок в Debugger.",
-            "Перемещение: игрок ходит во всех четырёх направлениях и не проходит сквозь препятствия.",
-            "Вода: на суше заброс не начинается; при направлении на воду создаётся поплавок.",
-            "Отмена: до поклёвки E отменяет ожидание и удаляет поплавок.",
-            "Поклёвка: по окончании таймера появляется сигнал; E или ЛКМ запускает мини-игру.",
-            "Мини-игра: удерживание кнопки поднимает зелёную полосу, отпускание опускает её.",
-            "Успех: при заполнении шкалы игрок получает рыбу и возвращается в Idle.",
-            "Неудача: при обнулении шкалы мини-игра закрывается, поплавок удаляется.",
-            "Время: рыбы с ограничением по периоду доступны только в заданное время.",
-            "База: добавление нового .tres автоматически увеличивает число загруженных рыб."
-          ]
-        },
-        {
-          "type": "config",
-          "data": [
-            [
-              "ПРОВЕРИТЬ",
-              "Ошибки в Debugger"
-            ],
-            [
-              "ПРОВЕРИТЬ",
-              "Пути к сценам и ресурсам"
-            ],
-            [
-              "ПРОВЕРИТЬ",
-              "Назначенные export-ссылки"
-            ],
-            [
-              "ПРОВЕРИТЬ",
-              "Названия анимаций"
-            ],
-            [
-              "ПРОВЕРИТЬ",
-              "Custom Data: is_water"
-            ],
-            [
-              "ПРОВЕРИТЬ",
-              "Autoload DayAndNightCycleManager"
-            ]
-          ]
-        },
-        {
-          "type": "tip",
-          "val": "Если состояние зависает, добавьте временный `print()` в `_on_enter()` и `_on_exit()` состояний. Если рыба не выбирается, выведите список доступных ресурсов и сумму drop_weight."
-        }
-      ]
-    },
-    {
-      "id": "t20",
-      "label": "PHASE_20 // POLISH_AND_EXPORT",
-      "header": "Финальная сборка проекта",
-      "items": [
-        {
-          "type": "text",
-          "val": "После прохождения тестов замените временные элементы графикой, настройте камеру и подготовьте проект к запуску на другом компьютере."
-        },
-        {
-          "type": "grid",
-          "items": [
-            "Замените временные спрайты игрока, поплавка и рыб финальной пиксельной графикой.",
-            "Проверьте фильтрацию текстур: для пиксельной графики используйте Nearest.",
-            "Добавьте фоновые тайлы, декорации, границы карты и коллизии.",
-            "Настройте камеру: ограничьте её границами игровой карты, если карта больше экрана.",
-            "Добавьте иконку проекта и заполните название/описание в Project Settings.",
-            "Откройте Project → Export, добавьте пресет нужной платформы и установите экспортные шаблоны Godot.",
-            "Выполните экспорт и проверьте сборку вне редактора."
-          ]
-        },
-        {
-          "type": "result",
-          "val": "**Итоговый результат:** проект содержит управляемого персонажа, TileMapLayer-карту с определением воды, конечный автомат, цикл рыбалки, поплавок, базу рыб на Resource, взвешенный выбор улова, ограничения по времени суток, мини-игру и UI игрового времени."
-        },
-        {
-          "type": "independent",
-          "val": "**Самостоятельное расширение:** добавьте минимум пять видов рыб с разными весами, периодами активности, скоростью и сложностью. Сделайте отдельный визуальный сигнал для редкой рыбы и настройте баланс так, чтобы редкие виды встречались заметно реже обычных."
-        }
-      ]
+    ]
     }
+      
   ]
 }
