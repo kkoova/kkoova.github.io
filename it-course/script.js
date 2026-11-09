@@ -27,6 +27,20 @@ const urlParams = new URLSearchParams(window.location.search);
 const ADMIN_UID = "A4x3C68w2tSp65CplZgxEflCeVh1";
 let isAdmin = false;
 
+let allTeamsData = [];
+let jury1Team = null;
+let jury2Team = null;
+let jury1Assignments = [];
+let jury2Assignments = [];
+// Настройка лимитов билетов на каждую тему
+const TOPIC_LIMITS = {
+    "1": 4, // Стартап - 4 команды
+    "2": 4, // Профессии - 4 команды
+    "3": 4, // Анти-UX - 4 команды
+    "4": 4  // Факап - 4 команды
+};
+let currentCounts = { "1": 0, "2": 0, "3": 0, "4": 0 };
+
 async function init() {
     try {
         const res = await fetch('data.json');
@@ -41,21 +55,31 @@ async function init() {
 }
 
 onAuthStateChanged(auth, (user) => {
-    const overlay = document.getElementById('login-overlay');
+    const overlay = document.getElementById('login-overlay'); // На 11.11.html его нет
+    
     if (user) {
-        overlay.classList.remove('active');
+        if (overlay) overlay.classList.remove('active'); // Проверка!
+        
         const roleEl = document.getElementById('user-role');
         isAdmin = (user.uid === ADMIN_UID);
+        
         if (isAdmin) {
             document.body.classList.add('state-admin');
-            roleEl.innerText = 'TEACHER_ADMIN // ROOT';
+            if (roleEl) roleEl.innerText = 'TEACHER_ADMIN // ROOT';
+
+            const adminTabs = document.getElementById('admin-tabs');
+            if (adminTabs) {
+                adminTabs.style.display = 'flex';
+                switchTab('tasks', document.querySelector('.tab-btn')); // Открываем вкладку заданий
+                initAdminDashboard(); // Запускаем загрузку команд
+            }
             
-            document.getElementById('student-tools').style.display = 'none';
+            if (document.getElementById('student-tools')) document.getElementById('student-tools').style.display = 'none';
             if (document.getElementById('report-stud')) document.getElementById('report-stud').style.display = 'none';
-            document.getElementById('profile-btn').style.display = 'none';
+            if (document.getElementById('profile-btn')) document.getElementById('profile-btn').style.display = 'none';
         } else {
             document.body.classList.remove('state-admin');
-            roleEl.innerText = user.displayName ? user.displayName.toUpperCase() : 'DEV_STUDENT';
+            if (roleEl) roleEl.innerText = user.displayName ? user.displayName.toUpperCase() : 'DEV_STUDENT';
             
             if (document.getElementById('spinBtn')) document.getElementById('spinBtn').style.display = 'none';
             if (document.getElementById('admin-btn')) document.getElementById('admin-btn').style.display = 'none';
@@ -64,7 +88,7 @@ onAuthStateChanged(auth, (user) => {
         }
         init();
     } else {
-        overlay.classList.add('active');
+        if (overlay) overlay.classList.add('active'); // Проверка!
     }
 });
 
@@ -192,11 +216,13 @@ function showTopic(topic) {
         feats.appendChild(node);
     });
 
-    console.log(topic.docsUrl)
     const tutorialLink = document.getElementById('tutorial-link');
 
     tutorialLink.onclick = () => {
-        window.location.href = `mission.html?doc=${topic.docsUrl}`;
+        console.log(topic.docsUrl)
+        console.log(topic.docsUrl)
+        if (topic.docsUrl == '1111') window.location.href = `./11.11.html`;
+        else window.location.href = `mission.html?doc=${topic.docsUrl}`;
     };
 
     const workspace = document.getElementById('steps-list');
@@ -272,8 +298,8 @@ function updateProgress() {
 }
 
 function updateSystemUI() {
-    const now = new Date();
-    document.getElementById('clock').innerText = now.toTimeString().split(' ')[0];
+    const clockEl = document.getElementById('clock');
+    if (clockEl) clockEl.innerText = new Date().toTimeString().split(' ')[0];
 }
 
 let mX = 0, mY = 0, cX = 0, cY = 0;
@@ -361,20 +387,21 @@ window.closeProfile = () => {
 const profBtn = document.getElementById('profile-btn');
 if (profBtn) profBtn.onclick = window.openProfile;
 
-document.getElementById('spinBtn').onclick = window.spin;
-document.getElementById('github-auth-btn').onclick = window.loginViaGithub;
-document.getElementById('logout-btn').onclick = window.logout;
+if (document.getElementById('spinBtn')) document.getElementById('spinBtn').onclick = window.spin;
+if (document.getElementById('github-auth-btn')) document.getElementById('github-auth-btn').onclick = window.loginViaGithub;
+if (document.getElementById('logout-btn')) document.getElementById('logout-btn').onclick = window.logout;
+if (document.getElementById('profile-btn')) document.getElementById('profile-btn').onclick = window.openProfile;
 
-document.getElementById('rerollBtn').onclick = () => {
-    if (!rerollAvailable) return;
-    
-    rerollAvailable = false;
-    document.getElementById('rerollBtn').innerText = "[ LOCKED_SYSTEM ]";
-    
-    // Возвращаемся к колесу и крутим снова
-    document.getElementById('app-container').className = 'view-wheel';
-    setTimeout(spin, 800); 
-};
+const rerollBtn = document.getElementById('rerollBtn');
+if (rerollBtn) {
+    rerollBtn.onclick = () => {
+        if (!rerollAvailable) return;
+        rerollAvailable = false;
+        rerollBtn.innerText = "[ LOCKED_SYSTEM ]";
+        if (document.getElementById('app-container')) document.getElementById('app-container').className = 'view-wheel';
+        setTimeout(spin, 800); 
+    };
+}
 
 window.submitFeedWork = async () => {
     const user = auth.currentUser;
@@ -409,3 +436,415 @@ window.startMission = () => {
 
 window.openFeedReport = () => document.getElementById('feedback-modal').classList.add('active');
 window.closeFeedReport = () => document.getElementById('feedback-modal').classList.remove('active');
+
+// --- ЛОГИКА СТУДЕНТОВ (С ЛИМИТАМИ) ---
+let selectedTopicId = null;
+let selectedTopicTitle = null;
+
+// Функция проверки свободных мест
+window.checkAvailability = async () => {
+    try {
+        const querySnapshot = await getDocs(collection(db, "teams"));
+        currentCounts = { "1": 0, "2": 0, "3": 0, "4": 0 };
+        
+        // Считаем, сколько команд уже записалось на каждую тему
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            if (currentCounts[data.topicId] !== undefined) {
+                currentCounts[data.topicId]++;
+            }
+        });
+
+        // Обновляем визуал карточек
+        document.querySelectorAll('.step-card').forEach(card => {
+            const topicId = card.dataset.topic;
+            const limit = TOPIC_LIMITS[topicId] || 99;
+            const taken = currentCounts[topicId] || 0;
+            const left = limit - taken;
+
+            // Добавляем или обновляем бейдж с местами
+            let badge = card.querySelector('.seats-badge');
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'seats-badge';
+                const header = card.querySelector('h2');
+                if (header) header.appendChild(badge);
+            }
+
+            if (left <= 0) {
+                badge.innerText = " МЕСТ НЕТ";
+                card.classList.add('disabled');
+            } else {
+                badge.innerText = `СВОБОДНО: ${left}`;
+                card.classList.remove('disabled');
+            }
+        });
+    } catch (e) {
+        console.error("Ошибка при проверке мест:", e);
+    }
+};
+
+// Запускаем проверку при загрузке страницы
+setTimeout(checkAvailability, 1000); // Небольшая задержка, чтобы Firebase успел инициализироваться
+
+// Обработка кликов по карточкам
+document.querySelectorAll('.step-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+        if (isAdmin) return; // Админ просто смотрит
+        if (card.classList.contains('disabled')) {
+            return alert("На эту тему больше нет мест! Выберите другую.");
+        }
+
+        document.querySelectorAll('.step-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        
+        selectedTopicId = card.dataset.topic;
+        selectedTopicTitle = card.dataset.title;
+        
+        const titleEl = document.getElementById('selected-topic-title');
+        if(titleEl) titleEl.innerText = `Выбрано: ${selectedTopicTitle}`;
+        
+        const panel = document.getElementById('registration-panel');
+        if(panel) panel.style.display = 'flex';
+    });
+});
+
+window.closeRegistration = () => {
+    const panel = document.getElementById('registration-panel');
+    if (panel) panel.style.display = 'none';
+    document.querySelectorAll('.step-card').forEach(c => c.classList.remove('selected'));
+};
+
+window.submitTeam = async () => {
+    const teamName = document.getElementById('team-name').value.trim();
+    const teamFio = document.getElementById('team-fio').value.trim();
+
+    if (!teamName || !teamFio) return alert("Заполните название и ФИО!");
+    if (!selectedTopicId) return alert("Выберите задание!");
+
+    try {
+        // 1. Жесткая проверка ПЕРЕД записью (защита от одновременной записи двух студентов)
+        const querySnapshot = await getDocs(collection(db, "teams"));
+        let currentTaken = 0;
+        querySnapshot.forEach((doc) => {
+            if (doc.data().topicId === selectedTopicId) currentTaken++;
+        });
+
+        if (currentTaken >= TOPIC_LIMITS[selectedTopicId]) {
+            alert("Упс! Кто-то только что занял последнее место на эту тему. Выберите другую.");
+            closeRegistration();
+            checkAvailability(); // Обновляем карточки
+            return;
+        }
+
+        // 2. Записываем в базу
+        await addDoc(collection(db, "teams"), {
+            teamName: teamName,
+            fio: teamFio,
+            topicId: selectedTopicId,
+            topicTitle: selectedTopicTitle,
+            timestamp: serverTimestamp()
+        });
+
+        alert("УСПЕШНО! Вы записаны.");
+        closeRegistration();
+        document.getElementById('team-name').value = '';
+        document.getElementById('team-fio').value = '';
+        
+        // 3. Обновляем свободные места на экране
+        checkAvailability();
+
+    } catch (e) {
+        console.error(e);
+        alert("Ошибка при отправке.");
+    }
+};
+
+// --- ЛОГИКА АДМИНА ---
+window.initAdminDashboard = async () => {
+    const select1 = document.getElementById('jury1-select');
+    const select2 = document.getElementById('jury2-select');
+    
+    if (!select1 || !select2) return;
+    
+    select1.innerHTML = '<option value="">-- Загрузка... --</option>';
+    select2.innerHTML = '<option value="">-- Загрузка... --</option>';
+
+    try {
+        const querySnapshot = await getDocs(collection(db, "teams"));
+        allTeamsData = [];
+        
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            data.id = doc.id;
+            allTeamsData.push(data);
+        });
+
+        if (allTeamsData.length === 0) {
+            select1.innerHTML = '<option value="">-- Нет команд --</option>';
+            select2.innerHTML = '<option value="">-- Нет команд --</option>';
+            return;
+        }
+
+        // Очищаем и добавляем дефолтный пункт
+        select1.innerHTML = '<option value="">-- Выберите команду --</option>';
+        select2.innerHTML = '<option value="">-- Выберите команду --</option>';
+
+        // Заполняем оба селекта
+        allTeamsData.forEach((team, index) => {
+            const optionHTML = `<option value="${index}">${team.teamName} (${team.topicTitle})</option>`;
+            select1.innerHTML += optionHTML;
+            select2.innerHTML += optionHTML;
+        });
+
+        // Вызываем функцию, чтобы скрыть уже выбранные команды (если селекты не пустые)
+        updateJurySelects();
+
+    } catch (e) {
+        console.error("Ошибка загрузки данных для админа:", e);
+        select1.innerHTML = '<option value="">-- Ошибка загрузки --</option>';
+        select2.innerHTML = '<option value="">-- Ошибка загрузки --</option>';
+    }
+};
+
+window.updateJurySelects = () => {
+    const idx1 = document.getElementById('jury1-select').value;
+    const idx2 = document.getElementById('jury2-select').value;
+
+    const options1 = document.getElementById('jury1-select').options;
+    const options2 = document.getElementById('jury2-select').options;
+
+    // Восстанавливаем видимость всех опций
+    for (let i = 0; i < options1.length; i++) options1[i].style.display = '';
+    for (let i = 0; i < options2.length; i++) options2[i].style.display = '';
+
+    // Прячем выбранное в Жюри 1 из списка Жюри 2
+    if (idx1 !== "") {
+        for (let i = 0; i < options2.length; i++) {
+            if (options2[i].value === idx1) options2[i].style.display = 'none';
+        }
+    }
+
+    // Прячем выбранное в Жюри 2 из списка Жюри 1
+    if (idx2 !== "") {
+        for (let i = 0; i < options1.length; i++) {
+            if (options1[i].value === idx2) options1[i].style.display = 'none';
+        }
+    }
+};
+
+window.updateJurySelects = () => {
+    const idx1 = document.getElementById('jury1-select').value;
+    const idx2 = document.getElementById('jury2-select').value;
+
+    const options1 = document.getElementById('jury1-select').options;
+    const options2 = document.getElementById('jury2-select').options;
+
+    // Восстанавливаем видимость всех опций
+    for (let i = 0; i < options1.length; i++) options1[i].style.display = '';
+    for (let i = 0; i < options2.length; i++) options2[i].style.display = '';
+
+    // Прячем выбранное в Жюри 1 из списка Жюри 2
+    if (idx1 !== "") {
+        for (let i = 0; i < options2.length; i++) {
+            if (options2[i].value === idx1) options2[i].style.display = 'none';
+        }
+    }
+
+    // Прячем выбранное в Жюри 2 из списка Жюри 1
+    if (idx2 !== "") {
+        for (let i = 0; i < options1.length; i++) {
+            if (options1[i].value === idx2) options1[i].style.display = 'none';
+        }
+    }
+};
+
+window.switchTab = (tabName, btnElement) => {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
+
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const targetTab = document.getElementById(`tab-${tabName}`);
+    if (targetTab) targetTab.classList.add('active');
+};
+
+window.distributeProjects = () => {
+    const idx1 = document.getElementById('jury1-select').value;
+    const idx2 = document.getElementById('jury2-select').value;
+
+    if (idx1 === "" || idx2 === "") return alert("Выберите обе команды жюри!");
+    if (idx1 === idx2) return alert("Команды жюри не могут совпадать!");
+
+    jury1Team = allTeamsData[idx1];
+    jury2Team = allTeamsData[idx2];
+
+    document.getElementById('jury1-title').innerText = `Жюри: ${jury1Team.teamName}`;
+    document.getElementById('jury2-title').innerText = `Жюри: ${jury2Team.teamName}`;
+
+    // Берем всех, КРОМЕ двух команд жюри
+    let otherTeams = allTeamsData.filter(t => t.id !== jury1Team.id && t.id !== jury2Team.id);
+    
+    // Перемешиваем оставшихся
+    otherTeams = otherTeams.sort(() => Math.random() - 0.5);
+
+    // Делим пополам
+    const half = Math.ceil(otherTeams.length / 2);
+    jury1Assignments = otherTeams.slice(0, half);
+    jury2Assignments = otherTeams.slice(half);
+
+    // ВАЖНО: Жюри 1 оценивает Жюри 2, и наоборот
+    jury1Assignments.push(jury2Team);
+    jury2Assignments.push(jury1Team);
+
+    // Отрисовываем списки на экране
+    renderList('jury1-list', jury1Assignments);
+    renderList('jury2-list', jury2Assignments);
+
+    // Генерируем бланки для печати
+    generatePrintForms();
+    
+    // Автоматически переключаем на вкладку с печатью
+    const printTabBtn = document.querySelectorAll('.tab-btn')[2];
+    switchTab('print', printTabBtn);
+};
+
+window.renderList = (elementId, teamsArray) => {
+    const list = document.getElementById(elementId);
+    if(!list) return;
+    list.innerHTML = '';
+    if(teamsArray.length === 0) list.innerHTML = '<li style="color:#666;">Пусто</li>';
+    
+    teamsArray.forEach((team, i) => {
+        list.innerHTML += `<li><span style="color:var(--accent-yellow)">${i+1}.</span> ${team.teamName} <br><span style="font-size:11px; color:#888;">(${team.topicTitle})</span></li>`;
+    });
+};
+
+window.randomizeQueue = () => {
+    if (allTeamsData.length === 0) return alert("Нет команд!");
+    let shuffled = [...allTeamsData].sort(() => Math.random() - 0.5);
+    const list = document.getElementById('queue-list');
+    if(!list) return;
+    list.innerHTML = '';
+    
+    shuffled.forEach((team, i) => {
+        list.innerHTML += `<li><strong>${i+1}.</strong> ${team.teamName} <br><span style="font-size:11px; color:#888;">${team.topicTitle}</span></li>`;
+    });
+};
+
+window.generatePrintForms = () => {
+    const container = document.getElementById('print-container');
+    if(!container) return;
+    container.innerHTML = '';
+    
+    const createForm = (team, assignedJury) => `
+        <div class="jury-form">
+            <div class="doc-header">
+                <div class="doc-code">ФОРМА № 67-IT</div>
+                <h1>Оценочный бланк задания</h1>
+                <p class="subtitle">Оценочная комиссия // IT-направление</p>
+            </div>
+            
+            <div class="form-info">
+                <p><span class="label">Команда:</span> <span class="value">${team.teamName}</span></p>
+                <p><span class="label">Тема:</span> <span class="value">${team.topicTitle} (ID: ${team.topicId})</span></p>
+                <p><span class="label">Состав (ФИО):</span> <span class="value">${team.fio}</span></p>
+                <p><span class="label" style="background:#eee; padding:2px;">Оценивает жюри:</span> <span class="value" style="font-weight:bold;">${assignedJury}</span></p>
+            </div>
+
+            <table class="criteria-table">
+                <thead>
+                    <tr>
+                        <th width="5%">№</th>
+                        <th width="65%">Критерий оценки</th>
+                        <th width="15%">Макс.</th>
+                        <th width="15%">Балл</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="score-cell">1</td>
+                        <td>
+                            <strong>Структура и титульный лист.</strong>
+                            <span class="crit-desc">• Наличие титульного слайда с указанием темы и ФИО.<br>• Соответствие заданию (соблюдено требуемое или большее количество слайдов).<br>• Логичность и последовательность повествования.</span>
+                        </td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="score-cell">2</td>
+                        <td>
+                            <strong>Содержание и глубина проработки.</strong>
+                            <span class="crit-desc">• Раскрыта ли заявленная тема?<br>• Понятно ли предложенное решение?<br>• Отвечают ли слайды на поставленные вопросы?</span>
+                        </td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="score-cell">3</td>
+                        <td>
+                            <strong>Дизайн и оформление презентации.</strong>
+                            <span class="crit-desc">• Отсутствие стандартного шаблона PowerPoint.<br>• Читаемость текста, единая цветовая гамма.<br>• Использование инструментов (Figma, Canva, Notion, Paint или рисунков от руки).</span>
+                        </td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="score-cell">4</td>
+                        <td>
+                            <strong>Подача материала (Elevator Pitch).</strong>
+                            <span class="crit-desc">• Соблюдение тайминга.<br>• Отсутствие чтения с листа.<br>• Участие всех членов команды в защите.</span>
+                        </td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell"></td>
+                    </tr>
+                    <tr>
+                        <td class="score-cell">5</td>
+                        <td>
+                            <strong>Вау-эффект и ответы на вопросы.</strong>
+                            <span class="crit-desc">• Креативность, нестандартный подход, мемы.<br>• Умение аргументировать свою позицию.<br>• Компетентность при ответах на вопросы жюри.</span>
+                        </td>
+                        <td class="score-cell">5</td>
+                        <td class="score-cell"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: right; font-weight: bold; font-size: 12pt;">ИТОГО НАБРАНО:</td>
+                        <td class="score-cell" style="font-size: 12pt;">25</td>
+                        <td class="score-cell"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="grading-scale">
+                <p><strong>Шкала перевода баллов в оценку:</strong></p>
+                <p>23 - 25 = «ОТЛИЧНО» &nbsp;|&nbsp; 18 - 22 = «ХОРОШО» &nbsp;|&nbsp; 13 - 17 = «УДОВЛЕТВОРИТЕЛЬНО» &nbsp;|&nbsp; 0 - 12 = «НЕУДОВЛЕТВОРИТЕЛЬНО»</p>
+            </div>
+
+            <div class="writing-box">
+                <p class="title">Вопросы от комиссии:</p>
+                <div class="lines-container">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+            
+            <div class="writing-box">
+                <p class="title">Комментарии и рекомендации:</p>
+                <div class="lines-container">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+
+            <div class="signatures">
+                <div>Член комиссии: <span class="signature-line"></span></div>
+                <div>Расшифровка: <span class="signature-line" style="width: 110px;"></span></div>
+                <div>Дата: «___» ______ 2026 г.</div>
+            </div>
+        </div>
+    `;
+
+    if (jury1Team) jury1Assignments.forEach(team => container.innerHTML += createForm(team, jury1Team.teamName));
+    if (jury2Team) jury2Assignments.forEach(team => container.innerHTML += createForm(team, jury2Team.teamName));
+};

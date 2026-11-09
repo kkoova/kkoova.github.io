@@ -22,6 +22,27 @@
       ]
     },
     {
+      "id": "1111",
+      "title": "11.11",
+      "tag": "#DEVOPS • MEME • DEVOPS",
+      "bgImage": "assets/img/git_bg.jpg",
+      "docsUrl": "1111",
+      "steps": [
+        { "id": "g1", "type": "live", "text": "Стартап на коленке" },
+        { "id": "g2", "type": "live", "text": "Профессии будущего" },
+        { "id": "g3", "type": "self", "text": "Анти-UX: Сделай неудобно" },
+        { "id": "g4", "type": "self", "text": "Разбор громкого факапа" }
+      ],
+      "difficulty": "01",
+      "teamSize": "3",
+      "features": [
+        {"label": "System", "sub": "GIT_VCS", "icon": "https://www.svgrepo.com/show/486224/system-settings-backup.svg"},
+        {"label": "Cloud", "sub": "GITHUB", "icon": "https://www.svgrepo.com/show/532034/cloud-arrow-down.svg"},
+        {"label": "Type", "sub": "SAVE_SYSTEM", "icon": "https://www.svgrepo.com/show/521318/type-16.svg"},
+        {"label": "Goal", "sub": "PORTFOLIO", "icon": "https://www.svgrepo.com/show/480956/goal-1.svg"}
+      ]
+    },
+    {
       "id": "03",
       "title": "PIXEL_FORGE",
       "tag": "#DESIGN • ASSETS",
