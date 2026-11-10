@@ -1,1 +1,581 @@
+<?
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Регистрация участников СПО на ЕГЭ (ГИА-11)");
+$APPLICATION->SetTitle("");
+?>
+<style>
+    .socio-olympiad-wrapper {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    .socio-documents {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+    }
+    .socio-document {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 10px 16px;
+        border-radius: 10px;
+        background: #fff;
+        border: 1px solid #dce5f7;
+        color: #296BF4 !important;
+        text-decoration: none !important;
+        font-size: 14px;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+    .socio-document:hover {
+        background: #296BF4;
+        color: #fff !important;
+        border-color: #296BF4;
+        transform: translateY(-2px);
+    }
+    /* Верхний баннер */
+    .socio-hero {
+        background: linear-gradient(135deg, #296BF4, #1a56c5);
+        color: #fff;
+        border-radius: 20px;
+        padding: 35px 35px 30px;
+        margin-bottom: 35px;
+        position: relative;
+        overflow: hidden;
+    }
+    .socio-hero::after {
+        content: '';
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border: 35px solid rgba(255,255,255,0.08);
+        border-radius: 50%;
+        right: -50px;
+        top: -70px;
+    }
+    .socio-hero-label {
+        display: inline-block;
+        background: rgba(255,255,255,0.16);
+        border: 1px solid rgba(255,255,255,0.25);
+        padding: 6px 13px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        letter-spacing: 0.3px;
+    }
+    .socio-hero-title {
+        margin: 0 0 10px 0;
+        font-size: 32px;
+        line-height: 1.2;
+        font-weight: 900;
+    }
+    .socio-hero-subtitle {
+        margin: 0;
+        font-size: 17px;
+        opacity: 0.95;
+    }
+    .socio-date-badge {
+        display: inline-block;
+        margin-top: 20px;
+        background: #FC781F;
+        color: #fff;
+        padding: 9px 16px;
+        border-radius: 10px;
+        font-weight: 800;
+        font-size: 15px;
+    }
+    /* Основной заголовок */
+    .socio-main-title {
+        color: #1a1a1a;
+        font-size: 28px;
+        font-weight: 800;
+        margin: 0 0 18px 0;
+        line-height: 1.25;
+    }
+    .socio-intro-text {
+        font-size: 16px;
+        color: #444;
+        margin-bottom: 30px;
+    }
+    .socio-intro-text p {
+        margin: 0 0 12px 0;
+    }
+    /* Карточки */
+    .socio-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 35px;
+    }
+    .socio-card {
+        background: #F4F7FF;
+        border-radius: 20px;
+        padding: 27px;
+        border: 1px solid #e0e8f9;
+    }
+    .socio-card h3 {
+        color: #296BF4;
+        font-size: 19px;
+        font-weight: 800;
+        margin: 0 0 17px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .socio-card h3 svg {
+        flex-shrink: 0;
+    }
+    .socio-card p {
+        margin: 0 0 9px 0;
+        font-size: 14px;
+        color: #444;
+    }
+    .socio-card p:last-child {
+        margin-bottom: 0;
+    }
+    .socio-card strong {
+        color: #1a1a1a;
+    }
+    /* Цель / Важно */
+    .socio-goal {
+        background: #fff8f3;
+        border: 1px solid #f8dfcf;
+        border-left: 5px solid #FC781F;
+        border-radius: 15px;
+        padding: 22px 25px;
+        margin-bottom: 35px;
+        color: #444;
+        font-size: 15px;
+    }
+    .socio-goal-title {
+        color: #FC781F;
+        font-weight: 800;
+        font-size: 19px;
+        margin-bottom: 8px;
+    }
+    /* Расписание */
+    .socio-section-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin: 0 0 20px 0;
+    }
+    .socio-schedule {
+        margin-bottom: 40px;
+        border: 1px solid #e3e8f2;
+        border-radius: 18px;
+        overflow: hidden;
+    }
+    .socio-schedule-row {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        align-items: center;
+        padding: 14px 18px;
+        border-bottom: 1px solid #edf0f5;
+        font-size: 14px;
+        gap: 15px;
+    }
+    .socio-schedule-row:last-child {
+        border-bottom: none;
+    }
+    .socio-schedule-row:nth-child(even) {
+        background: #fafbfe;
+    }
+    .socio-time {
+        display: inline-block;
+        background: #fff;
+        color: #FC781F;
+        border: 1px solid #f5d5c0;
+        padding: 5px 10px;
+        border-radius: 7px;
+        font-weight: 800;
+        text-align: center;
+        white-space: nowrap;
+    }
+    .socio-event-name {
+        font-weight: 600;
+        color: #333;
+    }
+    /* Участники */
+    .socio-participants {
+        background: #F4F7FF;
+        border: 1px solid #e0e8f9;
+        border-radius: 20px;
+        padding: 27px;
+        margin-bottom: 35px;
+    }
+    .socio-participants p {
+        margin: 0 0 12px 0;
+        font-size: 15px;
+        color: #444;
+    }
+    .socio-specialties {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 17px;
+    }
+    .socio-specialty {
+        background: #fff;
+        border: 1px solid #dce5f7;
+        color: #296BF4;
+        border-radius: 9px;
+        padding: 7px 11px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+    /* Этапы олимпиады / Блоки */
+    .socio-stages {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 40px;
+    }
+    .socio-stage {
+        border: 1px solid #e5e8ed;
+        border-radius: 16px;
+        padding: 20px;
+        background: #fff;
+    }
+    .socio-stage-number {
+        display: inline-flex;
+        width: 31px;
+        height: 31px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #296BF4;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 800;
+        margin-bottom: 11px;
+    }
+    .socio-stage h4 {
+        margin: 0 0 7px 0;
+        font-size: 16px;
+        color: #1a1a1a;
+    }
+    .socio-stage p {
+        margin: 0;
+        font-size: 13px;
+        color: #666;
+    }
+    /* Организаторы */
+    .socio-organizer {
+        background: #fafafa;
+        border: 1px solid #e8e8e8;
+        border-radius: 20px;
+        padding: 27px;
+        margin-bottom: 35px;
+    }
+    .socio-organizer p {
+        margin: 0 0 9px 0;
+        font-size: 14px;
+        color: #444;
+    }
+    .socio-organizer p:last-child {
+        margin-bottom: 0;
+    }
+    .socio-organizer strong {
+        color: #1a1a1a;
+    }
+    /* Футер */
+    .socio-footer {
+        background: #fdfdfd;
+        border: 1px solid #e8e8e8;
+        border-radius: 20px;
+        padding: 25px;
+    }
+    .socio-footer-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 12px;
+    }
+    .socio-footer p {
+        margin: 0 0 7px 0;
+        font-size: 14px;
+        color: #555;
+    }
+    .socio-footer p:last-child {
+        margin-bottom: 0;
+    }
+    /* Адаптив */
+    @media (max-width: 768px) {
+        .socio-olympiad-wrapper { padding: 25px; }
+        .socio-hero { padding: 27px 24px; }
+        .socio-hero-title { font-size: 26px; }
+        .socio-info-grid { grid-template-columns: 1fr; }
+        .socio-stages { grid-template-columns: 1fr; }
+        .socio-schedule-row { grid-template-columns: 1fr; gap: 8px; }
+        .socio-time { width: fit-content; }
+    }
+    @media (max-width: 480px) {
+        .socio-olympiad-wrapper { padding: 18px; border-radius: 15px; }
+        .socio-hero-title { font-size: 23px; }
+        .socio-main-title { font-size: 23px; }
+        .socio-card, .socio-participants, .socio-organizer { padding: 21px; }
+    }
+</style>
 
+<div class="socio-olympiad-wrapper">
+
+    <!-- Главный баннер -->
+    <div class="socio-hero">
+        <div class="socio-hero-label">
+            РЕГИСТРАЦИЯ УЧАСТНИКОВ СПО
+        </div>
+        <h1 class="socio-hero-title">
+            Регистрация на ЕГЭ (ГИА-11)
+        </h1>
+        <p class="socio-hero-subtitle">
+            Для обучающихся по образовательным программам среднего профессионального образования
+        </p>
+        <div class="socio-date-badge">
+            Прием заявлений до 1 февраля 2027 года
+        </div>
+    </div>
+
+    <!-- Введение -->
+    <h2 class="socio-main-title">
+        Уважаемые студенты!
+    </h2>
+    <div class="socio-intro-text">
+        <p>
+            Для участия в государственной итоговой аттестации по образовательным программам среднего общего образования (ГИА-11) в форме единого государственного экзамена (ЕГЭ) обучающимся необходимо подать заявление с указанием перечня учебных предметов, по которым они планируют проходить ГИА в текущем году, <strong>до 1 февраля</strong>.
+        </p>
+        <p>
+            После 1 февраля студент вправе подать заявление об участии в ЕГЭ только при наличии уважительной причины, <strong>подтвержденной документально.</strong> Изменить перечень экзаменов после 1 февраля возможно только при наличии уважительных причин не позднее, чем за 2 недели до проведения соответствующего экзамена. Для этого необходимо обратиться в Государственную экзаменационную комиссию Санкт-Петербурга с оригиналами документов.
+        </p>
+    </div>
+
+    <!-- Основная информация -->
+    <div class="socio-info-grid">
+        <!-- Дата и место -->
+        <div class="socio-card">
+            <h3>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Сроки и место подачи
+            </h3>
+            <p><strong>Срок подачи:</strong> до 1 февраля 2027 года</p>
+            <p><strong>Кабинет:</strong> № 102 (отдел общеобразовательной подготовки)</p>
+            <p><strong>Ответственный:</strong> Проничкина Мария Александровна, заведующий отделом общеобразовательной подготовки</p>
+            <p><strong>Телефон:</strong> 8 (812) 576-06-56 (доб. 178)</p>
+        </div>
+
+        <!-- Организатор -->
+        <div class="socio-card">
+            <h3>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+                Необходимые документы
+            </h3>
+            <p><strong>При себе обязательно иметь:</strong> паспорт и СНИЛС.</p>
+            <p><strong>Подпись заявления:</strong> несовершеннолетние обучающиеся подписывают заявление у родителей / законных представителей.</p>
+            <p><strong>Специалист учебного отдела:</strong> Петрова Кристина Андреевна</p>
+            <p><strong>Официальный портал:</strong> <a href="https://www.ege.spb.ru/" target="_blank" style="color: #296BF4; text-decoration: underline;">ege.spb.ru</a></p>
+        </div>
+    </div>
+
+    <!-- Участники -->
+    <div class="socio-participants">
+        <h2 class="socio-section-title">
+            Особенности участия
+        </h2>
+        <p>
+            Участие в ЕГЭ и ИС-11 на <u>добровольной</u> основе по <u>своему выбору</u> (в том числе при наличии действующих результатов прошлых лет).
+        </p>
+        <p>
+            <u>Русский язык и математика не являются обязательными предметами.</u> Участие в ЕГЭ по предмету «Математика» только профильного уровня. Обучающиеся колледжа не могут регистрироваться на математику базового уровня.
+        </p>
+        <p>
+            Результат ИС-11 <u>не является допуском</u> к ЕГЭ, сочинение используют при поступлении в ВУЗ (если это предусмотрено Правилами приема). Для написания итогового сочинения обучающиеся колледжей регистрируются по собственному желанию.
+        </p>
+        <p style="margin-top: 15px;"><strong>Предметы, по которым обучающиеся колледжа могут сдавать ЕГЭ:</strong></p>
+        <div class="socio-specialties">
+            <span class="socio-specialty">Русский язык</span>
+            <span class="socio-specialty">Математика (профильная)</span>
+            <span class="socio-specialty">Химия</span>
+            <span class="socio-specialty">География</span>
+            <span class="socio-specialty">Литература</span>
+            <span class="socio-specialty">Физика</span>
+            <span class="socio-specialty">История</span>
+            <span class="socio-specialty">Обществознание</span>
+            <span class="socio-specialty">Биология</span>
+            <span class="socio-specialty">Иностранные языки (письменно)</span>
+            <span class="socio-specialty">Иностранные языки (устно)</span>
+            <span class="socio-specialty">Информатика</span>
+        </div>
+        <p style="margin-top: 20px; font-size: 14px; color: #666;">
+            * Обучающиеся 1 курса могут сдавать ЕГЭ <u>только в основной период</u>. Если обучающийся передумал сдавать ЕГЭ по какому-либо предмету, ему необходимо написать <u>отказ от экзамена</u>.
+        </p>
+    </div>
+
+    <!-- Важно -->
+    <div class="socio-goal">
+        <div class="socio-goal-title">Важно!</div>
+        Дата экзаменов являются ориентировочными и могут измениться. Назначенные экзамены и даты их проведения отражены в личном кабинете участника ГИА-11. За сутки до экзамена будут доступны сведения о месте его проведения.
+    </div>
+
+    <!-- Программа / Сроки -->
+    <h2 class="socio-section-title">
+        Проект расписания ЕГЭ в 2027 году
+    </h2>
+    
+    <div class="socio-schedule">
+        <div class="socio-schedule-row" style="background: #e0e8f9; font-weight: bold; color: #1a1a1a; padding-top: 18px; padding-bottom: 18px;">
+            <span class="socio-event-name" style="grid-column: 1 / -1; font-size: 16px;">Досрочный период (март-апрель 2027 года)</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">19 марта (пт)</span>
+            <span class="socio-event-name">География, литература</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">23 марта (вт)</span>
+            <span class="socio-event-name">Русский язык</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">26 марта (пт)</span>
+            <span class="socio-event-name">Математика профильного уровня</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">30 марта (вт)</span>
+            <span class="socio-event-name">Биология, иностранные языки (письменная часть), физика</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">02 апреля (пт)</span>
+            <span class="socio-event-name">Иностранные языки (устная часть)</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">06 апреля (вт)</span>
+            <span class="socio-event-name">Информатика, обществознание</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">09 апреля (пт)</span>
+            <span class="socio-event-name">История, химия</span>
+        </div>
+        
+        <div class="socio-schedule-row" style="background: #e0e8f9; font-weight: bold; color: #1a1a1a; padding-top: 18px; padding-bottom: 18px;">
+            <span class="socio-event-name" style="grid-column: 1 / -1; font-size: 16px;">Основной период (июнь 2027 года)</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">01 июня (вт)</span>
+            <span class="socio-event-name">История, литература, химия</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">04 июня (пт)</span>
+            <span class="socio-event-name">Русский язык</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">07 июня (пн)</span>
+            <span class="socio-event-name">Математика профильного уровня</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">10 июня (чт)</span>
+            <span class="socio-event-name">Обществознание, физика</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">15 июня (вт)</span>
+            <span class="socio-event-name">Биология, география, иностранные языки (письменная часть)</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">18 июня (пт)</span>
+            <span class="socio-event-name">Иностранные языки (устная часть), информатика</span>
+        </div>
+        <div class="socio-schedule-row">
+            <span class="socio-time">19 июня (сб)</span>
+            <span class="socio-event-name">Иностранные языки (устная часть), информатика</span>
+        </div>
+    </div>
+
+    <!-- Итоговое сочинение и Пересдача -->
+    <h2 class="socio-section-title">
+        Итоговое сочинение и пересдача
+    </h2>
+    <div class="socio-stages">
+        <div class="socio-stage">
+            <div class="socio-stage-number">1</div>
+            <h4>Итоговое сочинение (ИС-11)</h4>
+            <p><strong>2.12.2026</strong> (окончание регистрации 18.11.2026)</p>
+            <p><strong>3.02.2027</strong> (окончание регистрации 19.01.2027)</p>
+            <p><strong>14.04.2027</strong> (окончание регистрации 30.03.2027)</p>
+            <p style="margin-top: 8px;">Результат «зачет» действителен <u>бессрочно</u>. Сочинение действительно 4 года, следующих за годом написания.</p>
+        </div>
+        <div class="socio-stage">
+            <div class="socio-stage-number">2</div>
+            <h4>Пересдача экзаменов</h4>
+            <p>Согласно письму Рособрнадзора от 14.05.2024 г. № 04-134, нормы о пересдаче в дополнительные дни распространяются <u>только на выпускников текущего года (11 классов)</u>.</p>
+        </div>
+        <div class="socio-stage">
+            <div class="socio-stage-number">3</div>
+            <h4>Срок действия результатов</h4>
+            <p><strong>Результаты ЕГЭ</strong> действительны 4 года, следующие за годом получения результатов.</p>
+        </div>
+    </div>
+
+    <!-- Организационный комитет / Доп инфо -->
+    <div class="socio-organizer">
+        <h2 class="socio-section-title">
+            Получение аттестата и Личный кабинет
+        </h2>
+        <p>
+            <strong>Для получения аттестата о среднем общем образовании</strong> обучающиеся колледжа должны обращаться в <a href="https://www.ege.spb.ru/index.php?option=com_k2&view=item&layout=item&id=187&Itemid=355" target="_blank" style="color: #296BF4; text-decoration: underline;">Центры образования</a> или иные образовательные организации, которые осуществляют обучение в форме экстерната, имеющиеся в каждом районе Санкт-Петербурга.
+        </p>
+        <p>
+            <strong>Личный кабинет участника ГИА-11:</strong> Вход по адресу <a href="https://www.ege.spb.ru/" target="_blank" style="color: #296BF4; text-decoration: underline;">ege.spb.ru</a> → Раздел «Результаты ЕГЭ» → Год «2027». Проверьте соответствие заявленного этапа и назначение на экзамены.
+        </p>
+        <p style="color: #FC781F; font-weight: bold; margin-top: 15px;">
+            Об ошибке в назначении или перечне заявленных экзаменов необходимо срочно сообщить в кабинет № 102 (Проничкина Мария Александровна).
+        </p>
+    </div>
+
+    <!-- Телефоны горячей линии -->
+    <div class="socio-participants">
+        <h2 class="socio-section-title">
+            Телефоны горячей линии
+        </h2>
+        <div class="socio-specialties" style="margin-top: 10px;">
+            <span class="socio-specialty">Спиренкова Галина Анатольевна: 246-66-34</span>
+            <span class="socio-specialty">Васильева Алена Владимировна: 246-66-35</span>
+            <span class="socio-specialty">Яковлев Михаил Михайлович: 246-66-36</span>
+        </div>
+        <p style="margin-top: 15px; font-size: 14px; color: #555;">Режим работы: по рабочим дням с 10:00 до 17:00.</p>
+    </div>
+
+    <!-- Кнопка на портал -->
+    <div class="socio-documents">
+        <a href="https://www.ege.spb.ru/" target="_blank" class="socio-document">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            Официальный информационный портал ГИА в Санкт-Петербурге
+        </a>
+    </div>
+    <br>
+
+    <!-- Футер -->
+    <div class="socio-footer">
+        <div class="socio-footer-title">
+            РЕГИСТРАЦИЯ УЧАСТНИКОВ СПО НА ЕГЭ
+        </div>
+        <p>Прием заявлений до 1 февраля 2027 года</p>
+        <p>Кабинет № 102 (отдел общеобразовательной подготовки)</p>
+        <p>СПб ГБПОУ «Политехнический колледж городского хозяйства»</p>
+        <p>Телефон: 8 (812) 576-06-56 (доб. 178)</p>
+    </div>
+
+</div>
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
