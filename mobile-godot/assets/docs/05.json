@@ -1,5 +1,5 @@
 {
-  "unit": "UNIT_06 // NETWORKING_EXTENDED",
+  "unit": "UNIT_07 // NETWORKING_EXTENDED",
   "title": "MULTIPLAYER_FOREST",
   "phases": [
     { 
@@ -9,7 +9,7 @@
       "items": [
         { "type": "text", "val": "Настройки создания проекта (Скопируйте 04 работу и переименуйте):" },
         { "type": "config", "data": [
-            ["PROJECT_NAME", "06_NETWORKING_EXTENDED"],
+            ["PROJECT_NAME", "07_NETWORKING_EXTENDED"],
             ["COPY_FROM", "COPY_04_PROJECT"]
         ]}     
     ]
@@ -36,7 +36,7 @@
       "items": [
         { "type": "text", "val": "Загрузка на гитхаб, не забудте кинуть ссылку на проект в [ SUBMIT_REPORT ]." },
         { "type": "config", "data": [
-            ["PROJECT_NAME", "06_NETWORKING_EXTENDED"],
+            ["PROJECT_NAME", "07_NETWORKING_EXTENDED"],
             ["VISIBLE", "PUBLIC"]
         ]},
         {

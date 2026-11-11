@@ -65,9 +65,22 @@
         "Работа с синхронизацией"
       ]
     },
+        {
+      "id": "m06_cube_3d",
+      "title": "06 // CUBE_3D",
+      "subtitle": "Создание игры кубик-рубик 3D",
+      "preview_img": "assets/previews/lv-9.png",
+      "godot_path": "missions/m09_cubick/index.html",
+      "tutorial_url": "09.json",
+      "steps": [
+        "Работа с 3d фигурами и текстурами",
+        "Построение 3d сцены",
+        "Обьеденение 3d и 2d на одном экране"
+      ]
+    },
     {
-      "id": "m06_networking_extended",
-      "title": "06 // NETWORKING_EXTENDED",
+      "id": "m07_networking_extended",
+      "title": "07 // NETWORKING_EXTENDED",
       "subtitle": "Самостоятельная работа. Доработка проекта с мультиплеером и синхронизацией объектов",
       "preview_img": "assets/previews/lv-5.png",
       "godot_path": "missions/m05_networking_extended/index.html",
@@ -82,8 +95,8 @@
       ]
     },
     {
-      "id": "m07_tetris_core",
-      "title": "07 // TETTRIS_CORE",
+      "id": "m08_tetris_core",
+      "title": "08 // TETTRIS_CORE",
       "subtitle": "Создание тетриса, подсчета очков и уровней",
       "preview_img": "assets/previews/lv-tet6.png",
       "godot_path": "missions/m06_tetris/index.html",
@@ -95,8 +108,8 @@
       ]
     },
     {
-      "id": "m08_fishing",
-      "title": "08 // FISHING",
+      "id": "m09_fishing",
+      "title": "09 // FISHING",
       "subtitle": "Начало большого проекта. Для начала - рыбалка",
       "preview_img": "assets/previews/lv-8.png",
       "godot_path": "missions/m08_fishing/index.html",
@@ -110,8 +123,8 @@
       ]
     },
     {
-      "id": "m09_???",
-      "title": "09 // ???",
+      "id": "m10_???",
+      "title": "10 // ???",
       "subtitle": "Предложите свою тему для разработки",
       "preview_img": "assets/previews/lv-6.png",
       "godot_path": "missions/m09_???.index.html",
