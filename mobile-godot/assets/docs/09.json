@@ -1,0 +1,220 @@
+{
+  "unit": "UNIT_01 // CUBE_3D",
+  "title": "CUBE_3D",
+  "phases": [
+    {
+      "id": "t0",
+      "label": "PHASE_00 // PROJECT_SETUP",
+      "header": "Подготовка проекта",
+      "items": [
+        {
+          "type": "text",
+          "val": "**Цель проекта:** Создать кубик рубик, что можно крутить, так же таймер отсчета и возможность 'перемешать' куб"
+        },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "06_CUBE_3D"],
+            ["Отрисовщик", "Forward+"],
+            ["RENDERER", "Nearest"],
+            ["WINDOW_SIZE", "495 x 270 px"],
+            ["Режим", "Maximazed"]
+        ]
+        }
+      ]
+    },
+    {
+      "id": "t1",
+      "label": "PHASE_01 // PROJECT_STRUCTURE",
+      "header": "Структура проекта и главная сцена",
+      "items": [
+        {
+          "type": "text",
+          "val": "**Создайте папки до написания скриптов, как вы делали в прошлых проектах.** Пути далее используются непосредственно в коде и должны совпадать с названиями в FileSystem."
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Создайте все нужные папки в FileSystem.",
+            "Создайте сцену **scenes/cubie.tscn** с корневым узлом **StaticBody3D** и именем **Cubie**.",
+            "Добавьте в **cubie** дочерний **MeshInstance3D** c mesh = BoxMesh",
+            "Добавьте в **cubie** дочерний **CollisionShape3D** c shape = BoxShape3D"
+          ]
+        },
+        {
+          "type": "text",
+          "val": "Как итог - такая стуктура сцены. Это будет наш куб, точнее 1 его кусок"
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            {
+              "name": "Cubie",
+              "type": "StaticBody3D",
+              "level": 0
+            },
+            {
+              "name": "MeshInstance3D",
+              "type": "MeshInstance3D",
+              "level": 1
+            },
+            {
+              "name": "CollisionShape3D",
+              "type": "CollisionShape3D",
+              "level": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+    "id": "t2",
+    "label": "PHASE_02 // CREATE_TEXTURE",
+    "header": "Создание текстуры для 1 части куба",
+    "items": [
+      {
+          "type": "text",
+          "val": "Мы должны создать текстуру на каждую из сторон куба"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Скачайте шаблон текстуры ниже, откройте его в любом редакторе (Paint)",
+            "Нарисуйте что нибудь на 6 сторонах куба, сохраните текстуру в assets"
+          ]
+        },
+        { "type": "button", "text": "TEXTURE_CUBE_3D", "url": "./assets/material/шаблон_для_текстуры.png" },
+        {
+          "type": "grid",
+          "items": [
+            "Выберем MeshInstance3D и в инспекторе -> Geometry -> Material Override -> StandartMaterial3D",
+            "В нем добавим зададим следующие значения"
+          ]
+        },
+        { "type": "config", "data": [
+            ["ALBEDO", "Texture - Ваша нарисованная текстура"],
+            ["EMISSION", "Вкл; Цвет - белый; Operation - Multiply; Texture - Ваша нарисованная текстура"],
+            ["NEXT PASS", "ShaderMaterial (Это будет обводка квадрата)"],
+            ["Редактор шейдеров", "Shader -> Новый шейдер. Вставляем код ниже"]
+        ]
+        },
+        {
+          "type": "code",
+          "title": "cubie.gdshader",
+          "code": "shader_type spatial;\nrender_mode cull_front, unshaded;\n\nuniform vec4 outline_color : source_color = vec4(0.0, 1.0, 1.0, 1.0);\nuniform float outline_thickness : hint_range(1.0, 1.5, 0.005) = 1.05;\nuniform float emission_energy : hint_range(0.0, 16.0, 0.1) = 3.0;\n\nvoid vertex() {\n\tVERTEX *= outline_thickness;\n}\n\nvoid fragment() {\n\tALBEDO = outline_color.rgb;\n\tEMISSION = outline_color.rgb * emission_energy;\n}"
+        },
+        {
+          "type": "text",
+          "val": "Уже в настройках шейдера, потыкайте настройки, цвет, размер."
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-1.png",
+          "caption": "Пример настройки текстуры для обводки куба"
+        },
+        {
+          "type": "text",
+          "val": "Как итог должен получиться такой куб с вашей текстурой:"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-2.png",
+          "caption": "Пример куба"
+        }
+    ]
+    },
+    {
+    "id": "t3",
+    "label": "PHASE_03 // CREATE_MAP_MAIN",
+    "header": "Создание главной сцены",
+    "items": [
+      {
+          "type": "tree",
+          "nodes": [
+            {
+              "name": "CubeRoot",
+              "type": "Node3D",
+              "level": 0
+            },
+            {
+              "name": "Camera3D",
+              "type": "Camera3D",
+              "level": 1
+            },
+            {
+              "name": "CubeContainer",
+              "type": "Node3D",
+              "level": 1
+            },
+            {
+              "name": "CubeRoot",
+              "type": "Node3D",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "val": "**В CubeContainer задайте Rotation = (-30, 45, 0), что бы куб изначально был повернут.** Настройте камеру так, что бы она была немного дальше от центра, но смотрела в центр. (Например Z - 8)"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-3.png",
+          "caption": "Пример настройки камеры"
+        },
+        {
+          "type": "text",
+          "val": "Создайте скрипт для этой сцены, и вставте данный код:"
+        },
+        {
+          "type": "code",
+          "title": "cuberoot.gd",
+          "code": "extends Node3D\n\n@export var cube_scene: PackedScene\n@export var cube_container: Node3D\n@export var cube_root: Node3D\n\nfunc _ready():\n\tfor x in range(-1, 2):\n\t\tfor y in range(-1, 2):\n\t\t\tfor z in range(-1, 2):\n\t\t\t\tif x == 0 and y == 0 and z == 0:\n\t\t\t\t\tcontinue\n\t\t\t\tvar cubie = cube_scene.instantiate()\n\t\t\t\tcubie.position = Vector3(x, y, z)\n\t\t\t\tcubie.add_to_group('cubies')\n\t\t\t\tcube_root.add_child(cubie)"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Задайте в инспекторе все необходимые переменные. **cube_scene - ваша прошлая сцена куба**",
+            "Запустите игру, должен появиться куб, что состоит из мелких кубов"
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-4.png",
+          "caption": "Запуск игры и созданый кодом куб"
+        }
+    ]
+    },
+    {
+    "id": "t4",
+    "label": "PHASE_04 // ROTATE",
+    "header": "Механизм поворота куба",
+    "items": [
+        {
+          "type": "text",
+          "val": "Сделаем код, что бы когда мы зажимали мышку, мы могли крутить куб в разные стороны. **Для начала добавим переменные. Вставим их после @export var cube_root: Node3D**"
+        },
+        {
+          "type": "code",
+          "title": "cuberoot.gd",
+          "code": "# Не забудьте прикепить камеру в инспекторе\n@export var camera: Camera3D\n@export var sensitivity: float = 0.01\n@export var drag_threshold: float = 15.0\n\nvar is_dragging: bool = false\nvar touch_start_pos: Vector2 = Vector2.ZERO\nvar velocity_y: float = 0.0\nvar velocity_x: float = 0.0\nvar time_elapsed: float = 0.0\n\nvar is_timer_running: bool = false\nvar is_rotating: bool = false\nvar is_scrambling: bool = false"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "В настройках проекта найдите пункт: **Эмулировать сенсорный ввод мышью** - включите",
+            "Вставте код ниже в cuberoot. Это сама логика поворота"
+          ]
+        },
+        {
+          "type": "code",
+          "title": "cuberoot.gd",
+          "code": "func _unhandled_input(event):\n\tif is_scrambling:\n\t\treturn\n\tif event is InputEventScreenTouch:\n\t\tif event.pressed:\n\t\t\ttouch_start_pos = event.position\n\t\t\tis_dragging = false\n\t\telse:\n\t\t\tif not is_dragging:\n\t\t\t\tpass\n\t\t\telse:\n\t\t\t\tis_dragging = false\n\telif event is InputEventScreenDrag:\n\t\tif not is_dragging:\n\t\t\tif event.position.distance_to(touch_start_pos) > drag_threshold:\n\t\t\t\tis_dragging = true\n\t\tif is_dragging:\n\t\t\t_rotate_cube(event.relative)\n\nfunc _rotate_cube(drag_motion: Vector2):\n\tif cube_container == null:\n\t\treturn\n\tcube_container.rotate_y(drag_motion.x * sensitivity)\n\tvar new_x = cube_container.rotation.x - (-drag_motion.y * sensitivity)\n\tcube_container.rotation.x = clamp(new_x, deg_to_rad(-80), deg_to_rad(80))\n\tvelocity_y = -drag_motion.x * sensitivity\n\tvelocity_x = -drag_motion.y * sensitivity\n\nfunc _process(delta):\n\tif not is_dragging and (velocity_y != 0.0 or velocity_x != 0.0):\n\t\tcube_container.rotate_y(velocity_y)\n\t\tvar new_x = cube_container.rotation.x + velocity_x\n\t\tcube_container.rotation.x = clamp(new_x, deg_to_rad(-80), deg_to_rad(80))\n\t\tvelocity_y = lerp(velocity_y, 0.0, 10.0 * delta)\n\t\tvelocity_x = lerp(velocity_x, 0.0, 10.0 * delta)\n\t\tif abs(velocity_y) < 0.001:\n\t\t\tvelocity_y = 0.0\n\t\tif abs(velocity_x) < 0.001:\n\t\t\tvelocity_x = 0.0"
+        },
+        {
+          "type": "text",
+          "val": "Запустите игру. Теперь при зажатой мышке - куб должен поворачиваться"
+        }
+    ]
+    }
+      
+  ]
+}

@@ -192,7 +192,7 @@
         },
         {
           "type": "image",
-          "url": "./assets/img/l09-1.png",
+          "url": "./assets/img/l08-2.png",
           "caption": "Пример настройки физики для местности Hills"
         },
         {
@@ -201,7 +201,7 @@
         },
         {
           "type": "image",
-          "url": "./assets/img/l010-1.png",
+          "url": "./assets/img/l08-3.png",
           "caption": "Работа с местностями"
         }
     ]
