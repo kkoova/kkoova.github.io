@@ -221,7 +221,7 @@ function showTopic(topic) {
     tutorialLink.onclick = () => {
         console.log(topic.docsUrl)
         console.log(topic.docsUrl)
-        if (topic.docsUrl == '1111') window.location.href = `./11.11.html`;
+        if (topic.docsUrl == 'design') window.location.href = `./docs/design_studio`;
         else window.location.href = `mission.html?doc=${topic.docsUrl}`;
     };
 

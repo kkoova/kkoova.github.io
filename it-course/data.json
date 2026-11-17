@@ -22,27 +22,6 @@
       ]
     },
     {
-      "id": "1111",
-      "title": "11.11",
-      "tag": "#DEVOPS • MEME • DEVOPS",
-      "bgImage": "assets/img/git_bg.jpg",
-      "docsUrl": "1111",
-      "steps": [
-        { "id": "g1", "type": "live", "text": "Стартап на коленке" },
-        { "id": "g2", "type": "live", "text": "Профессии будущего" },
-        { "id": "g3", "type": "self", "text": "Анти-UX: Сделай неудобно" },
-        { "id": "g4", "type": "self", "text": "Разбор громкого факапа" }
-      ],
-      "difficulty": "01",
-      "teamSize": "3",
-      "features": [
-        {"label": "System", "sub": "GIT_VCS", "icon": "https://www.svgrepo.com/show/486224/system-settings-backup.svg"},
-        {"label": "Cloud", "sub": "GITHUB", "icon": "https://www.svgrepo.com/show/532034/cloud-arrow-down.svg"},
-        {"label": "Type", "sub": "SAVE_SYSTEM", "icon": "https://www.svgrepo.com/show/521318/type-16.svg"},
-        {"label": "Goal", "sub": "PORTFOLIO", "icon": "https://www.svgrepo.com/show/480956/goal-1.svg"}
-      ]
-    },
-    {
       "id": "03",
       "title": "PIXEL_FORGE",
       "tag": "#DESIGN • ASSETS",
@@ -174,6 +153,22 @@
         {"label": "Engine", "sub": "TENSORFLOW", "icon": "assets/icons/brain.png"},
         {"label": "Method", "sub": "OCR_LOGIC", "icon": "assets/icons/draw.png"},
         {"label": "Target", "sub": "IDENTITY", "icon": "assets/icons/security.png"}
+      ]
+    },
+    {
+      "id": "02",
+      "title": "DESIGN_STUDIO",
+      "tag": "#DESIGN • BRANDBOOK",
+      "bgImage": "assets/img/web_bg.jpg",
+      "docsUrl": "design",
+      "steps": [
+        { "id": "w1", "type": "live", "text": "Работа с целевой аудиторией" },
+        { "id": "w2", "type": "live", "text": "Разбор ТЗ и работа с заказчиком" },
+        { "id": "w3", "type": "self", "text": "Создание брендбука" }
+      ],
+      "difficulty": "01", "teamSize": "1",
+      "features": [
+        {"label": "Style", "sub": "GLASS", "icon": "assets/icons/web.png"}
       ]
     }
   ]

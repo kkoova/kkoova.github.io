@@ -1,0 +1,308 @@
+/* =========================================================
+   MATRIX / CYBERPUNK THEME v2 (Улучшенная читаемость)
+   ========================================================= */
+
+@font-face {
+    font-family: 'NDot';
+    src: url('https://kkoova.github.io/it-course/font/Ndot55-Regular.otf') format('woff2');
+}
+
+@font-face {
+    font-family: 'NType82';
+    src: url('https://kkoova.github.io/it-course/font/NType82-Regular.otf');
+}
+
+@font-face {
+    font-family: 'LatteraMonoLL';
+    src: url('https://kkoova.github.io/it-course/font/LetteraMonoLL-Regular.otf');
+}
+
+:root {
+    /* Цветовая палитра (мягкий киберпанк) */
+    --bg-base: #0d1117;       /* Основной фон (графит) */
+    --bg-panel: #161b22;      /* Фон карточек (светлее фона) */
+    --bg-input: #0d1117;      /* Фон инпутов */
+    --border-soft: #30363d;   /* Четкие, но не яркие границы */
+    --border-focus: #FFFB05;  /* Желтый акцент */
+    
+    --txt-main: #e6edf3;      /* Мягкий белый текст */
+    --txt-muted: #8b949e;     /* Серый текст */
+    --accent-yellow: #FFFB05; /* Фирменный желтый */
+    
+    /* Переопределяем переменные DESIGN STUDIO */
+    --bg: var(--bg-base);
+    --panel: var(--bg-panel);
+    --panel2: #1c2128;
+    --line: var(--border-soft);
+    --txt: var(--txt-main);
+    --muted: var(--txt-muted);
+    --accent: var(--accent-yellow);
+    --accent2: var(--accent-yellow);
+    --ok: #3fb950;
+    --bad: #f85149;
+    --r: 12px;
+}
+
+/* Базовые настройки */
+body {
+    background: var(--bg-base) !important;
+    /* Для интерфейса используем моноширинный, но более читаемый */
+    font-family: 'LatteraMonoLL', 'JetBrains Mono', Consolas, monospace !important; 
+    color: var(--txt-main) !important;
+    background-image: none !important;
+    font-size: 14.5px;
+    line-height: 1.6;
+}
+
+/* Заголовки оставляем пиксельными, но аккуратными */
+h1, h2, h3, h4, .logo b, .kicker, .client-name {
+    font-family: 'NDot', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* ЗАЩИТА: сбрасываем стили для окна генерации PDF */
+#pdf-render, #pdf-render * {
+    font-family: inherit !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+}
+/* Верхняя панель */
+.topbar {
+    background: rgba(13, 17, 23, 0.9) !important;
+    border-bottom: 1px solid var(--border-soft) !important;
+    backdrop-filter: blur(10px);
+}
+.logo b {
+    color: var(--accent-yellow) !important;
+}
+
+/* Статистика */
+.stat {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--txt-muted) !important;
+}
+.stat b {
+    color: var(--txt-main) !important;
+}
+.stat.pts b, .stat.bud b { color: var(--accent-yellow) !important; }
+.stat.rep b { color: var(--ok) !important; }
+
+.mini-btn {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--txt-main) !important;
+    transition: 0.3s;
+}
+.mini-btn:hover {
+    border-color: var(--accent-yellow) !important;
+    color: var(--accent-yellow) !important;
+}
+
+/* Шаги */
+.steps {
+    background: var(--bg-base) !important;
+    border-bottom: 1px solid var(--border-soft) !important;
+}
+.step {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--txt-muted) !important;
+}
+.step:not(:disabled):hover {
+    border-color: #58a6ff !important;
+}
+.step.active {
+    border-color: var(--accent-yellow) !important;
+    color: var(--accent-yellow) !important;
+    background: rgba(255, 251, 5, 0.08) !important; /* Легкий фокус */
+}
+.step.done .num {
+    background: var(--ok) !important;
+    color: #000 !important;
+}
+.step .num {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border-soft);
+}
+
+/* КАРТОЧКИ (Главное исправление разделения) */
+.card, .preview, .modal-card, .client-card {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-soft) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2); /* Тень отделяет блок от фона */
+}
+.card h3 {
+    color: var(--txt-muted) !important;
+    font-family: 'NDot', sans-serif;
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+/* Выбор вариантов (Аудитория) */
+.opt {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--txt-main) !important;
+    transition: 0.2s;
+}
+.opt:hover {
+    border-color: #58a6ff !important;
+}
+.opt.sel {
+    border-color: var(--accent-yellow) !important;
+    background: rgba(255, 251, 5, 0.08) !important;
+    color: var(--accent-yellow) !important;
+}
+
+/* Чипсы */
+.chip {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--txt-muted) !important;
+}
+.chip:hover {
+    border-color: #58a6ff !important;
+    color: var(--txt-main) !important;
+}
+.chip.sel {
+    border-color: var(--accent-yellow) !important;
+    background: rgba(255, 251, 5, 0.15) !important;
+    color: var(--accent-yellow) !important;
+    font-weight: bold;
+}
+
+/* Плитки */
+.tile {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--txt-muted) !important;
+}
+.tile:hover {
+    border-color: #58a6ff !important;
+    color: var(--txt-main) !important;
+}
+.tile.sel {
+    border-color: var(--accent-yellow) !important;
+    color: var(--accent-yellow) !important;
+    background: rgba(255, 251, 5, 0.08) !important;
+}
+
+/* Палитры */
+.swatch-tile {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border-soft) !important;
+}
+.swatch-tile.sel {
+    border-color: var(--accent-yellow) !important;
+}
+
+/* Инпуты */
+input[type="text"], textarea {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--txt-main) !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+    font-family: 'LatteraMonoLL', monospace;
+    transition: 0.3s;
+}
+input[type="text"]:focus, textarea:focus {
+    border-color: var(--accent-yellow) !important;
+    outline: none;
+    box-shadow: 0 0 0 1px var(--accent-yellow);
+}
+label.fl {
+    color: var(--txt-muted) !important;
+}
+
+/* Переключатели */
+.toggle {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--txt-muted) !important;
+}
+.toggle:hover {
+    border-color: #58a6ff !important;
+}
+.toggle.on {
+    border-color: var(--accent-yellow) !important;
+    color: var(--txt-main) !important;
+}
+.toggle .box {
+    border: 1px solid var(--border-soft) !important;
+}
+.toggle.on .box {
+    background: var(--accent-yellow) !important;
+    border-color: var(--accent-yellow) !important;
+    color: #000 !important;
+}
+
+/* Кнопки */
+.primary {
+    background: var(--accent-yellow) !important;
+    color: #000000 !important;
+    border-radius: 8px !important;
+    font-family: 'NDot', sans-serif;
+    font-weight: bold;
+    border: none !important;
+    transition: 0.2s;
+    box-shadow: 0 0 15px rgba(255, 251, 5, 0.2) !important;
+}
+.primary:hover {
+    background: #fff !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
+}
+.ghost {
+    background: var(--bg-base) !important;
+    border: 1px solid var(--border-soft) !important;
+    color: var(--txt-main) !important;
+    border-radius: 8px !important;
+}
+.ghost:hover {
+    border-color: var(--txt-main) !important;
+    color: #fff !important;
+}
+
+/* Табы превью */
+.prev-tabs {
+    background: var(--bg-base) !important;
+    border-bottom: 1px solid var(--border-soft) !important;
+}
+.ptab.active {
+    background: var(--bg-panel) !important;
+    border-color: var(--border-soft) !important;
+    border-bottom-color: transparent !important; /* Эффект слития с контентом */
+    color: var(--accent-yellow) !important;
+}
+
+/* Модальные окна (Выбор клиента) */
+.modal {
+    background: rgba(0, 0, 0, 0.7) !important;
+    backdrop-filter: blur(5px) !important;
+}
+.client-card {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--border-soft) !important;
+    transition: 0.2s;
+}
+.client-card:hover {
+    border-color: var(--accent-yellow) !important;
+    box-shadow: 0 0 20px rgba(255, 251, 5, 0.15) !important;
+}
+.client-name { color: var(--accent-yellow) !important; }
+
+.grade-card {
+    background: var(--bg-panel) !important;
+    border: 1px solid var(--accent-yellow) !important;
+}
+.grade-num { color: var(--accent-yellow) !important; -webkit-text-fill-color: var(--accent-yellow) !important; }
+
+/* Скроллбары */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #58a6ff; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
