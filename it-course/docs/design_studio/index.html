@@ -344,6 +344,14 @@ const CLIENTS = [
   {
     id:'greenbyte', name:'GREEN BYTE',
     sphere:'Экологичные технологии и производство биоразлагаемой упаковки',
+    fullBrief: `ПРИВЕТ, ДИЗАЙНЕР!
+Мы — GREEN BYTE, стартап, который делает биоразлагаемую упаковку для бизнеса. Мы хотим спасти планету от пластика, но при этом выглядеть как серьезная технологическая компания, а не как деревенский эко-магазин.
+
+ЧТО НАМ НУЖНО:
+Нам нужен современный, строгий и минималистичный стиль. Мы общаемся с директорами заводов, они должны нам доверять. В логотипе должно читаться что-то технологичное и экологичное одновременно.
+
+ЧТО НЕЛЬЗЯ:
+Умоляю, не используйте банальные зеленые листики! Мы уже устали от этого клише. Также помните, что логотип будет печататься на маленьких бейджах и пакетах, поэтому он должен быть максимально читаемым даже в микро-размере.`,
     briefText:[
       'Современный и минималистичный стиль',
       'Ассоциация с технологиями и экологией',
@@ -364,7 +372,7 @@ const CLIENTS = [
       'Пенсионеры 65+, дачники',
       'Владельцы грузового транспорта'
     ],
-    audienceCorrect:0,
+    audienceCorrect:3,
     tones:['tech','eco','minimal'],
     likes:{palettes:['tech','eco'],shapes:['hex','circle','round'],marks:['monogram','dots','wave'],fonts:['sans','grotesk']},
     forbid:{marks:['leaf'],shapes:[],palettes:[]},
@@ -373,6 +381,13 @@ const CLIENTS = [
   {
     id:'kidspace', name:'KIDSPACE',
     sphere:'Детский образовательный центр и онлайн-кружки',
+    fullBrief: `Здравствуйте! Мы — KIDSPACE, онлайн-школа программирования и робототехники для детей.
+
+КТО НАШИ КЛИЕНТЫ:
+К нам приходят дети от 6 до 12 лет, но платят за это их родители. Поэтому стиль должен нравиться и тем, и другим. Родители должны видеть, что у нас безопасно и профессионально, а дети — что у нас весело и интересно.
+
+ЗАДАЧА:
+Наш стиль должен быть дружелюбным и теплым. Мы хотим использовать яркие цвета, но без визуального шума и "кислотности", чтобы у мам не болела голова. Элементы интерфейса и логотип должны быть крупными, потому что дети часто смотрят уроки с планшетов.`,
     briefText:[
       'Дружелюбно и безопасно - родители должны доверять',
       'Ярко, но не «кислотно», без визуального шума',
@@ -386,14 +401,14 @@ const CLIENTS = [
     ],
     budget:62000, deadline:'4 рабочих дня',
     audienceOptions:[
-      'Родители 28–40 лет и дети 6–12 лет',
       'Студенты IT-специальностей 18–22',
       'Пенсионеры 60+',
       'Владельцы загородных домов',
       'Байкеры и автотуристы',
+      'Родители 28–40 лет и дети 6–12 лет',
       'HR-директора крупных корпораций'
     ],
-    audienceCorrect:0,
+    audienceCorrect:4,
     tones:['friendly','playful','warm'],
     likes:{palettes:['playful','eco'],shapes:['round','blob','circle'],marks:['monogram','spark'],fonts:['sans','display']},
     forbid:{marks:[],shapes:[],palettes:['premium']},
@@ -402,6 +417,13 @@ const CLIENTS = [
   {
     id:'nordfin', name:'NORDFIN',
     sphere:'Финтех-приложение: платежи, сбережения, аналитика',
+    fullBrief: `Добрый день. Мы разрабатываем NORDFIN — премиальное банковское приложение для управления личными финансами.
+
+КОНТЕКСТ:
+Наши пользователи — занятые городские специалисты, которые ценят свое время и безопасность. Они доверяют нам свои деньги. Поэтому интерфейс должен кричать о надежности.
+
+ПОЖЕЛАНИЯ:
+Нам нужен строгий, премиальный стиль. Никакой "мультяшности", смайликов или легкомысленных шрифтов. Допускаются и даже приветствуются глубокие, темные цвета, которые ассоциируются с богатством и безопасностью (как сейфы). Логотип должен быть геометричным и уверенным.`,
     briefText:[
       'Надёжность и скорость - главные ценности',
       'Строгий премиальный стиль без «мультяшности»',
@@ -431,6 +453,13 @@ const CLIENTS = [
   {
     id:'lumen', name:'LUMEN',
     sphere:'Музыкальный стриминг и студия звукозаписи',
+    fullBrief: `Йо! Мы LUMEN. Мы делаем стриминговый сервис и одновременно студию, где молодые артисты записывают свои первые хиты.
+
+АТМОСФЕРА:
+Наш бренд — это ночной город, неоновые вывески, клубная культура и громкий звук. Мы хотим, чтобы интерфейс выглядел дерзко и динамично, но при этом текст в нем можно было легко прочитать (никаких нечитаемых каракулей).
+
+ВАЖНО:
+Логотип будет часто висеть на темном фоне (в приложении включена темная тема). Убедительная просьба не использовать спокойные пастельные цвета, они убивают всю энергетику музыки.`,
     briefText:[
       'Дерзко, громко, но без потери читаемости',
       'Атмосфера ночного города и клубной культуры',
@@ -444,14 +473,14 @@ const CLIENTS = [
     ],
     budget:95000, deadline:'2 рабочих дня',
     audienceOptions:[
-      'Слушатели 16–28 лет, активная музыкальная аудитория',
       'Корпоративные клиенты 45+',
+      'Слушатели 16–28 лет, активная музыкальная аудитория',
       'Родители маленьких детей',
       'Библиотеки и образовательные центры',
       'Водители грузовиков',
       'Работники здравоохранения'
     ],
-    audienceCorrect:0,
+    audienceCorrect:1,
     tones:['bold','dynamic','brutal'],
     likes:{palettes:['playful','bold'],shapes:['circle','tri','ring'],marks:['wave','spark','dots'],fonts:['display','sans']},
     forbid:{marks:[],shapes:[],palettes:['calm']},
@@ -460,6 +489,13 @@ const CLIENTS = [
   {
     id:'pechka', name:'PECHKA',
     sphere:'Пекарня-кофейня у дома, локальные продукты',
+     fullBrief: `Здравствуйте. Мы открываем уютную пекарню PECHKA в спальном районе города. Печем хлеб на закваске и варим кофе.
+
+ФИЛОСОФИЯ:
+Мы за ручную работу, за запах свежего хлеба и за локальные продукты. Нам нужно, чтобы жители района чувствовали тепло, когда смотрят на нашу вывеску.
+
+ЧЕГО МЫ НЕ ХОТИМ:
+Пожалуйста, не делайте нас похожими на очередной IT-стартап или бездушную корпорацию. Никакого хай-тека и пластика. Но и в "деревенский" китч с петухами и лубочными узорами тоже скатываться не надо — у нас все-таки современное заведение. Типографика должна быть уютной, но современной.`,
     briefText:[
       'Тепло, по-домашнему, но без «деревенского» китча',
       'Акцент на ручной работе и свежести',
@@ -489,6 +525,13 @@ const CLIENTS = [
   {
     id:'vetcare', name:'VETCARE',
     sphere:'Ветеринарная клиника и сервис записи к врачу',
+    fullBrief: `Добрый день. VETCARE — это сеть ветеринарных клиник с собственной системой онлайн-записи.
+
+ЗАДАЧА:
+Владельцы животных очень переживают за своих питомцев. Наш бренд должен транслировать две вещи одновременно: высокий профессионализм врачей и искреннюю заботу.
+
+ДЕТАЛИ:
+Мы не хотим пугать людей. Цвета должны быть спокойными. Мы будем размещать логотип на вывесках клиник (он должен быть виден издалека) и внутри мобильного приложения. Стиль должен вызывать доверие у взрослых людей, а не выглядеть как детский мультик.`,
     briefText:[
       'Забота и профессиональная надёжность одновременно',
       'Спокойные цвета, ничего пугающего',
@@ -1112,20 +1155,34 @@ function renderSteps(){
 function panelBrief(){
   const cl = state.client, b = state.brief;
   const items = getConstraintItems(cl);
+
+  const briefHtml = cl.fullBrief.split('\n').filter(p=>p.trim()).map(p => `<p style="margin-bottom:12px; line-height:1.6; color:#c9d1d9; font-size:14px;">${esc(p)}</p>`).join('');
+
   return `
   <div class="card">
     <div class="card-head">
       <div>
-        <div class="kicker">Заказ #${state.orderNo} · в работе</div>
+        <div class="kicker">Заказ #${state.orderNo} · Новый бриф</div>
         <h2>${esc(cl.name)}</h2>
         <div class="muted">${esc(cl.sphere)}</div>
       </div>
       <div class="badge-row">
         <span class="badge">Бюджет <b>${fmtMoney(cl.budget)}</b></span>
-        <!-- <span class="badge">Срок <b>${esc(cl.deadline)}</b></span> -->
+        <span class="badge">Срок <b>${esc(cl.deadline)}</b></span>
       </div>
     </div>
-    <ul class="wishlist">${cl.briefText.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
+  </div>
+
+  <div class="card" style="background:#0d1117; border-left:4px solid var(--accent); border-radius:4px 12px 12px 4px;">
+    <h3 style="color:#fff; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:16px;">
+      Входящий документ: Бриф
+    </h3>
+    <div style="background:#161b22; padding:20px; border-radius:8px; border:1px solid #30363d;">
+      <div style="font-family:monospace; font-size:12px; color:#8b949e; margin-bottom:16px; text-align:right;">
+        От: ${esc(cl.name)} <br> Кому: Дизайн-студия
+      </div>
+      ${briefHtml}
+    </div>
   </div>
 
   <div class="card">
@@ -1440,6 +1497,45 @@ function panelFinal(){
       <button class="ghost" data-act="exportBrandbookPDF">Брендбук PDF</button>
       <button class="ghost" data-act="exportSVG">Брендборд SVG</button>
       <button class="ghost" data-act="exportTXT">Отчёт .txt</button>
+    </div>
+  </div>
+
+    <div class="card" style="border-left:4px solid var(--accent);">
+    <h3 style="color:var(--accent);">Инструкция по сдаче проекта</h3>
+    <p class="muted small" style="margin-bottom:16px;">Перед тем как завершить работу, сохраните все файлы в ваш Git-репозиторий.</p>
+    
+    <div style="background:#0d1117; padding:16px; border-radius:8px; border:1px solid #30363d; margin-bottom:16px;">
+      <div style="margin-bottom:12px; font-weight:bold; color:#fff;">1. Создайте папку <code style="background:#30363d; padding:2px 6px; border-radius:4px; color:var(--accent);">02_DESIGN_STUDIO</code> в вашем репозиторие 
+IT_PROJECTS</div>
+      <div style="margin-bottom:12px; font-weight:bold; color:#fff;">2. Скачайте и положите в эту папку файлы:</div>
+      <ul style="margin:0 0 12px 20px; color:#8b949e; line-height:1.6; font-size:13px;">
+        <li>Брендбук (.pdf)</li>
+        <li>Брендборд (.svg)</li>
+        <li>Отчёт (.txt)</li>
+      </ul>
+      <div style="font-weight:bold; color:#fff;">3. Создайте файл <code style="background:#30363d; padding:2px 6px; border-radius:4px; color:var(--accent);">README.md</code> в этой папке, используя шаблон ниже:</div>
+    </div>
+
+    <div class="code-container" style="margin:0; background:#000; border:1px solid #30363d; border-radius:8px; overflow:hidden;">
+      <div class="code-header" style="display:flex; justify-content:space-between; align-items:center; padding:10px 15px; background:#161b22; border-bottom:1px solid #30363d;">
+        <span style="font-family:monospace; font-size:12px; color:#8b949e;">README.md</span>
+        <button class="ghost small" onclick="copyReadmeTemplate()" style="padding:4px 10px; font-size:11px; border-radius:4px;">Скопировать</button>
+      </div>
+      <pre style="margin:0; padding:20px; font-family:'Courier New', monospace; font-size:13px; color:#e6edf3; line-height:1.6; overflow-x:auto;"><code># 02_DESIGN_STUDIO
+
+&gt; **Дата:** ${new Date().toLocaleDateString('ru-RU')}  
+&gt; **Студент:** Ваши Фамилия и Имя
+
+## ОПИСАНИЕ
+Кратко опишите ваш проект: какой бренд разрабатывали, для какой аудитории, какую главную идею хотели передать.
+
+## БРЕНДБУК
+![Скриншот 1 страницы брендбука](./screenshot.png)
+
+## СОЗДАННЫЕ ФАЙЛЫ
+- brandbook.pdf — итоговая презентация (брендбук)
+- brandboard.svg — карточка фирменного стиля
+- report.txt — текстовый отчёт по этапам</code></pre>
     </div>
   </div>
 
@@ -2686,6 +2782,30 @@ $('#modal').addEventListener('click', async e=>{
   if(act === 'loadFont'){ await doLoadFont(); return; }
   if(act === 'pasteSVG'){ doPasteSVG(); return; }
 });
+
+window.copyReadmeTemplate = function() {
+  const template = `# 02_DESIGN_STUDIO
+
+> **Дата:** ${new Date().toLocaleDateString('ru-RU')}  
+> **Студент:** Ваши Фамилия и Имя
+
+## ОПИСАНИЕ
+Кратко опишите ваш проект: какой бренд разрабатывали, для какой аудитории, какую главную идею хотели передать.
+
+## СОЗДАННЫЕ ФАЙЛЫ
+- \`brandbook.pdf\` — итоговая презентация (брендбук)
+- \`brandboard.svg\` — карточка фирменного стиля
+- \`report.txt\` — текстовый отчёт по этапам;
+
+## БРЕНДБУК
+![Скриншот 1 страницы брендбука](./screenshot.png)`;
+  
+  navigator.clipboard.writeText(template).then(() => {
+    toast('Шаблон README.md скопирован в буфер обмена');
+  }).catch(() => {
+    toast('Не удалось скопировать. Выделите текст вручную.');
+  });
+};
 
 $('#btnNewOrder').addEventListener('click', ()=>{
   if(state && Object.keys(state.scores).length > 0){
