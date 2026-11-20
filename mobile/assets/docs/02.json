@@ -1,0 +1,377 @@
+{
+  "unit": "UNIT_02 // 2D_FOREST",
+  "title": "FOREST_EXPLORER",
+  "phases": [
+    { 
+      "id": "c1",
+      "label": "PHASE_01 // CREATE_PROJECT",
+      "header": "Подготовка проекта",
+      "items": [
+        { "type": "text", "val": "**Цель**: Создание мира, персонажа, настройка анимаций и взаимодействия" },
+        { "type": "text", "val": "Настройки создания проекта:" },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "02_FOREST_EXPLORER"],
+            ["RENDERER", "COMPATIBILITY"]
+        ]},
+        { "type": "tip", "val": "Проект -> Настройки проекта:" },
+        { "type": "text", "val": "Дисплей -> Окно:" },
+        { "type": "config", "data": [
+            ["Ширина x Высота окна просмотра", "226 x 132 px"],
+            ["Режим", "Exclusive Fullscreen"]
+        ]},
+        { "type": "text", "val": "*Рендеринг* -> Текстуры:" },
+        { "type": "config", "data": [
+            ["Фильтр текстур по умолчанию", "Nearest"]
+        ]}      
+    ]
+    },
+    {
+      "id": "c2",
+      "label": "PHASE_02 // ASSETS_RESOURCES",
+      "header": "Подготовка графики",
+      "items": [
+        { "type": "text", "val": "Сейчас мы переходим от интерфейсов к игровому миру. Нам понадобятся спрайты для игрока, тайлы стен и текстура света. Сразу приведем проект в нормальный вид" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "res://", "type": "root", "level": 0 },
+            { "name": "assets", "type": "", "level": 1 },
+            { "name": "scenes", "type": "", "level": 1 },
+            { "name": "script", "type": "", "level": 1 }          ]
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Теперь в папке **assets** создаем новый ресурс с типом *TileSet* и добавляем все файлы из архива",
+            "В поле настройки TileSet выбираем плюс и **Атлас**, там выбираем **sprite.png**",
+            "Godot атоматом поставит выделит все клетки, удалите две на палатке и сделаете новые, с shift (что бы она была двойная)",
+            "Добавим  **Physics Layers** - это слой колизии. И теперь через **Окрасить** - выбираем у кого будет колизия"
+          ]
+        },
+        { "type": "button", "text": "FREE_ASSET", "url": "./assets/material/ASSET_PACK_02.rar" }  
+      ]
+    },
+    {
+      "id": "c3",
+      "label": "PHASE_03 // WORLD_BUILDING",
+      "header": "Создание уровня (TileMapLayer)",
+      "items": [
+        { "type": "text", "val": "**TileMapLayer** - штука для создания 2d карт. Это позволяет разделять пол, стены и декор по разным слоям." },
+        {
+          "type": "grid",
+          "items": [
+            "Создаем 2D сцену 'Forest'. Добавляем узел **TileMapLayer** (назовем его 'Ground')",
+            "Создадим в общей сумме 3 TileMapLayer ('Ground' & 'Plants' & 'Walls')",
+            "Им всем зададим **Tile Set** что мы создали",
+            "Заполним карту, отдельно рисуем пол, стены, различные обьекты"
+          ]
+        },
+        { "type": "text", "val": "Итог:" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Forest", "type": "Node2D", "level": 0 },
+            { "name": "Ground", "type": "TileMapLayer", "level": 1 },
+            { "name": "Plants", "type": "TileMapLayer", "level": 1 },
+            { "name": "Walls", "type": "TileMapLayer", "level": 1 }          
+          ]
+        }      
+      ]
+    },
+    {
+      "id": "c4",
+      "label": "PHASE_04 // INPUT_MAP",
+      "header": "Настройка управления для персонажа",
+      "items": [
+        { "type": "text", "val": "Прежде чем кодить, нужно объяснить Godot, на какие клавиши мы будем нажимать." },
+        { "type": "tip", "val": "Включим **Показать встроеные действия**" },
+        { "type": "config", "data": [
+            ["ui_up", "W"],
+            ["ui_down", "S"],
+            ["ui_left", "A"],
+            ["ui_right", "D"],
+            ["interact (Это действие мы создадим)", "E"]
+        ]},
+        { "type": "tip", "val": "Настройки находятся в: Проекст -> Настройки проекта -> Список действий." }
+      ]
+    },
+    {
+      "id": "c5",
+      "label": "PHASE_05 // PLAYER_STRUCTURE",
+      "header": "Сборка игрока",
+      "items": [
+        { "type": "text", "val": "Теперь игрок. Настроим колизию, анимацию и нажание **E**." },
+        {
+          "type": "grid",
+          "items": [
+            "Создадим новую сцену **player** сразу поменяем тип ноды на **CharacterBody2D**",
+            "Добавим игроку колизию, для этого **CollisionShape2D** и задаем **Shape**",
+            "Добавим камеру: **Camera2D**, сразу зададим ей **Zoom** - 2",
+            "И последнее - **AnimatedSprite2D**"
+          ]
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Player", "type": "CharacterBody2D", "level": 0 },
+            { "name": "CollisionShape2D", "type": "Хитбокс", "level": 1 },
+            { "name": "Camera2D", "type": "Слежение за игроком", "level": 1 },
+            { "name": "AnimatedSprite2D", "type": "Спрайт игрока", "level": 1 }
+          ]
+        },
+        { "type": "text", "val": "Настроим сразу анимацию, у нас будет 3 типа - idle, walk, sit" },
+        {
+          "type": "grid",
+          "items": [
+            "Прейдем в **Sprite Frame** что мы создали, сразу создадим 3 анимации",
+            "Для примера сделаем idle, сразу назначим ей **A+** - автовоспроезвидения",
+            "Добавим кадров из спрайта **Player.png**. 4 x 2",
+            "И последнее - настроим время так, что бы все смотрелось логично"
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l02-1.png",
+          "caption": "Итоговый вид и настройка времени" 
+        },
+        { "type": "text", "val": "Настройте остальные анимации (walk, sit)" }
+      ]
+    },
+    {
+      "id": "c6",
+      "label": "PHASE_06 // MOVEMENT_LOGIC",
+      "header": "Программирование движения",
+      "items": [
+        { "type": "text", "val": "Ниже - один из вариантов задать скорость и вектор движения игрока, можете сделать его самостоятельно." },
+        {
+          "type": "code",
+          "title": "Player.gd",
+          "code": "extends CharacterBody2D\nvar speed = 40\n@export var anim: AnimatedSprite2D\nfunc _physics_process(_delta):\n\tvar input = Vector2(Input.get_action_strength('ui_right') - Input.get_action_strength('ui_left'), Input.get_action_strength('ui_down') - Input.get_action_strength('ui_up'))\n\tvelocity = input.normalized() * speed\n\t# Сюда код ниже\n\tmove_and_slide()"
+        },
+        { "type": "tip", "val": "Теперь добавим персонажа на карту и запустим, что у нас получилось" },
+        { "type": "text", "val": "Он двигается! Без анимаций, поворота но уже что то. Теперь добавим небольшие улучшения" },
+        {
+          "type": "code",
+          "title": "Player.gd",
+          "code": "# Пооворот спрайта в зависимости от направления персонажа\n\tif input.x > 0:\n\t\tanim.flip_h = true\n\telif input.x < 0:\n\t\tanim.flip_h = false\n\t# Переключение состояний анимации\n\tif input != Vector2.ZERO:\n\t\tanim.play('walk')\n\telse:\n\t\tanim.play('idle')"
+        },
+        { "type": "tip", "val": "Запустим еще раз, теперь проигрывается анимация!" }
+      ]
+    },
+    {
+      "id": "c7",
+      "label": "PHASE_07 // SIT_LOGIC",
+      "header": "Программирование функции сидеть",
+      "items": [
+        { "type": "text", "val": "Теперь добавим персонажу умение сидеть, не зря же мы добавляли кнопку E" },
+        {
+          "type": "code",
+          "title": "Player.gd",
+          "code": "# Флаг для sit\nvar is_sitting = false\n# Функция мониторит все, что нажал игрок\nfunc _unhandled_input(event: InputEvent) -> void:\n\tif event.is_action_pressed('interact'):\n\t\tif is_sitting:\n\t\t\tis_sitting = false\n\t\t\tanim.play('idle')\n\t\telse:\n\t\t\tis_sitting = true\n\t\t\tanim.play('sit')"
+        },
+        { "type": "text", "val": "И сразу ограничим ему движение, если игрок сидит" },
+        {
+          "type": "code",
+          "title": "func _physics_process(_delta):",
+          "code": "# Отмена расчета движения и тд\n\tif is_sitting:\n\t\tvelocity = Vector2.ZERO\n\t\tmove_and_slide()\n\t\treturn"
+        },
+        { "type": "tip", "val": "Запустим еще раз, нажмем Е, тестируем движения" }
+      ]
+    },
+    {
+      "id": "c8",
+      "label": "PHASE_08 // CAMP",
+      "header": "Создание света и анимированного костра",
+      "items": [
+        { "type": "text", "val": "На нашу **карту** можно добавлять не только спрайты, а еще и целые **готовые сцены**, так мы и сделаем костер." },
+        {
+          "type": "grid",
+          "items": [
+            "Создадим новую сцену **camp** и добавим **AnimatedSprite2D**",
+            "Для нашей анимации создадим новый Sprite Frames, только тут будет 1 состояние. Не забываем **автозапуск**"
+          ]
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Camp", "type": "Node2D", "level": 0 },
+            { "name": "AnimatedSprite2D", "type": "AnimatedSprite2D", "level": 1 }
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l02-2.png",
+          "caption": "Настройка анимации костра" 
+        },
+        {
+          "type": "grid",
+          "items": [
+            "После того как мы настроили костер, время добавить его на нашу карту, переходим в **Plants** и добавляем колекцию сцен",
+            "В нее закидываем наш casp и добавляем его на карту, как обычные блоки"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c9",
+      "label": "PHASE_09 // MUSHROOMS",
+      "header": "Создание грибов для сбора и UI для его отображение",
+      "items": [
+        { "type": "text", "val": "Сначала начнем с более сложного, **Сигналы**" },
+        { "type": "tip", "val": "Сигналы позволяют всем подключенным к нему объектам отслеживать события и реагировать на них. В общем, очень удобная вещь, особено в больших проектах!" },
+        {
+          "type": "grid",
+          "items": [
+            "Для начала создадим глобальный скрипт **global.gd** не забудьте его **настроить!**",
+            "Добавим сам сигнал, назовем его обширно, вдруг данный проект вы будете расширять"
+          ]
+        },
+        {
+          "type": "code",
+          "title": "global.gd",
+          "code": "extends Node \n\n# Сигнал передает имя предмета \nsignal item_collected(item_name: String)"
+        },
+        { "type": "text", "val": "Для чего мы вообще это делаем? Наша цель, создать обьект **Гриб**, а когда игрок подходит к нему - он **собирается** и отображается в UI" },
+        {
+          "type": "grid",
+          "items": [
+            "Создадим новую сцену **mushrooms** и добавим **Sprite2D** - сразу зададим ему текстуру",
+            "Задаем текстуру через **AtlasTexture**",
+            "Теперь сразу добавим **Area2D** а внутри него **CollisionShape2D** - это область, на которую будет заходить игрок и собирать гриб",
+            "Добавляем скрипт. Не забывайте все раскидывать по папкам"
+          ]
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Mushrooms", "type": "Node2D", "level": 0 },
+            { "name": "Sprite2D", "type": "Sprite2D", "level": 1 },
+            { "name": "Area2D", "type": "Area2D", "level": 1 },
+            { "name": "CollisionShape2D", "type": "CollisionShape2D", "level": 1 }
+          ]
+        },
+        { "type": "text", "val": "Для начала добавим сигнал от **Area2D**. Выбираем **body_entered** и добаляем его в скрипт. Вот что должно получиться:" },
+        {
+          "type": "code",
+          "title": "mushrooms.gd",
+          "code": "extends Node2D \n\n func _on_area_2d_body_entered(body: Node2D) -> void: \n\t pass # Replace with function body."
+        },
+        { "type": "text", "val": "И теперь уже наполняем код функционалом, вызываем наш сигнал" },
+        {
+          "type": "code",
+          "title": "mushrooms.gd",
+          "code": "extends Node2D \n\n @export var item_id: String = 'mushrooms' \n\n # Если в Area2D находиться любое body, вызывается данная функция \n func _on_area_2d_body_entered(body: Node2D) -> void: \n\t # Проверка body = Player \n\t if body.name == 'Player': \n\t\t # Вызов сигнала с именем предмета \n\t\t Global.item_collected.emit(item_id) \n\t\t # Удаление предмета \n\t\t queue_free()"
+        },
+        { "type": "text", "val": "Теперь добавим гриб, как мы сделали с костром и накидаем их по карте! Запустим игру и проверим, что бы при касании - грибы пропадали" },
+        { "type": "tip", "val": "Пока ничего не происходит, так что время сдеделать UI!" }
+      ]
+    },
+    {
+      "id": "c10",
+      "label": "PHASE_10 // UI",
+      "header": "Интерфейс для отображения количества грибов",
+      "items": [
+        { "type": "text", "val": "Для основы будем использовать **CanvasLayer** - Узел, используемый для независимой визуализации объектов в 2D-сцене. Так говорит документация, ну и я согласна с ней" },
+        {
+          "type": "tree",
+          "nodes": [
+            { "name": "Ui", "type": "CanvasLayer", "level": 0 },
+            { "name": "MarginContainer", "type": "Отступы", "level": 1 },
+            { "name": "HBoxContainer", "type": "HBoxContainer", "level": 2 },
+            { "name": "TextureRect", "type": "TextureRect", "level": 3 },
+            { "name": "Label", "type": "Label", "level": 3 }
+          ]
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Создадим новую сцену **ui** и поменяем ее тип на **CanvasLayer**",
+            "Добавляем все по визуализации выше",
+            "Добавляем текстуру для **TextureRect**, шрифт для **Label**",
+            "Отступы для **MarginContainer** и все смещаем в лево-вверх"
+          ]
+        },
+        { "type": "text", "val": "И теперь код" },
+        {
+          "type": "code",
+          "title": "ui.gd",
+          "code": "extends CanvasLayer \n\n@export var label: Label \n\nvar item_count: int = 0 \n\n# Как инртерфес появился, он сразу подписывается на обновление сигнала item_collected \n# Что мы создали в global и обновляем грибами \nfunc _ready() -> void: \n\tGlobal.item_collected.connect(_on_item_collected) \n\n# Функция что вызывается при обновление сигнала item_collected \n# Тут вроде все понятно \nfunc _on_item_collected(item_name: String) -> void: \n\tif item_name == 'mushrooms': \n\t\titem_count += 1 \n\t\tlabel.text = str(item_count)"
+        },
+        { "type": "tip", "val": "Добавлением сцену ui на нашу карту и запускаем..." }
+      ]
+    },
+    {
+      "id": "c11",
+      "label": "PHASE_11 // KRASIVO",
+      "header": "Создаем красоту. Свет, тень, 3Д эффект",
+      "items": [
+        { "type": "text", "val": "Теперь добавим карте немного темноты, что бы у нас горел костер" },
+        {
+          "type": "grid",
+          "items": [
+            "В главной сцене создадим **CanvasModulate** - эта штука добавляет ко всем узлам (кроме UI) цвет. Зададим ей темно синий цвет, типо ночь",
+            "Теперь возвращаемся в **camp** добавим туда свет, а то очень темно уж. **PointLight2D** - и текстура ему - **light.png**",
+            "Теперь эффект 3Д. Включаем у **Plants**, **Walls** и **Player** -> Ordering -> Y Sort Enabled. Запустите.",
+            "Если ничего не изменилось, включите это и в корне - протестируйте. Попробуйте например зайти за палатку"
+          ]
+        },
+        { "type": "tip", "val": "И все! Все готово!" }
+      ]
+    },
+    {
+      "id": "с12",
+      "label": "PHASE_12 // SAMOSTOYATELNAYA_1 4",
+      "header": "Имя игрока",
+      "items": [
+        { "type": "text", "val": "А теперь так. Соеденим то что было в прошлом приложении и это" },
+        { "type": "text", "val": "Ваша задача сделать самостоятельно:" },
+        {
+          "type": "grid",
+          "items": [
+            "Сделать еще одну форму что запускается первая, с формой для ввода имени",
+            "Имя проверяется на количество символов (например больше 2)",
+            "После нажания кнопки **Начать игру** - игроку присваивается это имя",
+            "Можете сделать имя статичным, в UI или над игроком"
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l02-3.png",
+          "caption": "Имя над игроком" 
+        }
+      ]
+    },
+    {
+      "id": "с13",
+      "label": "PHASE_13 // SAMOSTOYATELNAYA_2 5",
+      "header": "Переход на другую сцену",
+      "items": [
+        { "type": "text", "val": "Ваша задача сделать самостоятельно:" },
+        {
+          "type": "grid",
+          "items": [
+            "Сделать область, на которую если игрок ступает - то переходит на другую сцену",
+            "Смотрите инициализацию новой сцены в 1 задании."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "с14",
+      "label": "PHASE_14 // GITHUB",
+      "header": "Загрузка на github",
+      "items": [
+        { "type": "text", "val": "Загрузка на гитхаб, не забудте кинуть ссылку на проект в [ SUBMIT_REPORT ]." },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "02_FOREST_EXPLORER"],
+            ["VISIBLE", "PUBLIC"]
+        ]},
+        {
+          "type": "code",
+          "title": "README.md",
+          "code": "# Название проекта / Темы \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот или путь к файлу в репозитории, например: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта. \n\n## Стек проекта \n* **Игровой движок / Платформа:** Например: Godot Engine 4.x \n* **Язык программирования:** Например: GDScript / C# \n* **Дополнительные инструменты:** Например: Git, Aseprite, Blender \n\n## Что было использовано в проекте \n* **Узлы (Nodes):** Например: Area2D, CanvasLayer, CharacterBody2D \n* **Паттерны / Подходы:** Например: Глобальный код (Global.gd), Сигналы (Signals) \n* **Ресурсы:** Например: Кастомные спрайты, UI-шрифты \n\n## Самостоятельные работы \n* **Имя игрока**: Да/Нет \n* **Переход на другую сцену**: Да/Нет"
+        }
+      ]
+    }
+  ]
+}

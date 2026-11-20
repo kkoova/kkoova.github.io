@@ -1,0 +1,387 @@
+{
+  "unit": "UNIT_01 // CUBE_3D",
+  "title": "CUBE_3D",
+  "phases": [
+    {
+      "id": "t0",
+      "label": "PHASE_00 // PROJECT_SETUP",
+      "header": "Подготовка проекта",
+      "items": [
+        {
+          "type": "text",
+          "val": "**Цель проекта:** Создать кубик рубик, что можно крутить, так же таймер отсчета и возможность 'перемешать' куб"
+        },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "06_CUBE_3D"],
+            ["Отрисовщик", "Forward+"],
+            ["RENDERER", "Nearest"],
+            ["WINDOW_SIZE", "495 x 270 px"],
+            ["Режим", "Maximazed"]
+        ]
+        }
+      ]
+    },
+    {
+      "id": "t1",
+      "label": "PHASE_01 // PROJECT_STRUCTURE",
+      "header": "Структура проекта и главная сцена",
+      "items": [
+        {
+          "type": "text",
+          "val": "**Создайте папки до написания скриптов, как вы делали в прошлых проектах.** Пути далее используются непосредственно в коде и должны совпадать с названиями в FileSystem."
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Создайте все нужные папки в FileSystem.",
+            "Создайте сцену **scenes/cubie.tscn** с корневым узлом **StaticBody3D** и именем **Cubie**.",
+            "Добавьте в **cubie** дочерний **MeshInstance3D** c mesh = BoxMesh",
+            "Добавьте в **cubie** дочерний **CollisionShape3D** c shape = BoxShape3D"
+          ]
+        },
+        {
+          "type": "text",
+          "val": "Как итог - такая стуктура сцены. Это будет наш куб, точнее 1 его кусок"
+        },
+        {
+          "type": "tree",
+          "nodes": [
+            {
+              "name": "Cubie",
+              "type": "StaticBody3D",
+              "level": 0
+            },
+            {
+              "name": "MeshInstance3D",
+              "type": "MeshInstance3D",
+              "level": 1
+            },
+            {
+              "name": "CollisionShape3D",
+              "type": "CollisionShape3D",
+              "level": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+    "id": "t2",
+    "label": "PHASE_02 // CREATE_TEXTURE",
+    "header": "Создание текстуры для 1 части куба",
+    "items": [
+      {
+          "type": "text",
+          "val": "Мы должны создать текстуру на каждую из сторон куба"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Скачайте шаблон текстуры ниже, откройте его в любом редакторе (Paint)",
+            "Нарисуйте что нибудь на 6 сторонах куба, сохраните текстуру в assets"
+          ]
+        },
+        { "type": "button", "text": "TEXTURE_CUBE_3D", "url": "./assets/material/шаблон_для_текстуры.png" },
+        {
+          "type": "grid",
+          "items": [
+            "Выберем MeshInstance3D и в инспекторе -> Geometry -> Material Override -> StandartMaterial3D",
+            "В нем добавим зададим следующие значения"
+          ]
+        },
+        { "type": "config", "data": [
+            ["ALBEDO", "Texture - Ваша нарисованная текстура"],
+            ["EMISSION", "Вкл; Цвет - белый; Operation - Multiply; Texture - Ваша нарисованная текстура"],
+            ["NEXT PASS", "ShaderMaterial (Это будет обводка квадрата)"],
+            ["Редактор шейдеров", "Shader -> Новый шейдер. Вставляем код ниже"]
+        ]
+        },
+        {
+          "type": "code",
+          "title": "cubie.gdshader",
+          "code": "shader_type spatial;\nrender_mode cull_front, unshaded;\n\nuniform vec4 outline_color : source_color = vec4(0.0, 1.0, 1.0, 1.0);\nuniform float outline_thickness : hint_range(1.0, 1.5, 0.005) = 1.05;\nuniform float emission_energy : hint_range(0.0, 16.0, 0.1) = 3.0;\n\nvoid vertex() {\n\tVERTEX *= outline_thickness;\n}\n\nvoid fragment() {\n\tALBEDO = outline_color.rgb;\n\tEMISSION = outline_color.rgb * emission_energy;\n}"
+        },
+        {
+          "type": "text",
+          "val": "Уже в настройках шейдера, потыкайте настройки, цвет, размер."
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-1.png",
+          "caption": "Пример настройки текстуры для обводки куба"
+        },
+        {
+          "type": "text",
+          "val": "Как итог должен получиться такой куб с вашей текстурой:"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-2.png",
+          "caption": "Пример куба"
+        }
+    ]
+    },
+    {
+    "id": "t3",
+    "label": "PHASE_03 // CREATE_MAP_MAIN",
+    "header": "Создание главной сцены",
+    "items": [
+      {
+          "type": "tree",
+          "nodes": [
+            {
+              "name": "CubeRoot",
+              "type": "Node3D",
+              "level": 0
+            },
+            {
+              "name": "Camera3D",
+              "type": "Camera3D",
+              "level": 1
+            },
+            {
+              "name": "CubeContainer",
+              "type": "Node3D",
+              "level": 1
+            },
+            {
+              "name": "CubeRoot",
+              "type": "Node3D",
+              "level": 2
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "val": "**В CubeContainer задайте Rotation = (-30, 45, 0), что бы куб изначально был повернут.** Настройте камеру так, что бы она была немного дальше от центра, но смотрела в центр. (Например Z - 8)"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-3.png",
+          "caption": "Пример настройки камеры"
+        },
+        {
+          "type": "text",
+          "val": "Создайте скрипт для этой сцены, и вставте данный код:"
+        },
+        {
+          "type": "code",
+          "title": "cuberoot.gd",
+          "code": "extends Node3D\n\n@export var cube_scene: PackedScene\n@export var cube_container: Node3D\n@export var cube_root: Node3D\n\nfunc _ready():\n\tfor x in range(-1, 2):\n\t\tfor y in range(-1, 2):\n\t\t\tfor z in range(-1, 2):\n\t\t\t\tif x == 0 and y == 0 and z == 0:\n\t\t\t\t\tcontinue\n\t\t\t\tvar cubie = cube_scene.instantiate()\n\t\t\t\tcubie.position = Vector3(x, y, z)\n\t\t\t\tcubie.add_to_group('cubies')\n\t\t\t\tcube_root.add_child(cubie)"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Задайте в инспекторе все необходимые переменные. **cube_scene - ваша прошлая сцена куба**",
+            "Запустите игру, должен появиться куб, что состоит из мелких кубов"
+          ]
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-4.png",
+          "caption": "Запуск игры и созданый кодом куб"
+        }
+    ]
+    },
+    {
+    "id": "t4",
+    "label": "PHASE_04 // ROTATE",
+    "header": "Механизм поворота куба",
+    "items": [
+        {
+          "type": "text",
+          "val": "Сделаем код, что бы когда мы зажимали мышку, мы могли крутить куб в разные стороны. **Для начала добавим переменные. Вставим их после @export var cube_root: Node3D**"
+        },
+        {
+          "type": "code",
+          "title": "cuberoot.gd",
+          "code": "# Не забудьте прикепить камеру в инспекторе\n@export var camera: Camera3D\n@export var sensitivity: float = 0.01\n@export var drag_threshold: float = 15.0\n\nvar is_dragging: bool = false\nvar touch_start_pos: Vector2 = Vector2.ZERO\nvar velocity_y: float = 0.0\nvar velocity_x: float = 0.0\nvar time_elapsed: float = 0.0\n\nvar is_timer_running: bool = false\nvar is_rotating: bool = false\nvar is_scrambling: bool = false"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "В настройках проекта найдите пункт: **Эмулировать сенсорный ввод мышью** - включите",
+            "Вставте код ниже в cuberoot. Это сама логика поворота"
+          ]
+        },
+        {
+          "type": "code",
+          "title": "cuberoot.gd",
+          "code": "func _unhandled_input(event):\n\tif is_scrambling:\n\t\treturn\n\tif event is InputEventScreenTouch:\n\t\tif event.pressed:\n\t\t\ttouch_start_pos = event.position\n\t\t\tis_dragging = false\n\t\telse:\n\t\t\tif not is_dragging:\n\t\t\t\tpass\n\t\t\telse:\n\t\t\t\tis_dragging = false\n\telif event is InputEventScreenDrag:\n\t\tif not is_dragging:\n\t\t\tif event.position.distance_to(touch_start_pos) > drag_threshold:\n\t\t\t\tis_dragging = true\n\t\tif is_dragging:\n\t\t\t_rotate_cube(event.relative)\n\nfunc _rotate_cube(drag_motion: Vector2):\n\tif cube_container == null:\n\t\treturn\n\tcube_container.rotate_y(drag_motion.x * sensitivity)\n\tvar new_x = cube_container.rotation.x - (-drag_motion.y * sensitivity)\n\tcube_container.rotation.x = clamp(new_x, deg_to_rad(-80), deg_to_rad(80))\n\tvelocity_y = -drag_motion.x * sensitivity\n\tvelocity_x = -drag_motion.y * sensitivity\n\nfunc _process(delta):\n\tif not is_dragging and (velocity_y != 0.0 or velocity_x != 0.0):\n\t\tcube_container.rotate_y(velocity_y)\n\t\tvar new_x = cube_container.rotation.x + velocity_x\n\t\tcube_container.rotation.x = clamp(new_x, deg_to_rad(-80), deg_to_rad(80))\n\t\tvelocity_y = lerp(velocity_y, 0.0, 10.0 * delta)\n\t\tvelocity_x = lerp(velocity_x, 0.0, 10.0 * delta)\n\t\tif abs(velocity_y) < 0.001:\n\t\t\tvelocity_y = 0.0\n\t\tif abs(velocity_x) < 0.001:\n\t\t\tvelocity_x = 0.0"
+        },
+        {
+          "type": "text",
+          "val": "Запустите игру. Теперь при зажатой мышке - куб должен поворачиваться"
+        }
+    ]
+    },
+    {
+    "id": "t5",
+    "label": "PHASE_05 // GAME",
+    "header": "Механизм нажатия и поворота граней.",
+    "items": [
+        {
+          "type": "text",
+          "val": "Добавим код для поворота граней. Работаем в том же скрипте: cuberoot"
+        },
+        {
+          "type": "code",
+          "title": "cuberoot.gd",
+          "code": "# Добавьте это после функции: _process\nfunc _handle_tap(tap_pos: Vector2):\n\tif is_rotating:\n\t\treturn\n\tvar from = camera.project_ray_origin(tap_pos)\n\tvar to = from + camera.project_ray_normal(tap_pos) * 100.0\n\tvar space_state = get_world_3d().direct_space_state\n\tvar query = PhysicsRayQueryParameters3D.create(from, to)\n\tvar result = space_state.intersect_ray(query)\n\tif result:\n\t\tif result.collider.is_in_group('cubies'):\n\t\t\trotate_face_by_normal(result.normal, 0.2)\n\nfunc rotate_face_by_normal(global_normal: Vector3, duration: float = 0.25):\n\tif is_rotating:\n\t\treturn\n\tis_rotating = true\n\tvar local_normal = cube_root.global_transform.basis.inverse() * global_normal\n\tlocal_normal = local_normal.round()\n\tvar axis = Vector3.ZERO\n\tif abs(local_normal.x) > 0.5:\n\t\taxis = Vector3.RIGHT\n\telif abs(local_normal.y) > 0.5:\n\t\taxis = Vector3.UP\n\telif abs(local_normal.z) > 0.5:\n\t\taxis = Vector3.BACK\n\tvar cubies_to_rotate = []\n\tfor child in cube_root.get_children():\n\t\tif child.is_in_group('cubies'):\n\t\t\tif abs(child.position.round().dot(local_normal) - 1.0) < 0.1:\n\t\t\t\tcubies_to_rotate.append(child)\n\tif cubies_to_rotate.is_empty():\n\t\tis_rotating = false\n\t\treturn\n\tvar pivot = Node3D.new()\n\tcube_root.add_child(pivot)\n\tfor c in cubies_to_rotate:\n\t\tc.reparent(pivot)\n\tvar angle = deg_to_rad(90) * local_normal.dot(axis)\n\tvar target_rotation = pivot.rotation + axis * angle\n\tif duration <= 0.0:\n\t\tpivot.rotation = target_rotation\n\t\t_finish_rotation(cubies_to_rotate, pivot)\n\t\tis_rotating = false\n\telse:\n\t\tvar tween = create_tween()\n\t\ttween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)\n\t\ttween.tween_property(pivot, 'rotation', target_rotation, duration)\n\t\tawait tween.finished\n\t\t_finish_rotation(cubies_to_rotate, pivot)\n\t\tis_rotating = false\n\nfunc _finish_rotation(cubies: Array, pivot: Node3D):\n\tfor c in cubies:\n\t\tc.reparent(cube_root)\n\t\tc.position = c.position.round()\n\t\tc.rotation = c.rotation.snapped(Vector3(deg_to_rad(90), deg_to_rad(90), deg_to_rad(90)))\n\tpivot.queue_free()\n\tis_timer_running = true"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "И теперь, в функции: **_unhandled_input** в части кода: **if not is_dragging**",
+            "Вместо **pass** вставьте: **_handle_tap(event.position)**"
+          ]
+        },
+        {
+          "type": "text",
+          "val": "**Запустите игру.** Теперь попробуйте и поворачивать куб, и кликнуть на грань - она должна повернуться!"
+        }
+    ]
+    },
+    {
+    "id": "t6",
+    "label": "PHASE_06 // UI",
+    "header": "Интерфейс игры",
+    "items": [
+        {
+          "type": "grid",
+          "items": [
+            "Создайте данный или подобный интерфейс. Обязательны такие элементы как:",
+            "Кнопка 'Перемешать'. Кнопка паузы и таймер"
+          ]
+        },
+        {
+          "type": "text",
+          "val": "**Спрайты из примера ниже!**"
+        },
+        { "type": "button", "text": "FREE_ASSET", "url": "./assets/material/ASSET_PACK_09.zip" },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-5.png",
+          "caption": "Пример интерфейса"
+        },
+        {
+          "type": "text",
+          "val": "**Подсказки:** Вы создаете новый **CanvasLayer** прямо в той же сцене, что у нас и камера. В CanvasLayer уже делайте интерфейс. **Не считая фона - это ColorRect, он идет второй после корня (разверните и дайте ему цвет)**"
+        },
+        {
+          "type": "text",
+          "val": "**Создайте для всего этого - тему и сохраните ее, так будет проще.** После запуска у должна быть примерно такая картина:"
+        },
+        {
+          "type": "image",
+          "url": "./assets/img/l09-6.png",
+          "caption": "Пример интерфейса с кубом"
+        },
+        {
+          "type": "text",
+          "val": "Если вдруг куба нет. И в рамках улучшения визуала добавьте данную сцену с **WorldEnvironment** на вашу главную сцену. Он улучшит визуал."
+        },
+        { "type": "button", "text": "WorldEnvironment", "url": "./assets/material/world_environment.tscn" }
+    ]
+    },
+    {
+    "id": "t7",
+    "label": "PHASE_07 // SHAKE",
+    "header": "Кнопка 'Перемешать'",
+    "items": [
+        {
+          "type": "text",
+          "val": "Теперь кнопка, по нажатию на которую - весь куб будет рандомно перемешиваться. Добавьте сигнал от кнопки в вашем интерфейсе и вставте код ниже:"
+        },
+        {
+          "type": "code",
+          "title": "cuberoot.gd",
+          "code": "# Добавьте это после var is_scrambling: bool = false\nvar local_faces = [\n\tVector3(1,0,0), Vector3(-1,0,0), \n\tVector3(0,1,0), Vector3(0,-1,0), \n\tVector3(0,0,1), Vector3(0,0,-1)\n]\n\n# Добавьте это после _finish_rotation\nfunc _on_scramble_button_pressed():\n\tif is_scrambling:\n\t\treturn\n\tis_scrambling = true\n\twhile is_rotating:\n\t\tawait get_tree().process_frame\n\tfor i in range(20):\n\t\tvar random_local_face = local_faces.pick_random()\n\t\tvar global_normal = cube_root.global_transform.basis * random_local_face\n\t\tawait rotate_face_by_normal(global_normal, 0.08)\n\t\tawait get_tree().create_timer(0.02).timeout\n\tis_scrambling = false"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Запустите игру",
+            "Теперь по нажатию на кнопку, куб должен начать перемешиваться, а его движение должно быть недоступно"
+          ]
+        }
+    ]
+    },
+    {
+    "id": "t8",
+    "label": "PHASE_08 // SHAKE",
+    "header": "Время",
+    "items": [
+        {
+          "type": "text",
+          "val": "Теперь мы будем засекать время, которое нужно нам на полную сборку куба, для этого:"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Добавьте **@export var text_timer: Label** и подсоедените ему ваш label в интерфейсе",
+            "Добавьте в код функции **_process** данный код:"
+          ]
+        },
+        {
+          "type": "code",
+          "title": "cuberoot.gd",
+          "code": "# Добавьте это после всего цикла if not is_dragging and (velocity_y != 0.0 or velocity_x != 0.0):\nif is_timer_running:\n\ttime_elapsed += delta\n\ttext_timer.text = '%02d:%02d.%02d' % [int(time_elapsed) / 60, int(time_elapsed) % 60, int((time_elapsed - int(time_elapsed)) * 100)]"
+        },
+        {
+          "type": "grid",
+          "items": [
+            "Запустите игру",
+            "Теперь по нажатию на кнопку, или при любом вращении грани - таймер запустится"
+          ]
+        }
+    ]
+    },
+    {
+    "id": "t9",
+    "label": "PHASE_09 // SAM_01",
+    "header": "Самостоятельная работа 1 - Главный экран",
+    "items": [
+        {
+          "type": "grid",
+          "items": [
+            "Реализуйте начальный экран для игры, должны быть такие элементы как: **название, кнопка старт и кнопка выхода**",
+            "**Игра должна начинаться с данного экрана.** А по нажатию на кнопку паузы - возвращаться на стартовый экран"
+          ]
+        }
+    ]
+    },
+    {
+    "id": "t10",
+    "label": "PHASE_10 // SAM_02",
+    "header": "Самостоятельная работа 2 - Завершение игры",
+    "items": [
+        {
+          "type": "grid",
+          "items": [
+            "Реализуйте остановку таймера по полной сборке куба. Результат должен сохранятьсья локально в формате: **ДАТА_ВРЕМЯ_СЕГОДНЯ: СКОЛЬКО_НАСЧИТАЛ_ТАЙМЕР**",
+            "Реализуйте локальное сохранение этих данный и добавьте на начальный экран кнопку **Результаты** - по нажатию на нее показывается таблица с результами, что сохранены локально"
+          ]
+        }
+    ]
+    },
+    {
+      "id": "с11",
+      "label": "PHASE_11 // GITHUB",
+      "header": "Загрузка на github",
+      "items": [
+        { "type": "text", "val": "Загрузка на гитхаб" },
+        { "type": "config", "data": [
+            ["PROJECT_NAME", "06_CUBE_3D"],
+            ["VISIBLE", "PUBLIC"]
+        ]},
+        {
+          "type": "code",
+          "title": "README.md",
+          "code": "# 06_CUBE_3D \n\n> **Дата:** ДД.ММ.ГГГГ  \n> **Автор (ФИО):** Фамилия Имя Отчество \n\n--- \n![Скриншот игрового процесса]([Ссылка на скриншот: images/screenshot.png]) \n\n## Описание проекта \nЗдесь напишите краткую суть вашего проекта.\n\n## Самостоятельные работы \n* **Главный экран**: Да/Нет \n* **Завершение игры**: Да/Нет \n"
+        }
+      ]
+    }
+      
+  ]
+}
