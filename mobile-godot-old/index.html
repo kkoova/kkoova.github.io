@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GODOT // IT_2026_S1</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='black'/><rect x='8' y='20' width='16' height='4' fill='%23FFFB05'/></svg>">
+    <link rel="stylesheet" href="../it-course/style.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <meta property="og:title" content="GODOT // IT_2026_S1">
+    <meta property="og:description" content="Мобильная разработка.">
+    <meta property="og:image" content="https://kkoova.github.io/it-course/assets/img/og-preview.jpg">
+    <meta property="og:url" content="https://kkoova.github.io/it-course/">
+</head>
+<body class="nothing-os">
+    <!-- СЛОЙ 0: Фон темы -->
+    <div id="productBg" class="bg-layer"></div>
+
+    <!-- СЛОЙ 1: Умные точки (Инвертируют цвет) -->
+    <div class="smart-dots-layer"></div>
+
+    <!-- СЛОЙ 2: Системный UI (Всегда сверху) -->
+    <div class="system-ui">
+        <div class="top-left type-body ">TIME // <span id="clock">00:00:00</span></div>
+        <div class="top-right type-body">
+            <button class="logout-trigger white" onclick="openFeedReport()">[ FEEDBACK_REPORT ]</button>
+        </div>
+        <div class="bottom-left type-body">
+            ROLE // <span id="user-role">STUDENT</span>
+            <button id="profile-btn" class="logout-trigger student-only">[ STATS // PROFILE ]</button>
+            <button id="logout-btn" class="logout-trigger">[ EXIT ]</button>
+        </div>
+        <div class="bottom-right type-body">REF. №IT_2026_S1</div>
+    </div>
+    <div id="login-overlay" class="logbook-overlay active">
+        <div class="logbook-card glass">
+            <div class="matrix-text" style="font-size: 2rem; margin-bottom: 20px;">SYSTEM_AUTH</div>
+            <p class="type-body" style="color: #666; margin-bottom: 30px;">REQUIRED: GITHUB_ACCOUNT</p>
+            
+            <button id="github-auth-btn" class="logout-trigger white" style="padding: 10px 20px;display: flex;align-items: center;gap: 15px;margin: 0 auto;font-size: 22px;">
+                <svg width="20" height="20" viewBox="0 0 100 100"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0112.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"></path></svg>
+                AUTHORIZE_VIA_GITHUB
+            </button>
+        </div>
+    </div>
+    <main id="app-container" class="view-wheel">
+        <section class="node-graph" id="node-graph">
+            <svg class="connections" id="connections-svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+
+            <div id="nodes-container"></div>
+
+            <div id="hover-preview" class="hover-preview">
+                <img id="preview-img" src="" alt="preview">
+                <div class="preview-info">
+                    <div id="preview-title" class="matrix-text"></div>
+                    <div id="preview-subtitle" class="type-body"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="mission-overlay" class="mission-overlay">
+        <div class="viewport-container full-layout">
+            <!-- Левая часть: Игра -->
+            <div class="godot-section">
+                <div class="viewport-header">
+                    <span id="mission-title" class="matrix-text"></span>
+                    <button onclick="closeMission()" class="close-btn">[ EXIT ]</button>
+                </div>
+                <iframe id="godot-frame" src=""></iframe>
+            </div>
+
+            <!-- Правая часть: Инструкция -->
+            <div class="info-section">
+                <div class="info-header">MISSION_STEPS</div>
+                <div id="topic-workspace">
+                    <div class="workspace-header">
+                        <span class="type-body yellow">// MISSION_PROGRESS</span>
+                        <div class="progress-line"><div id="step-progress"></div></div>
+                    </div>
+
+                    <div id="steps-list" class="steps-container"></div>
+                </div>
+                <div class="info-footer">
+                    <button class="logout-trigger white" onclick="openReport()">[ SUBMIT_REPORT ]</button>
+                    <button id="tutorial-link" class="logout-trigger" onclick="">[ READ_TUTORIAL ]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="profile-modal" class="report-overlay">
+        <div class="submission-zone glass" style="width: 500px; text-align: left;">
+            <div class="modal-header">
+                <h3 class="type-body">// DEVELOPER_PROFILE</h3>
+                <button class="close-btn" onclick="closeProfile()">×</button>
+            </div>
+            
+            <div class="profile-header" style="display: flex; gap: 20px; align-items: center; margin-bottom: 25px;">
+                <img id="prof-avatar" src="" style="width: 80px; height: 80px; border-radius: 16px; border: 1px solid var(--accent-yellow); filter: grayscale(1); object-fit: cover;">
+                <div>
+                    <h2 id="prof-name" class="matrix-text" style="font-size: 1.8rem; margin: 0; color: var(--accent-yellow); line-height: 1.2;">USER</h2>
+                    <div id="prof-email" class="type-body" style="color: #888; margin-top: 5px;">EMAIL</div>
+                </div>
+            </div>
+            
+            <div class="progress-section" style="margin: 25px 0;">
+                <div class="type-body" style="margin-bottom: 8px; display: flex; justify-content: space-between;">
+                    <span>COURSE_PROGRESS //</span>
+                    <span id="prof-percent" style="color: var(--accent-yellow); font-weight: bold;">0%</span>
+                </div>
+                <div class="progress-line" style="height: 4px;"><div id="prof-bar" style="width: 0%; background: var(--accent-yellow); height: 100%; transition: width 0.5s ease;"></div></div>
+            </div>
+
+            <h4 class="type-body yellow" style="margin-top: 25px;">// COMPLETED_MISSIONS (<span id="prof-count">0</span>):</h4>
+            <div id="prof-list" style="max-height: 220px; overflow-y: auto; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <!-- Сюда JS будет динамически загружать сданные работы -->
+            </div>
+        </div>
+    </div>
+    <div id="report-modal" class="report-overlay">
+        <div class="submission-zone glass">
+            <div class="modal-header">
+                <h3 class="type-body">// SUBMIT_REPORT</h3>
+                <button class="close-btn" onclick="closeReport()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="label type-body">GITHUB_LINK</span>
+                    <input type="text" id="repoLink" class="git-input" placeholder="https://github.com/...">
+                </div>
+            </div>
+
+            <button class="logout-trigger white big full-width" onclick="submitWork()">SEND_TO_LOGBOOK</button>
+        </div>
+    </div>
+    <div id="feedback-modal" class="report-overlay">
+        <div class="submission-zone glass">
+            <div class="modal-header">
+                <h3 class="type-body">// FEEDBACK_REPORT</h3>
+                <button class="close-btn" onclick="closeFeedReport()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="label type-body">IDEA</span>
+                    <input type="text" id="feedLink" class="git-input" placeholder="Ваша идея для урока...">
+                </div>
+            </div>
+
+            <button class="logout-trigger white big full-width" onclick="submitFeedWork()">SEND_TO_LOGBOOK</button>
+        </div>
+    </div>
+    <div id="global-timer-overlay" class="timer-overlay">
+        <div class="timer-content">
+            <div class="timer-header matrix-text">CRITICAL_TIME_LIMIT</div>
+            <div id="timer-display" class="timer-digits">00:00</div>
+            
+            <div class="timer-goals">
+                <div class="goals-label type-body">CURRENT_OBJECTIVES:</div>
+                <ul id="timer-goals-list" class="type-body">
+                    <!-- Сюда попадут цели из Firebase -->
+                </ul>
+            </div>
+            
+            <!-- Кнопка закрытия видна ТОЛЬКО админу, чтобы он мог отменить -->
+            <button id="admin-stop-timer" class="admin-only logout-trigger red" onclick="stopGlobalTimer()">[ ABORT_TIMER ]</button>
+        </div>
+    </div>
+    <script type="module" src="js/main.js"></script>
+    <script>
+        function closeMission() {
+            const overlay = document.getElementById('mission-overlay');
+            const iframe = document.getElementById('godot-frame');
+            overlay.style.display = 'none';
+            iframe.src = ''; 
+        }
+    </script>
+</html>
