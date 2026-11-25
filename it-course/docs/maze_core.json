@@ -236,7 +236,7 @@
       "items": [
         {
           "type": "image",
-          "url": "/it-course/assets/image/l10-7.png",
+          "url": "./assets/image/l10-7.png",
           "caption": "apk файл maze" 
         }
       ]

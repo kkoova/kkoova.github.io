@@ -256,7 +256,7 @@
       "items": [
         {
           "type": "image",
-          "url": "/it-course/assets/image/l09-1.png",
+          "url": "./assets/image/l09-1.png",
           "caption": "apk файл tetris" 
         }
       ]

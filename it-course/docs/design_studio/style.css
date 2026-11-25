@@ -4,17 +4,17 @@
 
 @font-face {
     font-family: 'NDot';
-    src: url('https://kkoova.github.io/it-course/font/Ndot55-Regular.otf') format('woff2');
+    src: url('/font/Ndot55-Regular.otf') format('opentype');
 }
 
 @font-face {
     font-family: 'NType82';
-    src: url('https://kkoova.github.io/it-course/font/NType82-Regular.otf');
+    src: url('/font/NType82-Regular.otf') format('opentype');
 }
 
 @font-face {
     font-family: 'LatteraMonoLL';
-    src: url('https://kkoova.github.io/it-course/font/LetteraMonoLL-Regular.otf');
+    src: url('/font/LetteraMonoLL-Regular.otf') format('opentype');
 }
 
 :root {
