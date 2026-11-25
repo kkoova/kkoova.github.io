@@ -170,6 +170,48 @@
       "features": [
         {"label": "Style", "sub": "GLASS", "icon": "assets/icons/web.png"}
       ]
+    },
+    {
+      "id": "12",
+      "title": "DOC_ARCHITECT",
+      "tag": "#OFFICE • WORD_AUTOMATION",
+      "bgImage": "",
+      "docsUrl": "doc_architect.json",
+      "steps": [
+        { "id": "da1", "type": "live", "text": "STYLES: Иерархия стилей, колонтитулы и обложка GDD (15 мин)" },
+        { "id": "da2", "type": "live", "text": "LAYOUT: Разрыв раздела, альбомный лист и авто-оглавление (20 мин)" },
+        { "id": "da3", "type": "live", "text": "TABLES: Умная смета с формулой =SUM(ABOVE) (20 мин)" },
+        { "id": "da4", "type": "self", "text": "SELF_01: Режим рецензента (Track Changes) и экспорт в PDF (20 мин)" },
+        { "id": "da5", "type": "self", "text": "SELF_02: Автогенерация 6+ именных бейджей через Слияние (15 мин)" }
+      ],
+      "difficulty": "01",
+      "teamSize": "1",
+      "features": [
+        {"label": "Tool", "sub": "WORD_DOCX", "icon": ""},
+        {"label": "Time", "sub": "90_MIN", "icon": ""},
+        {"label": "Auto", "sub": "MAIL_MERGE", "icon": ""}
+      ]
+    },
+    {
+      "id": "13",
+      "title": "DATA_PITCH_LAB",
+      "tag": "#ANALYTICS • EXCEL_PPTX",
+      "bgImage": "",
+      "docsUrl": "data_pitch_lab.json",
+      "steps": [
+        { "id": "dp1", "type": "live", "text": "EXCEL: Финансовая модель стартапа ($, IF, SUMIF, VLOOKUP) (20 мин)" },
+        { "id": "dp2", "type": "live", "text": "DASHBOARD: Спарклайны, условное форматирование и график (20 мин)" },
+        { "id": "dp3", "type": "live", "text": "PPTX: Slide Master дизайн-система и анимация Morph (20 мин)" },
+        { "id": "dp4", "type": "self", "text": "SELF_01: Живая связь диаграммы Excel -> PPTX и стресс-тест (15 мин)" },
+        { "id": "dp5", "type": "self", "text": "SELF_02: Интерактивное меню слайдов под предзащиту (15 мин)" }
+      ],
+      "difficulty": "02",
+      "teamSize": "1-2",
+      "features": [
+        {"label": "Data", "sub": "EXCEL_MODEL", "icon": ""},
+        {"label": "Deck", "sub": "PPTX_MORPH", "icon": ""},
+        {"label": "Time", "sub": "90_MIN", "icon": ""}
+      ]
     }
   ]
 }
