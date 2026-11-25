@@ -1,0 +1,2824 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DESIGN STUDIO - интерактивный практикум</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0d1117; --panel:#151b24; --panel2:#1b232e; --line:#26303d;
+  --txt:#e8eef7; --muted:#8b98ab; --accent:#7c5cff; --accent2:#22d3ee;
+  --ok:#34d399; --warn:#fbbf24; --bad:#f87171; --r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+  font-size:15px; line-height:1.45; min-height:100vh;
+  background-image:radial-gradient(900px 500px at 8% -10%,rgba(124,92,255,.20),transparent 60%),
+                   radial-gradient(800px 500px at 100% 0%,rgba(34,211,238,.12),transparent 55%);
+  background-attachment:fixed;
+}
+h1,h2,h3,h4{margin:0;font-weight:700;line-height:1.2}
+p{margin:0}
+button{font:inherit}
+
+.topbar{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--line);
+  background:rgba(13,17,23,.85);backdrop-filter:blur(10px);position:sticky;top:0;z-index:60;flex-wrap:wrap}
+.logo{font-weight:800;letter-spacing:.16em;font-size:13px;white-space:nowrap}
+.logo b{color:var(--accent)}
+.stats{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:5px 12px;font-size:11px;
+  color:var(--muted);display:flex;gap:7px;align-items:center;letter-spacing:.04em;text-transform:uppercase}
+.stat b{font-size:14px;color:var(--txt);letter-spacing:0;text-transform:none}
+.stat.pts b{color:var(--accent2)}
+.stat.rep b{color:var(--ok)}
+.stat.bud b{color:var(--warn)}
+.mini-btn{background:var(--panel);border:1px solid var(--line);color:var(--txt);border-radius:10px;
+  padding:7px 13px;font-size:12px;cursor:pointer;transition:.15s}
+.mini-btn:hover{border-color:var(--accent);color:#fff}
+
+.steps{display:flex;gap:8px;padding:11px 20px;overflow-x:auto;border-bottom:1px solid var(--line);
+  background:rgba(13,17,23,.5)}
+.step{flex:0 0 auto;display:flex;gap:9px;align-items:center;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:7px 14px;color:var(--muted);cursor:pointer;font-size:12.5px;transition:.15s}
+.step:disabled{opacity:.35;cursor:not-allowed}
+.step:not(:disabled):hover{border-color:#3b4a5e;color:var(--txt)}
+.step.active{border-color:var(--accent);color:#fff;
+  background:linear-gradient(135deg,rgba(124,92,255,.30),rgba(34,211,238,.12))}
+.step .num{width:20px;height:20px;border-radius:50%;background:#0d1117;display:grid;place-items:center;
+  font-size:11px;font-weight:800;flex:0 0 auto}
+.step.done .num{background:var(--ok);color:#04120c}
+.step .sub{font-size:10.5px;opacity:.65;display:block}
+
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(400px,42%);gap:16px;
+  padding:16px 20px 60px;align-items:start;max-width:1700px;margin:0 auto}
+@media(max-width:1120px){main{grid-template-columns:1fr}}
+
+.panel{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.card h3{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.card h3 .hint{text-transform:none;letter-spacing:0;color:#5f6d80;font-weight:400;font-size:12px}
+.card-head{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
+.kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent2);margin-bottom:6px}
+.card h2{font-size:22px;margin-bottom:4px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+.badge{background:#0d1117;border:1px solid var(--line);border-radius:8px;padding:5px 11px;font-size:12px;color:var(--muted)}
+.badge b{color:var(--txt)}
+.wishlist{margin:14px 0 0;padding-left:18px;color:#c2cddb;font-size:13.5px}
+.wishlist li{margin-bottom:5px}
+
+.options{display:grid;gap:8px}
+.opt{text-align:left;background:#0d1117;border:1px solid var(--line);color:var(--txt);border-radius:10px;
+  padding:11px 14px;cursor:pointer;font-size:13.5px;transition:.15s}
+.opt:hover{border-color:#3b4a5e}
+.opt.sel{border-color:var(--accent);background:rgba(124,92,255,.14);box-shadow:0 0 0 1px var(--accent) inset}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#0d1117;border:1px solid var(--line);color:var(--muted);border-radius:999px;
+  padding:7px 14px;font-size:12.5px;cursor:pointer;transition:.15s}
+.chip:hover{border-color:#3b4a5e;color:var(--txt)}
+.chip.sel{border-color:var(--accent2);color:#04141a;background:var(--accent2);font-weight:600}
+.chip.dashed{border-style:dashed;border-color:var(--accent);color:var(--accent)}
+.chip.dashed:hover{background:rgba(124,92,255,.12)}
+
+textarea,input[type=text]{width:100%;background:#0d1117;border:1px solid var(--line);border-radius:10px;
+  color:var(--txt);padding:10px 12px;font:inherit;outline:none;resize:vertical}
+textarea:focus,input[type=text]:focus{border-color:var(--accent)}
+label.fl{display:block;font-size:12px;color:var(--muted);margin:10px 0 6px;letter-spacing:.03em}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:640px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}.grid-2{grid-template-columns:1fr}}
+
+.tile{background:#0d1117;border:1px solid var(--line);border-radius:12px;padding:12px 8px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--muted);font-size:11.5px;transition:.15s}
+.tile:hover{border-color:#3b4a5e;color:var(--txt)}
+.tile.sel{border-color:var(--accent);background:rgba(124,92,255,.14);color:#fff}
+.tile svg{width:26px;height:26px;fill:currentColor}
+
+.swatch-tile{background:#0d1117;border:1px solid var(--line);border-radius:12px;padding:9px;cursor:pointer;transition:.15s}
+.swatch-tile:hover{border-color:#3b4a5e}
+.swatch-tile.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.swatch-row{display:flex;height:22px;border-radius:6px;overflow:hidden;margin-bottom:7px}
+.swatch-row i{flex:1}
+.swatch-name{font-size:11px;color:var(--muted)}
+
+.color-inputs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.color-cell{display:flex;flex-direction:column;gap:4px;align-items:center;font-size:10px;color:var(--muted)}
+.color-cell input[type=color]{width:100%;height:34px;border:1px solid var(--line);border-radius:8px;
+  background:#0d1117;padding:2px;cursor:pointer}
+
+.slider-row{display:flex;align-items:center;gap:12px}
+.slider-row input[type=range]{flex:1;accent-color:var(--accent)}
+.slider-val{font-variant-numeric:tabular-nums;font-size:12px;color:var(--accent2);min-width:52px;text-align:right}
+
+.toggle-list{display:grid;gap:7px}
+.toggle{display:flex;align-items:center;gap:10px;background:#0d1117;border:1px solid var(--line);
+  border-radius:10px;padding:9px 12px;cursor:pointer;font-size:13px;transition:.15s}
+.toggle:hover{border-color:#3b4a5e}
+.toggle.on{border-color:var(--accent2)}
+.toggle .box{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);display:grid;
+  place-items:center;font-size:11px;color:#04141a;flex:0 0 auto}
+.toggle.on .box{background:var(--accent2);border-color:var(--accent2)}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap;padding-top:2px}
+.primary{background:linear-gradient(135deg,var(--accent),#5b8cff);border:none;color:#fff;border-radius:11px;
+  padding:12px 22px;font-weight:700;cursor:pointer;font-size:14px;transition:.15s;
+  box-shadow:0 6px 20px rgba(124,92,255,.32)}
+.primary:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(124,92,255,.45)}
+.ghost{background:transparent;border:1px solid var(--line);color:var(--txt);border-radius:11px;
+  padding:11px 18px;cursor:pointer;font-size:13.5px;transition:.15s}
+.ghost:hover{border-color:var(--accent);color:#fff}
+.ghost.small{padding:7px 13px;font-size:12px}
+
+.preview{position:sticky;top:86px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;min-width:0}
+.prev-tabs{display:flex;gap:4px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--panel2);overflow-x:auto}
+.ptab{background:transparent;border:1px solid transparent;color:var(--muted);border-radius:8px;
+  padding:6px 12px;font-size:12px;cursor:pointer;white-space:nowrap;transition:.15s}
+.ptab:hover{color:var(--txt)}
+.ptab.active{background:#0d1117;border-color:var(--line);color:#fff}
+.prev-stage{padding:18px;max-height:calc(100vh - 210px);overflow:auto}
+
+.logo-showcase{display:flex;flex-direction:column;align-items:center;gap:16px}
+.logo-big{background:#0d1117;border:1px solid var(--line);border-radius:16px;padding:26px;display:grid;place-items:center;width:100%;position:relative}
+.logo-big.safe{outline:1px dashed rgba(124,92,255,.6);outline-offset:-8px}
+.logo-sizes{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;justify-content:center}
+.logo-sizes .sz{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;color:var(--muted)}
+.logo-sizes .sz svg{max-width:64px}
+.pal-strip{display:flex;width:100%;border-radius:10px;overflow:hidden;height:48px;border:1px solid var(--line)}
+.pal-strip div{flex:1;display:flex;align-items:flex-end;justify-content:center;font-size:9px;padding-bottom:4px;
+  font-family:monospace;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.type-sample{width:100%;background:#0d1117;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.type-sample .tx{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+.bcard-wrap{display:flex;flex-direction:column;gap:14px}
+.bcard{border-radius:14px;padding:20px;aspect-ratio:1.75/1;display:flex;flex-direction:column;justify-content:space-between;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);overflow:hidden;position:relative}
+.bcard .logo-box{display:grid;place-items:center;overflow:hidden}
+.bcard .logo-box svg{max-width:100%;max-height:100%;width:100%;height:100%}
+
+.browser{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.browser-bar{display:flex;gap:5px;padding:7px 10px;background:#1b232e;border-bottom:1px solid #26303d}
+.browser-bar i{width:8px;height:8px;border-radius:50%;background:#3b4a5e;display:block}
+.browser .lg{overflow:hidden;display:grid;place-items:center}
+.browser .lg svg{max-width:100%;max-height:100%;width:100%;height:100%}
+
+.poster{width:100%;border-radius:12px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.4);
+  display:flex;flex-direction:column;justify-content:center;position:relative}
+.poster.poster{aspect-ratio:3/4}
+.poster.story{aspect-ratio:9/16;max-width:290px;margin:0 auto}
+.poster.square{aspect-ratio:1/1}
+.poster .lg{overflow:hidden;display:grid;place-items:center}
+.poster .lg svg{width:100%;height:100%}
+
+.modal{position:fixed;inset:0;background:rgba(5,8,12,.78);backdrop-filter:blur(6px);display:none;
+  place-items:center;z-index:200;padding:20px}
+.modal.open{display:grid}
+.modal-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;
+  max-width:560px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.modal-card.wide{max-width:1200px}
+.modal-card h2{font-size:26px;margin:6px 0 16px}
+.checks{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:8px}
+.checks li{display:flex;gap:10px;align-items:flex-start;background:#0d1117;border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.35}
+.checks li .ic{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;
+  font-weight:800;flex:0 0 auto;margin-top:1px}
+.checks li.ok .ic{background:var(--ok);color:#04120c}
+.checks li.bad .ic{background:var(--bad);color:#2a0505}
+.checks li .pts{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;white-space:nowrap}
+.checks li.ok .pts{color:var(--ok)}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.modal-note{background:#0d1117;border-left:3px solid var(--accent2);padding:10px 14px;border-radius:8px;
+  font-size:12.5px;color:var(--muted);margin:12px 0}
+
+.grade-card{display:flex;gap:18px;align-items:center;background:linear-gradient(135deg,rgba(124,92,255,.22),rgba(34,211,238,.10));
+  border:1px solid var(--accent);border-radius:var(--r);padding:20px}
+.grade-num{font-size:46px;font-weight:800;line-height:1;background:linear-gradient(135deg,#fff,var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+table.res{width:100%;border-collapse:collapse;font-size:13px}
+table.res td{padding:8px 4px;border-bottom:1px solid var(--line)}
+table.res td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+table.res tr:last-child td{border-bottom:none}
+.progress-line{height:6px;border-radius:99px;background:#0d1117;overflow:hidden;margin-top:10px}
+.progress-line i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-radius:99px;transition:width .3s}
+.violation{font-size:12px;color:var(--bad);display:flex;gap:6px;align-items:center}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--panel2);
+  border:1px solid var(--line);border-radius:12px;padding:11px 20px;font-size:13px;opacity:0;
+  pointer-events:none;transition:.25s;z-index:300;box-shadow:0 14px 40px rgba(0,0,0,.5);
+  display:flex;align-items:center;gap:10px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner{width:14px;height:14px;border:2px solid var(--accent2);border-top-color:transparent;
+  border-radius:50%;animation:spin .8s linear infinite;display:inline-block;flex:0 0 auto}
+
+/* Welcome / picker */
+.welcome{display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;
+  padding:60px 30px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
+.welcome h2{font-size:26px;margin-bottom:8px}
+.welcome p{color:var(--muted);max-width:520px;margin-bottom:20px}
+.client-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:20px}
+.client-card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+  cursor:pointer;transition:.15s;display:flex;flex-direction:column}
+.client-card:hover{border-color:var(--accent);transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(124,92,255,.18)}
+.client-name{font-size:18px;font-weight:800;color:var(--accent2);letter-spacing:.05em;margin-bottom:6px}
+.client-sphere{color:var(--muted);font-size:12.5px;line-height:1.4;margin-bottom:10px;min-height:38px}
+.client-meta{display:flex;gap:12px;font-size:11px;color:var(--muted);margin-bottom:10px;
+  padding-bottom:10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.client-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto}
+.tag{background:#0d1117;border:1px solid var(--line);border-radius:999px;padding:2px 8px;
+  font-size:10px;color:var(--muted)}
+
+#pdf-render{position:fixed;left:-99999px;top:0;pointer-events:none;}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:#2a3543;border-radius:9px}
+::-webkit-scrollbar-track{background:transparent}
+</style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">DESIGN<b>STUDIO</b></div>
+  <div class="stats">
+    <div class="stat pts">Баллы <b id="stPoints">0</b><span style="opacity:.5">/250</span></div>
+    <div class="stat rep">Репутация <b id="stRep">100</b></div>
+    <div class="stat bud">Бюджет <b id="stBudget">0 ₽</b></div>
+  </div>
+  <button class="mini-btn" id="btnNewOrder">Сменить проект</button>
+</header>
+
+<nav class="steps" id="steps"></nav>
+
+<main>
+  <section class="panel" id="panel"></section>
+  <aside class="preview">
+    <div class="prev-tabs" id="prevTabs">
+      <button class="ptab" data-tab="logo">Логотип</button>
+      <button class="ptab" data-tab="card">Визитка</button>
+      <button class="ptab" data-tab="site">Сайт</button>
+      <button class="ptab" data-tab="poster">Реклама</button>
+    </div>
+    <div class="prev-stage" id="previewStage"></div>
+  </aside>
+</main>
+
+<div class="modal" id="modal"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   КОНСТАНТЫ
+   ========================================================= */
+const STAGES = [
+  {n:1,name:'CLIENT BRIEF',sub:'Анализ заказчика'},
+  {n:2,name:'BRAND LAB',sub:'Логотип, цвет, шрифт'},
+  {n:3,name:'UI FACTORY',sub:'Макет интерфейса'},
+  {n:4,name:'ADVERTISING LAB',sub:'Плакат и носители'},
+  {n:5,name:'FINAL PRESENTATION',sub:'Защита проекта'}
+];
+
+const TONES = [
+  {id:'tech',label:'Технологичный'},{id:'eco',label:'Экологичный'},
+  {id:'minimal',label:'Минималистичный'},{id:'bold',label:'Дерзкий'},
+  {id:'friendly',label:'Дружелюбный'},{id:'premium',label:'Премиальный'},
+  {id:'playful',label:'Игровой'},{id:'brutal',label:'Брутальный'},
+  {id:'warm',label:'Тёплый'},{id:'dynamic',label:'Динамичный'}
+];
+const toneLabel = id => (TONES.find(t=>t.id===id)||{label:id}).label;
+
+const PALETTES = [
+  {id:'tech',   name:'Digital Blue',  colors:{primary:'#2563EB',secondary:'#0EA5E9',accent:'#22D3EE',ink:'#0B1220',bg:'#F2F6FF'}},
+  {id:'eco',    name:'Fresh Green',   colors:{primary:'#16A34A',secondary:'#84CC16',accent:'#FACC15',ink:'#10231A',bg:'#F1FBF4'}},
+  {id:'bold',   name:'Hot Coral',     colors:{primary:'#F97316',secondary:'#EF4444',accent:'#111827',ink:'#111827',bg:'#FFF7ED'}},
+  {id:'premium',name:'Midnight Gold', colors:{primary:'#111827',secondary:'#C8A24A',accent:'#F0C86A',ink:'#0B0B0C',bg:'#F7F5F1'}},
+  {id:'playful',name:'Candy Pop',     colors:{primary:'#EC4899',secondary:'#8B5CF6',accent:'#FDE047',ink:'#2B1035',bg:'#FFF1FA'}},
+  {id:'calm',   name:'Soft Sand',     colors:{primary:'#6B7A8F',secondary:'#C2A98F',accent:'#E8DCCB',ink:'#2B2B2B',bg:'#FAF7F2'}}
+];
+
+const SHAPES = [
+  {id:'circle',label:'Круг'},{id:'round',label:'Скруглённый квадрат'},
+  {id:'hex',label:'Гексагон'},{id:'tri',label:'Треугольник'},
+  {id:'shield',label:'Щит'},{id:'ring',label:'Кольцо'},{id:'blob',label:'Блоб'}
+];
+const SHAPE_ICON = {
+  circle:'<circle cx="12" cy="12" r="10"/>',
+  round:'<rect x="2" y="2" width="20" height="20" rx="6"/>',
+  hex:'<polygon points="12,1 22,6.5 22,17.5 12,23 2,17.5 2,6.5"/>',
+  tri:'<polygon points="12,2 22,21 2,21"/>',
+  shield:'<path d="M12 1 L22 5 V12 C22 18 17 22 12 23 C7 22 2 18 2 12 V5 Z"/>',
+  ring:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="3.5"/>',
+  blob:'<path d="M12 1 C19 1 23 6 23 12 C23 19 18 23 12 23 C5 23 1 18 1 12 C1 5 5 1 12 1 Z"/>'
+};
+
+const MARKS = [
+  {id:'monogram',label:'Монограмма'},{id:'dots',label:'Сетка точек'},
+  {id:'spark',label:'Искра'},{id:'wave',label:'Волна'},
+  {id:'arrow',label:'Стрелка'},{id:'leaf',label:'Лист'},{id:'none',label:'Без знака'}
+];
+
+const FONTS = [
+  {id:'sans',   label:'Геометричный гротеск', css:"'Segoe UI',system-ui,-apple-system,sans-serif"},
+  {id:'grotesk',label:'Нейтральный гротеск',  css:"Helvetica,Arial,sans-serif"},
+  {id:'serif',  label:'Классическая антиква', css:"Georgia,'Times New Roman',serif"},
+  {id:'mono',   label:'Моноширинный',         css:"'Courier New',ui-monospace,monospace"},
+  {id:'display',label:'Плотный дисплейный',   css:"Impact,'Arial Black',sans-serif"}
+];
+
+const BLOCKS = [
+  {id:'header',label:'Шапка и меню'},{id:'hero',label:'Первый экран (Hero)'},
+  {id:'features',label:'Преимущества'},{id:'gallery',label:'Галерея / примеры'},
+  {id:'pricing',label:'Тарифы'},{id:'cta',label:'Призыв к действию'},{id:'footer',label:'Подвал'}
+];
+
+const CLIENTS = [
+  {
+    id:'greenbyte', name:'GREEN BYTE',
+    sphere:'Экологичные технологии и производство биоразлагаемой упаковки',
+    fullBrief: `ПРИВЕТ, ДИЗАЙНЕР!
+Мы — GREEN BYTE, стартап, который делает биоразлагаемую упаковку для бизнеса. Мы хотим спасти планету от пластика, но при этом выглядеть как серьезная технологическая компания, а не как деревенский эко-магазин.
+
+ЧТО НАМ НУЖНО:
+Нам нужен современный, строгий и минималистичный стиль. Мы общаемся с директорами заводов, они должны нам доверять. В логотипе должно читаться что-то технологичное и экологичное одновременно.
+
+ЧТО НЕЛЬЗЯ:
+Умоляю, не используйте банальные зеленые листики! Мы уже устали от этого клише. Также помните, что логотип будет печататься на маленьких бейджах и пакетах, поэтому он должен быть максимально читаемым даже в микро-размере.`,
+    briefText:[
+      'Современный и минималистичный стиль',
+      'Ассоциация с технологиями и экологией',
+      'Не использовать банальные изображения листьев',
+      'Логотип должен хорошо смотреться даже в маленьком размере'
+    ],
+    distractors:[
+      'Обязательно использовать фотографию основателя',
+      'Только чёрно-белая палитра',
+      'Слоган должен быть на английском языке'
+    ],
+    budget:85000, deadline:'3 рабочих дня',
+    audienceOptions:[
+      'Дети 6–12 лет и их родители',
+      'Бухгалтеры крупных предприятий 40+',
+      'Спортсмены-любители 20–35 лет',
+      'Молодые люди 18–30 лет, осознанное потребление',
+      'Пенсионеры 65+, дачники',
+      'Владельцы грузового транспорта'
+    ],
+    audienceCorrect:3,
+    tones:['tech','eco','minimal'],
+    likes:{palettes:['tech','eco'],shapes:['hex','circle','round'],marks:['monogram','dots','wave'],fonts:['sans','grotesk']},
+    forbid:{marks:['leaf'],shapes:[],palettes:[]},
+    adSample:{headline:'Упаковка, которая исчезает',sub:'Биоразлагаемые решения для бизнеса, которому важен след.',cta:'Узнать больше'}
+  },
+  {
+    id:'kidspace', name:'KIDSPACE',
+    sphere:'Детский образовательный центр и онлайн-кружки',
+    fullBrief: `Здравствуйте! Мы — KIDSPACE, онлайн-школа программирования и робототехники для детей.
+
+КТО НАШИ КЛИЕНТЫ:
+К нам приходят дети от 6 до 12 лет, но платят за это их родители. Поэтому стиль должен нравиться и тем, и другим. Родители должны видеть, что у нас безопасно и профессионально, а дети — что у нас весело и интересно.
+
+ЗАДАЧА:
+Наш стиль должен быть дружелюбным и теплым. Мы хотим использовать яркие цвета, но без визуального шума и "кислотности", чтобы у мам не болела голова. Элементы интерфейса и логотип должны быть крупными, потому что дети часто смотрят уроки с планшетов.`,
+    briefText:[
+      'Дружелюбно и безопасно - родители должны доверять',
+      'Ярко, но не «кислотно», без визуального шума',
+      'Стиль должен нравиться и детям, и взрослым',
+      'Обязательно крупные, читаемые элементы'
+    ],
+    distractors:[
+      'Обязательно изображение животного в логотипе',
+      'Использовать только шрифт Comic Sans',
+      'Все макеты строго в формате A4'
+    ],
+    budget:62000, deadline:'4 рабочих дня',
+    audienceOptions:[
+      'Студенты IT-специальностей 18–22',
+      'Пенсионеры 60+',
+      'Владельцы загородных домов',
+      'Байкеры и автотуристы',
+      'Родители 28–40 лет и дети 6–12 лет',
+      'HR-директора крупных корпораций'
+    ],
+    audienceCorrect:4,
+    tones:['friendly','playful','warm'],
+    likes:{palettes:['playful','eco'],shapes:['round','blob','circle'],marks:['monogram','spark'],fonts:['sans','display']},
+    forbid:{marks:[],shapes:[],palettes:['premium']},
+    adSample:{headline:'Учиться - это интересно',sub:'Онлайн-кружки, после которых дети сами просят «ещё занятие».',cta:'Записаться'}
+  },
+  {
+    id:'nordfin', name:'NORDFIN',
+    sphere:'Финтех-приложение: платежи, сбережения, аналитика',
+    fullBrief: `Добрый день. Мы разрабатываем NORDFIN — премиальное банковское приложение для управления личными финансами.
+
+КОНТЕКСТ:
+Наши пользователи — занятые городские специалисты, которые ценят свое время и безопасность. Они доверяют нам свои деньги. Поэтому интерфейс должен кричать о надежности.
+
+ПОЖЕЛАНИЯ:
+Нам нужен строгий, премиальный стиль. Никакой "мультяшности", смайликов или легкомысленных шрифтов. Допускаются и даже приветствуются глубокие, темные цвета, которые ассоциируются с богатством и безопасностью (как сейфы). Логотип должен быть геометричным и уверенным.`,
+    briefText:[
+      'Надёжность и скорость - главные ценности',
+      'Строгий премиальный стиль без «мультяшности»',
+      'Интерфейс должен выглядеть безопасно',
+      'Допустимы тёмные и глубокие цвета'
+    ],
+    distractors:[
+      'Обязательно 3D-логотип с тенью',
+      'Использовать рукописный шрифт для заголовков',
+      'Макеты только на чёрном фоне'
+    ],
+    budget:120000, deadline:'3 рабочих дня',
+    audienceOptions:[
+      'Городские специалисты 25–45 лет',
+      'Школьники 12–15 лет',
+      'Туристы без банковских счетов',
+      'Фермерские хозяйства',
+      'Музыканты и DJ',
+      'Библиотекари и архивариусы'
+    ],
+    audienceCorrect:0,
+    tones:['premium','minimal','tech'],
+    likes:{palettes:['tech','premium'],shapes:['round','shield','hex'],marks:['monogram','arrow'],fonts:['grotesk','sans']},
+    forbid:{marks:['leaf','spark'],shapes:['blob','tri'],palettes:['playful']},
+    adSample:{headline:'Деньги под контролем',sub:'Платежи, накопления и аналитика - в одном приложении.',cta:'Открыть счёт'}
+  },
+  {
+    id:'lumen', name:'LUMEN',
+    sphere:'Музыкальный стриминг и студия звукозаписи',
+    fullBrief: `Йо! Мы LUMEN. Мы делаем стриминговый сервис и одновременно студию, где молодые артисты записывают свои первые хиты.
+
+АТМОСФЕРА:
+Наш бренд — это ночной город, неоновые вывески, клубная культура и громкий звук. Мы хотим, чтобы интерфейс выглядел дерзко и динамично, но при этом текст в нем можно было легко прочитать (никаких нечитаемых каракулей).
+
+ВАЖНО:
+Логотип будет часто висеть на темном фоне (в приложении включена темная тема). Убедительная просьба не использовать спокойные пастельные цвета, они убивают всю энергетику музыки.`,
+    briefText:[
+      'Дерзко, громко, но без потери читаемости',
+      'Атмосфера ночного города и клубной культуры',
+      'Никакой «спокойной пастели»',
+      'Логотип должен работать на тёмном фоне'
+    ],
+    distractors:[
+      'Обязательно розовые тона',
+      'Использовать только антикву',
+      'Обязательная анимация логотипа'
+    ],
+    budget:95000, deadline:'2 рабочих дня',
+    audienceOptions:[
+      'Корпоративные клиенты 45+',
+      'Слушатели 16–28 лет, активная музыкальная аудитория',
+      'Родители маленьких детей',
+      'Библиотеки и образовательные центры',
+      'Водители грузовиков',
+      'Работники здравоохранения'
+    ],
+    audienceCorrect:1,
+    tones:['bold','dynamic','brutal'],
+    likes:{palettes:['playful','bold'],shapes:['circle','tri','ring'],marks:['wave','spark','dots'],fonts:['display','sans']},
+    forbid:{marks:[],shapes:[],palettes:['calm']},
+    adSample:{headline:'Звук, который держит',sub:'Стриминг без сжатия и студия, где рождаются хиты.',cta:'Слушать'}
+  },
+  {
+    id:'pechka', name:'PECHKA',
+    sphere:'Пекарня-кофейня у дома, локальные продукты',
+     fullBrief: `Здравствуйте. Мы открываем уютную пекарню PECHKA в спальном районе города. Печем хлеб на закваске и варим кофе.
+
+ФИЛОСОФИЯ:
+Мы за ручную работу, за запах свежего хлеба и за локальные продукты. Нам нужно, чтобы жители района чувствовали тепло, когда смотрят на нашу вывеску.
+
+ЧЕГО МЫ НЕ ХОТИМ:
+Пожалуйста, не делайте нас похожими на очередной IT-стартап или бездушную корпорацию. Никакого хай-тека и пластика. Но и в "деревенский" китч с петухами и лубочными узорами тоже скатываться не надо — у нас все-таки современное заведение. Типографика должна быть уютной, но современной.`,
+    briefText:[
+      'Тепло, по-домашнему, но без «деревенского» китча',
+      'Акцент на ручной работе и свежести',
+      'Не выглядеть как IT-стартап',
+      'Уютная, но современная типографика'
+    ],
+    distractors:[
+      'Обязательно синий цвет в основе',
+      'Логотип в стиле хай-тек',
+      'Все макеты на тёмном фоне'
+    ],
+    budget:54000, deadline:'5 рабочих дней',
+    audienceOptions:[
+      'Жители района 20–45 лет, любят локальные продукты',
+      'Крупные ресторанные сети',
+      'Спортсмены-марафонцы',
+      'IT-компании на удалёнке',
+      'Геймеры 15–19 лет',
+      'Военные и силовые структуры'
+    ],
+    audienceCorrect:0,
+    tones:['warm','friendly','minimal'],
+    likes:{palettes:['calm','eco'],shapes:['round','circle','blob'],marks:['monogram','wave'],fonts:['serif','sans']},
+    forbid:{marks:[],shapes:[],palettes:['tech','playful']},
+    adSample:{headline:'Хлеб, который ещё тёплый',sub:'Маленькая пекарня, которая печёт для своего района каждое утро.',cta:'Заглянуть'}
+  },
+  {
+    id:'vetcare', name:'VETCARE',
+    sphere:'Ветеринарная клиника и сервис записи к врачу',
+    fullBrief: `Добрый день. VETCARE — это сеть ветеринарных клиник с собственной системой онлайн-записи.
+
+ЗАДАЧА:
+Владельцы животных очень переживают за своих питомцев. Наш бренд должен транслировать две вещи одновременно: высокий профессионализм врачей и искреннюю заботу.
+
+ДЕТАЛИ:
+Мы не хотим пугать людей. Цвета должны быть спокойными. Мы будем размещать логотип на вывесках клиник (он должен быть виден издалека) и внутри мобильного приложения. Стиль должен вызывать доверие у взрослых людей, а не выглядеть как детский мультик.`,
+    briefText:[
+      'Забота и профессиональная надёжность одновременно',
+      'Спокойные цвета, ничего пугающего',
+      'Стиль должен нравиться владельцам животных',
+      'Логотип размещается на вывеске и в приложении'
+    ],
+    distractors:[
+      'Обязательно изображение кота в логотипе',
+      'Яркие кислотные цвета',
+      'Обязательный 3D-эффект'
+    ],
+    budget:71000, deadline:'4 рабочих дня',
+    audienceOptions:[
+      'Владельцы домашних животных 22–45 лет',
+      'Владельцы агрокомплексов',
+      'Дети 8–10 лет',
+      'Спортивные клубы',
+      'Художники и дизайнеры',
+      'Курьеры и водители такси'
+    ],
+    audienceCorrect:0,
+    tones:['friendly','warm','tech'],
+    likes:{palettes:['eco','tech'],shapes:['round','circle','shield'],marks:['monogram','dots'],fonts:['sans','serif']},
+    forbid:{marks:['arrow','leaf'],shapes:[],palettes:['bold']},
+    adSample:{headline:'Забота без стресса',sub:'Запись к ветеринару за минуту и напоминания о прививках.',cta:'Записаться'}
+  }
+];
+
+/* =========================================================
+   УТИЛИТЫ
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function hex2rgb(h){
+  h = String(h||'#000000').replace('#','');
+  if(h.length===3) h = h.split('').map(c=>c+c).join('');
+  if(h.length!==6) h = '000000';
+  return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];
+}
+function hexToRgba(hex, alpha) {
+  const [r, g, b] = hex2rgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+function luminance(h){
+  const [r,g,b] = hex2rgb(h).map(v=>{v/=255;return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4);});
+  return 0.2126*r+0.7152*g+0.0722*b;
+}
+function contrast(a,b){
+  const l1 = luminance(a), l2 = luminance(b);
+  return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);
+}
+function fmtMoney(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ') + ' ₽'; }
+function bestOn(bg){
+  const cands = ['#ffffff','#0b0f14'];
+  let best = '#ffffff', bc = -1;
+  for(const c of cands){
+    const k = contrast(c,bg);
+    if(k > bc){ bc = k; best = c; }
+  }
+  return best;
+}
+function svgToDataUrl(svg){
+  return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+}
+
+/* =========================================================
+   СЕССИЯ
+   ========================================================= */
+const session = {
+  customFonts: [],
+  attempts: {},
+  spentExtra: 0,
+  repPenalty: 0
+};
+
+/* =========================================================
+   ШРИФТЫ
+   ========================================================= */
+function fontCss(id){
+  const preset = FONTS.find(f=>f.id===id);
+  if(preset) return preset.css;
+  const custom = session.customFonts.find(f=>f.family===id);
+  if(custom) return `'${custom.family}', sans-serif`;
+  return 'Arial, sans-serif';
+}
+function fontLabel(id){
+  const preset = FONTS.find(f=>f.id===id);
+  if(preset) return preset.label;
+  const custom = session.customFonts.find(f=>f.family===id);
+  if(custom) return custom.family + ' (свой)';
+  return id;
+}
+
+async function addUrlFont(url){
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = url;
+  await new Promise((res, rej) => {
+    link.onload = res;
+    link.onerror = () => rej(new Error('Не удалось загрузить CSS по ссылке'));
+    document.head.appendChild(link);
+  });
+  let family = 'CustomFont';
+  const m = url.match(/family=([^:&]+)/);
+  if(m) family = decodeURIComponent(m[1].replace(/\+/g,' ')).split(':')[0].trim();
+  try { await document.fonts.load(`16px "${family}"`); } catch(e){}
+  if(!session.customFonts.find(f=>f.family===family)){
+    session.customFonts.push({family, source:'url', cssUrl:url});
+  }
+  return family;
+}
+
+async function addFileFont(file, name){
+  const buf = await file.arrayBuffer();
+  const cleanName = name || file.name.replace(/\.[^.]+$/, '');
+  const font = new FontFace(cleanName, buf);
+  await font.load();
+  document.fonts.add(font);
+  const dataUrl = await new Promise(r => {
+    const fr = new FileReader();
+    fr.onload = () => r(fr.result);
+    fr.readAsDataURL(file);
+  });
+  if(!session.customFonts.find(f=>f.family===cleanName)){
+    session.customFonts.push({family: cleanName, source:'file', dataUrl});
+  }
+  return cleanName;
+}
+
+/* =========================================================
+   SVG
+   ========================================================= */
+function sanitizeSVG(text){
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'image/svg+xml');
+    if(doc.querySelector('parsererror')) return null;
+    const svg = doc.querySelector('svg');
+    if(!svg) return null;
+    svg.querySelectorAll('script,foreignObject').forEach(n => n.remove());
+    svg.querySelectorAll('*').forEach(n => {
+      for(const a of Array.from(n.attributes)) {
+        if(/^on/i.test(a.name)) n.removeAttribute(a.name);
+      }
+    });
+    svg.querySelectorAll('image').forEach(n => {
+      const href = n.getAttribute('href') || n.getAttribute('xlink:href') || '';
+      if(!href.startsWith('data:')) n.remove();
+    });
+    if(!svg.getAttribute('viewBox')){
+      const w = parseFloat(svg.getAttribute('width')) || 100;
+      const h = parseFloat(svg.getAttribute('height')) || 100;
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    }
+    svg.removeAttribute('width');
+    svg.removeAttribute('height');
+    svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+    return svg.outerHTML;
+  } catch(e) { return null; }
+}
+
+function getCustomLogoInfo(){
+  if(!state.brand.customLogo) return null;
+  const doc = new DOMParser().parseFromString(state.brand.customLogo.svg, 'image/svg+xml');
+  const svg = doc.querySelector('svg');
+  if(!svg) return null;
+  return {
+    nodes: svg.querySelectorAll('*').length,
+    hasViewBox: !!svg.getAttribute('viewBox'),
+    hasText: svg.querySelectorAll('text').length > 0,
+    hasExternalImage: Array.from(svg.querySelectorAll('image')).some(n => {
+      const h = n.getAttribute('href') || n.getAttribute('xlink:href') || '';
+      return h && !h.startsWith('data:');
+    })
+  };
+}
+
+/* =========================================================
+   СОСТОЯНИЕ ЗАКАЗА
+   ========================================================= */
+let state = null;
+
+function makeEmptyBrand(cl){
+  return {
+    name: '',
+    shape: 'round',
+    mark: 'monogram',
+    paletteId: '',
+    colors: {primary:'#6b7280', secondary:'#9ca3af', accent:'#f59e0b', ink:'#111827', bg:'#f9fafb'},
+    headingFont: 'sans',
+    bodyFont: 'grotesk',
+    customLogo: null,
+    typo: {headingScale:1.4, lineHeight:1.5, headingLS:0, headingWeight:800, headingTransform:'none'},
+    logo: {safeArea:12}
+  };
+}
+
+function makeOrder(cl){
+  return {
+    orderNo: String(Math.floor(Math.random()*900)+100),
+    client: cl,
+    stage: 1, maxStage: 1,
+    scores: {},
+    previewTab: 'logo',
+    brief: {audience:null, tones:[], note:'', constraints:[]},
+    brand: makeEmptyBrand(cl),
+    ui: {
+      type:'landing',
+      enabled:{header:false,hero:false,features:false,gallery:false,pricing:false,cta:false,footer:false},
+      fontScale:16, radius:14, density:'normal'
+    },
+    ad: {headline:'', sub:'', cta:'', theme:'brand', showLogo:true, medium:'poster'},
+    defense:''
+  };
+}
+
+/* =========================================================
+   МЕТА
+   ========================================================= */
+function computeMeta(){
+  const cl = state.client, b = state.brand;
+  const violations = [];
+  let rep = 100 - (session.repPenalty || 0);
+  let spend = (session.spentExtra || 0);
+
+  if(session.customFonts.length > 0){
+    spend += 3000;
+  }
+  if(b.customLogo) spend += 2000;
+
+  if((cl.forbid.marks||[]).includes(b.mark)){
+    violations.push('Использован знак, который клиент запретил');
+    rep -= 20; spend += 5000;
+  }
+  if((cl.forbid.shapes||[]).includes(b.shape)){
+    violations.push('Форма логотипа не подходит клиенту');
+    rep -= 15; spend += 4000;
+  }
+  if((cl.forbid.palettes||[]).includes(b.paletteId)){
+    violations.push('Клиент просил не использовать такую палитру');
+    rep -= 15; spend += 4000;
+  }
+  const cr = contrast(b.colors.ink, b.colors.bg);
+  if(cr < 4.5){
+    violations.push('Низкий контраст текста: ' + cr.toFixed(1) + ':1 (нужно ≥ 4.5:1)');
+    rep -= 10; spend += 3000;
+  }
+  if(contrast(b.colors.accent, b.colors.primary) < 2){
+    violations.push('Акцентный цвет сливается с основным');
+    rep -= 5; spend += 2000;
+  }
+  if(b.typo.headingLS > 8){
+    violations.push('Трекинг заголовков слишком большой');
+    rep -= 5;
+  }
+  if(b.typo.lineHeight < 1.2 || b.typo.lineHeight > 2.2){
+    violations.push('Интерлиньяж вне комфортного диапазона');
+    rep -= 5;
+  }
+  if(b.customLogo){
+    const info = getCustomLogoInfo();
+    if(!info || !info.hasViewBox) violations.push('В SVG нет viewBox - плохо масштабируется');
+    else if(info.nodes > 300) violations.push('SVG слишком сложный');
+    if(info && info.hasExternalImage) violations.push('SVG ссылается на внешние изображения');
+  }
+  if(!b.name.trim()){
+    violations.push('У бренда нет названия');
+    rep -= 5;
+  }
+  rep = Math.max(30, rep);
+  return { rep, spend, remaining: Math.max(0, cl.budget - spend), violations, budget: cl.budget };
+}
+
+/* =========================================================
+   ОЦЕНКА
+   ========================================================= */
+function getConstraintItems(cl){
+  if(!cl._constraintItems || cl._orderNo !== state.orderNo){
+    const items = [
+      ...cl.briefText.map(t => ({text: t, real: true})),
+      ...cl.distractors.map(t => ({text: t, real: false}))
+    ];
+    let seed = parseInt(state.orderNo) + cl.id.length;
+    for(let i = items.length - 1; i > 0; i--){
+      seed = (seed * 9301 + 49297) % 233280;
+      const j = Math.floor((seed / 233280) * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
+    cl._constraintItems = items;
+    cl._orderNo = state.orderNo;
+  }
+  return cl._constraintItems;
+}
+
+function evaluate(n){
+  if(n===1) return evalBrief();
+  if(n===2) return evalBrand();
+  if(n===3) return evalUI();
+  if(n===4) return evalAd();
+  return evalFinal();
+}
+
+function evalBrief(){
+  const cl = state.client, b = state.brief, checks = [];
+  let pts = 0;
+
+  const audOk = b.audience === cl.audienceCorrect;
+  checks.push({ok:audOk, pts:15, text: audOk
+    ? 'Целевая аудитория определена верно'
+    : 'Аудитория выбрана неверно - перечитайте бриф'});
+  if(audOk) pts += 15;
+
+  const matched = b.tones.filter(t=>cl.tones.includes(t)).length;
+  const wrongTones = b.tones.filter(t=>!cl.tones.includes(t)).length;
+  const tonePts = Math.max(0, matched * 5 - wrongTones * 2);
+  checks.push({ok:matched>=2 && wrongTones===0, pts:tonePts, text:
+    `Характер: совпало ${matched}, лишних ${wrongTones}.`});
+  pts += tonePts;
+
+  const noteOk = b.note.trim().length >= 40;
+  checks.push({ok:noteOk, pts:10, text: noteOk
+    ? 'Ключевая мысль бренда сформулирована'
+    : 'Ключевая мысль слишком короткая (нужно ≥ 40)'});
+  if(noteOk) pts += 10;
+
+  const items = getConstraintItems(cl);
+  const checkedReal = b.constraints.filter(i => items[i] && items[i].real).length;
+  const checkedFake = b.constraints.filter(i => items[i] && !items[i].real).length;
+  const totalReal = items.filter(i => i.real).length;
+  let consPts = 0, consMsg = '';
+  if(checkedFake > 0){
+    consMsg = `Отмечено ложных ограничений: ${checkedFake}. Реальных: ${checkedReal}/${totalReal}`;
+    consPts = Math.max(0, Math.round(10 * checkedReal / totalReal) - checkedFake * 3);
+  } else if(checkedReal < totalReal){
+    consMsg = `Пропущено реальных ограничений: ${totalReal - checkedReal}`;
+    consPts = Math.round(10 * checkedReal / totalReal);
+  } else {
+    consMsg = 'Все реальные ограничения отмечены верно';
+    consPts = 10;
+  }
+  checks.push({ok: checkedReal===totalReal && checkedFake===0, pts:consPts, text:consMsg});
+  pts += consPts;
+
+  return {checks, pts: Math.min(50, pts)};
+}
+
+function evalBrand(){
+  const cl = state.client, b = state.brand, checks = [];
+  let pts = 0;
+
+  const nm = b.name.trim();
+  const nameOk = nm.length >= 3 && nm.length <= 16;
+  checks.push({ok:nameOk, pts:7, text: nameOk
+    ? 'Название оформлено корректно'
+    : 'Название должно быть от 3 до 16 символов'});
+  if(nameOk) pts += 7;
+
+  const shapeOk = cl.likes.shapes.includes(b.shape) && !(cl.forbid.shapes||[]).includes(b.shape);
+  checks.push({ok:shapeOk, pts:7, text: shapeOk
+    ? 'Форма логотипа поддерживает характер бренда'
+    : 'Форма логотипа спорит с характером бренда'});
+  if(shapeOk) pts += 7;
+
+  const markForbidden = (cl.forbid.marks||[]).includes(b.mark);
+  const markOk = cl.likes.marks.includes(b.mark) && !markForbidden && b.mark !== 'none';
+  checks.push({ok:markOk, pts:7, text: markForbidden
+    ? 'Этот графический знак клиент прямо запретил'
+    : (markOk ? 'Графический знак попадает в ожидания'
+              : 'Графический знак не поддерживает идею бренда')});
+  if(markOk) pts += 7;
+
+  const palOk = cl.likes.palettes.includes(b.paletteId) && !(cl.forbid.palettes||[]).includes(b.paletteId);
+  checks.push({ok:palOk, pts:7, text: palOk
+    ? 'Цветовая палитра соответствует ожиданиям'
+    : (b.paletteId ? 'Палитра не совпадает с характером бренда'
+                   : 'Палитра не выбрана')});
+  if(palOk) pts += 7;
+
+  const cr = contrast(b.colors.ink, b.colors.bg);
+  const crOk = cr >= 4.5;
+  checks.push({ok:crOk, pts:6, text: crOk
+    ? `Контраст текста в норме (${cr.toFixed(1)}:1)`
+    : `Контраст текста слишком низкий (${cr.toFixed(1)}:1), нужно ≥ 4.5:1`});
+  if(crOk) pts += 6;
+
+  const hf = b.headingFont, bf = b.bodyFont;
+  const bothDisplay = hf === 'display' && bf === 'display';
+  const bothMono = hf === 'mono' && bf === 'mono';
+  const pairOk = !bothDisplay && !bothMono;
+  checks.push({ok:pairOk, pts:6, text: pairOk
+    ? 'Шрифтовая пара работает'
+    : 'Неудачная пара: два дисплейных/моноширинных шрифта'});
+  if(pairOk) pts += 6;
+
+  const typoOk = b.typo.headingScale >= 1.2 && b.typo.headingScale <= 1.8
+              && b.typo.lineHeight >= 1.3 && b.typo.lineHeight <= 1.9
+              && Math.abs(b.typo.headingLS) <= 4;
+  checks.push({ok:typoOk, pts:5, text: typoOk
+    ? 'Типографические параметры в норме'
+    : 'Проверьте масштаб заголовков, интерлиньяж и трекинг'});
+  if(typoOk) pts += 5;
+
+  if(b.customLogo){
+    const info = getCustomLogoInfo();
+    let ok = true, msg = 'Загруженный SVG-логотип корректен';
+    if(!info) { ok = false; msg = 'SVG не читается'; }
+    else if(!info.hasViewBox) { ok = false; msg = 'В SVG нет viewBox'; }
+    else if(info.nodes < 2) { ok = false; msg = 'SVG почти пустой'; }
+    else if(info.nodes > 300) { ok = false; msg = 'SVG слишком сложный'; }
+    checks.push({ok, pts:5, text: msg});
+    if(ok) pts += 5;
+  } else {
+    checks.push({ok:true, pts:5, text:'Логотип собран в конструкторе'});
+    pts += 5;
+  }
+
+  return {checks, pts: Math.min(50, pts)};
+}
+
+function evalUI(){
+  const u = state.ui, en = u.enabled, checks = [];
+  let pts = 0;
+
+  const heroOk = !!en.hero;
+  checks.push({ok:heroOk, pts:10, text: heroOk ? 'Первый экран на месте' : 'Нет первого экрана'});
+  if(heroOk) pts += 10;
+
+  const ctaOk = !!en.cta;
+  checks.push({ok:ctaOk, pts:10, text: ctaOk ? 'Есть призыв к действию' : 'Нет призыва к действию'});
+  if(ctaOk) pts += 10;
+
+  const frameOk = !!en.header && !!en.footer;
+  checks.push({ok:frameOk, pts:10, text: frameOk ? 'Шапка и подвал собраны' : 'Не хватает шапки или подвала'});
+  if(frameOk) pts += 10;
+
+  const count = Object.values(en).filter(Boolean).length;
+  const countOk = count >= 4 && count <= 6;
+  checks.push({ok:countOk, pts:10, text: countOk
+    ? `Количество блоков оптимально (${count})`
+    : `Блоков ${count}: для лендинга лучше 4–6`});
+  if(countOk) pts += 10;
+
+  const cr = contrast(state.brand.colors.ink, state.brand.colors.bg);
+  const crOk = cr >= 4.5;
+  checks.push({ok:crOk, pts:10, text: crOk
+    ? `Читаемость интерфейса в норме (${cr.toFixed(1)}:1)`
+    : `Текст плохо читается (${cr.toFixed(1)}:1)`});
+  if(crOk) pts += 10;
+
+  return {checks, pts: Math.min(50, pts)};
+}
+
+function evalAd(){
+  const a = state.ad, checks = [];
+  let pts = 0;
+
+  const hLen = a.headline.trim().length;
+  const hOk = hLen >= 10 && hLen <= 45;
+  checks.push({ok:hOk, pts:10, text: hOk ? 'Заголовок короткий и цепляющий'
+    : (hLen === 0 ? 'Заголовок не заполнен' : `Заголовок ${hLen} символов - нужно 10–45`)});
+  if(hOk) pts += 10;
+
+  const sLen = a.sub.trim().length;
+  const sOk = sLen >= 20 && sLen <= 90;
+  checks.push({ok:sOk, pts:10, text: sOk ? 'Подзаголовок раскрывает мысль'
+    : (sLen === 0 ? 'Подзаголовок не заполнен' : `Подзаголовок ${sLen} - нужно 20–90`)});
+  if(sOk) pts += 10;
+
+  const cLen = a.cta.trim().length;
+  const cOk = cLen >= 2 && cLen <= 20;
+  checks.push({ok:cOk, pts:10, text: cOk ? 'Призыв к действию сформулирован'
+    : (cLen === 0 ? 'CTA не заполнен' : 'CTA - от 2 до 20 символов')});
+  if(cOk) pts += 10;
+
+  const cr = contrast(state.brand.colors.accent, state.brand.colors.primary);
+  const crOk = cr >= 3;
+  checks.push({ok:crOk, pts:10, text: crOk
+    ? `Кнопка CTA хорошо выделяется (${cr.toFixed(1)}:1)`
+    : `Кнопка CTA сливается с фоном (${cr.toFixed(1)}:1), нужно ≥ 3:1`});
+  if(crOk) pts += 10;
+
+  const logoOk = !!a.showLogo;
+  checks.push({ok:logoOk, pts:10, text: logoOk ? 'Логотип на носителе' : 'На макете нет логотипа'});
+  if(logoOk) pts += 10;
+
+  return {checks, pts: Math.min(50, pts)};
+}
+
+function evalFinal(){
+  const meta = computeMeta(), checks = [];
+  let pts = 0;
+
+  const dLen = state.defense.trim().length;
+  const dOk = dLen >= 100;
+  checks.push({ok:dOk, pts:20, text: dOk ? 'Защита проекта описана'
+    : `Текст защиты слишком короткий (${dLen}, нужно ≥ 100)`});
+  if(dOk) pts += 20;
+
+  const budPts = Math.round(Math.min(1, meta.remaining / meta.budget) * 15);
+  checks.push({ok:budPts >= 10, pts:budPts, text:
+    `Бюджет: осталось ${fmtMoney(meta.remaining)} из ${fmtMoney(meta.budget)}`});
+  pts += budPts;
+
+  const repPts = Math.round(Math.max(0, (meta.rep - 30) / 70) * 15);
+  checks.push({ok:repPts >= 10, pts:repPts, text: `Репутация: ${meta.rep} / 100`});
+  pts += repPts;
+
+  return {checks, pts: Math.min(50, pts)};
+}
+
+/* =========================================================
+   ЛОГОТИП
+   ========================================================= */
+function logoSVG(size){
+  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">${logoMarkup()}</svg>`;
+}
+
+function logoMarkup(){
+  const b = state.brand, c = b.colors;
+  const fill = c.primary;
+  const markColor = bestOn(fill);
+  let shapeEl = '';
+
+  switch(b.shape){
+    case 'circle': shapeEl = `<circle cx="50" cy="50" r="48" fill="${fill}"/>`; break;
+    case 'round':  shapeEl = `<rect x="2" y="2" width="96" height="96" rx="26" fill="${fill}"/>`; break;
+    case 'hex':    shapeEl = `<polygon points="50,2 92,26 92,74 50,98 8,74 8,26" fill="${fill}"/>`; break;
+    case 'tri':    shapeEl = `<polygon points="50,8 95,90 5,90" fill="${fill}"/>`; break;
+    case 'shield': shapeEl = `<path d="M50 2 L94 16 V52 C94 76 74 92 50 98 C26 92 6 76 6 52 V16 Z" fill="${fill}"/>`; break;
+    case 'ring':   shapeEl = `<circle cx="50" cy="50" r="42" fill="none" stroke="${fill}" stroke-width="13"/>`; break;
+    case 'blob':   shapeEl = `<path d="M50 3 C78 3 97 22 97 48 C97 76 76 97 48 97 C22 97 3 78 3 50 C3 22 22 3 50 3 Z" fill="${fill}"/>`; break;
+    default:       shapeEl = `<circle cx="50" cy="50" r="48" fill="${fill}"/>`;
+  }
+
+  const baseScale = (b.shape==='tri') ? 0.58 : (b.shape==='ring' ? 0.62 : 0.86);
+  const safe = 1 - (b.logo.safeArea||0)/100 * 1.2;
+  const scale = baseScale * safe;
+
+  const letter = (b.name.trim()[0] || 'A').toUpperCase();
+  const strokeAttrs = `fill="none" stroke="${markColor}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"`;
+  let markEl = '';
+
+  switch(b.mark){
+    case 'monogram':
+      markEl = `<text x="50" y="52" text-anchor="middle" dominant-baseline="middle"
+        font-family="${fontCss(b.headingFont)}" font-weight="800" font-size="54"
+        fill="${markColor}">${esc(letter)}</text>`;
+      break;
+    case 'dots':
+      markEl = [0,1,2].map(r=>[0,1,2].map(k=>
+        `<circle cx="${32+k*18}" cy="${32+r*18}" r="5.5" fill="${markColor}"/>`).join('')).join('');
+      break;
+    case 'spark':
+      markEl = `<path d="M50 14 L59 41 L86 50 L59 59 L50 86 L41 59 L14 50 L41 41 Z" fill="${markColor}"/>`;
+      break;
+    case 'wave':
+      markEl = `<path d="M20 60 C30 34 42 34 50 60 C58 34 70 34 80 60" ${strokeAttrs}/>`;
+      break;
+    case 'arrow':
+      markEl = `<path d="M32 68 L68 32 M68 32 H46 M68 32 V54" ${strokeAttrs}/>`;
+      break;
+    case 'leaf':
+      markEl = `<path d="M26 74 C26 42 46 26 74 26 C74 58 54 74 26 74 Z" fill="${markColor}"/>`;
+      break;
+    default: markEl = '';
+  }
+
+  return shapeEl + `<g transform="translate(50 50) scale(${scale}) translate(-50 -50)">${markEl}</g>`;
+}
+
+function currentLogoSVG(size){
+  if(state.brand.customLogo){
+    const raw = state.brand.customLogo.svg;
+    return raw.replace(/<svg([^>]*)>/, (m, attrs) => {
+      let a = attrs.replace(/\s(width|height)="[^"]*"/g, '');
+      return `<svg${a} width="${size}" height="${size}" preserveAspectRatio="xMidYMid meet">`;
+    });
+  }
+  return logoSVG(size);
+}
+
+function logoImgSrc(){
+  if(state.brand.customLogo) return svgToDataUrl(state.brand.customLogo.svg);
+  return svgToDataUrl(logoSVG(400));
+}
+
+/* =========================================================
+   РЕНДЕР: ШАПКА / ШАГИ
+   ========================================================= */
+function renderHeader(){
+    if(!state){
+    $('#stPoints').textContent = 0;
+    $('#stRep').textContent = 100;
+    $('#stBudget').textContent = '0 ₽';
+    return;
+  }
+  const meta = computeMeta();
+  const total = [1,2,3,4,5].reduce((s,i)=>s+(state.scores[i]||0),0);
+  $('#stPoints').textContent = total;
+  $('#stRep').textContent = meta.rep;
+  $('#stBudget').textContent = fmtMoney(meta.remaining);
+}
+
+function renderSteps(){
+  $('#steps').innerHTML = STAGES.map(st=>{
+    const unlocked = st.n <= state.maxStage;
+    const done = state.scores[st.n] != null;
+    const active = state.stage === st.n;
+    return `<button class="step ${active?'active':''} ${done?'done':''}"
+      data-goto="${st.n}" ${unlocked?'':'disabled'}>
+      <span class="num">${done ? '✓' : st.n}</span>
+      <span>${st.name}<span class="sub">${st.sub}</span></span>
+    </button>`;
+  }).join('');
+}
+
+/* =========================================================
+   ПАНЕЛИ
+   ========================================================= */
+function panelBrief(){
+  const cl = state.client, b = state.brief;
+  const items = getConstraintItems(cl);
+
+  const briefHtml = cl.fullBrief.split('\n').filter(p=>p.trim()).map(p => `<p style="margin-bottom:12px; line-height:1.6; color:#c9d1d9; font-size:14px;">${esc(p)}</p>`).join('');
+
+  return `
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="kicker">Заказ #${state.orderNo} · Новый бриф</div>
+        <h2>${esc(cl.name)}</h2>
+        <div class="muted">${esc(cl.sphere)}</div>
+      </div>
+      <div class="badge-row">
+        <span class="badge">Бюджет <b>${fmtMoney(cl.budget)}</b></span>
+        <span class="badge">Срок <b>${esc(cl.deadline)}</b></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="background:#0d1117; border-left:4px solid var(--accent); border-radius:4px 12px 12px 4px;">
+    <h3 style="color:#fff; border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:16px;">
+      Входящий документ: Бриф
+    </h3>
+    <div style="background:#161b22; padding:20px; border-radius:8px; border:1px solid #30363d;">
+      <div style="font-family:monospace; font-size:12px; color:#8b949e; margin-bottom:16px; text-align:right;">
+        От: ${esc(cl.name)} <br> Кому: Дизайн-студия
+      </div>
+      ${briefHtml}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>01 · Кто целевая аудитория?</h3>
+    <div class="options">
+      ${cl.audienceOptions.map((o,i)=>`
+        <button class="opt ${b.audience===i?'sel':''}" data-act="audience" data-val="${i}">${esc(o)}</button>`).join('')}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>02 · Характер бренда <span class="hint">- выберите до 3</span></h3>
+    <div class="chips">
+      ${TONES.map(t=>`<button class="chip ${b.tones.includes(t.id)?'sel':''}" data-act="tone" data-val="${t.id}">${t.label}</button>`).join('')}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>03 · Ключевая мысль проекта</h3>
+    <textarea rows="3" data-field="briefNote"
+      placeholder="Одним предложением: что должен почувствовать человек, увидев бренд?">${esc(b.note)}</textarea>
+    <div class="muted small" style="margin-top:6px">${b.note.trim().length} символов (нужно ≥ 40)</div>
+  </div>
+
+  <div class="card">
+    <h3>04 · Ограничения заказчика </h3>
+    <div class="toggle-list">
+      ${items.map((item,i)=>`
+        <div class="toggle ${b.constraints.includes(i)?'on':''}" data-act="constraint" data-val="${i}">
+          <span class="box">${b.constraints.includes(i)?'✓':''}</span>
+          <span>${esc(item.text)}</span>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" data-act="submit" data-val="1">Сдать этап →</button>
+  </div>`;
+}
+
+function panelBrand(){
+  const cl = state.client, b = state.brand;
+  const customChips = session.customFonts.map(f=>`
+    <button class="chip ${b.headingFont===f.family?'sel':''}" data-act="hfont" data-val="${esc(f.family)}"
+      style="font-family:'${f.family}',sans-serif">${esc(f.family)} ★</button>`).join('');
+  const customChipsBody = session.customFonts.map(f=>`
+    <button class="chip ${b.bodyFont===f.family?'sel':''}" data-act="bfont" data-val="${esc(f.family)}"
+      style="font-family:'${f.family}',sans-serif">${esc(f.family)} ★</button>`).join('');
+
+  return `
+  <div class="card">
+    <h3>Название бренда <span class="hint">- придумайте своё</span></h3>
+    <input type="text" data-field="brandName" value="${esc(b.name)}" maxlength="24"
+      placeholder="Например, GREEN BYTE"/>
+    <div class="muted small" style="margin-top:6px">От 3 до 16 символов.</div>
+  </div>
+
+  <div class="card">
+    <h3>Форма логотипа</h3>
+    <div class="grid-4">
+      ${SHAPES.map(s=>`
+        <button class="tile ${b.shape===s.id?'sel':''}" data-act="shape" data-val="${s.id}">
+          <svg viewBox="0 0 24 24">${SHAPE_ICON[s.id]}</svg>
+          <span>${s.label}</span>
+        </button>`).join('')}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Графический знак</h3>
+    <div class="chips">
+      ${MARKS.map(m=>{
+        const forbidden = (cl.forbid.marks||[]).includes(m.id);
+        return `<button class="chip ${b.mark===m.id?'sel':''}" data-act="mark" data-val="${m.id}">
+          ${m.label}${forbidden?' ⚠':''}</button>`;
+      }).join('')}
+    </div>
+    <label class="fl" style="margin-top:16px">Безопасное поле: <b data-out="safeArea">${b.logo.safeArea}%</b></label>
+    <div class="slider-row">
+      <input type="range" min="0" max="30" value="${b.logo.safeArea}" data-field="safeArea"/>
+      <span class="slider-val">${b.logo.safeArea}%</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Свой SVG-логотип <span class="hint">- альтернатива конструктору</span></h3>
+    ${b.customLogo ? `
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:8px">
+        <div style="width:64px;height:64px;background:#0d1117;border:1px solid #26303d;border-radius:8px;display:grid;place-items:center;overflow:hidden;padding:4px;box-sizing:border-box">
+          ${currentLogoSVG(56)}
+        </div>
+        <div style="min-width:0;flex:1">
+          <div style="font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.customLogo.filename)}</div>
+          <div class="muted small">Загруженный SVG</div>
+        </div>
+        <button class="ghost small" data-act="clearCustomLogo">Убрать</button>
+      </div>
+    ` : `
+      <div class="actions" style="padding:0">
+        <button class="ghost" data-act="uploadSVG">Загрузить SVG</button>
+        <button class="ghost" data-act="pasteSVG">Вставить код</button>
+      </div>
+      <div class="muted small" style="margin-top:10px">SVG должен содержать viewBox. +2000 ₽ к смете.</div>
+    `}
+  </div>
+
+  <div class="card">
+    <h3>Цветовая палитра</h3>
+    <div class="grid-3" style="margin-bottom:14px">
+      ${PALETTES.map(p=>`
+        <div class="swatch-tile ${b.paletteId===p.id?'sel':''}" data-act="palette" data-val="${p.id}">
+          <div class="swatch-row">
+            <i style="background:${p.colors.primary}"></i>
+            <i style="background:${p.colors.secondary}"></i>
+            <i style="background:${p.colors.accent}"></i>
+            <i style="background:${p.colors.ink}"></i>
+            <i style="background:${p.colors.bg}"></i>
+          </div>
+          <div class="swatch-name">${p.name}</div>
+        </div>`).join('')}
+    </div>
+    <label class="fl">Точная настройка цветов</label>
+    <div class="color-inputs">
+      ${[['primary','Основной'],['secondary','Второй'],['accent','Акцент'],['ink','Текст'],['bg','Фон']]
+        .map(([k,label])=>`
+        <div class="color-cell">
+          <input type="color" value="${b.colors[k]}" data-field="color:${k}"/>
+          <span>${label}</span>
+          <span data-hex="${k}" style="font-family:monospace;color:#5f6d80">${b.colors[k]}</span>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Типографика</h3>
+    <label class="fl">Шрифт заголовков</label>
+    <div class="chips">
+      ${FONTS.map(f=>`<button class="chip ${b.headingFont===f.id?'sel':''}" data-act="hfont" data-val="${f.id}"
+        style="font-family:${f.css}">${f.label}</button>`).join('')}
+      ${customChips}
+      <button class="chip dashed" data-act="loadFont">+ Свой шрифт</button>
+    </div>
+    <label class="fl" style="margin-top:14px">Шрифт текста</label>
+    <div class="chips">
+      ${FONTS.map(f=>`<button class="chip ${b.bodyFont===f.id?'sel':''}" data-act="bfont" data-val="${f.id}"
+        style="font-family:${f.css}">${f.label}</button>`).join('')}
+      ${customChipsBody}
+      <button class="chip dashed" data-act="loadFont">+ Свой шрифт</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Параметры типографики</h3>
+    <label class="fl">Масштаб заголовков: <b data-out="headingScale">${b.typo.headingScale.toFixed(2)}</b></label>
+    <div class="slider-row">
+      <input type="range" min="1" max="2.4" step="0.05" value="${b.typo.headingScale}" data-field="headingScale"/>
+      <span class="slider-val">${b.typo.headingScale.toFixed(2)}</span>
+    </div>
+    <label class="fl">Интерлиньяж: <b data-out="lineHeight">${b.typo.lineHeight.toFixed(2)}</b></label>
+    <div class="slider-row">
+      <input type="range" min="1" max="2.5" step="0.05" value="${b.typo.lineHeight}" data-field="lineHeight"/>
+      <span class="slider-val">${b.typo.lineHeight.toFixed(2)}</span>
+    </div>
+    <label class="fl">Трекинг: <b data-out="headingLS">${b.typo.headingLS}</b> px</label>
+    <div class="slider-row">
+      <input type="range" min="-3" max="12" step="1" value="${b.typo.headingLS}" data-field="headingLS"/>
+      <span class="slider-val">${b.typo.headingLS}</span>
+    </div>
+    <label class="fl">Начертание</label>
+    <div class="chips">
+      ${[400,600,700,800,900].map(w=>`<button class="chip ${b.typo.headingWeight===w?'sel':''}" data-act="hweight" data-val="${w}">${w}</button>`).join('')}
+    </div>
+    <label class="fl">Регистр</label>
+    <div class="chips">
+      ${[['none','Как есть'],['uppercase','ВЕРХНИЙ']].map(([id,lb])=>`<button class="chip ${b.typo.headingTransform===id?'sel':''}" data-act="htransform" data-val="${id}">${lb}</button>`).join('')}
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" data-act="submit" data-val="2">Проверить фирменный стиль →</button>
+  </div>`;
+}
+
+function panelUI(){
+  const u = state.ui;
+  return `
+  <div class="card">
+    <h3>Тип продукта</h3>
+    <div class="grid-2">
+      <button class="opt ${u.type==='landing'?'sel':''}" data-act="uitype" data-val="landing">Лендинг (сайт)</button>
+      <button class="opt ${u.type==='app'?'sel':''}" data-act="uitype" data-val="app">Мобильное приложение</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Блоки интерфейса</h3>
+    <div class="toggle-list">
+      ${BLOCKS.map(bk=>`
+        <div class="toggle ${u.enabled[bk.id]?'on':''}" data-act="block" data-val="${bk.id}">
+          <span class="box">${u.enabled[bk.id]?'✓':''}</span>
+          <span>${bk.label}</span>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Настройки макета</h3>
+    <label class="fl">Базовый размер шрифта</label>
+    <div class="slider-row">
+      <input type="range" min="12" max="20" value="${u.fontScale}" data-field="fontScale"/>
+      <span class="slider-val" data-out="fontScale">${u.fontScale}px</span>
+    </div>
+    <label class="fl">Скругление углов</label>
+    <div class="slider-row">
+      <input type="range" min="0" max="32" value="${u.radius}" data-field="radius"/>
+      <span class="slider-val" data-out="radius">${u.radius}px</span>
+    </div>
+    <label class="fl">Плотность</label>
+    <div class="chips">
+      ${[['compact','Компактно'],['normal','Обычно'],['air','Воздушно']]
+        .map(([id,lb])=>`<button class="chip ${u.density===id?'sel':''}" data-act="density" data-val="${id}">${lb}</button>`).join('')}
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" data-act="submit" data-val="3">Проверить интерфейс →</button>
+  </div>`;
+}
+
+function panelAd(){
+  const a = state.ad;
+  return `
+  <div class="card">
+    <h3>Тексты рекламного макета <span class="hint">- напишите сами</span></h3>
+    <label class="fl">Заголовок (10–45)</label>
+    <input type="text" data-field="adHeadline" value="${esc(a.headline)}" maxlength="70" placeholder="Короткий и цепляющий"/>
+    <label class="fl">Подзаголовок (20–90)</label>
+    <input type="text" data-field="adSub" value="${esc(a.sub)}" maxlength="120" placeholder="Раскройте мысль"/>
+    <label class="fl">Призыв к действию (2–20)</label>
+    <input type="text" data-field="adCta" value="${esc(a.cta)}" maxlength="30" placeholder="Записаться"/>
+  </div>
+
+  <div class="card">
+    <h3>Носитель</h3>
+    <div class="grid-3">
+      ${[['poster','Плакат A3'],['story','Сторис 9:16'],['square','Пост 1:1']]
+        .map(([id,lb])=>`<button class="opt ${a.medium===id?'sel':''}" data-act="medium" data-val="${id}">${lb}</button>`).join('')}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Дополнительно</h3>
+    <div class="toggle ${a.showLogo?'on':''}" data-act="showLogo">
+      <span class="box">${a.showLogo?'✓':''}</span>
+      <span>Разместить логотип на макете</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" data-act="submit" data-val="4">Проверить рекламу →</button>
+  </div>`;
+}
+
+function panelFinal(){
+  const cl = state.client;
+  const total = [1,2,3,4,5].reduce((s,i)=>s+(state.scores[i]||0),0);
+  const pct = Math.round(total/250*100);
+  const meta = computeMeta();
+  const grade = pct>=90?5:pct>=75?4:pct>=60?3:2;
+
+  return `
+  <div class="card">
+    <div class="kicker">Итоговый проект · заказ #${state.orderNo}</div>
+    <h2>${esc(cl.name)}</h2>
+    <div class="muted">${esc(cl.sphere)}</div>
+    <div class="progress-line"><i style="width:${pct}%"></i></div>
+    <div class="muted small" style="margin-top:8px">Выполнено на ${pct}% (${total} из 250)</div>
+  </div>
+
+  <div class="card">
+    <h3>Результаты по этапам</h3>
+    <table class="res">
+      ${STAGES.map(st=>`
+        <tr><td>${st.n}. ${st.name}</td>
+        <td>${state.scores[st.n] != null ? state.scores[st.n]+' / 50' : '<span class="muted">-</span>'}</td></tr>`).join('')}
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Состояние проекта</h3>
+    <table class="res">
+      <tr><td>Бюджет клиента</td><td>${fmtMoney(meta.budget)}</td></tr>
+      <tr><td>Потрачено</td><td>${fmtMoney(meta.spend)}</td></tr>
+      <tr><td>Остаток</td><td>${fmtMoney(meta.remaining)}</td></tr>
+      <tr><td>Репутация</td><td>${meta.rep} / 100</td></tr>
+    </table>
+    ${meta.violations.length ? `<div style="margin-top:12px;display:grid;gap:6px">
+      ${meta.violations.map(v=>`<div class="violation">⚠ ${esc(v)}</div>`).join('')}
+    </div>` : `<div class="muted small" style="margin-top:12px">Нарушений нет</div>`}
+  </div>
+
+  <div class="card">
+    <h3>Защита проекта <span class="hint">- объясните решения (≥ 100)</span></h3>
+    <textarea rows="5" data-field="defense"
+      placeholder="Почему выбрана такая форма логотипа? Как палитра отражает аудиторию? Что в макете решает задачу клиента?">${esc(state.defense)}</textarea>
+    <div class="muted small" style="margin-top:6px">${state.defense.trim().length} символов</div>
+  </div>
+
+  <div class="card">
+    <h3>Экспорт</h3>
+    <div class="actions" style="padding:0">
+      <button class="ghost" data-act="exportBrandbookPDF">Брендбук PDF</button>
+      <button class="ghost" data-act="exportSVG">Брендборд SVG</button>
+      <button class="ghost" data-act="exportTXT">Отчёт .txt</button>
+    </div>
+  </div>
+
+    <div class="card" style="border-left:4px solid var(--accent);">
+    <h3 style="color:var(--accent);">Инструкция по сдаче проекта</h3>
+    <p class="muted small" style="margin-bottom:16px;">Перед тем как завершить работу, сохраните все файлы в ваш Git-репозиторий.</p>
+    
+    <div style="background:#0d1117; padding:16px; border-radius:8px; border:1px solid #30363d; margin-bottom:16px;">
+      <div style="margin-bottom:12px; font-weight:bold; color:#fff;">1. Создайте папку <code style="background:#30363d; padding:2px 6px; border-radius:4px; color:var(--accent);">02_DESIGN_STUDIO</code> в вашем репозиторие 
+IT_PROJECTS</div>
+      <div style="margin-bottom:12px; font-weight:bold; color:#fff;">2. Скачайте и положите в эту папку файлы:</div>
+      <ul style="margin:0 0 12px 20px; color:#8b949e; line-height:1.6; font-size:13px;">
+        <li>Брендбук (.pdf)</li>
+        <li>Брендборд (.svg)</li>
+        <li>Отчёт (.txt)</li>
+      </ul>
+      <div style="font-weight:bold; color:#fff;">3. Создайте файл <code style="background:#30363d; padding:2px 6px; border-radius:4px; color:var(--accent);">README.md</code> в этой папке, используя шаблон ниже:</div>
+    </div>
+
+    <div class="code-container" style="margin:0; background:#000; border:1px solid #30363d; border-radius:8px; overflow:hidden;">
+      <div class="code-header" style="display:flex; justify-content:space-between; align-items:center; padding:10px 15px; background:#161b22; border-bottom:1px solid #30363d;">
+        <span style="font-family:monospace; font-size:12px; color:#8b949e;">README.md</span>
+        <button class="ghost small" onclick="copyReadmeTemplate()" style="padding:4px 10px; font-size:11px; border-radius:4px;">Скопировать</button>
+      </div>
+      <pre style="margin:0; padding:20px; font-family:'Courier New', monospace; font-size:13px; color:#e6edf3; line-height:1.6; overflow-x:auto;"><code># 02_DESIGN_STUDIO
+
+&gt; **Дата:** ${new Date().toLocaleDateString('ru-RU')}  
+&gt; **Студент:** Ваши Фамилия и Имя
+
+## ОПИСАНИЕ
+Кратко опишите ваш проект: какой бренд разрабатывали, для какой аудитории, какую главную идею хотели передать.
+
+## БРЕНДБУК
+![Скриншот 1 страницы брендбука](./screenshot.png)
+
+## СОЗДАННЫЕ ФАЙЛЫ
+- brandbook.pdf — итоговая презентация (брендбук)
+- brandboard.svg — карточка фирменного стиля
+- report.txt — текстовый отчёт по этапам</code></pre>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" data-act="submit" data-val="5">Завершить и получить оценку →</button>
+  </div>
+
+  ${state.scores[5] != null ? `
+  <div class="grade-card">
+    <div class="grade-num">${grade}</div>
+    <div>
+      <h3 style="color:#fff;text-transform:none;letter-spacing:0;font-size:15px;margin-bottom:4px">
+        Итоговая оценка - ${grade} (${pct}%)</h3>
+      <div class="muted small">${grade===5?'Клиент принял проект без доработок.':
+        grade===4?'Небольшие замечания.':
+        grade===3?'Проект принят с правками.':
+        'Проект отправлен на переработку.'}</div>
+    </div>
+  </div>` : ''}`;
+}
+
+function renderPanel(){
+  if(!state){
+    $('#panel').innerHTML = `
+      <div class="welcome">
+        <h2>Добро пожаловать в DESIGN STUDIO</h2>
+        <p>Вы - дизайнер. Выберите проект клиента, чтобы начать. Все данные вводите сами: название бренда, тексты, ограничения.</p>
+        <button class="primary" data-act="showPicker">Выбрать проект →</button>
+      </div>`;
+    return;
+  }
+  const n = state.stage;
+  const el = $('#panel');
+  if(n===1) el.innerHTML = panelBrief();
+  else if(n===2) el.innerHTML = panelBrand();
+  else if(n===3) el.innerHTML = panelUI();
+  else if(n===4) el.innerHTML = panelAd();
+  else el.innerHTML = panelFinal();
+}
+
+/* =========================================================
+   ПРЕВЬЮ
+   ========================================================= */
+function renderPreviewTabs(){
+  document.querySelectorAll('.ptab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.tab === state.previewTab);
+  });
+}
+
+function previewLogo(){
+  const b = state.brand, c = b.colors;
+  const typo = b.typo;
+  return `
+  <div class="logo-showcase">
+    <div class="logo-big ${b.customLogo?'':'safe'}">${currentLogoSVG(180)}</div>
+    <div class="logo-sizes">
+      <div class="sz">${currentLogoSVG(64)}<span>64px</span></div>
+      <div class="sz">${currentLogoSVG(32)}<span>32px</span></div>
+      <div class="sz">${currentLogoSVG(16)}<span>16px</span></div>
+    </div>
+    <div class="pal-strip">
+      ${['primary','secondary','accent','ink','bg'].map(k=>`
+        <div style="background:${c[k]};color:${bestOn(c[k])}">${c[k].replace('#','')}</div>`).join('')}
+    </div>
+    <div class="type-sample">
+      <div style="font-family:${fontCss(b.headingFont)};font-size:${Math.round(30*typo.headingScale)}px;
+        line-height:${typo.lineHeight};letter-spacing:${typo.headingLS}px;font-weight:${typo.headingWeight};
+        text-transform:${typo.headingTransform};color:${c.ink};background:${c.bg};padding:12px;border-radius:10px;
+        word-break:break-word">
+        ${esc(b.name || 'Название бренда')}
+      </div>
+      <div class="tx" style="font-family:${fontCss(b.bodyFont)};line-height:${typo.lineHeight}">
+        ${fontLabel(b.headingFont)} + ${fontLabel(b.bodyFont)}
+      </div>
+    </div>
+  </div>`;
+}
+
+function previewCard(){
+  const b = state.brand, c = b.colors;
+  const onP = bestOn(c.primary);
+  const cl = state.client;
+  return `
+  <div class="bcard-wrap">
+    <div class="bcard" style="background:${c.primary};color:${onP}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="logo-box" style="width:44px;height:44px;background:${onP};border-radius:12px;padding:4px">
+          ${currentLogoSVG(36)}
+        </div>
+        <div style="font-size:10px;letter-spacing:.2em;opacity:.7;text-transform:uppercase">brand identity</div>
+      </div>
+      <div>
+        <div style="font-family:${fontCss(b.headingFont)};font-size:22px;font-weight:${b.typo.headingWeight};
+          line-height:1.1;letter-spacing:${b.typo.headingLS*0.5}px;text-transform:${b.typo.headingTransform}">
+          ${esc(b.name||'БРЕНД')}
+        </div>
+        <div style="font-family:${fontCss(b.bodyFont)};font-size:11px;opacity:.85;margin-top:6px;line-height:${b.typo.lineHeight}">
+          ${esc(cl.sphere)}
+        </div>
+      </div>
+    </div>
+    <div class="bcard" style="background:${c.bg};color:${c.ink}">
+      <div style="font-family:${fontCss(b.headingFont)};font-size:13px;font-weight:700">
+        ${esc(b.name||'БРЕНД')}
+      </div>
+      <div style="font-family:${fontCss(b.bodyFont)};font-size:11px;line-height:1.7">
+        hello@${(b.name||'brand').toLowerCase().replace(/[^a-z0-9]/g,'')}.ru<br/>
+        +7 (900) 000-00-00<br/>
+        <span style="color:${c.primary};font-weight:700">${(b.name||'brand').toLowerCase().replace(/[^a-z0-9]/g,'')}.ru</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function siteBlocks(scale = 1, isMobile = false){
+  const b = state.brand, c = b.colors, u = state.ui;
+  const onP = bestOn(c.primary), onA = bestOn(c.accent);
+  const pad = (u.density==='compact' ? 14 : u.density==='air' ? 34 : 22) * scale;
+  const gap = (u.density==='compact' ? 10 : u.density==='air' ? 26 : 18) * scale;
+  const R = u.radius * scale;
+  const headF = fontCss(b.headingFont), bodyF = fontCss(b.bodyFont);
+  const name = esc(b.name || 'БРЕНД');
+  const cl = state.client;
+  const fs = u.fontScale * scale;
+  const hw = b.typo.headingWeight;
+  const hScale = b.typo.headingScale;
+  const lh = b.typo.lineHeight;
+  const ht = b.typo.headingTransform;
+  const ls = b.typo.headingLS * scale * 0.5;
+  
+  // Если мобилка — 1 колонка, иначе 3
+  const gridCols = isMobile ? '1fr' : 'repeat(3,1fr)'; 
+
+  const parts = [];
+
+  if(u.enabled.header){
+    parts.push(`<div style="display:flex;align-items:center;justify-content:space-between;gap:${14*scale}px;padding:${pad}px;
+      border-bottom:1px solid rgba(0,0,0,.08);flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:${10*scale}px;">
+        <div class="lg" style="width:${26*scale}px;height:${26*scale}px;flex-shrink:0;">${currentLogoSVG(26*scale)}</div>
+        <b style="font-family:${headF};font-size:${fs*0.9}px;color:${c.ink};font-weight:${hw};text-transform:${ht};white-space:nowrap;">${name}</b>
+      </div>
+      <div style="display:flex;gap:${14*scale}px;font-family:${bodyF};
+        font-size:${fs*0.62}px;color:${c.ink};opacity:.75;flex-wrap:wrap;">
+        <span>Продукт</span><span>О нас</span><span>Контакты</span>
+      </div>
+    </div>`);
+  }
+
+  if(u.enabled.hero){
+     parts.push(`<div style="padding:${pad*1.9}px ${pad}px;background:linear-gradient(135deg, ${hexToRgba(c.primary, 0.08)}, ${hexToRgba(c.secondary, 0.05)});">
+      <div style="font-family:${headF};font-size:${fs*hScale}px;line-height:${lh};
+        color:${c.ink};font-weight:${hw};letter-spacing:${ls}px;text-transform:${ht};
+        overflow-wrap:anywhere;word-break:break-word;max-width:100%;">
+        ${esc(cl.adSample.headline)}</div>
+      <div style="font-family:${bodyF};font-size:${fs*0.72}px;color:${c.ink};opacity:.72;
+        margin-top:${10*scale}px;line-height:${lh};max-width:100%;
+        overflow-wrap:anywhere;word-break:break-word;">${esc(cl.adSample.sub)}</div>
+      <div style="display:flex;gap:${10*scale}px;margin-top:${16*scale}px;flex-wrap:wrap;">
+        <div style="background:${c.primary};color:${onP};padding:${9*scale}px ${18*scale}px;border-radius:${R}px;
+          font-family:${bodyF};font-size:${fs*0.68}px;font-weight:700;text-align:center;overflow-wrap:anywhere;">${esc(cl.adSample.cta)}</div>
+        <div style="border:1.5px solid ${c.primary};color:${c.primary};padding:${9*scale}px ${18*scale}px;border-radius:${R}px;
+          font-family:${bodyF};font-size:${fs*0.68}px;font-weight:700;text-align:center;overflow-wrap:anywhere;">Подробнее</div>
+      </div>
+    </div>`);
+  }
+
+  if(u.enabled.features){
+    parts.push(`<div style="padding:${pad}px;display:grid;grid-template-columns:${gridCols};gap:${gap}px">
+      ${[1,2,3].map(i=>`
+        <div style="background:${c.bg};border:1px solid ${c.primary}22;border-radius:${R}px;padding:${pad}px">
+          <div style="width:${22*scale}px;height:${22*scale}px;border-radius:${6*scale}px;background:${i===2?c.accent:c.primary};margin-bottom:${10*scale}px"></div>
+          <div style="font-family:${headF};font-size:${fs*0.7}px;color:${c.ink};font-weight:700">Блок ${i}</div>
+          <div style="font-family:${bodyF};font-size:${fs*0.6}px;color:${c.ink};opacity:.6;margin-top:${5*scale}px;line-height:${lh};overflow-wrap:anywhere;">
+            Короткое описание преимущества.</div>
+        </div>`).join('')}
+    </div>`);
+  }
+
+  if(u.enabled.gallery){
+    parts.push(`<div style="padding:0 ${pad}px ${pad}px;display:grid;grid-template-columns:${gridCols};gap:${gap}px">
+      ${[0,1,2].map(i=>`<div style="aspect-ratio:1/1;border-radius:${R}px;background:
+        linear-gradient(135deg,${[c.primary,c.secondary,c.accent][i]},${c.secondary}88)"></div>`).join('')}
+    </div>`);
+  }
+
+  if(u.enabled.pricing){
+    parts.push(`<div style="padding:${pad}px;display:grid;grid-template-columns:${gridCols};gap:${gap}px">
+      ${['Базовый','Оптимальный','Про'].map((t,i)=>`
+        <div style="border:1.5px solid ${i===1?c.primary:c.primary+'30'};border-radius:${R}px;padding:${pad}px;
+          background:${i===1?c.primary+'0d':'transparent'}">
+          <div style="font-family:${headF};font-size:${fs*0.66}px;color:${c.ink};font-weight:700">${t}</div>
+          <div style="font-family:${headF};font-size:${fs*1.1}px;color:${c.primary};margin-top:${6*scale}px">
+            ${(i+1)*990} ₽</div>
+        </div>`).join('')}
+    </div>`);
+  }
+
+  if(u.enabled.cta){
+    parts.push(`<div style="margin:0 ${pad}px ${pad}px;padding:${pad*1.3}px;border-radius:${R}px;
+      background:${c.primary};color:${onP};display:flex;align-items:center;gap:${14*scale}px;flex-wrap:wrap">
+      <div style="font-family:${headF};font-size:${fs*0.95}px;font-weight:800;line-height:${lh};">Готовы начать?</div>
+      <div style="margin-left:auto;background:${c.accent};color:${onA};padding:${9*scale}px ${18*scale}px;border-radius:${R}px;
+        font-family:${bodyF};font-size:${fs*0.66}px;font-weight:700;text-align:center;overflow-wrap:anywhere;">${esc(cl.adSample.cta)}</div>
+    </div>`);
+  }
+
+  if(u.enabled.footer){
+    parts.push(`<div style="background:${c.ink};color:${c.bg};padding:${pad}px;display:flex;gap:${18*scale}px;
+      font-family:${bodyF};font-size:${fs*0.6}px;opacity:.9;flex-wrap:wrap">
+      <b style="font-family:${headF}">${name}</b>
+      <span style="opacity:.6">© 2025</span>
+      <span style="margin-left:auto;opacity:.6">Политика конфиденциальности</span>
+    </div>`);
+  }
+
+  return parts.join('');
+}
+
+function previewSite(){
+  const u = state.ui;
+  // Передаем true, если выбран тип "Мобильное приложение"
+  const content = siteBlocks(1, u.type === 'app'); 
+  
+  if(u.type === 'app'){
+    return `<div style="display:grid;place-items:center">
+      <div style="width:310px;border-radius:34px;border:9px solid #0b0f14;background:#fff;
+        overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.5);max-height:560px">
+        <div style="height:22px;background:#0b0f14;display:grid;place-items:center">
+          <div style="width:70px;height:5px;border-radius:9px;background:#2a3543"></div>
+        </div>
+        <div style="overflow:auto;max-height:520px">${content}</div>
+      </div>
+    </div>`;
+  }
+  return `<div class="browser">
+    <div class="browser-bar"><i></i><i></i><i></i></div>
+    <div>${content}</div>
+  </div>`;
+}
+
+function previewPoster(){
+  const b = state.brand, c = b.colors, a = state.ad;
+  const bgMap = { brand: c.primary, dark: c.ink, light: c.bg };
+  const bg = bgMap[a.theme] || c.primary;
+  const onBg = bestOn(bg);
+  const onAccent = bestOn(c.accent);
+  const headF = fontCss(b.headingFont), bodyF = fontCss(b.bodyFont);
+  const medium = a.medium === 'story' ? 'story' : a.medium === 'square' ? 'square' : 'poster';
+
+  return `<div class="poster ${medium}" style="background:${bg};color:${onBg}">
+    <div style="position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;
+      background:${c.secondary};opacity:.35;filter:blur(2px)"></div>
+    <div style="padding:28px;display:flex;flex-direction:column;gap:16px;position:relative;z-index:2;
+      justify-content:center;height:100%">
+      ${a.showLogo ? `<div class="lg" style="width:52px;height:52px;border-radius:14px;background:${onBg};padding:4px;flex-shrink:0;">
+        ${currentLogoSVG(44)}</div>` : ''}
+      
+      <div style="font-family:${headF};font-size:${medium==='story'?30:32}px;line-height:${b.typo.lineHeight};
+        font-weight:${b.typo.headingWeight};letter-spacing:${b.typo.headingLS*0.5}px;
+        text-transform:${b.typo.headingTransform};overflow-wrap:anywhere;word-break:break-word;">
+        ${esc(a.headline || 'Заголовок рекламы')}</div>
+        
+      <div style="font-family:${bodyF};font-size:13px;line-height:${b.typo.lineHeight};opacity:.82;max-width:92%;
+        overflow-wrap:anywhere;word-break:break-word;">
+        ${esc(a.sub || 'Подзаголовок, который раскрывает мысль')}</div>
+        
+      <div style="align-self:flex-start;background:${c.accent};color:${onAccent};padding:11px 22px;
+        border-radius:999px;font-family:${bodyF};font-size:13px;font-weight:800;margin-top:4px;text-align:center;
+        overflow-wrap:anywhere;">
+        ${esc(a.cta || 'Призыв')}</div>
+        
+      <div style="margin-top:auto;padding-top:18px;font-family:${bodyF};font-size:10px;
+        letter-spacing:.22em;text-transform:uppercase;opacity:.6">
+        ${esc(b.name || 'brand')}</div>
+    </div>
+  </div>`;
+}
+
+function renderPreview(){
+  if(!state){
+    $('#previewStage').innerHTML = `<div class="muted" style="text-align:center;padding:40px 20px">Выберите проект, чтобы увидеть превью</div>`;
+    return;
+  }
+  renderPreviewTabs();
+  const t = state.previewTab;
+  const el = $('#previewStage');
+  if(t==='logo') el.innerHTML = previewLogo();
+  else if(t==='card') el.innerHTML = previewCard();
+  else if(t==='site') el.innerHTML = previewSite();
+  else el.innerHTML = previewPoster();
+}
+
+function renderAll(){
+  renderHeader();
+  if(state){
+    renderSteps();
+  } else {
+    $('#steps').innerHTML = '';
+  }
+  renderPanel();
+  renderPreview();
+}
+
+/* =========================================================
+   ВЫБОР ПРОЕКТА
+   ========================================================= */
+function showClientPicker(){
+  const cards = CLIENTS.map(cl => `
+    <div class="client-card" data-pick="${cl.id}">
+      <div class="client-name">${esc(cl.name)}</div>
+      <div class="client-sphere">${esc(cl.sphere)}</div>
+      <div class="client-meta">
+        <span>${fmtMoney(cl.budget)}</span>
+        <!--<span>${esc(cl.deadline)}</span>-->
+      </div>
+      <div class="client-tags">
+        ${cl.tones.map(t=>`<span class="tag">${toneLabel(t)}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  $('#modal').innerHTML = `
+    <div class="modal-card wide">
+      <div class="kicker">DESIGN STUDIO · практикум</div>
+      <h2>Выберите проект</h2>
+      <p class="muted">У каждого клиента свои задачи, аудитория и ограничения. Внимательно прочитайте бриф - от него зависит оценка.</p>
+      <div class="client-grid">${cards}</div>
+    </div>`;
+  $('#modal').classList.add('open');
+}
+
+function pickClient(clientId){
+  const cl = CLIENTS.find(c => c.id === clientId);
+  if(!cl) return;
+  state = makeOrder(cl);
+  session.attempts = {};
+  session.spentExtra = 0;
+  session.repPenalty = 0;
+  closeModal();
+  renderAll();
+}
+
+/* =========================================================
+   МОДАЛКИ
+   ========================================================= */
+function closeModal(){
+  const m = $('#modal');
+  m.classList.remove('open');
+  m.innerHTML = '';
+}
+
+function openFontModal(){
+  $('#modal').innerHTML = `
+    <div class="modal-card">
+      <div class="kicker">Свой шрифт · +3000 ₽ к смете</div>
+      <h2>Загрузить шрифт</h2>
+      <div class="modal-note">
+        Загрузите <b>.ttf / .otf / .woff / .woff2</b> или укажите ссылку на CSS
+        (например, Google Fonts). Убедитесь, что у вас есть право использовать шрифт.
+      </div>
+      <label class="fl">Файл шрифта</label>
+      <input type="file" id="fontFileInput" accept=".ttf,.otf,.woff,.woff2,font/*"/>
+      <label class="fl" style="margin-top:16px">… или ссылка на CSS</label>
+      <input type="text" id="fontUrlInput"
+        placeholder="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"/>
+      <label class="fl" style="margin-top:16px">Название шрифта</label>
+      <input type="text" id="fontNameInput" placeholder="Например, Montserrat"/>
+      <div class="modal-actions" style="margin-top:20px">
+        <button class="ghost" data-mact="close">Отмена</button>
+        <button class="primary" data-mact="loadFont">Загрузить</button>
+      </div>
+    </div>`;
+  $('#modal').classList.add('open');
+}
+
+async function doLoadFont(){
+  const fileInput = document.getElementById('fontFileInput');
+  const urlInput = document.getElementById('fontUrlInput');
+  const nameInput = document.getElementById('fontNameInput');
+  try {
+    if(fileInput.files && fileInput.files[0]){
+      const file = fileInput.files[0];
+      const name = (nameInput.value.trim() || file.name.replace(/\.[^.]+$/, ''));
+      await addFileFont(file, name);
+      toast('Шрифт «' + name + '» загружен');
+      closeModal(); renderAll();
+    } else if(urlInput.value.trim()){
+      const family = await addUrlFont(urlInput.value.trim());
+      toast('Шрифт «' + family + '» подключён');
+      closeModal(); renderAll();
+    } else {
+      toast('Выберите файл или укажите ссылку');
+    }
+  } catch(e){
+    console.error(e);
+    toast('Ошибка: ' + (e.message || 'не удалось загрузить шрифт'));
+  }
+}
+
+function openSVGPasteModal(){
+  $('#modal').innerHTML = `
+    <div class="modal-card">
+      <div class="kicker">Свой SVG-логотип · +2000 ₽</div>
+      <h2>Вставьте SVG-код</h2>
+      <div class="modal-note">
+        SVG должен содержать <b>viewBox</b>. Скрипты и внешние ссылки будут удалены.
+      </div>
+      <textarea id="svgCodeInput" rows="10" placeholder='&lt;svg viewBox="0 0 100 100"&gt;...&lt;/svg&gt;'
+        style="width:100%;font-family:monospace;font-size:12px"></textarea>
+      <div class="modal-actions" style="margin-top:16px">
+        <button class="ghost" data-mact="close">Отмена</button>
+        <button class="primary" data-mact="pasteSVG">Применить</button>
+      </div>
+    </div>`;
+  $('#modal').classList.add('open');
+}
+
+function doPasteSVG(){
+  const ta = document.getElementById('svgCodeInput');
+  if(!ta || !ta.value.trim()){ toast('Вставьте код SVG'); return; }
+  const clean = sanitizeSVG(ta.value.trim());
+  if(!clean){ toast('Не удалось прочитать SVG'); return; }
+  state.brand.customLogo = {svg: clean, filename: 'pasted.svg'};
+  closeModal(); renderAll();
+  toast('SVG-логотип применён');
+}
+
+function openSVGUpload(){
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.svg,image/svg+xml';
+  input.onchange = async () => {
+    const file = input.files && input.files[0];
+    if(!file) return;
+    const text = await file.text();
+    const clean = sanitizeSVG(text);
+    if(!clean){ toast('Файл не является корректным SVG'); return; }
+    state.brand.customLogo = {svg: clean, filename: file.name};
+    renderAll();
+    toast('Логотип «' + file.name + '» применён');
+  };
+  input.click();
+}
+
+function showResult(n, res){
+  $('#modal').innerHTML = `
+    <div class="modal-card">
+      <div class="kicker">Этап ${n} · ${STAGES[n-1].name}</div>
+      <h2>${res.pts} / 50 баллов</h2>
+      <ul class="checks">
+        ${res.checks.map(ch=>`
+          <li class="${ch.ok?'ok':'bad'}">
+            <span class="ic">${ch.ok?'✓':'✕'}</span>
+            <span>${esc(ch.text)}</span>
+            <span class="pts">+${ch.pts}</span>
+          </li>`).join('')}
+      </ul>
+      <div class="modal-actions">
+        <button class="ghost" data-mact="close">Остаться на этапе</button>
+        <button class="primary" data-mact="next" data-val="${n}">
+          ${n<5 ? 'Следующий этап →' : 'К итогу →'}
+        </button>
+      </div>
+    </div>`;
+  $('#modal').classList.add('open');
+}
+
+/* =========================================================
+   ДЕЙСТВИЯ
+   ========================================================= */
+function toast(msg, opts){
+  const t = $('#toast');
+  const dur = (opts && opts.duration) || 2400;
+  t.innerHTML = (opts && opts.spinner ? '<span class="spinner"></span>' : '') + esc(msg);
+  t.classList.add('show');
+  clearTimeout(t._tm);
+  if(dur !== Infinity) t._tm = setTimeout(()=>t.classList.remove('show'), dur);
+}
+function hideToast(){
+  const t = $('#toast');
+  t.classList.remove('show');
+}
+
+function goToStage(n){
+  if(!state || n > state.maxStage) return;
+  state.stage = n;
+  if(n===2) state.previewTab = 'logo';
+  if(n===3) state.previewTab = 'site';
+  if(n===4) state.previewTab = 'poster';
+  if(n===5) state.previewTab = 'card';
+  renderAll();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function handleAction(act, val){
+  if(act === 'showPicker'){ showClientPicker(); return; }
+  if(!state) return;
+  const b = state.brand, br = state.brief, u = state.ui, a = state.ad;
+
+  switch(act){
+    case 'audience': br.audience = Number(val); renderAll(); break;
+    case 'tone': {
+      const i = br.tones.indexOf(val);
+      if(i >= 0) br.tones.splice(i,1);
+      else {
+        if(br.tones.length >= 3){ toast('Не более 3 качеств'); return; }
+        br.tones.push(val);
+      }
+      renderAll(); break;
+    }
+    case 'constraint': {
+      const i = Number(val);
+      const k = br.constraints.indexOf(i);
+      if(k >= 0) br.constraints.splice(k,1); else br.constraints.push(i);
+      renderAll(); break;
+    }
+    case 'shape': b.shape = val; renderAll(); break;
+    case 'mark': b.mark = val; renderAll(); break;
+    case 'palette': {
+      const p = PALETTES.find(x=>x.id===val);
+      if(p){ b.paletteId = p.id; b.colors = Object.assign({}, p.colors); }
+      renderAll(); break;
+    }
+    case 'hfont': b.headingFont = val; renderAll(); break;
+    case 'bfont': b.bodyFont = val; renderAll(); break;
+    case 'hweight': b.typo.headingWeight = Number(val); renderAll(); break;
+    case 'htransform': b.typo.headingTransform = val; renderAll(); break;
+    case 'loadFont': openFontModal(); break;
+    case 'uploadSVG': openSVGUpload(); break;
+    case 'pasteSVG': openSVGPasteModal(); break;
+    case 'clearCustomLogo': b.customLogo = null; renderAll(); break;
+    case 'uitype': u.type = val; renderAll(); break;
+    case 'block': u.enabled[val] = !u.enabled[val]; renderAll(); break;
+    case 'density': u.density = val; renderAll(); break;
+    case 'medium': a.medium = val; renderAll(); break;
+    case 'showLogo': a.showLogo = !a.showLogo; renderAll(); break;
+    case 'submit': submitStage(Number(val)); break;
+    case 'exportSVG': exportBrandboardSVG(); break;
+    case 'exportBrandbookPDF': exportBrandbookPDF(); break;
+    case 'exportTXT': exportReport(); break;
+  }
+}
+
+function handleField(field, value){
+  if(!state) return;
+  if(field === 'briefNote'){ state.brief.note = value; }
+  else if(field === 'brandName'){ state.brand.name = value; renderPreview(); }
+  else if(field === 'adHeadline'){ state.ad.headline = value; renderPreview(); }
+  else if(field === 'adSub'){ state.ad.sub = value; renderPreview(); }
+  else if(field === 'adCta'){ state.ad.cta = value; renderPreview(); }
+  else if(field === 'defense'){ state.defense = value; }
+  else if(field.startsWith('color:')){
+    const k = field.split(':')[1];
+    state.brand.colors[k] = value;
+    document.querySelectorAll('[data-hex="'+k+'"]').forEach(e=>e.textContent = value);
+    renderPreview(); renderHeader();
+  }
+  else if(field === 'fontScale' || field === 'radius'){
+    state.ui[field] = Number(value);
+    const out = document.querySelector('[data-out="'+field+'"]');
+    if(out) out.textContent = value + 'px';
+    renderPreview();
+  }
+  else if(field === 'safeArea'){
+    state.brand.logo.safeArea = Number(value);
+    const out = document.querySelector('[data-out="safeArea"]');
+    if(out) out.textContent = value + '%';
+    renderPreview();
+  }
+  else if(field === 'headingScale'){
+    state.brand.typo.headingScale = Number(value);
+    const out = document.querySelector('[data-out="headingScale"]');
+    if(out) out.textContent = Number(value).toFixed(2);
+    renderPreview();
+  }
+  else if(field === 'lineHeight'){
+    state.brand.typo.lineHeight = Number(value);
+    const out = document.querySelector('[data-out="lineHeight"]');
+    if(out) out.textContent = Number(value).toFixed(2);
+    renderPreview();
+  }
+  else if(field === 'headingLS'){
+    state.brand.typo.headingLS = Number(value);
+    const out = document.querySelector('[data-out="headingLS"]');
+    if(out) out.textContent = value;
+    renderPreview();
+  }
+}
+
+function submitStage(n){
+  const prev = state.scores[n];
+  if(prev != null){
+    session.spentExtra += 1500;
+    session.repPenalty += 2;
+    session.attempts[n] = (session.attempts[n] || 1) + 1;
+  } else {
+    session.attempts[n] = 1;
+  }
+  const res = evaluate(n);
+  state.scores[n] = Math.max(prev || 0, res.pts);
+  if(n + 1 > state.maxStage) state.maxStage = n + 1;
+  showResult(n, res);
+  renderAll();
+}
+
+/* =========================================================
+   ЭКСПОРТ SVG
+   ========================================================= */
+function download(filename, content, type){
+  const blob = new Blob([content], {type: type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+}
+
+function exportBrandboardSVG(){
+  const b = state.brand, c = b.colors, cl = state.client;
+  const name = esc(b.name || 'БРЕНД');
+  const W = 1000, H = 720;
+  const swatches = ['primary','secondary','accent','ink','bg'];
+  const logoXML = b.customLogo
+    ? `<image x="60" y="120" width="180" height="180" href="${svgToDataUrl(b.customLogo.svg)}"/>`
+    : `<svg x="60" y="120" width="180" height="180" viewBox="0 0 100 100">${logoMarkup()}</svg>`;
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+  <rect width="${W}" height="${H}" fill="${c.bg}"/>
+  <rect x="0" y="0" width="${W}" height="6" fill="${c.primary}"/>
+  <text x="60" y="66" font-family="Arial" font-size="13" letter-spacing="4" fill="${c.primary}">
+    BRAND BOARD · ${esc(cl.name)}</text>
+  <line x1="60" y1="82" x2="${W-60}" y2="82" stroke="${c.ink}" stroke-opacity="0.15"/>
+  ${logoXML}
+  <text x="280" y="180" font-family="Arial" font-size="52" font-weight="bold" fill="${c.ink}">${name}</text>
+  <text x="280" y="218" font-family="Arial" font-size="16" fill="${c.ink}" opacity="0.65">${esc(cl.sphere)}</text>
+  <text x="280" y="252" font-family="Arial" font-size="13" fill="${c.ink}" opacity="0.5">
+    ${fontLabel(b.headingFont)} / ${fontLabel(b.bodyFont)}</text>
+  <text x="60" y="360" font-family="Arial" font-size="13" letter-spacing="3" fill="${c.ink}" opacity="0.55">ПАЛИТРА</text>
+  ${swatches.map((k,i)=>{
+    const x = 60 + i*176;
+    const on = bestOn(c[k]);
+    return `<rect x="${x}" y="380" width="160" height="96" rx="12" fill="${c[k]}"/>
+    <text x="${x+14}" y="456" font-family="Arial" font-size="12" fill="${on}">${c[k].toUpperCase()}</text>`;
+  }).join('')}
+  <text x="60" y="536" font-family="Arial" font-size="13" letter-spacing="3" fill="${c.ink}" opacity="0.55">ТИПОГРАФИКА</text>
+  <rect x="60" y="552" width="880" height="110" rx="14" fill="${c.ink}" opacity="0.06"/>
+  <text x="84" y="606" font-family="Arial" font-size="34" font-weight="bold" fill="${c.ink}">
+    ${name} - Aa Бб Вв</text>
+  <text x="84" y="638" font-family="Arial" font-size="14" fill="${c.ink}" opacity="0.6">
+    ${fontLabel(b.headingFont)} - заголовки; ${fontLabel(b.bodyFont)} - текст.</text>
+  <text x="60" y="700" font-family="Arial" font-size="11" fill="${c.ink}" opacity="0.4">
+    DESIGN STUDIO · заказ #${state.orderNo}</text>
+</svg>`;
+
+  download('brandboard-' + (b.name||'brand').toLowerCase().replace(/[^a-z0-9]/gi,'') + '.svg',
+           svg, 'image/svg+xml');
+  toast('Брендборд SVG скачан');
+}
+
+/* =========================================================
+   PDF БРЕНДБУК (1980×1080, презентация)
+   ========================================================= */
+function slideWrap(inner, bg){
+  return `<div style="width:1980px; height:1080px; position:relative; overflow:hidden;
+    background:${bg}; box-sizing:border-box; font-family:Arial,Helvetica,sans-serif; color:#111;">
+    ${inner}
+  </div>`;
+}
+
+function pdfLogoImg(size){
+  return `<img src="${logoImgSrc()}" style="width:${size}px; height:${size}px; object-fit:contain; display:block;"/>`;
+}
+
+function buildBrandbookSlides(){
+  const b = state.brand, c = b.colors, cl = state.client, meta = computeMeta();
+  const total = [1,2,3,4,5].reduce((s,i)=>s+(state.scores[i]||0),0);
+  const pct = Math.round(total/250*100);
+  const grade = pct>=90?5:pct>=75?4:pct>=60?3:2;
+  const onP = bestOn(c.primary);
+  const onBg = bestOn(c.bg);
+  const onInk = bestOn(c.ink);
+
+  const slides = [];
+
+  // 1. COVER
+  slides.push(slideWrap(`
+    <div style="position:absolute; inset:0; background:linear-gradient(135deg, ${c.primary} 0%, ${c.secondary} 100%);"></div>
+    <div style="position:relative; width:100%; height:100%; display:flex; flex-direction:column;
+      justify-content:center; align-items:center; padding:120px; text-align:center;">
+      <div style="width:340px; height:340px; background:rgba(255,255,255,0.12); border-radius:80px;
+        padding:60px; box-sizing:border-box; margin-bottom:60px;">${pdfLogoImg(220)}</div>
+      <h1 style="font-family:${fontCss(b.headingFont)}; font-size:140px; color:#fff; margin:0;
+        font-weight:${b.typo.headingWeight}; text-transform:${b.typo.headingTransform};
+        letter-spacing:${b.typo.headingLS*2}px; line-height:1.05;">
+        ${esc(b.name||'БРЕНД')}
+      </h1>
+      <p style="font-family:${fontCss(b.bodyFont)}; font-size:32px; color:rgba(255,255,255,0.85);
+        margin-top:36px; max-width:1400px; line-height:1.4;">
+        ${esc(cl.sphere)}
+      </p>
+    </div>
+    <div style="position:absolute; bottom:60px; left:0; right:0; display:flex; justify-content:center;
+      gap:80px; font-family:${fontCss(b.bodyFont)}; font-size:22px; color:rgba(255,255,255,0.7);">
+      <span>Клиент: ${esc(cl.name)}</span>
+      <span>Заказ #${state.orderNo}</span>
+      <span>${new Date().toLocaleDateString('ru-RU')}</span>
+    </div>
+  `, c.primary));
+
+  // 2. STRATEGY
+  slides.push(slideWrap(`
+    <div style="padding:100px 120px; height:100%; display:flex; flex-direction:column; box-sizing:border-box;">
+      <div style="font-family:Arial; font-size:20px; letter-spacing:6px; color:${c.primary};
+        text-transform:uppercase; margin-bottom:20px;">Брендбук · ${esc(cl.name)}</div>
+      <h2 style="font-family:${fontCss(b.headingFont)}; font-size:96px; margin:0 0 60px;
+        color:${c.ink}; font-weight:${b.typo.headingWeight}; line-height:1.05;">
+        Стратегия бренда
+      </h2>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:80px; flex:1;">
+        <div>
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 24px;">Клиент</h3>
+          <p style="font-family:${fontCss(b.bodyFont)}; font-size:26px; line-height:1.6;
+            color:${c.ink}; margin:0 0 16px;"><b>${esc(cl.name)}</b></p>
+          <p style="font-family:${fontCss(b.bodyFont)}; font-size:22px; line-height:1.6;
+            color:${c.ink}; opacity:.75; margin:0 0 40px;">${esc(cl.sphere)}</p>
+
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 24px;">Аудитория</h3>
+          <p style="font-family:${fontCss(b.bodyFont)}; font-size:22px; line-height:1.6;
+            color:${c.ink}; margin:0 0 40px;">
+            ${state.brief.audience!=null ? esc(cl.audienceOptions[state.brief.audience]) : '-'}
+          </p>
+
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 24px;">Характер</h3>
+          <p style="font-family:${fontCss(b.bodyFont)}; font-size:22px; line-height:1.6;
+            color:${c.ink}; margin:0;">
+            ${state.brief.tones.length ? esc(state.brief.tones.map(toneLabel).join(' · ')) : '-'}
+          </p>
+        </div>
+        <div>
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 24px;">Ключевая мысль</h3>
+          <p style="font-family:${fontCss(b.headingFont)}; font-size:32px; line-height:1.4;
+            color:${c.ink}; font-weight:600; margin:0 0 40px;">
+            ${esc(state.brief.note||'-')}
+          </p>
+
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 24px;">Бюджет и сроки</h3>
+          <p style="font-family:${fontCss(b.bodyFont)}; font-size:22px; line-height:1.6;
+            color:${c.ink}; margin:0;">
+            Бюджет: <b>${fmtMoney(cl.budget)}</b><br>
+            Срок: <b>${esc(cl.deadline)}</b>
+          </p>
+        </div>
+      </div>
+    </div>
+  `, c.bg));
+
+  // 3. LOGO
+  slides.push(slideWrap(`
+    <div style="padding:100px 120px; height:100%; display:flex; flex-direction:column; box-sizing:border-box;">
+      <div style="font-family:Arial; font-size:20px; letter-spacing:6px; color:${c.primary};
+        text-transform:uppercase; margin-bottom:20px;">Брендбук · ${esc(cl.name)}</div>
+      <h2 style="font-family:${fontCss(b.headingFont)}; font-size:96px; margin:0 0 60px;
+        color:${c.ink}; font-weight:${b.typo.headingWeight}; line-height:1.05;">
+        Логотип
+      </h2>
+      <div style="display:flex; gap:80px; flex:1; align-items:center;">
+        <div style="flex:1; display:flex; justify-content:center;">
+          <div style="width:640px; height:640px; background:${c.bg}; border-radius:40px;
+            padding:60px; box-sizing:border-box; box-shadow:0 30px 80px rgba(0,0,0,0.15);">
+            ${pdfLogoImg(520)}
+          </div>
+        </div>
+        <div style="flex:1;">
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 24px;">Версии</h3>
+          <div style="display:flex; gap:40px; align-items:flex-end; margin-bottom:60px;">
+            <div style="text-align:center;">
+              <div style="width:200px; height:200px; background:${c.bg}; border-radius:20px;
+                padding:20px; box-sizing:border-box; margin-bottom:16px;">${pdfLogoImg(160)}</div>
+              <div style="font-family:Arial; font-size:16px; color:${c.ink}; opacity:.7;">основная</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width:140px; height:140px; background:${c.ink}; border-radius:16px;
+                padding:16px; box-sizing:border-box; margin-bottom:16px;">${pdfLogoImg(108)}</div>
+              <div style="font-family:Arial; font-size:16px; color:${c.ink}; opacity:.7;">на тёмном</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width:88px; height:88px; background:${c.bg}; border-radius:12px;
+                padding:10px; box-sizing:border-box; margin-bottom:16px;">${pdfLogoImg(68)}</div>
+              <div style="font-family:Arial; font-size:16px; color:${c.ink}; opacity:.7;">минимум</div>
+            </div>
+          </div>
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 16px;">Параметры</h3>
+          <p style="font-family:${fontCss(b.bodyFont)}; font-size:20px; line-height:1.7;
+            color:${c.ink}; opacity:.8;">
+            ${b.customLogo ? 'Источник: загруженный SVG' : 'Источник: конструктор'}<br>
+            Форма: ${SHAPES.find(s=>s.id===b.shape)?.label || '-'}<br>
+            Знак: ${MARKS.find(m=>m.id===b.mark)?.label || '-'}<br>
+            Безопасное поле: ${b.logo.safeArea}%
+          </p>
+        </div>
+      </div>
+    </div>
+  `, c.bg));
+
+  // 4. COLORS
+  const swatches = ['primary','secondary','accent','ink','bg'].map(k => {
+    const rgb = hex2rgb(c[k]);
+    return `<div style="border-radius:20px; padding:32px; height:280px; box-sizing:border-box;
+      display:flex; flex-direction:column; justify-content:flex-end; background:${c[k]}; color:${bestOn(c[k])};">
+      <div style="font-family:Arial; font-size:16px; letter-spacing:4px; text-transform:uppercase;
+        opacity:.8; margin-bottom:12px;">${k}</div>
+      <div style="font-family:monospace; font-size:32px; font-weight:700;">${c[k].toUpperCase()}</div>
+      <div style="font-family:monospace; font-size:18px; opacity:.75; margin-top:6px;">RGB ${rgb.join(' · ')}</div>
+    </div>`;
+  }).join('');
+
+  slides.push(slideWrap(`
+    <div style="padding:100px 120px; height:100%; display:flex; flex-direction:column; box-sizing:border-box;">
+      <div style="font-family:Arial; font-size:20px; letter-spacing:6px; color:${c.primary};
+        text-transform:uppercase; margin-bottom:20px;">Брендбук · ${esc(cl.name)}</div>
+      <h2 style="font-family:${fontCss(b.headingFont)}; font-size:96px; margin:0 0 60px;
+        color:${c.ink}; font-weight:${b.typo.headingWeight}; line-height:1.05;">
+        Цвета
+      </h2>
+      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:24px; margin-bottom:60px;">
+        ${swatches}
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:80px;">
+        <div>
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 16px;">Контраст</h3>
+          <table style="width:100%; font-family:${fontCss(b.bodyFont)}; font-size:22px; color:${c.ink};">
+            <tr><td style="padding:8px 0;">Текст на фоне</td>
+              <td style="text-align:right; font-variant-numeric:tabular-nums;">${contrast(c.ink, c.bg).toFixed(2)} : 1</td></tr>
+            <tr><td style="padding:8px 0;">Акцент на основном</td>
+              <td style="text-align:right; font-variant-numeric:tabular-nums;">${contrast(c.accent, c.primary).toFixed(2)} : 1</td></tr>
+            <tr><td style="padding:8px 0;">Белый на основном</td>
+              <td style="text-align:right; font-variant-numeric:tabular-nums;">${contrast('#ffffff', c.primary).toFixed(2)} : 1</td></tr>
+          </table>
+        </div>
+        <div>
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 16px;">Правила</h3>
+          <p style="font-family:${fontCss(b.bodyFont)}; font-size:20px; line-height:1.6;
+            color:${c.ink}; opacity:.8; margin:0;">
+            Основной - для кнопок и ключевых акцентов. Второй - для фоновых подложек.
+            Акцент - для мелких важных деталей. Текст - только на нейтральном фоне.
+          </p>
+        </div>
+      </div>
+    </div>
+  `, c.bg));
+
+  // 5. TYPOGRAPHY
+  slides.push(slideWrap(`
+    <div style="padding:100px 120px; height:100%; display:flex; flex-direction:column; box-sizing:border-box;">
+      <div style="font-family:Arial; font-size:20px; letter-spacing:6px; color:${c.primary};
+        text-transform:uppercase; margin-bottom:20px;">Брендбук · ${esc(cl.name)}</div>
+      <h2 style="font-family:${fontCss(b.headingFont)}; font-size:96px; margin:0 0 60px;
+        color:${c.ink}; font-weight:${b.typo.headingWeight}; line-height:1.05;">
+        Типографика
+      </h2>
+      <div style="background:${c.bg}; border-radius:24px; padding:60px; margin-bottom:32px;">
+        <div style="font-family:${fontCss(b.headingFont)}; font-size:72px; color:${c.ink};
+          font-weight:${b.typo.headingWeight}; text-transform:${b.typo.headingTransform};
+          letter-spacing:${b.typo.headingLS*1.5}px; line-height:${b.typo.lineHeight};">
+          ${esc(b.name||'Бренд')} - заголовок
+        </div>
+        <div style="font-family:Arial; font-size:18px; color:${c.ink}; opacity:.55; margin-top:24px;">
+          ${fontLabel(b.headingFont)} · ${b.typo.headingWeight} · ${b.typo.headingLS}px
+        </div>
+      </div>
+      <div style="background:${c.bg}; border-radius:24px; padding:60px;">
+        <div style="font-family:${fontCss(b.bodyFont)}; font-size:26px; color:${c.ink};
+          line-height:${b.typo.lineHeight};">
+          Основной текст. Здесь показываем, как выглядит абзац: длина строки 60–75 символов,
+          интерлиньяж ${b.typo.lineHeight.toFixed(2)} - комфортно для чтения. Смешиваем заглавные
+          и строчные, проверяем пунктуацию, цифры 0123456789 и знаки « » - ₽ №.
+        </div>
+        <div style="font-family:Arial; font-size:18px; color:${c.ink}; opacity:.55; margin-top:24px;">
+          ${fontLabel(b.bodyFont)} · интерлиньяж ${b.typo.lineHeight.toFixed(2)}
+        </div>
+      </div>
+    </div>
+  `, c.bg));
+
+  // 6. APPLICATION - WEBSITE
+  slides.push(slideWrap(`
+    <div style="padding:100px 120px; height:100%; display:flex; flex-direction:column; box-sizing:border-box;">
+      <div style="font-family:Arial; font-size:20px; letter-spacing:6px; color:${c.primary};
+        text-transform:uppercase; margin-bottom:20px;">Брендбук · ${esc(cl.name)}</div>
+      <h2 style="font-family:${fontCss(b.headingFont)}; font-size:96px; margin:0 0 60px;
+        color:${c.ink}; font-weight:${b.typo.headingWeight}; line-height:1.05;">
+        Применение: Сайт
+      </h2>
+      <div style="display:flex; gap:60px; flex:1; align-items:flex-start;">
+        <div style="flex:2;">
+          <div style="font-family:Arial; font-size:16px; letter-spacing:3px; color:${c.primary}; text-transform:uppercase; margin-bottom:16px;">Desktop</div>
+          <div style="border-radius:16px; overflow:hidden; border:1px solid #ddd; background:#fff;">
+             <div style="padding:12px 20px; background:#1b232e; border-bottom:1px solid #26303d;"><i style="width:10px;height:10px;border-radius:50%;background:#3b4a5e;display:inline-block;margin-right:6px;"></i><i style="width:10px;height:10px;border-radius:50%;background:#3b4a5e;display:inline-block;margin-right:6px;"></i><i style="width:10px;height:10px;border-radius:50%;background:#3b4a5e;display:inline-block;"></i></div>
+             <div style="width:100%; transform:scale(0.85); transform-origin:top left; width:117%;">
+               ${siteBlocks(1.2, false)}
+             </div>
+          </div>
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center;">
+          <div style="font-family:Arial; font-size:16px; letter-spacing:3px; color:${c.primary}; text-transform:uppercase; margin-bottom:16px; align-self:flex-start;">Mobile</div>
+          <div style="width:360px; border-radius:48px; border:12px solid #0b0f14; background:#fff; overflow:hidden;">
+            <div style="height:28px; background:#0b0f14; display:grid; place-items:center;"><div style="width:100px; height:6px; border-radius:9px; background:#2a3543"></div></div>
+            <div style="overflow:hidden; height:680px;">
+              ${siteBlocks(1, true)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `, c.bg));
+
+  // 7. APPLICATION - BUSINESS CARD
+  slides.push(slideWrap(`
+    <div style="padding:100px 120px; height:100%; display:flex; flex-direction:column; box-sizing:border-box;">
+      <div style="font-family:Arial; font-size:20px; letter-spacing:6px; color:${c.primary};
+        text-transform:uppercase; margin-bottom:20px;">Брендбук · ${esc(cl.name)}</div>
+      <h2 style="font-family:${fontCss(b.headingFont)}; font-size:96px; margin:0 0 60px;
+        color:${c.ink}; font-weight:${b.typo.headingWeight}; line-height:1.05;">
+        Применение: Визитка
+      </h2>
+      <div style="display:flex; gap:100px; flex:1; justify-content:center; align-items:center;">
+        <div>
+          <div style="font-family:Arial; font-size:16px; letter-spacing:3px; color:${c.primary}; text-transform:uppercase; margin-bottom:24px; text-align:center;">Лицевая сторона</div>
+          <div style="width:660px; height:400px; background:${c.primary}; color:${onP}; border-radius:24px; padding:48px;
+            display:flex; flex-direction:column; justify-content:space-between; border:1px solid ${hexToRgba(c.primary, 0.2)};">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <div style="width:100px; height:100px; background:${onP}; border-radius:16px; padding:12px; box-sizing:border-box;">
+                ${pdfLogoImg(76)}
+              </div>
+              <span style="font-family:Arial; font-size:16px; letter-spacing:6px; opacity:.7; text-transform:uppercase;">brand identity</span>
+            </div>
+            <div>
+              <div style="font-family:${fontCss(b.headingFont)}; font-size:52px; font-weight:${b.typo.headingWeight};
+                text-transform:${b.typo.headingTransform};">${esc(b.name||'БРЕНД')}</div>
+              <div style="font-family:${fontCss(b.bodyFont)}; font-size:20px; opacity:.85; margin-top:12px;">${esc(cl.sphere)}</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:Arial; font-size:16px; letter-spacing:3px; color:${c.primary}; text-transform:uppercase; margin-bottom:24px; text-align:center;">Обратная сторона</div>
+          <div style="width:660px; height:400px; background:${c.bg}; color:${c.ink}; border-radius:24px; padding:48px;
+            display:flex; flex-direction:column; justify-content:space-between; border:1px solid #ddd;">
+            <div style="font-family:${fontCss(b.headingFont)}; font-size:32px; font-weight:700;">${esc(b.name||'БРЕНД')}</div>
+            <div style="font-family:${fontCss(b.bodyFont)}; font-size:20px; line-height:1.8;">
+              hello@${(b.name||'brand').toLowerCase().replace(/[^a-z0-9]/g,'')}.ru<br>
+              +7 (900) 000-00-00<br>
+              <span style="color:${c.primary}; font-weight:700;">${(b.name||'brand').toLowerCase().replace(/[^a-z0-9]/g,'')}.ru</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `, c.bg));
+
+  // 8. APPLICATION - ADVERTISING
+  slides.push(slideWrap(`
+    <div style="padding:100px 120px; height:100%; display:flex; flex-direction:column; box-sizing:border-box;">
+      <div style="font-family:Arial; font-size:20px; letter-spacing:6px; color:${c.primary};
+        text-transform:uppercase; margin-bottom:20px;">Брендбук · ${esc(cl.name)}</div>
+      <h2 style="font-family:${fontCss(b.headingFont)}; font-size:96px; margin:0 0 60px;
+        color:${c.ink}; font-weight:${b.typo.headingWeight}; line-height:1.05;">
+        Применение: Реклама
+      </h2>
+      <div style="display:flex; gap:80px; flex:1; justify-content:center; align-items:flex-start; flex-wrap:wrap;">
+        <!-- Poster -->
+        <div style="width:440px;">
+          <div style="font-family:Arial; font-size:16px; letter-spacing:3px; color:${c.primary}; text-transform:uppercase; margin-bottom:16px; text-align:center;">Плакат</div>
+          <div style="width:440px; aspect-ratio:3/4; background:${c.primary}; color:${onP}; border-radius:20px; padding:40px; display:flex; flex-direction:column; position:relative; overflow:hidden; box-sizing:border-box;">
+            <div style="position:absolute; top:-80px; right:-80px; width:260px; height:260px; border-radius:50%; background:${c.secondary}; opacity:.35;"></div>
+            <div style="position:relative; display:flex; flex-direction:column; height:100%;">
+              <div style="width:80px; height:80px; background:${onP}; border-radius:16px; padding:10px; box-sizing:border-box; margin-bottom:40px;">${pdfLogoImg(60)}</div>
+              <div style="font-family:${fontCss(b.headingFont)}; font-size:48px; font-weight:${b.typo.headingWeight}; line-height:${b.typo.lineHeight}; text-transform:${b.typo.headingTransform}; overflow-wrap:anywhere;">${esc(state.ad.headline || 'Заголовок')}</div>
+              <div style="font-family:${fontCss(b.bodyFont)}; font-size:20px; line-height:${b.typo.lineHeight}; opacity:.85; margin-top:24px; overflow-wrap:anywhere;">${esc(state.ad.sub || 'Подзаголовок')}</div>
+              <div style="margin-top:auto; align-self:flex-start; background:${c.accent}; color:${bestOn(c.accent)}; padding:16px 32px; border-radius:999px; font-family:${fontCss(b.bodyFont)}; font-size:18px; font-weight:800;">${esc(state.ad.cta || 'Призыв')}</div>
+            </div>
+          </div>
+        </div>
+        <!-- Story -->
+        <div style="width:280px;">
+          <div style="font-family:Arial; font-size:16px; letter-spacing:3px; color:${c.primary}; text-transform:uppercase; margin-bottom:16px; text-align:center;">Сторис</div>
+          <div style="width:280px; aspect-ratio:9/16; background:${c.ink}; color:${c.bg}; border-radius:20px; padding:30px; display:flex; flex-direction:column; position:relative; overflow:hidden; box-sizing:border-box;">
+            <div style="position:absolute; bottom:-60px; left:-60px; width:200px; height:200px; border-radius:50%; background:${c.primary}; opacity:.3;"></div>
+            <div style="position:relative; display:flex; flex-direction:column; height:100%;">
+              <div style="width:60px; height:60px; background:${c.bg}; border-radius:12px; padding:8px; box-sizing:border-box; margin-bottom:32px;">${pdfLogoImg(44)}</div>
+              <div style="font-family:${fontCss(b.headingFont)}; font-size:36px; font-weight:${b.typo.headingWeight}; line-height:${b.typo.lineHeight}; text-transform:${b.typo.headingTransform}; overflow-wrap:anywhere;">${esc(state.ad.headline || 'Заголовок')}</div>
+              <div style="font-family:${fontCss(b.bodyFont)}; font-size:16px; line-height:${b.typo.lineHeight}; opacity:.8; margin-top:16px; overflow-wrap:anywhere;">${esc(state.ad.sub || 'Подзаголовок')}</div>
+              <div style="margin-top:auto; align-self:flex-start; background:${c.accent}; color:${bestOn(c.accent)}; padding:12px 24px; border-radius:999px; font-family:${fontCss(b.bodyFont)}; font-size:16px; font-weight:800;">${esc(state.ad.cta || 'Призыв')}</div>
+            </div>
+          </div>
+        </div>
+        <!-- Square -->
+        <div style="width:400px;">
+          <div style="font-family:Arial; font-size:16px; letter-spacing:3px; color:${c.primary}; text-transform:uppercase; margin-bottom:16px; text-align:center;">Пост</div>
+          <div style="width:400px; aspect-ratio:1/1; background:${c.secondary}; color:${bestOn(c.secondary)}; border-radius:20px; padding:40px; display:flex; flex-direction:column; position:relative; overflow:hidden; box-sizing:border-box;">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:300px; height:300px; border-radius:50%; background:${c.accent}; opacity:.2;"></div>
+            <div style="position:relative; display:flex; flex-direction:column; height:100%;">
+              <div style="width:70px; height:70px; background:${bestOn(c.secondary)}; border-radius:14px; padding:10px; box-sizing:border-box; margin-bottom:24px;">${pdfLogoImg(50)}</div>
+              <div style="font-family:${fontCss(b.headingFont)}; font-size:42px; font-weight:${b.typo.headingWeight}; line-height:${b.typo.lineHeight}; text-transform:${b.typo.headingTransform}; overflow-wrap:anywhere;">${esc(state.ad.headline || 'Заголовок')}</div>
+              <div style="font-family:${fontCss(b.bodyFont)}; font-size:18px; line-height:${b.typo.lineHeight}; opacity:.85; margin-top:16px; overflow-wrap:anywhere;">${esc(state.ad.sub || 'Подзаголовок')}</div>
+              <div style="margin-top:auto; align-self:flex-start; background:${c.primary}; color:${bestOn(c.primary)}; padding:14px 28px; border-radius:999px; font-family:${fontCss(b.bodyFont)}; font-size:16px; font-weight:800;">${esc(state.ad.cta || 'Призыв')}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `, c.bg));
+
+  // 7. RESULTS
+  slides.push(slideWrap(`
+    <div style="padding:100px 120px; height:100%; display:flex; flex-direction:column; box-sizing:border-box;">
+      <div style="font-family:Arial; font-size:20px; letter-spacing:6px; color:${c.primary};
+        text-transform:uppercase; margin-bottom:20px;">Брендбук · ${esc(cl.name)}</div>
+      <h2 style="font-family:${fontCss(b.headingFont)}; font-size:96px; margin:0 0 60px;
+        color:${c.ink}; font-weight:${b.typo.headingWeight}; line-height:1.05;">
+        Результаты
+      </h2>
+      <div style="display:flex; gap:80px; align-items:center; margin-bottom:60px;">
+        <div style="font-family:${fontCss(b.headingFont)}; font-size:180px; font-weight:800;
+          color:${c.primary}; line-height:1;">${grade}</div>
+        <div>
+          <div style="font-family:${fontCss(b.headingFont)}; font-size:36px; font-weight:700;
+            color:${c.ink};">Итоговая оценка</div>
+          <div style="font-family:${fontCss(b.bodyFont)}; font-size:24px; color:${c.ink}; opacity:.7;
+            margin-top:8px;">${pct}% · ${total} из 250 баллов</div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:80px;">
+        <div>
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 16px;">Этапы</h3>
+          <table style="width:100%; font-family:${fontCss(b.bodyFont)}; font-size:20px; color:${c.ink};">
+            ${STAGES.map(st=>`<tr>
+              <td style="padding:6px 0;">${st.n}. ${st.name}</td>
+              <td style="text-align:right; font-variant-numeric:tabular-nums;">
+                ${state.scores[st.n]!=null ? state.scores[st.n]+' / 50' : '-'}
+              </td></tr>`).join('')}
+          </table>
+        </div>
+        <div>
+          <h3 style="font-family:Arial; font-size:20px; letter-spacing:4px; color:${c.primary};
+            text-transform:uppercase; margin:0 0 16px;">Бюджет</h3>
+          <table style="width:100%; font-family:${fontCss(b.bodyFont)}; font-size:20px; color:${c.ink};">
+            <tr><td style="padding:6px 0;">Бюджет</td>
+              <td style="text-align:right;">${fmtMoney(meta.budget)}</td></tr>
+            <tr><td style="padding:6px 0;">Потрачено</td>
+              <td style="text-align:right;">${fmtMoney(meta.spend)}</td></tr>
+            <tr><td style="padding:6px 0;">Остаток</td>
+              <td style="text-align:right;">${fmtMoney(meta.remaining)}</td></tr>
+            <tr><td style="padding:6px 0;">Репутация</td>
+              <td style="text-align:right;">${meta.rep} / 100</td></tr>
+          </table>
+        </div>
+      </div>
+      ${meta.violations.length ? `
+      <div style="margin-top:40px; background:#fef3c7; border-left:6px solid #f59e0b;
+        border-radius:8px; padding:24px;">
+        <div style="font-family:Arial; font-size:16px; letter-spacing:3px; color:#92400e;
+          text-transform:uppercase; margin-bottom:12px;">Замечания</div>
+        ${meta.violations.map(v=>`<div style="font-family:${fontCss(b.bodyFont)}; font-size:18px;
+          color:#92400e; line-height:1.6;">· ${esc(v)}</div>`).join('')}
+      </div>` : ''}
+    </div>
+  `, c.bg));
+
+  return slides;
+}
+
+async function exportBrandbookPDF(){
+  if(typeof html2canvas === 'undefined' || !window.jspdf){
+    toast('Для PDF-экспорта нужен интернет (CDN html2canvas + jsPDF)');
+    return;
+  }
+  await document.fonts.ready;
+
+  toast('Создается брендбук…', {spinner: true, duration: Infinity});
+
+  const W = 1980, H = 1080;
+  const slides = buildBrandbookSlides();
+
+  const render = document.createElement('div');
+  render.id = 'pdf-render';
+  document.body.appendChild(render);
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'px',
+      format: [W, H],
+      hotfixes: ['px_scaling']
+    });
+
+    for(let i = 0; i < slides.length; i++){
+      render.innerHTML = slides[i];
+      const slideEl = render.firstElementChild;
+      if(!slideEl) continue;
+      await new Promise(r => setTimeout(r, 120));
+
+      const canvas = await html2canvas(slideEl, {
+        width: W, height: H, scale: 1, useCORS: true,
+        backgroundColor: '#ffffff', logging: false
+      });
+      const imgData = canvas.toDataURL('image/jpeg', 0.93);
+
+      if(i > 0) pdf.addPage([W, H], 'landscape');
+      pdf.addImage(imgData, 'JPEG', 0, 0, W, H);
+    }
+
+    pdf.save(`brandbook-${state.orderNo}.pdf`);
+    toast('Брендбук сохранён');
+  } catch(e){
+    console.error(e);
+    toast('Ошибка экспорта: ' + (e.message || 'попробуйте снова'));
+  } finally {
+    render.remove();
+    hideToast();
+  }
+}
+
+/* =========================================================
+   ЭКСПОРТ ОТЧЁТА
+   ========================================================= */
+function exportReport(){
+  const b = state.brand, cl = state.client, meta = computeMeta();
+  const total = [1,2,3,4,5].reduce((s,i)=>s+(state.scores[i]||0),0);
+  const pct = Math.round(total/250*100);
+  const grade = pct>=90?5:pct>=75?4:pct>=60?3:2;
+  const L = [];
+  L.push('========================================');
+  L.push('  DESIGN STUDIO - ОТЧЁТ');
+  L.push('  Заказ #' + state.orderNo);
+  L.push('========================================');
+  L.push('');
+  L.push('КЛИЕНТ: ' + cl.name);
+  L.push('Сфера: ' + cl.sphere);
+  L.push('Бюджет: ' + fmtMoney(cl.budget) + '   Срок: ' + cl.deadline);
+  L.push('');
+  L.push('--- ЭТАП 1. БРИФ ---');
+  L.push('Аудитория: ' + (state.brief.audience!=null ? cl.audienceOptions[state.brief.audience] : '-'));
+  L.push('Характер: ' + (state.brief.tones.map(toneLabel).join(', ') || '-'));
+  L.push('Ключевая мысль: ' + (state.brief.note || '-'));
+  L.push('');
+  L.push('--- ЭТАП 2. СТИЛЬ ---');
+  L.push('Название: ' + b.name);
+  L.push('Логотип: ' + (b.customLogo ? 'свой SVG (' + b.customLogo.filename + ')' :
+    (SHAPES.find(s=>s.id===b.shape)?.label || '') + ' / ' + (MARKS.find(m=>m.id===b.mark)?.label || '')));
+  L.push('Палитра: ' + (PALETTES.find(p=>p.id===b.paletteId)?.name || 'custom'));
+  L.push('Цвета: ' + Object.entries(b.colors).map(([k,v])=>k+' '+v).join(' | '));
+  L.push('Шрифты: ' + fontLabel(b.headingFont) + ' / ' + fontLabel(b.bodyFont));
+  L.push('Типографика: ×' + b.typo.headingScale.toFixed(2) + ', интерлиньяж ' + b.typo.lineHeight.toFixed(2) +
+    ', трекинг ' + b.typo.headingLS + 'px, начертание ' + b.typo.headingWeight);
+  L.push('Безопасное поле: ' + b.logo.safeArea + '%');
+  L.push('');
+  L.push('--- ЭТАП 3. UI ---');
+  L.push('Тип: ' + (state.ui.type==='app'?'Mobile app':'Landing'));
+  L.push('Блоки: ' + BLOCKS.filter(x=>state.ui.enabled[x.id]).map(x=>x.label).join(', '));
+  L.push('Базовый шрифт: ' + state.ui.fontScale + 'px, скругление: ' + state.ui.radius + 'px');
+  L.push('');
+  L.push('--- ЭТАП 4. РЕКЛАМА ---');
+  L.push('Носитель: ' + state.ad.medium);
+  L.push('Заголовок: ' + state.ad.headline);
+  L.push('Подзаголовок: ' + state.ad.sub);
+  L.push('CTA: ' + state.ad.cta);
+  L.push('');
+  L.push('--- ЭТАП 5. ЗАЩИТА ---');
+  L.push(state.defense || '-');
+  L.push('');
+  L.push('--- РЕЗУЛЬТАТЫ ---');
+  STAGES.forEach(st=>L.push(st.n + '. ' + st.name + ': ' + (state.scores[st.n]!=null ? state.scores[st.n]+'/50' : '-')));
+  L.push('ИТОГО: ' + total + '/250 (' + pct + '%) - оценка ' + grade);
+  L.push('');
+  L.push('Репутация: ' + meta.rep + '/100');
+  L.push('Потрачено: ' + fmtMoney(meta.spend));
+  L.push('Остаток: ' + fmtMoney(meta.remaining));
+  if(session.customFonts.length) L.push('Шрифты: ' + session.customFonts.map(f=>f.family).join(', '));
+  if(b.customLogo) L.push('SVG: ' + b.customLogo.filename);
+  if(meta.violations.length){
+    L.push('Замечания:');
+    meta.violations.forEach(v=>L.push(' - ' + v));
+  } else {
+    L.push('Замечаний нет.');
+  }
+  download('report-' + state.orderNo + '.txt', L.join('\n'), 'text/plain;charset=utf-8');
+  toast('Отчёт .txt скачан');
+}
+
+/* =========================================================
+   СОБЫТИЯ
+   ========================================================= */
+$('#panel').addEventListener('click', e=>{
+  const btn = e.target.closest('[data-act]');
+  if(!btn) return;
+  handleAction(btn.dataset.act, btn.dataset.val);
+});
+
+$('#panel').addEventListener('input', e=>{
+  const f = e.target.closest('[data-field]');
+  if(!f) return;
+  handleField(f.dataset.field, f.value);
+});
+
+$('#steps').addEventListener('click', e=>{
+  const s = e.target.closest('[data-goto]');
+  if(!s || s.disabled) return;
+  goToStage(Number(s.dataset.goto));
+});
+
+$('#prevTabs').addEventListener('click', e=>{
+  const t = e.target.closest('[data-tab]');
+  if(!t || !state) return;
+  state.previewTab = t.dataset.tab;
+  renderPreview();
+});
+
+$('#modal').addEventListener('click', async e=>{
+  // Выбор клиента
+  const pick = e.target.closest('[data-pick]');
+  if(pick){ pickClient(pick.dataset.pick); return; }
+
+  const btn = e.target.closest('[data-mact]');
+  if(!btn) return;
+  const act = btn.dataset.mact;
+  if(act === 'close'){ closeModal(); return; }
+  if(act === 'next'){
+    closeModal();
+    goToStage(Math.min(5, Number(btn.dataset.val) + 1));
+    return;
+  }
+  if(act === 'loadFont'){ await doLoadFont(); return; }
+  if(act === 'pasteSVG'){ doPasteSVG(); return; }
+});
+
+window.copyReadmeTemplate = function() {
+  const template = `# 02_DESIGN_STUDIO
+
+> **Дата:** ${new Date().toLocaleDateString('ru-RU')}  
+> **Студент:** Ваши Фамилия и Имя
+
+## ОПИСАНИЕ
+Кратко опишите ваш проект: какой бренд разрабатывали, для какой аудитории, какую главную идею хотели передать.
+
+## СОЗДАННЫЕ ФАЙЛЫ
+- \`brandbook.pdf\` — итоговая презентация (брендбук)
+- \`brandboard.svg\` — карточка фирменного стиля
+- \`report.txt\` — текстовый отчёт по этапам;
+
+## БРЕНДБУК
+![Скриншот 1 страницы брендбука](./screenshot.png)`;
+  
+  navigator.clipboard.writeText(template).then(() => {
+    toast('Шаблон README.md скопирован в буфер обмена');
+  }).catch(() => {
+    toast('Не удалось скопировать. Выделите текст вручную.');
+  });
+};
+
+$('#btnNewOrder').addEventListener('click', ()=>{
+  if(state && Object.keys(state.scores).length > 0){
+    if(!confirm('Сменить проект? Прогресс и штрафы будут потеряны (свои шрифты сохранятся).')) return;
+  }
+  showClientPicker();
+});
+
+/* =========================================================
+   СТАРТ
+   ========================================================= */
+renderAll();
+showClientPicker();
+</script>
+</body>
+</html>

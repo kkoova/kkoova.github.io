@@ -1,0 +1,175 @@
+{
+  "topics": [
+    {
+      "id": "01",
+      "title": "GIT_PROTOCOL",
+      "tag": "#DEVOPS • VERSION_CONTROL",
+      "bgImage": "assets/img/git_bg.jpg",
+      "docsUrl": "git_basics.json",
+      "steps": [
+        { "id": "g1", "type": "live", "text": "BASE: Конфигурация через терминал или Sign in (Identity)" },
+        { "id": "g2", "type": "live", "text": "GUI: Работа с коммитами в интерфейсе VS Code" },
+        { "id": "g3", "type": "self", "text": "WEB: Прямое редактирование файлов на GitHub" },
+        { "id": "g4", "type": "self", "text": "QUEST: Создание README-портфолио" }
+      ],
+      "difficulty": "01",
+      "teamSize": "1",
+      "features": [
+        {"label": "System", "sub": "GIT_VCS", "icon": "https://www.svgrepo.com/show/486224/system-settings-backup.svg"},
+        {"label": "Cloud", "sub": "GITHUB", "icon": "https://www.svgrepo.com/show/532034/cloud-arrow-down.svg"},
+        {"label": "Type", "sub": "SAVE_SYSTEM", "icon": "https://www.svgrepo.com/show/521318/type-16.svg"},
+        {"label": "Goal", "sub": "PORTFOLIO", "icon": "https://www.svgrepo.com/show/480956/goal-1.svg"}
+      ]
+    },
+    {
+      "id": "03",
+      "title": "PIXEL_FORGE",
+      "tag": "#DESIGN • ASSETS",
+      "bgImage": "assets/img/pixel_art_bg.jpg",
+      "docsUrl": "pixel_forge.json",
+      "steps": [
+        { "id": "p1", "type": "live", "text": "GRID: Настройка сетки 16x16 и палитры" },
+        { "id": "p2", "type": "live", "text": "TILES: Рисование плитки стены и пола (Тайлы)" },
+        { "id": "p3", "type": "self", "text": "HERO: Создание персонажа (Вид сверху, 4 кадра)" },
+        { "id": "p4", "type": "self", "text": "EXPORT: Сохранение Spritesheet для Godot" }
+      ],
+      "difficulty": "01", "teamSize": "1",
+      "features": [
+        {"label": "Tool", "sub": "DEV_TOOLS", "icon": "assets/icons/search.png"},
+        {"label": "Skill", "sub": "DOM_HACKING", "icon": "assets/icons/eye.png"},
+        {"label": "Type", "sub": "CTF_BASICS", "icon": "assets/icons/lock.png"}
+      ]
+    },{
+          "id": "04",
+          "title": "TERMINAL_PROTOCOLS",
+          "tag": "#TERMINAL • BASH",
+          "bgImage": "",
+          "docsUrl": "terminal_protocols.json",
+          "steps": [
+            { "id": "l1", "type": "live", "text": "Базовая навигация: Как не потеряться" },
+            { "id": "l2", "type": "live", "text": "Создание и управление миром" },
+            { "id": "s1", "type": "self", "text": "FLAG_01: Самостоятельная работа №1: 'Лабиринт'" },
+            { "id": "s2", "type": "self", "text": "FLAG_02: Самостоятельная работа №2: 'Отчет системы'" }
+          ],
+          "difficulty": "02",
+          "teamSize": "2",
+          "features": [
+            {"label": "Env", "sub": "LINUX", "icon": "assets/icons/linux.png"},
+            {"label": "CLI", "sub": "BASH", "icon": "assets/icons/terminal.png"},
+            {"label": "Rule", "sub": "NO_UNDO", "icon": "assets/icons/alert.png"},
+            {"label": "Skill", "sub": "LERP", "icon": "assets/icons/gear.png"}
+          ]
+    },
+    {
+      "id": "05",
+      "title": "AI_SIGNATURE",
+      "tag": "#AI • NEURAL_NETS",
+      "bgImage": "assets/img/ai_bg.jpg",
+      "docsUrl": "ai_signature.json",
+      "steps": [
+        { "id": "a1", "type": "live", "text": "DATASET: Сбор образцов цифровых подписей" },
+        { "id": "a2", "type": "live", "text": "TRAINING: Настройка нейронных слоев и весов" },
+        { "id": "a3", "type": "self", "text": "TESTING: Проверка нейросети на 'подделку'" },
+        { "id": "a4", "type": "self", "text": "REPORT: Анализ точности (Accuracy) модели" }
+      ],
+      "difficulty": "02",
+      "teamSize": "2",
+      "features": [
+        {"label": "Engine", "sub": "TENSORFLOW", "icon": "assets/icons/brain.png"},
+        {"label": "Method", "sub": "OCR_LOGIC", "icon": "assets/icons/draw.png"},
+        {"label": "Target", "sub": "IDENTITY", "icon": "assets/icons/security.png"}
+      ]
+    },
+    {
+      "id": "07",
+      "title": "WEB_LAYOUT",
+      "tag": "#FRONTEND • CSS",
+      "bgImage": "assets/img/web_bg.jpg",
+      "docsUrl": "web_layout.json",
+      "steps": [
+        { "id": "w1", "type": "live", "text": "HTML: Структура документа" },
+        { "id": "w2", "type": "live", "text": "CSS: Стили (Градиенты, сетка)" },
+        { "id": "w3", "type": "self", "text": "PAGE: Мини-визитка 'О себе'" }
+      ],
+      "difficulty": "01", "teamSize": "1",
+      "features": [
+        {"label": "Style", "sub": "GLASS", "icon": "assets/icons/web.png"}
+      ]
+    },
+    {
+        "id": "09",
+        "title": "TETRIS_CORE",
+        "tag": "#GAMEDEV • LOGIC",
+        "bgImage": "assets/img/godot_bg.jpg",
+        "docsUrl": "tetris_core.json",
+        "steps": [
+          { "id": "g1", "type": "live", "text": "SCENE: Создание игрока карты тетриса" },
+          { "id": "g3", "type": "self", "text": "CODE: Программирование движения" },
+          { "id": "g4", "type": "self", "text": "SCORE: Настройка счета" }
+        ],
+        "difficulty": "02", "teamSize": "2",
+        "features": [
+            {"label": "Env", "sub": "SCENE", "icon": "assets/icons/linux.png"},
+            {"label": "CLI", "sub": "TILEMAP", "icon": "assets/icons/terminal.png"},
+            {"label": "Rule", "sub": "CODE", "icon": "assets/icons/alert.png"},
+            {"label": "Skill", "sub": "SCORE", "icon": "assets/icons/gear.png"}
+          ]
+      },
+      {
+        "id": "10",
+        "title": "MAZE_CORE",
+        "tag": "#GAMEDEV • LOGIC",
+        "bgImage": "assets/img/godot_bg.jpg",
+        "docsUrl": "maze_core.json",
+        "steps": [
+          { "id": "g1", "type": "live", "text": "PLAYER: Создание игрока" },
+          { "id": "g2", "type": "live", "text": "ENEMY: Создание врага" },
+          { "id": "g3", "type": "self", "text": "CODE: Программирование движения" },
+          { "id": "g4", "type": "self", "text": "MAZE: Создание карты лабиринта" }
+        ],
+        "difficulty": "02", "teamSize": "2",
+        "features": [
+            {"label": "GOgoGO", "sub": "SCENE", "icon": "assets/icons/linux.png"},
+            {"label": "Run", "sub": "TILEMAP", "icon": "assets/icons/terminal.png"},
+            {"label": "Code", "sub": "CODE", "icon": "assets/icons/alert.png"},
+            {"label": "Score", "sub": "SCORE", "icon": "assets/icons/gear.png"}
+          ]
+      },
+    {
+      "id": "11",
+      "title": "PACKET_HUNTER",
+      "tag": "#AI • NEURAL_NETS",
+      "bgImage": "assets/img/ai_bg.jpg",
+      "docsUrl": "packet_hunter.json",
+      "steps": [
+        { "id": "a1", "type": "live", "text": "DATASET: Сбор образцов цифровых подписей" },
+        { "id": "a2", "type": "live", "text": "TRAINING: Настройка нейронных слоев и весов" },
+        { "id": "a3", "type": "self", "text": "TESTING: Проверка нейросети на 'подделку'" },
+        { "id": "a4", "type": "self", "text": "REPORT: Анализ точности (Accuracy) модели" }
+      ],
+      "difficulty": "02",
+      "teamSize": "2",
+      "features": [
+        {"label": "Engine", "sub": "TENSORFLOW", "icon": "assets/icons/brain.png"},
+        {"label": "Method", "sub": "OCR_LOGIC", "icon": "assets/icons/draw.png"},
+        {"label": "Target", "sub": "IDENTITY", "icon": "assets/icons/security.png"}
+      ]
+    },
+    {
+      "id": "02",
+      "title": "DESIGN_STUDIO",
+      "tag": "#DESIGN • BRANDBOOK",
+      "bgImage": "assets/img/web_bg.jpg",
+      "docsUrl": "design",
+      "steps": [
+        { "id": "w1", "type": "live", "text": "Работа с целевой аудиторией" },
+        { "id": "w2", "type": "live", "text": "Разбор ТЗ и работа с заказчиком" },
+        { "id": "w3", "type": "self", "text": "Создание брендбука" }
+      ],
+      "difficulty": "01", "teamSize": "1",
+      "features": [
+        {"label": "Style", "sub": "GLASS", "icon": "assets/icons/web.png"}
+      ]
+    }
+  ]
+}
